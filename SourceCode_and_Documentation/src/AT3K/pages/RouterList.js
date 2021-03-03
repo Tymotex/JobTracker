@@ -45,14 +45,6 @@ const routes = [
     {
         path: "/faq",
         page: FAQ
-    },
-    {
-        path: "/register",
-        page: Register
-    },
-    {
-        path: "/login",
-        page: Login
     }
 ];
 
