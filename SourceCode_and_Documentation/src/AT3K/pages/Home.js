@@ -12,10 +12,10 @@ const Home = () => {
                     <Link to="/dashboard">Go to the dashboard</Link>
                 </li>
                 <li>
-                    <Link to="/register">Register</Link>
+                    Register
                 </li>
                 <li>
-                    <Link to="/login">Login</Link>
+                    Login
                 </li>
             </ul>
         </div>

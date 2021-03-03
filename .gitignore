@@ -2,3 +2,4 @@ node_modules
 .eslintcache
 docs/
 *.lock
+SourceCode_and_Documentation/build
