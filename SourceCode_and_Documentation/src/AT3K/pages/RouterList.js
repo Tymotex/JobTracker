@@ -6,8 +6,7 @@ import React from "react";
 import {
     Route,
     Switch,
-    Redirect,
-    withRouter,
+    useLocation
 } from "react-router-dom";
 
 // Pages:
@@ -17,13 +16,14 @@ import Statistics from './Statistics';
 import Settings from './Settings';
 import JobSearch from './JobSearch';
 import FAQ from './FAQ';
+import Error404 from './404';
 
  /**
   * Routes are created here!
   */
 const routes = [
     {
-        path: "/home",
+        path: "/",
         page: Home
     },
     {
@@ -48,18 +48,22 @@ const routes = [
     }
 ];
 
-const RouterList = () => (
-    <Switch>
-        <Route exact path="/" render={() => <Redirect to="/home" />} />
-        <Route
-          exact
-          path="/"
-          render={() => <Redirect to="/home" />}
-        />
-        {routes.map((eachRoute) => (
-            <Route path={eachRoute.path} component={eachRoute.page} />
-        ))}
-    </Switch>
-);
-
+const RouterList = () => {
+    const location = useLocation();
+    return (
+        <Switch>
+            {/* <Route exact path="/" render={() => <Redirect to="/home" />} />
+            <Route
+            exact
+            path="/"
+            render={() => <Redirect to="/home" />}
+            /> */}
+            {/* Only allow exact route matches */}
+            {routes.map((eachRoute) => (
+                <Route exact path={eachRoute.path} component={eachRoute.page} />    
+            ))}
+            <Route component={() => <Error404 unknownPath={location.pathname} />} />
+        </Switch>
+    );
+}
 export default RouterList;

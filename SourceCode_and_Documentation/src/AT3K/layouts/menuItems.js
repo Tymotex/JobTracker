@@ -6,15 +6,11 @@ import {
   Search as SearchIcon,
   BarChart as BarChartIcon,
   Settings as SettingsIcon,
-  NotificationsNone as NotificationsIcon,
-  FormatSize as TypographyIcon,
-  FilterNone as UIElementsIcon,
-  BorderAll as TableIcon,
-  QuestionAnswer as SupportIcon,
-  LibraryBooks as LibraryIcon,
   HelpOutline as FAQIcon,
-  ArrowBack as ArrowBackIcon,
 } from "@material-ui/icons";
+
+// Top nav components:
+import { LoginModal, RegisterModal } from '../components/modals';
 
 /**
  * Side nav items
@@ -34,19 +30,20 @@ const sideNavItems = [
 /**
  * Top nav items
  */
-const topNavItems = [
-
-];
+// const topNavItems = [];
 
 const TopNavItems = () => {
     return (
-        <div>
-            Fill some stuff here!
-        </div>
+        <>
+            <LoginModal />
+            <RegisterModal />
+        </>
     );
 };
 
-export default {
+const menuItems = {
     sideNavItems, 
     TopNavItems 
 };
+
+export default menuItems;
