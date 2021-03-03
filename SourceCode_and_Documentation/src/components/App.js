@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 
 // components
 import Layout from "./Layout";
@@ -11,24 +11,32 @@ import Login from "../pages/login";
 // context
 import { useUserState } from "../context/UserContext";
 
+
+// Router list defined by AT3K
+import RouterList from '../AT3K/pages/RouterList';
+
+
 export default function App() {
   // global
   var { isAuthenticated } = useUserState();
 
   return (
-    <HashRouter>
-      <Switch>
-        <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
+    <BrowserRouter>
+      <RouterList />
+      {/* <Switch>
+        <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
         <Route
           exact
-          path="/app"
-          render={() => <Redirect to="/app/dashboard" />}
+          path="/"
+          render={() => <Redirect to="/dashboard" />}
         />
-        <PrivateRoute path="/app" component={Layout} />
+        <Route path="/dashboard" component={Login} />
+        <RouterList />
+        <PrivateRoute path="/" component={Layout} />
         <PublicRoute path="/login" component={Login} />
         <Route component={Error} />
-      </Switch>
-    </HashRouter>
+      </Switch> */}
+    </BrowserRouter>
   );
 
   // #######################################################################

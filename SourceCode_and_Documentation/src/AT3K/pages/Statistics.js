@@ -2,13 +2,13 @@ import React from 'react';
 
 import Layout from '../../components/Layout/Layout';
 
-const JobDashboard = () => {
+
+const Statistics = () => {
     return (
         <Layout>
-            <h1>Dashboard</h1>
-            AS
+            <h1>Stats</h1>
         </Layout>
     );
 };
 
-export default JobDashboard;
+export default Statistics;
