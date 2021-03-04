@@ -2,11 +2,7 @@ import React from 'react';
 
 import Layout from '../../components/Layout/Layout';
 import { 
-    SettingsMenu,
-    ProfileSettings,
-    ThemeSettings,
-    NotificationsSettings,
-    PreferenceSettings
+    SettingsMenu
 } from '../components/settings';
 
 const capitaliseFirstLetter = ([ first, ...rest ], locale = navigator.language) => (
