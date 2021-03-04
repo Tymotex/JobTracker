@@ -39,6 +39,34 @@ const routes = [
         page: Settings
     },
     {
+        path: "/settings/profile",
+        page: Settings,
+        props: {
+            settingsCategory: "profile"
+        }
+    },
+    {
+        path: "/settings/theme",
+        page: Settings,
+        props: {
+            settingsCategory: "theme"
+        }
+    },
+    {
+        path: "/settings/notifications",
+        page: Settings,
+        props: {
+            settingsCategory: "notifications"
+        }
+    },
+    {
+        path: "/settings/preferences",
+        page: Settings,
+        props: {
+            settingsCategory: "preferences"
+        }
+    },
+    {
         path: "/search",
         page: JobSearch
     },
@@ -60,7 +88,7 @@ const RouterList = () => {
             /> */}
             {/* Only allow exact route matches */}
             {routes.map((eachRoute) => (
-                <Route exact path={eachRoute.path} component={eachRoute.page} />    
+                <Route exact path={eachRoute.path} component={() => <eachRoute.page {...eachRoute.props}/>} />    
             ))}
             <Route component={() => <Error404 unknownPath={location.pathname} />} />
         </Switch>

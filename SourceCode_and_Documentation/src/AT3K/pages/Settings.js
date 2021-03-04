@@ -1,13 +1,25 @@
 import React from 'react';
 
 import Layout from '../../components/Layout/Layout';
-import { SettingsMenu } from '../components/settings';
+import { 
+    SettingsMenu,
+    ProfileSettings,
+    ThemeSettings,
+    NotificationsSettings,
+    PreferenceSettings
+} from '../components/settings';
 
-const Settings = () => {
+const capitaliseFirstLetter = ([ first, ...rest ], locale = navigator.language) => (
+    first.toLocaleUpperCase(locale) + rest.join('')
+);
+
+const Settings = ({ settingsCategory }) => {
     return (
         <Layout>
-            <h1>Settings</h1>
-            <SettingsMenu />
+            <h1>
+                {capitaliseFirstLetter(settingsCategory)} Settings
+            </h1>
+            <SettingsMenu currCategory={settingsCategory}/>
         </Layout>
     );
 };

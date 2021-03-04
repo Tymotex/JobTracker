@@ -21,7 +21,30 @@ const sideNavItems = [
     { id: 2, label: "Search For Jobs", link: "/search", icon: <SearchIcon /> },
     { id: 3, label: "Statistics", link: "/statistics", icon: <BarChartIcon /> },
     { id: 5, type: "divider" },
-    { id: 6, label: "Settings", link: "/settings", icon: <SettingsIcon /> },
+    { 
+        id: 6, 
+        label: "Settings", 
+        link: "/settings",
+        icon: <SettingsIcon />, 
+        children: [
+            {
+                label: "Profile", 
+                link: "/settings/profile",
+            },
+            {
+                label: "Theme", 
+                link: "/settings/theme",
+            },
+            {
+                label: "Notifications", 
+                link: "/settings/notifications",
+            },
+            {
+                label: "Preferences", 
+                link: "/settings/preferences",
+            },
+        ]
+    },
     { id: 7, type: "divider" },
     { id: 8, type: "title", label: "Resources" },
     { id: 9, label: "FAQ", link: "/faq", icon: <FAQIcon /> },
