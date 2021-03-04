@@ -17,6 +17,7 @@ import Settings from './Settings';
 import JobSearch from './JobSearch';
 import FAQ from './FAQ';
 import Error404 from './404';
+import JobDetails from "./JobDetails";
 
  /**
   * Routes are created here!
@@ -69,6 +70,10 @@ const routes = [
     {
         path: "/search",
         page: JobSearch
+    },
+    {
+        path: "/search/details",
+        page: JobDetails
     },
     {
         path: "/faq",
