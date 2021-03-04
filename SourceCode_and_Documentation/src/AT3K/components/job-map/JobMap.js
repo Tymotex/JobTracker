@@ -5,7 +5,7 @@ import {
     GoogleMap,
     Marker,
 } from "react-google-maps";
-// import mapStyles from './JobMap.module.scss';
+import mapStyles from './JobMap.module.scss';
 
 const BasicMap = withScriptjs(
     withGoogleMap(() => (
@@ -23,7 +23,7 @@ const BasicMap = withScriptjs(
 
 export default function Maps() {
     return (
-        <div style={{"height": "50%"}}> {/* className={mapStyles.mapContainer}> */}
+        <div className={mapStyles.mapContainer}>
             <BasicMap
                 googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyB7OXmzfQYua_1LEhRdqsoYzyJOPh9hGLg"
                 loadingElement={<div style={{ height: "inherit", width: "inherit" }} />}

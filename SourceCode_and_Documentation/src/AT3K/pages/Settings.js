@@ -16,6 +16,10 @@ const Settings = ({ settingsCategory }) => {
                 {capitaliseFirstLetter(settingsCategory)} Settings
             </h1>
             <SettingsMenu currCategory={settingsCategory}/>
+
+            <p>
+                Could use the react-switch library https://www.npmjs.com/package/react-switch.
+            </p>
         </Layout>
     );
 };
