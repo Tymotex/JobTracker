@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Switch from "react-switch";
+import Switch from '@material-ui/core/Switch';
 import { SketchPicker } from 'react-color';   // DOCUMENTATION HERE: https://github.com/casesandberg/react-color
 
 
@@ -7,8 +7,12 @@ import { SketchPicker } from 'react-color';   // DOCUMENTATION HERE: https://git
 // Check out AT3K/themes/default.js to see what else can be changed
 // Eg. secondary.main colour should also be changeable 
 
+// TODO: changes are not persistent. Either use js-cookies or 
+// the web browser's localStorage API 
+import Brightness5Icon from '@material-ui/icons/Brightness5';
+
 const ThemeSettings = ({ replaceTheme, currTheme }) => {
-    const [darkModeActive, toggleDarkMode] = useState(false);
+    const [darkModeActive, toggleDarkMode] = useState(true);
     const [primary, setPrimary] = useState(currTheme ? currTheme.palette.primary.main : "#333333");
     
     const getColourHex = (colour) => {
@@ -20,13 +24,12 @@ const ThemeSettings = ({ replaceTheme, currTheme }) => {
 
     return ( 
         <div>
-            <h3>Themes</h3>
-            
+            Dark mode:
             <div>
-                Dark mode:
                 <Switch 
                     onChange={() => toggleDarkMode(!darkModeActive)} 
-                    checked={darkModeActive} 
+                    defaultChecked={darkModeActive} 
+                    colour="primary"
                 />
             </div>
             <div>

@@ -4,7 +4,7 @@
 import Layout from '../../components/Layout/Layout';
 
 import React, { useState } from "react";
-import { Button, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import {
   CartesianGrid,
@@ -24,7 +24,6 @@ import {
 import Widget from "../../components/Widget/Widget";
 import ApexLineChart from "../../pages/charts/components/ApexLineChart";
 import ApexHeatmap from "../../pages/charts/components/ApexHeatmap";
-import PageTitle from "../../components/PageTitle/PageTitle";
 
 const lineChartData = [
   {
@@ -86,15 +85,7 @@ export default function Charts(props) {
 
   return (
     <Layout>
-      <PageTitle title="Job Statistics and User Analytics" button={
-        <Button
-          variant="contained"
-          size="medium"
-          color="secondary"
-        >
-          Latest Reports
-        </Button>
-      } />
+      <h1>Job Statistics</h1>
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <Widget title="Growth in Python Jobs" upperTitle noBodyPadding>

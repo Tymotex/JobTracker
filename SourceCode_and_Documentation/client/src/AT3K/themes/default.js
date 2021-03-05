@@ -1,7 +1,7 @@
 import tinycolor from "tinycolor2";
 
 const themeClasses = {
-	primary:   "#666666",
+	primary:   "#222222",
 	secondary: "#FF5C93",
 	warning:   "#FFC260",
 	success:   "#3CD4A0",

@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         marginRight: theme.spacing(2),
+        width: "100%"
     },
     menuItem: {
         textDecoration: "none!important"
@@ -31,7 +32,7 @@ export default function MenuListComposition({ currCategory }) {
                         <MenuItem>
                             Profile
                             {(currCategory === "profile") && 
-                                <span>ACTIVE</span>
+                                <span>✓</span>
                             }
                         </MenuItem>
                     </Link>
@@ -39,7 +40,7 @@ export default function MenuListComposition({ currCategory }) {
                         <MenuItem>
                             Themes
                             {(currCategory === "theme") && 
-                                <span>ACTIVE</span>
+                                <span>✓</span>
                             }
                         </MenuItem>
                     </Link>
@@ -47,7 +48,7 @@ export default function MenuListComposition({ currCategory }) {
                         <MenuItem>
                             Notifications
                             {(currCategory === "notifications") && 
-                                <span>ACTIVE</span>
+                                <span>✓</span>
                             }
                         </MenuItem>
                     </Link>
@@ -55,7 +56,7 @@ export default function MenuListComposition({ currCategory }) {
                         <MenuItem>
                             Preferences
                             {(currCategory === "preferences") && 
-                                <span>ACTIVE</span>
+                                <span>✓</span>
                             }
                         </MenuItem>
                     </Link>

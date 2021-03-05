@@ -9,10 +9,17 @@ import {
     ThemeSettings
 } from './';
 
+const capitaliseFirstLetter = ([ first, ...rest ], locale = navigator.language) => (
+    first.toLocaleUpperCase(locale) + rest.join('')
+);
+
 const SettingsPanel = ({ currCategory, replaceTheme, currTheme }) => {
     const settingsType = currCategory.toLowerCase();
     return (
-        <Paper elevation={2}>
+        <Paper elevation={2}> 
+            <h1>
+                {capitaliseFirstLetter(currCategory)} Settings
+            </h1>
             {currCategory === "profile" && (
                 <ProfileSettings />
             )}
