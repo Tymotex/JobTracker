@@ -11,7 +11,9 @@ import useStyles from "./styles";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 
+// AT3K imports
 import { menuItems } from "../../AT3K/layouts"; 
+import { AT3KLayout } from "../../AT3K/layouts";
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -37,7 +39,9 @@ function Layout(props) {
             })}
           >
             <div className={classes.fakeToolbar} />
-            {props.children}
+            <AT3KLayout>
+              {props.children}
+            </AT3KLayout>
           </div>
         </>
     </div>

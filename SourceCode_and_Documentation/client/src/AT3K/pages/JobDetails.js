@@ -8,6 +8,7 @@ const JobDetails = () => {
     return (
         <Layout>
             <h1>Job Details</h1>
+            [Need a back button. Maybe use a Material UI breadcrumb?]
 
             <hr />
             <h3>Description</h3>

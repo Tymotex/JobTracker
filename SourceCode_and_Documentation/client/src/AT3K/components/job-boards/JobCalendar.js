@@ -11,6 +11,11 @@ import calendarStyles from './JobCalendar.module.scss';
 // Google Calendar API documentation: https://developers.google.com/calendar
 // React Calendar component documentation: https://www.npmjs.com/package/react-calendar
 
+
+// UPDATE: 
+// This one may be better: http://jquense.github.io/react-big-calendar/examples/index.html
+
+
 /*
 Thoughts:
 - Only push data to the user's Google Calendar. Don't pull anything

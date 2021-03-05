@@ -5,6 +5,9 @@ import boardStyles from './JobBoard.module.scss';
 // Documentation:
 // https://github.com/rcdexta/react-trello
 
+// What is this: https://github.com/atlassian/react-beautiful-dnd
+// Could this be helpful?
+
 const data = {
     lanes: [
         {
