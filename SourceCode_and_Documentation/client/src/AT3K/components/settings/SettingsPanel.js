@@ -9,7 +9,7 @@ import {
     ThemeSettings
 } from './';
 
-const SettingsPanel = ({ currCategory }) => {
+const SettingsPanel = ({ currCategory, replaceTheme, currTheme }) => {
     const settingsType = currCategory.toLowerCase();
     return (
         <Paper elevation={2}>
@@ -17,7 +17,10 @@ const SettingsPanel = ({ currCategory }) => {
                 <ProfileSettings />
             )}
             {currCategory === "theme" && (
-                <ThemeSettings />
+                <ThemeSettings 
+                    replaceTheme={replaceTheme} 
+                    currTheme={currTheme}
+                />
             )}
             {currCategory === "notifications" && (
                 <NotificationsSettings />

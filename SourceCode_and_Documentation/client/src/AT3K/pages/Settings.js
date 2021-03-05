@@ -10,18 +10,18 @@ const capitaliseFirstLetter = ([ first, ...rest ], locale = navigator.language) 
     first.toLocaleUpperCase(locale) + rest.join('')
 );
 
-const Settings = ({ settingsCategory }) => {
+const Settings = ({ replaceTheme, currTheme, settingsCategory }) => {
     return (
         <Layout>
             <h1>
                 {capitaliseFirstLetter(settingsCategory)} Settings
             </h1>
             <SettingsMenu currCategory={settingsCategory} />
-            <SettingsPanel currCategory={settingsCategory} />
-
-            <p>
-                Could use the react-switch library https://www.npmjs.com/package/react-switch.
-            </p>
+            <SettingsPanel 
+                currCategory={settingsCategory}
+                replaceTheme={replaceTheme}
+                currTheme={currTheme}
+            />
         </Layout>
     );
 };

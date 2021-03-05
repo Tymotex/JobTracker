@@ -81,7 +81,7 @@ const routes = [
     }
 ];
 
-const RouterList = () => {
+const RouterList = ({ replaceTheme, currTheme }) => {
     const location = useLocation();
     return (
         <Switch>
@@ -93,7 +93,17 @@ const RouterList = () => {
             /> */}
             {/* Only allow exact route matches */}
             {routes.map((eachRoute) => (
-                <Route exact path={eachRoute.path} component={() => <eachRoute.page {...eachRoute.props}/>} />    
+                <Route 
+                    exact 
+                    path={eachRoute.path} 
+                    component={() => (
+                        <eachRoute.page 
+                            {...eachRoute.props} 
+                            replaceTheme={replaceTheme} 
+                            currTheme={currTheme}
+                        />
+                    )} 
+                />    
             ))}
             <Route component={() => <Error404 unknownPath={location.pathname} />} />
         </Switch>
