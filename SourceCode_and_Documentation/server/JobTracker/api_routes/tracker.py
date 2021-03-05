@@ -1,5 +1,5 @@
 """
-Routes for fetching job postings
+Routes for managing the user's tracked jobs 
 """
 from flask import (
     Blueprint,
@@ -9,12 +9,12 @@ from flask import (
 )
 from JobTracker.utils.colourisation import printColoured
 
-jobs_router = Blueprint("jobs", __name__)
+tracker_router = Blueprint("tracker", __name__)
 
-@jobs_router.route("/")
+@tracker_router.route("/")
 def index():
     """ 
-        Endpoint: /jobs
+        Endpoint: /user/jobs
 
         Getting job postings from APIs here:
             https://blog.api.rakuten.net/top-10-best-jobs-apis-linkedin-indeed-glassdoor-and-others/ 

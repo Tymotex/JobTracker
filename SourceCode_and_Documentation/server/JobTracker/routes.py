@@ -5,3 +5,4 @@ from JobTracker.api_routes import (
 
 # Registering route handler blueprints
 app.register_blueprint(test_router)
+app.register_blueprint(test_router, url_prefix="/jobs")

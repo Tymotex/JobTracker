@@ -4,10 +4,7 @@ experiments.
 """
 from flask import (
     Blueprint,
-    render_template,
-    request,
-    redirect,
-    g
+    render_template
 )
 from JobTracker.utils.colourisation import printColoured
 
