@@ -3,7 +3,7 @@ import React from 'react';
 const ThemeSettings = () => {
     return ( 
         <div>
-            SETTINGS HERE!!!
+            <h3>Themes</h3>
         </div>
     );
 };

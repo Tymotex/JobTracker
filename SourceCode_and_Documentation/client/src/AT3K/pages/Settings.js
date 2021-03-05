@@ -2,7 +2,8 @@ import React from 'react';
 
 import Layout from '../../components/Layout/Layout';
 import { 
-    SettingsMenu
+    SettingsMenu,
+    SettingsPanel
 } from '../components/settings';
 
 const capitaliseFirstLetter = ([ first, ...rest ], locale = navigator.language) => (
@@ -15,7 +16,8 @@ const Settings = ({ settingsCategory }) => {
             <h1>
                 {capitaliseFirstLetter(settingsCategory)} Settings
             </h1>
-            <SettingsMenu currCategory={settingsCategory}/>
+            <SettingsMenu currCategory={settingsCategory} />
+            <SettingsPanel currCategory={settingsCategory} />
 
             <p>
                 Could use the react-switch library https://www.npmjs.com/package/react-switch.

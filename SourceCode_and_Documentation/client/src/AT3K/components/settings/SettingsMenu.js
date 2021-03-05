@@ -27,38 +27,38 @@ export default function MenuListComposition({ currCategory }) {
         <div className={classes.root}>
             <Paper className={classes.paper}>
                 <MenuList>
-                    <MenuItem>
-                        <Link to="/settings/profile" className={classes.menuItem}>
+                    <Link to="/settings/profile" className={classes.menuItem}>
+                        <MenuItem>
                             Profile
-                        </Link>
-                        {(currCategory === "profile") && 
-                            <span>ACTIVE</span>
-                        }
-                    </MenuItem>
-                    <MenuItem>
-                        <Link to="/settings/theme" className={classes.menuItem}>
+                            {(currCategory === "profile") && 
+                                <span>ACTIVE</span>
+                            }
+                        </MenuItem>
+                    </Link>
+                    <Link to="/settings/theme" className={classes.menuItem}>
+                        <MenuItem>
                             Themes
-                        </Link>
-                        {(currCategory === "theme") && 
-                            <span>ACTIVE</span>
-                        }
-                    </MenuItem>
-                    <MenuItem>
-                        <Link to="/settings/notifications" className={classes.menuItem}>
+                            {(currCategory === "theme") && 
+                                <span>ACTIVE</span>
+                            }
+                        </MenuItem>
+                    </Link>
+                    <Link to="/settings/notifications" className={classes.menuItem}>
+                        <MenuItem>
                             Notifications
-                        </Link>
-                        {(currCategory === "notifications") && 
-                            <span>ACTIVE</span>
-                        }
-                    </MenuItem>
-                    <MenuItem>
-                        <Link to="/settings/preferences" className={classes.menuItem}>
+                            {(currCategory === "notifications") && 
+                                <span>ACTIVE</span>
+                            }
+                        </MenuItem>
+                    </Link>
+                    <Link to="/settings/preferences" className={classes.menuItem}>
+                        <MenuItem>
                             Preferences
-                        </Link>
-                        {(currCategory === "preferences") && 
-                            <span>ACTIVE</span>
-                        }
-                    </MenuItem>
+                            {(currCategory === "preferences") && 
+                                <span>ACTIVE</span>
+                            }
+                        </MenuItem>
+                    </Link>
                 </MenuList>
             </Paper>
         </div>

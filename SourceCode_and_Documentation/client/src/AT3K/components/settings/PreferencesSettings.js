@@ -3,7 +3,7 @@ import React from 'react';
 const PreferencesSettings = () => {
     return ( 
         <div>
-            SETTINGS HERE!!!
+            <h3>Preferences</h3>
         </div>
     );
 };

@@ -1,4 +1,22 @@
 import React from 'react';
+import { ThemeProvider } from '@material-ui/styles';
+import {
+    Button
+} from '@material-ui/core';
+
+import { createMuiTheme } from '@material-ui/core/styles';
+import yellow from '@material-ui/core/colors/blue';
+
+const theme = createMuiTheme({
+    palette: {
+        type: "dark",
+        primary: yellow,
+    },
+});
+
+
+
+
 
 /**
  * Foundational layout structure for displaying page content 
@@ -6,11 +24,12 @@ import React from 'react';
 const AT3KLayout = ({ children }) => {
 
     return (
-        <div className="outer-container">
-            <main id="page-wrap">
+        <ThemeProvider theme={theme}>
+            <Button color="primary">Test</Button>
+            <main>
                 {children}
             </main>
-        </div>
+        </ThemeProvider>
     );
 };
 

@@ -3,7 +3,7 @@ import React from 'react';
 const NotificationsSettings = () => {
     return ( 
         <div>
-            SETTINGS HERE!!!
+            <h3>Notifications</h3>
         </div>
     );
 };

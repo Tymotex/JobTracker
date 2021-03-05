@@ -3,7 +3,7 @@ import React from 'react';
 const ProfileSettings = () => {
     return ( 
         <div>
-            SETTINGS HERE!!!
+            <h3>Profile</h3>
         </div>
     );
 };
