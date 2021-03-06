@@ -2,7 +2,7 @@ import tinycolor from "tinycolor2";
 
 const themeClasses = {
 	primary:   "#222222",
-	secondary: "#FF5C93",
+	secondary: "#222222",
 	warning:   "#FFC260",
 	success:   "#3CD4A0",
 	info:      "#9013FE"
@@ -14,7 +14,6 @@ const darkIntensity = 15;
 const defaultTheme = {
     palette: {
 		primary: {
-			type: "dark",
 			main: themeClasses.primary,
 			light: tinycolor(themeClasses.primary)
 				.lighten(lightIntensity)

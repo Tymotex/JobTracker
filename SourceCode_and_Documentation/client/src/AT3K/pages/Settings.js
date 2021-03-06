@@ -8,7 +8,7 @@ import {
     SettingsPanel
 } from '../components/settings';
 
-
+// TODO: Dark mode: https://www.npmjs.com/package/darkreader
 
 const Settings = ({ replaceTheme, currTheme, settingsCategory }) => {
     return (
