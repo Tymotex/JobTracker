@@ -4,6 +4,83 @@ This is a web app that scrapes together job postings from major job-hunting plat
 
 Bootstrapped from <a href="https://flatlogic.com/templates/react-material-admin/demo">this open-source project</a> (MIT Licence).
 
+## Frontend Directory Structure
+
+```
+client/
+├── package.json
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   └── manifest.json
+├── README.md
+└── src
+    ├── AT3K                   # Where AT3K's files are
+    │   ├── components         # Where AT3K's React Components are defined
+    │   │   ├── job-boards
+    │   │   ├── job-lists
+    │   │   ├── job-map
+    │   │   ├── menus
+    │   │   ├── modals
+    │   │   └── settings
+    │   ├── layouts            # Where AT3K's base React Components are defined
+    │   │   ├── AT3KLayout.js
+    │   │   ├── index.js
+    │   │   ├── mainContentStyles.module.scss
+    │   │   ├── menuItems.js
+    │   │   └── README.md
+    │   ├── pages              # Where AT3K's page components (and routes) are defined
+    │   │   ├── 404.js
+    │   │   ├── FAQ.js
+    │   │   ├── Home.js
+    │   │   ├── JobDashboard.js
+    │   │   ├── JobDetails.js
+    │   │   ├── JobSearch.js
+    │   │   ├── RouterList.js
+    │   │   ├── Settings.js
+    │   │   └── Statistics.js
+    │   └── themes             # Where global Material UI styling rules are defined
+    │       ├── default.js
+    │       └── index.js
+    ├── components       # Reused base components (minor edits made by AT3K)
+    ├── context
+    ├── images
+    ├── index.js 
+    └── pages            # Unused base pages (not written by AT3K)
+```
+
+## Backend Directory Structure:
+
+```
+server
+├── JobTracker                      # Main package
+│   ├── api_routes/                 # Where routes are defined and handled
+│   │   ├── __init__.py
+│   │   ├── jobs.py                 # /job routes
+│   │   ├── tests.py                # / and /test  routes
+│   │   └── tracker.py              # Routes for job tracking
+│   ├── database_ops.py             # Database interface helper functions
+│   ├── exceptions/                 # Custom exceptions thrown by the server
+│   │   ├── http_error_handler.py
+│   │   ├── __init__.py
+│   │   └── input_exceptions.py
+│   ├── __init__.py                 # Where the Flask app is instantiated and configured
+│   ├── models/                     # Where database schemas are defined
+│   ├── routes.py                   # Where routers are registered to the Flask app 
+│   ├── static/                     # Public assets served by Flask
+│   │   ├── images
+│   │   └── styles
+│   ├── templates/                  # HTML files served by Flask (only for testing API routes during development)
+│   │   └── landing.html
+│   └── utils/                      # General utilities
+│       ├── colourisation.py
+│       ├── input_validator.py
+│       └── token.py
+├── requirements.txt
+├── setup.py
+└── start.py                        # Basic script for starting the server
+```
+
 ## Setup Instructions
 
 
