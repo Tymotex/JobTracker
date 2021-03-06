@@ -1,9 +1,6 @@
 import React from 'react';
 import Layout from '../../components/Layout/Layout';
 
-// Components
-
-
 const Home = ({ unknownPath }) => {
     return (
         <Layout>

@@ -112,8 +112,9 @@ cd seng2021_at3k/SourceCode_and_Documentation/client
 
 npm install   # Only for first time setup
 
-npm start
+npm start     # View the locally hosted frontend on http://localhost:3000/
 ```
+
 
 Running the flask server
 ```

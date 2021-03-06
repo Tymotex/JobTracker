@@ -8,7 +8,7 @@ import {
     Button
 } from '@material-ui/core';
 import GoogleButton from 'react-google-button'
-
+import styles from './Modal.module.scss';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -39,7 +39,7 @@ export default function TransitionsModal() {
   return (
     <div>
       <button type="button" onClick={handleOpen}>
-        Log In
+        Hello world
       </button>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -58,6 +58,7 @@ export default function TransitionsModal() {
             <h2 id="transition-modal-title">Log In</h2>
             <p id="transition-modal-description">Welcome back!</p>
             <form autoComplete="off">
+                <TextField className={styles.fullWidth} id="standard-basic" label="Standard" />
                 <TextField
                     required
                     id="outlined-required"

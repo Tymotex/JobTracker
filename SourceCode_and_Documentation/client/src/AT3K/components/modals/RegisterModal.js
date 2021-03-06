@@ -7,7 +7,8 @@ import Button from '@material-ui/core/Button';
 import {
     TextField
 } from '@material-ui/core';
-import GoogleButton from 'react-google-button'
+import GoogleButton from 'react-google-button';
+import styles from './Modal.module.scss';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -72,10 +73,11 @@ export default function TransitionsModal() {
                             label="Password"
                             variant="outlined"
                         />
+                        <GoogleButton
+                            className={styles.fullWidth}
+                            onClick={() => { console.log('Google button clicked') }}
+                        />
                     </form>
-                    <GoogleButton
-                        onClick={() => { console.log('Google button clicked') }}
-                    />
                     <Button variant="contained" color="danger">Cancel</Button>
                     <Button variant="contained" color="primary">Register</Button>
                 </div>
