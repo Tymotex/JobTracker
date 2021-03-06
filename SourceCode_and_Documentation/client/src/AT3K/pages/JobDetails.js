@@ -12,6 +12,8 @@ const JobDetails = () => {
             <hr />
             <h3>Description</h3>
 
+            <h3>Location</h3>
+            
             <JobMap />
 
             <h3>Requirements</h3>
@@ -19,6 +21,8 @@ const JobDetails = () => {
             <h3>Missing Skills</h3>
 
             <h3>Resource Recommendations</h3>
+
+            <hr />
 
             <div>
                 Footer here [Share with facebook, linkedin, etc.]
