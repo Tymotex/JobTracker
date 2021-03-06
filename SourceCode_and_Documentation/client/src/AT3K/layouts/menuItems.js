@@ -48,6 +48,7 @@ const sideNavItems = [
     { id: 7, type: "divider" },
     { id: 8, type: "title", label: "Resources" },
     { id: 9, label: "FAQ", link: "/faq", icon: <FAQIcon /> },
+    { id: 9, label: "Map", link: "/map", icon: <FAQIcon /> },
 ]
 
 /**

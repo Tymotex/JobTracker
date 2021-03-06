@@ -28,6 +28,7 @@ export default function Maps() {
 
   return (
     <div className={classes.mapContainer}>
+      MAP
       <BasicMap
         googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyB7OXmzfQYua_1LEhRdqsoYzyJOPh9hGLg"
         loadingElement={<div style={{ height: "inherit", width: "inherit" }} />}

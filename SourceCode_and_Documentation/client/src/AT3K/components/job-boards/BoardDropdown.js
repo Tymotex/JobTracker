@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
 import {
-    InputLabel,
+    FormControl, InputLabel,
     MenuItem,
-    FormHelperText,
-    FormControl,
     Select
 } from "@material-ui/core";
+import React from 'react';
 import styles from "./BoardManager.module.scss";
 
 const BoardDropdown = ({ boardType, handleChangeBoard }) => {

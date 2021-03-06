@@ -14,7 +14,6 @@ const capitaliseFirstLetter = ([ first, ...rest ], locale = navigator.language) 
 );
 
 const SettingsPanel = ({ currCategory, replaceTheme, currTheme }) => {
-    const settingsType = currCategory.toLowerCase();
     return (
         <Paper elevation={2}> 
             <h1>

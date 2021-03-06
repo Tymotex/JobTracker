@@ -1,5 +1,4 @@
 import React from 'react';
-import { ThemeProvider } from '@material-ui/styles';
 
 /**
  * Foundational layout structure for displaying page content 

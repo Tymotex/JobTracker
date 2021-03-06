@@ -1,6 +1,5 @@
 import React from "react";
 import ApexCharts from "react-apexcharts";
-import { useTheme } from "@material-ui/styles";
 
 const series = [
     {
@@ -54,7 +53,6 @@ function themeOptions(theme) {
 }
 
 const StatsLineChartFilled = ({ theme }) => {
-    var theme = useTheme();
     return (
         <ApexCharts
             options={themeOptions(theme)}
