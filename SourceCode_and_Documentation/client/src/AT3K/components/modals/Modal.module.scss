@@ -6,8 +6,8 @@
 }
 
 .window {
-    width: 100%;
-    background-color: pink;
+    width: 25%;
+    background-color: #fafafa;
     border: 2px solid black;
     box-shadow: 2px 2px 2px;
 
@@ -17,20 +17,52 @@
         text-align: center;
     }
 
-    .buttonGroup {
-        width: 30%;
+    .message {
+        text-align: center;
+    }
+
+    .textGroup {
+        width: 67%;
         margin: 0 auto;
-        border: 1px solid yellow;
+        .nameBox {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .emailBox {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .passwordBox {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .passCheckBox {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    }
+
+    .googleButton {
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+
+    .buttonGroup {
+        width: 50%;
+        margin: 0 auto;
+        margin-bottom: 10px;
         .cancelButton {
             width: 100%;
+            margin-left: -20px;
         }
         .loginButton {
             width: 100%;
-            border: 10px solid yellow;
+            margin-left: 20px;
         }
         .registerButton {
             width: 100%;
-            border: 10px solid yellow;
+            margin-left: 20px;
         }
     }
 }
