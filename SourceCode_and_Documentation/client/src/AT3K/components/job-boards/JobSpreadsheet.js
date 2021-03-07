@@ -1,18 +1,16 @@
 import React from 'react';
-import Spreadsheet from "react-spreadsheet";
+import DataGrid from 'react-data-grid';
 
-// TODO:
-//    Two options for spreadsheet:
-//    1. https://www.npmjs.com/package/react-data-grid
-//    2. https://www.npmjs.com/package/react-spreadsheet
-// It looks like option 1 has better documentation and more downloads. 
-// Currently using option 2 at the moment.
+const columns = [
+    { key: 'jobPosition', name: 'Job Position' },
+    { key: 'companyName', name: 'Company Name' },
+    { key: "salary", name: "salary" }
+];
 
-// UPDATE:
-// Turns out there's possibly better ones:
-// https://github.com/ag-grid/ag-grid
-// https://www.jqwidgets.com/react/react-grid/
-// Pick one before you do anything. Make sure it's easy to work with
+const rows = [
+    { jobPosition: "Frontend Dev", companyName: "Canva", salary: "$50000/yr" },
+    { jobPosition: "Security Engineer", companyName: "Citadel", salary: "$120000/yr" }
+];
 
 
 const data = [
@@ -23,7 +21,10 @@ const data = [
 const JobSpreadsheet = () => {
     return (
         <>
-            <Spreadsheet data={data} />
+            <DataGrid 
+                columns={columns} 
+                rows={rows}
+            />
         </>
     );
 };
