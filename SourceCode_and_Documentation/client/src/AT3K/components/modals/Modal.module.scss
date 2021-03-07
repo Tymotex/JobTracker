@@ -4,3 +4,33 @@
     display: block;
     padding-bottom: 20px;
 }
+
+.window {
+    width: 100%;
+    background-color: pink;
+    border: 2px solid black;
+    box-shadow: 2px 2px 2px;
+
+    margin: 0 auto;
+
+    .title {
+        text-align: center;
+    }
+
+    .buttonGroup {
+        width: 30%;
+        margin: 0 auto;
+        border: 1px solid yellow;
+        .cancelButton {
+            width: 100%;
+        }
+        .loginButton {
+            width: 100%;
+            border: 10px solid yellow;
+        }
+        .registerButton {
+            width: 100%;
+            border: 10px solid yellow;
+        }
+    }
+}

@@ -5,7 +5,8 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
 import {
-        TextField
+	TextField,
+	Grid
 } from '@material-ui/core';
 import GoogleButton from 'react-google-button';
 import styles from './Modal.module.scss';
@@ -16,13 +17,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    paper: {
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-    },
+    }
 }));
 
 
@@ -59,8 +54,13 @@ export default function TransitionsModal() {
 				}}
 			>
 				<Fade in={open}>
-				<div className={classes.paper}>
-					<h2 id="transition-modal-title">Register</h2>
+				<div className={styles.window}>
+					<h2 
+						className={styles.title}
+						id="transition-modal-title"
+					>
+						Register
+					</h2>
 					<p id="transition-modal-description">
 						Register now! 
 					</p>
@@ -83,8 +83,14 @@ export default function TransitionsModal() {
 							onClick={() => { console.log('Google button clicked') }}
 						/>
 					</form>
-					<Button variant="contained" color="danger">Cancel</Button>
-					<Button variant="contained" color="primary">Register</Button>
+					<Grid container className={styles.buttonGroup}> 
+						<Grid item xs={6}>
+							<Button className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
+						</Grid>
+						<Grid item xs={6}>
+							<Button className={styles.registerButton} variant="contained" color="primary">Register</Button>
+						</Grid>
+					</Grid>
 				</div>
 				</Fade>
 			</Modal>
