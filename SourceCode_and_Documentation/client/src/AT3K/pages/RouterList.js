@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 import React from "react";
 import {
     Route,
@@ -18,7 +14,6 @@ import JobSearch from './JobSearch';
 import FAQ from './FAQ';
 import Error404 from './404';
 import JobDetails from "./JobDetails";
-import Maps from '../../pages/maps/Maps';
 
  /**
   * Routes are created here!
@@ -79,10 +74,6 @@ const routes = [
     {
         path: "/faq",
         page: FAQ
-    },
-    {
-        path: "/map",
-        page: Maps
     }
 ];
 
@@ -90,13 +81,6 @@ const RouterList = ({ replaceTheme, currTheme }) => {
     const location = useLocation();
     return (
         <Switch>
-            {/* <Route exact path="/" render={() => <Redirect to="/home" />} />
-            <Route
-            exact
-            path="/"
-            render={() => <Redirect to="/home" />}
-            /> */}
-            {/* Only allow exact route matches */}
             {routes.map((eachRoute) => (
                 <Route 
                     exact 
