@@ -1,15 +1,20 @@
 import React from 'react';
+import {
+    Grid
+} from '@material-ui/core';
+import JobCard from './JobCard';
 
-
-
-const JobList = () => {
+const JobList = ({ jobPostings }) => {
     return (
-        <div>
-            Job list
-            <p>
-                Could make use of this infinite scrolling list component: https://www.npmjs.com/package/react-list
-            </p>
-        </div>
+        <Grid container>
+            {jobPostings && jobPostings.map((eachPosting) => (
+                <Grid item xs={6}>
+                    <JobCard 
+                        {...eachPosting}
+                    />
+                </Grid>
+            ))}
+        </Grid>
     );
 };
 
