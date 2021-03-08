@@ -3,24 +3,41 @@ import React, { useState } from "react";
 import JobPost from "./JobPost";
 import Searchbar from "./searchbar";
 import BoardDropdown from "./detailsToggle";
+
+import ReactPaginate from "react-paginate";
+
 const JobList = ({ data }) => {
   const [boardType, setBoardType] = useState("less".toLowerCase());
+  const [offset, setOffset] = useState(0);
+  const [pageCount, setPageCount] = useState(100);
+  const itemsPpage = 3;
+  const [current_data, setCurrent_data] = useState(
+    data.slice(offset, offset + itemsPpage)
+  );
 
   const handleChangeBoard = (event) => {
     setBoardType(event.target.value);
   };
 
+  const handlePageClick = (d) => {
+    console.log(d);
+    let selected = d.selected;
+    let newOffset = Math.ceil(selected * itemsPpage);
+    setOffset(newOffset);
+    setCurrent_data(data.slice(newOffset, newOffset + itemsPpage));
+  };
+
   return (
     <>
       <Grid container>
-        <Grid item xs={2}>
+        <Grid item sm={3}>
           <Searchbar placeholder="Job Search"></Searchbar>
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item sm={3}>
           <BoardDropdown
             label={"Sort by"}
-            boardType={boardType}
+            boardType={"test"}
             handleChangeBoard={null}
             menuItems={[
               { value: "less", text: "Less Details" },
@@ -28,7 +45,7 @@ const JobList = ({ data }) => {
             ]}
           />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item sm={3}>
           <BoardDropdown
             label={"toggle detail"}
             boardType={boardType}
@@ -40,18 +57,33 @@ const JobList = ({ data }) => {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item sm={3}>
           <Button>Search</Button>
         </Grid>
       </Grid>
       <br></br>
+
       <Grid container>
-        {data.map((eachJobPost) => (
+        {current_data.map((eachJobPost) => (
           <Grid item xs={boardType == "less" ? 4 : 12}>
             <JobPost {...eachJobPost} />
           </Grid>
         ))}
       </Grid>
+      
+      <ReactPaginate
+        previousLabel={"previous"}
+        nextLabel={"next"}
+        breakLabel={"..."}
+        breakClassName={"break-me"}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        subContainerClassName={"pages pagination"}
+        activeClassName={"active"}
+      />
     </>
   );
 };
