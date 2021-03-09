@@ -38,9 +38,6 @@ export default function TransitionsModal() {
 
 	return (
 		<div>
-			<button type="button" onClick={handleOpen}>
-					Register
-			</button>
 			<Modal
 				aria-labelledby="transition-modal-title"
 				aria-describedby="transition-modal-description"
