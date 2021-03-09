@@ -3,9 +3,6 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-// Applying the default calendar styles
-import 'react-calendar/dist/Calendar.css';
-
 import calendarStyles from './JobCalendar.module.scss';
 
 // Google Calendar API documentation: https://developers.google.com/calendar
