@@ -56,25 +56,26 @@ export default function TransitionsModal() {
                 <Fade in={open}>
                     <div className={styles.window}>
                         <h2 className={styles.title} id="transition-modal-title">Log In</h2>
-                        <p id="transition-modal-description">Welcome back!</p>
+                        <p className={styles.message} id="transition-modal-description">Welcome back!</p>
                         <form autoComplete="off">
-                                <TextField className={styles.fullWidth} id="standard-basic" label="Standard" />
-                                <TextField
+                            <div className={styles.textGroup}>
+                                <TextField className={styles.emailBox}
                                         required
                                         id="outlined-required"
                                         label="Email"
                                         variant="outlined"
                                 />
-                                <TextField
+                                <TextField className={styles.passwordBox}
                                         required
                                         type="password"
                                         id="outlined-required"
                                         label="Password"
                                         variant="outlined"
                                 />
+                            </div>
                         </form>
-                        <GoogleButton
-                                onClick={() => { console.log('Google button clicked') }}
+                        <GoogleButton className={styles.googleButton}
+                            onClick={() => { console.log('Google button clicked') }}
                         />
                         <Grid container className={styles.buttonGroup}> 
                             <Grid item xs={6}>
