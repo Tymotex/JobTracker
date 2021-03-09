@@ -7,6 +7,12 @@ main {
 	padding: 0px 30px;
 }
 
+.mainTitle {
+	margin-left: 5px;
+	font-weight: bold;
+	font-size: 25pt;
+}
+
 .iconListItem {
 	display: flex;
 	padding: 3px 0px;
@@ -16,14 +22,13 @@ main {
 	padding-left: 10px;
 }
 
-.iconListBtn {
-	margin: 20px 0px;
-}
 
 .iconLabelSet {
 	display: flex;
 	align-items: center;
+	padding-bottom: 20px;
 }
+
 
 .footer {
 	padding: 20px;

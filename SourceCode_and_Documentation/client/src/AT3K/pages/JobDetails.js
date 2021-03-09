@@ -59,8 +59,9 @@ const jobDetailFields = [
         link: "https://www.google.com",
     },
     {
-        link: "www.google.com",
-        icon: LinkIcon
+        value: "Official Website",
+        icon: LinkIcon,
+        link: "www.google.com"
     }
 ];
 
@@ -69,7 +70,9 @@ const tags = [
     "Tag 2",
     "Tag 3",
     "Tag 4",
-    "Tag 5"
+    "Tag short",
+    "Tag long long one",
+    "Tag hsdfdsjfsdfdsfweufndnfndsi"
 ]
 
 const Header = () => {
@@ -83,16 +86,21 @@ const Header = () => {
         width: '30px',
         height: '30px',
         padding: '5px'
-    }
+    };
+
+    const tagStyle = {
+        height: '30px',
+        margin: '5px'
+    };
 
     return (
         <Grid container justify="space-between">
-            <Grid item xs={6}>
+            <Grid item xs={7}>
                 <Grid container direction="column">
-                    <Grid item  className={styles.iconLabelSet}>
-                        <Link to="/search">
-                            <ArrowBackIcon fontSize="large"/> 
-                            <label>Back </label>
+                    <Grid item>
+                        <Link className={styles.iconLabelSet}>
+                            <ArrowBackIcon id="back" fontSize="large"/> 
+                            <label for="back">Back </label>
                         </Link>
                     </Grid>
 
@@ -101,9 +109,9 @@ const Header = () => {
                             <img src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7" style={companyIconStyle}/>
                             <a href="">Whatever company</a>
                         </div>
-                        <h1 className={styles.mainTitle}>
-                            Job Details
-                        </h1>
+                        <div className={styles.mainTitle}>
+                            Nulla sit amet ante a tellus elementum vulputate ut ac ante donec eu nunc aliquet arcu cursus posuere
+                        </div>
                     </Grid>
 
                     <Grid item direction="row">
@@ -121,32 +129,29 @@ const Header = () => {
                                 label={tag}
                                 clickable
                                 color="primary"
+                                style={tagStyle}
                             />
                         ))}
                     </Grid>
-                    <Grid item >
-                    </Grid>
-
-                    <Grid item>
-                    </Grid>
-
                 </Grid>
             </Grid>
 
             <Grid item xs={3}>
-                <Grid container direction="column">
-                {jobDetailFields.map((eachField) => (
-                    <Grid item className={styles.iconListItem}>
-                        <JobDetailField {...eachField}>
-                            <eachField.icon fontSize={iconSize} />
-                        </JobDetailField>
+                <Grid container direction="column" style={{paddingTop: '60px'}}>
+
+                    {jobDetailFields.map((eachField) => (
+                        <Grid item>
+                            <JobDetailField {...eachField}>
+                                <eachField.icon fontSize={iconSize} />
+                            </JobDetailField>
+                        </Grid>
+                    ))}
+
+                    <Grid item>
+                        <Button style={btnStyle} variant="outlined" color="primary" size="large">
+                            Apply for this job
+                        </Button>
                     </Grid>
-                ))}
-                <Grid item className={styles.iconListBtn}>
-                    <Button variant="outlined" color="primary">
-                        Apply for this job
-                    </Button>
-                </Grid>
 
                 </Grid>
             </Grid>
