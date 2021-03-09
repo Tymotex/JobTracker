@@ -10,8 +10,20 @@ import {
 import {
     Dropdown
 } from '../components/dropdowns';
+import {
+    BoardCreateModal
+} from '../components/modals';
 
 const JobDashboardIndex = ({ boards, companies, handleSelectBoard }) => {
+    const [modalOpen, setModalOpen] = React.useState(false);
+
+    const handleModalOpen = () => {
+        setModalOpen(true);
+    };
+    const handleModalClose = () => {
+        setModalOpen(false);
+    };
+
     return (
         <div>
             <Grid container spacing={3}>
@@ -45,7 +57,11 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard }) => {
                         boards={boards}
                     />
                     <div style={{"textAlign": "center"}}>
-                        <Button variant="contained" color="primary">
+                        <Button 
+                            variant="contained" 
+                            color="primary"
+                            onClick={handleModalOpen}
+                        >
                             Create New Board
                         </Button>
                     </div>
@@ -55,6 +71,11 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard }) => {
             <h2>Favourited Companies</h2>
             <CardCarousel 
                 companies={companies}
+            />
+
+            <BoardCreateModal 
+                handleClose={handleModalClose} 
+                open={modalOpen} 
             />
         </div>
     )
