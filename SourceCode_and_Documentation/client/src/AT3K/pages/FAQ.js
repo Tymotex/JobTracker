@@ -7,7 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Accordion from './accordion'
 import Layout from '../../components/Layout/Layout';
 import styles from './FAQ.module.scss'
-
+import Card from './card'
 const FAQ = () => {
     const [query, setQuery] = useState("");
     const searchForQuestion = (event) => {
@@ -37,10 +37,14 @@ const FAQ = () => {
             ) : (
                 <div>
                     {/* START HERE */}
-
-
-
-
+                    <strong><h2>Results:</h2></strong>
+                    <Card />
+                    <Card />
+                    <Card />
+                    <br/>
+                    <footer>
+                        For more information, please contact us at example@email.com
+                    </footer>
                     {/* END HERE */}
                 </div>
             )}
