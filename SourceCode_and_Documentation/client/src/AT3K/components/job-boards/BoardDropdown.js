@@ -4,14 +4,15 @@ import {
     Select
 } from "@material-ui/core";
 import React from 'react';
-import styles from "./BoardManager.module.scss";
+import boardManagerStyles from "./BoardManager.module.scss";
+import toolbarStyles from "./BoardToolbar.module.scss";
 
 const BoardDropdown = ({ boardType, handleChangeBoard }) => {
     return (
         <FormControl variant="outlined">
             <InputLabel id="board-dropdown">Board Type</InputLabel>
             <Select
-                className={styles.boardDropdown}
+                className={`${boardManagerStyles.boardDropdown} ${toolbarStyles.dropdown}`}
                 labelId="board-dropdown"
                 value={boardType}
                 onChange={handleChangeBoard}

@@ -26,7 +26,6 @@ const JobList = ({ data, searchValue, onSearch }) => {
     setOffset(newOffset);
     setCurrent_data(data.slice(newOffset, newOffset + itemsPpage));
   };
-  alert(offset);
 
   return (
     <>
