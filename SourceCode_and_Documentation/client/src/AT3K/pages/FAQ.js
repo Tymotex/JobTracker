@@ -40,7 +40,6 @@ const FAQ = () => {
 
 
 
-
                     {/* END HERE */}
                 </div>
             )}
