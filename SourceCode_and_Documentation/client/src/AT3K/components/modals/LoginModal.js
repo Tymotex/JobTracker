@@ -4,8 +4,9 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import {
-        TextField,
-        Button
+    TextField,
+    Button,
+    Grid
 } from '@material-ui/core';
 import GoogleButton from 'react-google-button'
 import styles from './Modal.module.scss';
@@ -16,13 +17,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    paper: {
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-    },
+    }
 }));
 
 
@@ -59,30 +54,37 @@ export default function TransitionsModal() {
                 }}
             >
                 <Fade in={open}>
-                    <div className={classes.paper}>
-                        <h2 id="transition-modal-title">Log In</h2>
-                        <p id="transition-modal-description">Welcome back!</p>
+                    <div className={styles.window}>
+                        <h2 className={styles.title} id="transition-modal-title">Log In</h2>
+                        <p className={styles.message} id="transition-modal-description">Welcome back!</p>
                         <form autoComplete="off">
-                                <TextField className={styles.fullWidth} id="standard-basic" label="Standard" />
-                                <TextField
+                            <div className={styles.textGroup}>
+                                <TextField className={styles.emailBox}
                                         required
                                         id="outlined-required"
                                         label="Email"
                                         variant="outlined"
                                 />
-                                <TextField
+                                <TextField className={styles.passwordBox}
                                         required
                                         type="password"
                                         id="outlined-required"
                                         label="Password"
                                         variant="outlined"
                                 />
+                            </div>
                         </form>
-                        <GoogleButton
-                                onClick={() => { console.log('Google button clicked') }}
+                        <GoogleButton className={styles.googleButton}
+                            onClick={() => { console.log('Google button clicked') }}
                         />
-                        <Button variant="contained" color="danger">Cancel</Button>
-                        <Button variant="contained" color="primary">Register</Button>
+                        <Grid container className={styles.buttonGroup}> 
+                            <Grid item xs={6}>
+                                <Button className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button className={styles.loginButton} variant="contained" color="primary">Login</Button>
+                            </Grid>
+                        </Grid>
                     </div>
                 </Fade>
             </Modal>

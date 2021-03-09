@@ -4,3 +4,65 @@
     display: block;
     padding-bottom: 20px;
 }
+
+.window {
+    width: 25%;
+    background-color: #fafafa;
+    border: 2px solid black;
+    box-shadow: 2px 2px 2px;
+
+    margin: 0 auto;
+
+    .title {
+        text-align: center;
+    }
+
+    .message {
+        text-align: center;
+    }
+
+    .textGroup {
+        width: 67%;
+        margin: 0 auto;
+        .nameBox {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .emailBox {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .passwordBox {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .passCheckBox {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    }
+
+    .googleButton {
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+
+    .buttonGroup {
+        width: 50%;
+        margin: 0 auto;
+        margin-bottom: 10px;
+        .cancelButton {
+            width: 100%;
+            margin-left: -20px;
+        }
+        .loginButton {
+            width: 100%;
+            margin-left: 20px;
+        }
+        .registerButton {
+            width: 100%;
+            margin-left: 20px;
+        }
+    }
+}

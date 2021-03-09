@@ -19,7 +19,17 @@ const data = [
         position: "Techlead",
         company: "Google",
         link: "www.google.com"
-    }
+    },
+    {
+        position: "Techlead",
+        company: "Google",
+        link: "www.google.com"
+    },
+    {
+        position: "Techlead",
+        company: "Google",
+        link: "www.google.com"
+    },
 ];
 
 const JobSearch = () => {
