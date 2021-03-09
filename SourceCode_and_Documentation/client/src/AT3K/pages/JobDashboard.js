@@ -29,7 +29,7 @@ const tempBoards = [
         name: "Electrical Engineering",
         description: "Electrical engineering is an engineering discipline concerned with the study, design and application of equipment, devices and systems which use electricity, electronics, and electromagnetism."
     }
-]
+];
 
 const tempCompanies = [
     {
@@ -125,6 +125,9 @@ const JobDashboard = () => {
                 <>
                     <BreadCrumbs deselectBoard={handleDeselectBoard} name={selectedBoard} />
                     <h1>Dashboard</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
                     <BoardToolbar 
                         boardType={boardType}
                         handleChangeBoard={handleChangeBoard}

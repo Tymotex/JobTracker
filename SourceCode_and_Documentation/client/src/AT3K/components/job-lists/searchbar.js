@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Searchbar = ({placeholder}) => {
+const Searchbar = ({ placeholder, value, onSearch }) => {
   const classes = useStyles();
 
   return (
@@ -60,6 +60,8 @@ const Searchbar = ({placeholder}) => {
           root: classes.inputRoot,
           input: classes.inputInput,
         }}
+        onChange={onSearch}
+        value={value}
         inputProps={{ "aria-label": "search" }}
         style={{ border: "black solid 1px" }}
       />

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Layout from '../../components/Layout/Layout';
-import { JobList } from '../components/job-lists';
+import { JobList, JobSelectionMenu } from '../components/job-lists';
 
 
 const data = [
@@ -33,10 +33,22 @@ const data = [
 ];
 
 const JobSearch = () => {
+    const [selectedCategory, setCategory] = useState("");
+    const handleSelectCategory = () => {
+        setCategory("TEST");
+    }
+    const handleSearch = (event) => {
+        setCategory(event.target.value);
+    }
+
     return (
         <Layout>
             <h1>Job Search</h1>
-            <JobList data={data} />
+            {(selectedCategory === "") ? (
+                <JobSelectionMenu handleSelectCategory={handleSelectCategory}/>
+            ) : (
+                <JobList data={data} searchValue={selectedCategory} onSearch={handleSearch} />
+            )}
         </Layout>
     );
 };

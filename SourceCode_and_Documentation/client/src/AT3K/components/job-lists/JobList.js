@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import JobPost from "./JobPost";
 import Searchbar from "./searchbar";
 import BoardDropdown from "./detailsToggle";
-
+import './JobList.css';
 import ReactPaginate from "react-paginate";
 
-const JobList = ({ data }) => {
+const JobList = ({ data, searchValue, onSearch }) => {
   const [boardType, setBoardType] = useState("less".toLowerCase());
   const [offset, setOffset] = useState(0);
   const [pageCount, setPageCount] = useState(100);
@@ -26,12 +26,13 @@ const JobList = ({ data }) => {
     setOffset(newOffset);
     setCurrent_data(data.slice(newOffset, newOffset + itemsPpage));
   };
+  alert(offset);
 
   return (
     <>
       <Grid container>
         <Grid item sm={3}>
-          <Searchbar placeholder="Job Search"></Searchbar>
+          <Searchbar placeholder="Job Search" value={searchValue} onSearch={onSearch} />
         </Grid>
 
         <Grid item sm={3}>
@@ -61,8 +62,22 @@ const JobList = ({ data }) => {
           <Button>Search</Button>
         </Grid>
       </Grid>
+      <div>
+        <ReactPaginate
+          previousLabel={"previous"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+        />
+      </div>
       <br></br>
-
       <Grid container>
         {current_data.map((eachJobPost) => (
           <Grid item xs={boardType == "less" ? 4 : 12}>
@@ -70,20 +85,6 @@ const JobList = ({ data }) => {
           </Grid>
         ))}
       </Grid>
-      
-      <ReactPaginate
-        previousLabel={"previous"}
-        nextLabel={"next"}
-        breakLabel={"..."}
-        breakClassName={"break-me"}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageClick}
-        containerClassName={"pagination"}
-        subContainerClassName={"pages pagination"}
-        activeClassName={"active"}
-      />
     </>
   );
 };

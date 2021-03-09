@@ -1,43 +1,76 @@
-
 import React from 'react';
+import {
+    Link
+} from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
 import { JobMap } from '../components/job-map';
 import DescriptionSection from '../components/job-details/DescriptionSection';
-
+import { JobDetailField } from '../components/job-details'
 import {
     Grid,
     Button
 } from '@material-ui/core';
+import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
 
-
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import EmailIcon from '@material-ui/icons/Email';
-import EventBusyIcon from '@material-ui/icons/EventBusy';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-import ListIcon from '@material-ui/icons/List';
-import LinkIcon from '@material-ui/icons/Link';
-
-// import { 
-//     CalendarTodayIcon,
-//     ArrowBackIcon,
-//     FacebookIcon,
-//     TwitterIcon,
-//     LinkedInIcon,
-//     EmailIcon,
-//     EventBusyIcon,
-//     AttachMoneyIcon,
-//     ScheduleIcon,
-//     ListIcon,
-//     LinkIcon
-
-// } from '@material-ui/icons';
+import {
+    CalendarToday as CalendarTodayIcon,
+    ArrowBack as ArrowBackIcon,
+    Facebook as FacebookIcon,
+    Twitter as TwitterIcon,
+    LinkedIn as LinkedInIcon,
+    Email as EmailIcon,
+    EventBusy as EventBusyIcon,
+    AttachMoney as AttachMoneyIcon,
+    Schedule as ScheduleIcon,
+    List as ListIcon,
+    Link as LinkIcon,
+    Label as LabelIcon,
+    RestoreFromTrashRounded
+} from '@material-ui/icons';
 
 import styles from './JobDetails.module.scss';
+
+const jobDetailFields = [
+    {
+        label: "Posted on",
+        value: "9th March, 2021",
+        icon: CalendarTodayIcon
+    }, 
+    {
+        label: "Deadline",
+        value: "Tomorrow",
+        icon: EventBusyIcon
+    },
+    {
+        label: "Salary",
+        value: "$12000",
+        icon: AttachMoneyIcon
+    },
+    {
+        label: "Type",
+        value: "Full time",
+        icon: ScheduleIcon
+    },
+    {
+        label: "Category",
+        value: "Computer Science",
+        icon: ListIcon,
+        link: "https://www.google.com",
+    },
+    {
+        link: "www.google.com",
+        icon: LinkIcon
+    }
+];
+
+const tags = [
+    "Tag 1",
+    "Tag 2",
+    "Tag 3",
+    "Tag 4",
+    "Tag 5"
+]
 
 const Header = () => {
     const iconSize = "small";
@@ -57,8 +90,10 @@ const Header = () => {
             <Grid item xs={6}>
                 <Grid container direction="column">
                     <Grid item  className={styles.iconLabelSet}>
-                        <ArrowBackIcon fontSize="large"/> 
-                        <label>Back </label>
+                        <Link to="/search">
+                            <ArrowBackIcon fontSize="large"/> 
+                            <label>Back </label>
+                        </Link>
                     </Grid>
 
                     <Grid item>
@@ -79,6 +114,16 @@ const Header = () => {
                             Save
                         </Button>
                     </Grid>
+                    <Grid item direction="row">
+                        {tags.map(tag => (
+                            <Chip
+                                avatar={<Avatar><LabelIcon /></Avatar>}
+                                label={tag}
+                                clickable
+                                color="primary"
+                            />
+                        ))}
+                    </Grid>
                     <Grid item >
                     </Grid>
 
@@ -90,37 +135,16 @@ const Header = () => {
 
             <Grid item xs={3}>
                 <Grid container direction="column">
-
-                <Grid item className={styles.iconListItem}>
-                    <CalendarTodayIcon fontSize={iconSize}/> 
-                    <label>Posted on: ...</label>
-                </Grid>
-                <Grid item className={styles.iconListItem}>
-                    <EventBusyIcon fontSize={iconSize}/> 
-                    <label>Deadline: ...</label>
-                </Grid>
-                <Grid item className={styles.iconListItem}>
-                    <AttachMoneyIcon fontSize={iconSize}/> 
-                    <label>Salary: ...</label>
-                </Grid>
-                <Grid item className={styles.iconListItem}>
-                    <ScheduleIcon fontSize={iconSize}/> 
-                    <label>Type: ...</label>
-                </Grid>
-                <Grid item className={styles.iconListItem}>
-                    <ListIcon fontSize={iconSize}/> 
-                    <label>
-                        Category: 
-                        <a href=""> Category 1</a>
-                    </label>
-                </Grid>
-                <Grid item className={styles.iconListItem}>
-                    <LinkIcon fontSize={iconSize}/> 
-                    <label>Official Website: ...</label>
-                </Grid>
+                {jobDetailFields.map((eachField) => (
+                    <Grid item className={styles.iconListItem}>
+                        <JobDetailField {...eachField}>
+                            <eachField.icon fontSize={iconSize} />
+                        </JobDetailField>
+                    </Grid>
+                ))}
                 <Grid item className={styles.iconListBtn}>
                     <Button variant="outlined" color="primary">
-                        View official post
+                        Apply for this job
                     </Button>
                 </Grid>
 
