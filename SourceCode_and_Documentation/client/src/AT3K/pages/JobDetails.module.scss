@@ -2,6 +2,27 @@ p {
 	font-family: Arial;
 }
 
+button {
+	margin: 20px;
+}
+
+.iconListItem {
+	display: flex;
+	padding: 3px 0px;
+}
+
+.iconListItem label {
+	padding-left: 10px;
+}
+
+.iconListBtn {
+	margin: 20px 0px;
+}
+
+.companyName {
+
+}
+
 .footer {
 	padding: 20px;
 	font-weight: bold;

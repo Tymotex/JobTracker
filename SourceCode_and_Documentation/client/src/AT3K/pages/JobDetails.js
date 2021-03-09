@@ -2,7 +2,7 @@
 import React from 'react';
 import Layout from '../../components/Layout/Layout';
 import { JobMap } from '../components/job-map';
-// import DescriptionSection from '../components/job-details/DescriptionSection';
+import DescriptionSection from '../components/job-details/DescriptionSection';
 
 import {
     Grid,
@@ -16,27 +16,97 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import EmailIcon from '@material-ui/icons/Email';
+import EventBusyIcon from '@material-ui/icons/EventBusy';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import ListIcon from '@material-ui/icons/List';
+import LinkIcon from '@material-ui/icons/Link';
+
+// import { 
+//     CalendarTodayIcon,
+//     ArrowBackIcon,
+//     FacebookIcon,
+//     TwitterIcon,
+//     LinkedInIcon,
+//     EmailIcon,
+//     EventBusyIcon,
+//     AttachMoneyIcon,
+//     ScheduleIcon,
+//     ListIcon,
+//     LinkIcon
+
+// } from '@material-ui/icons';
 
 import styles from './JobDetails.module.scss';
 
 const Header = () => {
+    const iconSize = "small";
     return (
-        <Grid container>
-            <Grid item xs={9}>
-                <h1 className={styles.mainTitle}>
-                    Job Details
-                </h1>
-                <ArrowBackIcon />
+        <Grid container justify="space-between">
+            <Grid item xs={6}>
+                <ArrowBackIcon fontSize="large"/> 
                 [Need a back button. Maybe use a Material UI breadcrumb?]
-                <div>
-                    <Button variant="outlined" color="primary">
-                        View official post
-                    </Button>
+
+               <div>
+                    <div >
+                        <div className={styles.companyName}>
+                            <img />
+                            <a link=""/>
+                        </div>
+                        <h1 className={styles.mainTitle}>
+                            Job Details
+                        </h1>
+                    </div>
+
+                    <div>
+                        <Button variant="outlined" color="secondary" size="small" href="">
+                            View official post
+                        </Button>
+                        <Button variant="outlined" color="secondary" size="small" href="">
+                            Save
+                        </Button>
+
+                    </div>
+
+                    <div>
+                    </div>
                 </div>
+                
+                <div>
+
+                </div>
+                
+                
             </Grid>
             <Grid item xs={3}>
-                <CalendarTodayIcon /> Posted on: ...
-                <div>
+                <div className={styles.iconListItem}>
+                    <CalendarTodayIcon fontSize={iconSize}/> 
+                    <label>Posted on: ...</label>
+                </div>
+                <div className={styles.iconListItem}>
+                    <EventBusyIcon fontSize={iconSize}/> 
+                    <label>Deadline: ...</label>
+                </div>
+                <div className={styles.iconListItem}>
+                    <AttachMoneyIcon fontSize={iconSize}/> 
+                    <label>Salary: ...</label>
+                </div>
+                <div className={styles.iconListItem}>
+                    <ScheduleIcon fontSize={iconSize}/> 
+                    <label>Type: ...</label>
+                </div>
+                <div className={styles.iconListItem}>
+                    <ListIcon fontSize={iconSize}/> 
+                    <label>
+                        Category: 
+                        <a href=""> Category 1</a>
+                    </label>
+                </div>
+                <div className={styles.iconListItem}>
+                    <LinkIcon fontSize={iconSize}/> 
+                    <label>Official Website: ...</label>
+                </div>
+                <div className={styles.iconListBtn}>
                     <Button variant="outlined" color="primary">
                         View official post
                     </Button>
@@ -50,12 +120,7 @@ const Header = () => {
 const Footer = () => {
     const fontSize = "large";
     return (
-       <Grid 
-            container 
-            alignItems="center" 
-            justify="space-between"
-            className={styles.footer}
-        >
+       <Grid container alignItems="center" justify="space-between"className={styles.footer}>
             <Grid item xs={6}>
                 <div className={styles.shareTitle}>Share this role</div>
                 <div className={styles.iconSet}>
@@ -83,18 +148,15 @@ const JobDetails = () => {
 
             <hr />
             
-            <p>
-                <h3>Description</h3>
+            <DescriptionSection title="Description">
                 It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-            </p>
-            <p>
-                <h3>Location</h3>
-            </p>
-            <JobMap />
+            </DescriptionSection>
 
-            <p>
+            <DescriptionSection title="Location">
+                <JobMap />
+            </DescriptionSection>
 
-                <h3>Requirements</h3>
+            <DescriptionSection title="Requirements">
                 There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. 
                 <ul>
                     <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
@@ -113,9 +175,9 @@ const JobDetails = () => {
                     <li>Phasellus nec erat nec nibh elementum bibendum.</li>
                     <li>Fusce in arcu eget nibh eleifend egestas non nec enim.</li>
                 </ul>
-            </p>
-            <p>
-                <h3>Missing Skills</h3>
+            </DescriptionSection>
+
+            <DescriptionSection title="Missing Skills">
                     <ul>
                         <li>Integer id velit egestas, blandit felis vel, porttitor mi.</li>
                         <li>Nulla sit amet ante a tellus elementum vulputate ut ac ante.</li>
@@ -123,9 +185,9 @@ const JobDetails = () => {
                         <li>Phasellus nec erat nec nibh elementum bibendum.</li>
                         <li>Fusce in arcu eget nibh eleifend egestas non nec enim.</li>
                     </ul>
-            </p>
-            <p>
-                <h3>Resource Recommendations</h3>
+            </DescriptionSection>
+
+            <DescriptionSection title="Resource Recommendations">
                 <ul>
                     <li>Sed ac est a elit mattis sagittis et quis orci.</li>
                     <li>Donec eu nunc aliquet arcu cursus posuere.</li>
@@ -137,7 +199,7 @@ const JobDetails = () => {
                     <li>Phasellus nec erat nec nibh elementum bibendum.</li>
                     <li>Fusce in arcu eget nibh eleifend egestas non nec enim.</li>
                 </ul>
-            </p>
+            </DescriptionSection>
 
             <hr />
 

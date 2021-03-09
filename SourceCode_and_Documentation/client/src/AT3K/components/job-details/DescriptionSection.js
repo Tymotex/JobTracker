@@ -7,7 +7,7 @@ const DescriptionSection = (props) => {
 		<p>
 			<h3>{props.title}</h3>
 			<p>
-				{props.content}
+				{props.children}
 			</p>
 		</p>
 	);
