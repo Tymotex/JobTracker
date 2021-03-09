@@ -1,6 +1,8 @@
 import { Avatar, Button, Container, Box, Modal } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
+import Dropzone from "react-dropzone";
+import ResumeDropZone from "./ResumeDropZone";
 
 // TODO: file drop input: https://react-dropzone.js.org/#section-examples
 
@@ -63,7 +65,16 @@ const ProfileSettings = () => {
       <Box>
         <label>
           Resume
-          <Button variant="contained">Upload Resume</Button>
+          {/* <Button variant="contained">Upload Resume</Button> */}
+          <ResumeDropZone/>
+          {/* <Dropzone>
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <p>Drag 'n' drop some files here, or click to select files</p>
+              </div>
+            )}
+          </Dropzone> */}
         </label>
       </Box>
       <Button variant="contained" color="secondary" onClick={openModal}>
@@ -77,7 +88,9 @@ const ProfileSettings = () => {
       >
         <div style={modalStyle} className={classes.paper}>
           <h2 id="simple-modal-title">Are you sure about that?</h2>
-          <Button variant="contained" onClick={closeModal}>Cancel</Button>
+          <Button variant="contained" onClick={closeModal}>
+            Cancel
+          </Button>
           <Button variant="contained">Confirm</Button>
         </div>
       </Modal>

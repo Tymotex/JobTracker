@@ -26,13 +26,13 @@
   
   .pagination>li.active>a {
     color: #fff;
-    background-color: #218838;
-    border-color: #1e7e34;
+    background-color: #1b1515;
+    border-color: #414642;
   }
   
   /* Style the active class (and buttons on mouse-over) */
   .pagination > li > a:hover {
-    background-color:  #218838;
+    background-color:  #1b1515;
     color: white;
   }
   .pagination > li:first-child > a,

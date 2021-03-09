@@ -1,40 +1,40 @@
 import { Button, Grid } from "@material-ui/core";
 import React, { useState } from "react";
-import BoardDropdown from "./detailsToggle";
 import ImgMediaCard from "./imgMediaCard";
 import "./JobList.css";
 import Searchbar from "./searchbar";
 
-export default ({ handleSelectCategory }) => {
+const categories = [
+  {
+    image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
+    title: "Software Engineering",
+  },
+  {
+    image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
+    title: "Electrical Engineering",
+  },
+  {
+    image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
+    title: "Accounting",
+  },
+  {
+    image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
+    title: "Investment banking",
+  },
+  {
+    image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
+    title: "Architecture",
+  },
+  {
+    image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
+    title: "Teaching",
+  },
+];
+
+const JobSelectionMenu = ({ handleSelectCategory }) => {
   const [jobSearch, jobsetSearch] = useState("");
   const [locationSearch, setLocationSearch] = useState("");
   const onSearch = () => {};
-  const categories = [
-    {
-      image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
-      title: "Software Engineering",
-    },
-    {
-      image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
-      title: "Electrical Engineering",
-    },
-    {
-      image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
-      title: "Accounting",
-    },
-    {
-      image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
-      title: "Investment banking",
-    },
-    {
-      image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
-      title: "Architecture",
-    },
-    {
-        image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
-        title: "Teaching",
-      },
-  ];
 
   return (
     <>
@@ -71,6 +71,9 @@ export default ({ handleSelectCategory }) => {
           })}
         </Grid>
       </div>
+
+      <h3>Recommended Job Postings</h3>
     </>
   );
 };
+export default JobSelectionMenu;
