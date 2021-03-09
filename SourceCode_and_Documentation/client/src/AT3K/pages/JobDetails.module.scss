@@ -1,3 +1,44 @@
-.mainTitle {
-    text-align: left;
+p {
+	font-family: Arial;
+}
+
+
+main {
+	padding: 0px 30px;
+}
+
+.iconListItem {
+	display: flex;
+	padding: 3px 0px;
+}
+
+.iconListItem label {
+	padding-left: 10px;
+}
+
+.iconListBtn {
+	margin: 20px 0px;
+}
+
+.iconLabelSet {
+	display: flex;
+	align-items: center;
+}
+
+.footer {
+	padding: 20px;
+	font-weight: bold;
+}
+
+.shareTitle {
+	padding-left: 8px;
+	font-size: 12pt;
+}
+
+.iconSet svg {
+	margin: 3px;
+}
+
+h4 {
+	margin-bottom: 0px;
 }
