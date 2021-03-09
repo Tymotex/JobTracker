@@ -87,9 +87,6 @@ export default function TransitionsModal() {
 								variant="outlined"
 							/>
 						</div>
-						<GoogleButton className={styles.googleButton}
-							onClick={() => { console.log('Google button clicked') }}
-						/>
 					</form>
 					<Grid container className={styles.buttonGroup}> 
 						<Grid item xs={6}>
@@ -99,6 +96,10 @@ export default function TransitionsModal() {
 							<Button className={styles.registerButton} variant="contained" color="primary">Register</Button>
 						</Grid>
 					</Grid>
+					<p className={styles.register}>Or register with your Google account</p>
+					<GoogleButton className={styles.googleButton}
+							onClick={() => { console.log('Google button clicked') }}
+					/>
 				</div>
 				</Fade>
 			</Modal>
