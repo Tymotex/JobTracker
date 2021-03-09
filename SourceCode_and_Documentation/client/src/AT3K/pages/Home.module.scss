@@ -1,0 +1,32 @@
+.title {
+    font-size: 50px;
+    margin-bottom: -10px;
+}
+
+.welcome {
+    font-size: 30px;
+}
+
+.container {
+    width: 100%;
+    
+    .bodyText {
+        width: 50%;
+        font-size: 15px;
+        text-align: justify;
+    }
+
+    .image {
+        width: 50%;
+        float: right;
+        margin-left: 10px;
+    }
+}
+
+.media {
+    text-align: right;
+}
+
+.headerImage {
+    width: 100%;
+}

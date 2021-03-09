@@ -1,22 +1,15 @@
-import React from 'react'
+import React from 'react';
+import styles from '../../pages/JobDetails.module.scss';
 
-const JobDetailField = ({ label, value, link, children }) => {
+const JobDetailField = ({ label, value, link, children}) => {
     return (
-        <div>
+        <div className={styles.iconListItem}>
             {children}
-            {label ? (
-                link ? (
-                    <label>
-                        {label}: <a href={link}>{value}</a>   {/* TODO: Change this to Link in react router */}
-                    </label>
-                ) : (
-                    <label>{label}: {value}</label>
-                )
-            ) : (
-                <label>
-                    <a href={link}>Official Website</a>
-                </label>
-            )}
+
+            <label>
+                {label}{label ? ":" : ""} <a href={link}>{value}</a>   {/* TODO: Change this to Link in react router */}
+            </label>
+         
         </div>
     )
 };
