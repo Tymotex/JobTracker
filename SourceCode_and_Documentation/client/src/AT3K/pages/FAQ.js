@@ -15,6 +15,7 @@ const FAQ = () => {
             <p className={styles.text}>
                 Search for your question or browse our frequently asked questions
             </p>
+            <br/>
             <FormControl fullWidth variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-amount">How do i get rid of this!?</InputLabel>
                 <OutlinedInput
