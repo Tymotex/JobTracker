@@ -4,6 +4,10 @@ import ImgMediaCard from "./imgMediaCard";
 import "./JobList.css";
 import Searchbar from "./searchbar";
 
+import JobPost from "./JobPost";
+
+import styles from "./JobSelectionMenu.module.scss";
+
 const categories = [
   {
     image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
@@ -29,11 +33,21 @@ const categories = [
     image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
     title: "Teaching",
   },
+  {
+    image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
+    title: "Architecture",
+  },
+  {
+    image: "https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg",
+    title: "Teaching",
+  },
 ];
 
-const JobSelectionMenu = ({ handleSelectCategory }) => {
+const JobSelectionMenu = ({ data, handleSelectCategory }) => {
   const [jobSearch, jobsetSearch] = useState("");
   const [locationSearch, setLocationSearch] = useState("");
+
+  const head_data = data.slice(0, 3);
   const onSearch = () => {};
 
   return (
@@ -64,7 +78,7 @@ const JobSelectionMenu = ({ handleSelectCategory }) => {
         <Grid container>
           {categories.map((category) => {
             return (
-              <grid item sm={3}>
+              <grid item sm={3} className={styles.category}>
                 <ImgMediaCard title={category.title} image={category.image} />
               </grid>
             );
@@ -73,6 +87,14 @@ const JobSelectionMenu = ({ handleSelectCategory }) => {
       </div>
 
       <h3>Recommended Job Postings</h3>
+
+      <Grid container>
+        {head_data.map((eachJobPost) => (
+          <Grid item xs={4}>
+            <JobPost {...eachJobPost} />
+          </Grid>
+        ))}
+      </Grid>
     </>
   );
 };

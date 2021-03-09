@@ -5,7 +5,8 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import styles from "./jobPost.module.scss"
+import styles from "./jobPost.module.scss";
+
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -22,10 +23,10 @@ const useStyles = makeStyles({
     marginBottom: 12,
   },
 });
-const JobPost = ({ position, company, link }) => {
+
+const JobPost = ({ position, company, link, detail, description }) => {
   const classes = useStyles();
   // const bull = <span className={classes.bullet}>•</span>;
-
   return (
     <>
       <Card className={`${classes.root} ${styles.card}`}>
@@ -36,6 +37,7 @@ const JobPost = ({ position, company, link }) => {
           <Typography variant="body2" component="p">
             Company: {company}
             <br />
+            {detail === "more" && description}
             <div>
               <a href={link}>Link to details</a>
             </div>

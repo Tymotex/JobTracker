@@ -85,7 +85,7 @@ const JobList = ({ data, searchValue, onSearch }) => {
       <Grid container>
         {current_data.map((eachJobPost) => (
           <Grid item xs={boardType === "less" ? 4 : 12}>
-            <JobPost {...eachJobPost} />
+            <JobPost {...eachJobPost} detail={boardType} />
           </Grid>
         ))}
       </Grid>
