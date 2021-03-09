@@ -2,8 +2,9 @@ p {
 	font-family: Arial;
 }
 
-button {
-	margin: 20px;
+
+main {
+	padding: 0px 30px;
 }
 
 .iconListItem {
@@ -19,8 +20,9 @@ button {
 	margin: 20px 0px;
 }
 
-.companyName {
-
+.iconLabelSet {
+	display: flex;
+	align-items: center;
 }
 
 .footer {

@@ -41,76 +41,90 @@ import styles from './JobDetails.module.scss';
 
 const Header = () => {
     const iconSize = "small";
+    const btnStyle = {
+        margin: '20px 5px'
+    };
+
+    const companyIconStyle = {
+        borderRadius: '50%',
+        width: '30px',
+        height: '30px',
+        padding: '5px'
+    }
+
     return (
         <Grid container justify="space-between">
             <Grid item xs={6}>
-                <ArrowBackIcon fontSize="large"/> 
-                [Need a back button. Maybe use a Material UI breadcrumb?]
+                <Grid container direction="column">
+                    <Grid item  className={styles.iconLabelSet}>
+                        <ArrowBackIcon fontSize="large"/> 
+                        <label>Back </label>
+                    </Grid>
 
-               <div>
-                    <div >
-                        <div className={styles.companyName}>
-                            <img />
-                            <a link=""/>
+                    <Grid item>
+                        <div className={styles.iconLabelSet}>
+                            <img src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7" style={companyIconStyle}/>
+                            <a href="">Whatever company</a>
                         </div>
                         <h1 className={styles.mainTitle}>
                             Job Details
                         </h1>
-                    </div>
+                    </Grid>
 
-                    <div>
-                        <Button variant="outlined" color="secondary" size="small" href="">
+                    <Grid item direction="row">
+                        <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
                             View official post
                         </Button>
-                        <Button variant="outlined" color="secondary" size="small" href="">
+                        <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
                             Save
                         </Button>
+                    </Grid>
+                    <Grid item >
+                    </Grid>
 
-                    </div>
+                    <Grid item>
+                    </Grid>
 
-                    <div>
-                    </div>
-                </div>
-                
-                <div>
-
-                </div>
-                
-                
+                </Grid>
             </Grid>
+
             <Grid item xs={3}>
-                <div className={styles.iconListItem}>
+                <Grid container direction="column">
+
+                <Grid item className={styles.iconListItem}>
                     <CalendarTodayIcon fontSize={iconSize}/> 
                     <label>Posted on: ...</label>
-                </div>
-                <div className={styles.iconListItem}>
+                </Grid>
+                <Grid item className={styles.iconListItem}>
                     <EventBusyIcon fontSize={iconSize}/> 
                     <label>Deadline: ...</label>
-                </div>
-                <div className={styles.iconListItem}>
+                </Grid>
+                <Grid item className={styles.iconListItem}>
                     <AttachMoneyIcon fontSize={iconSize}/> 
                     <label>Salary: ...</label>
-                </div>
-                <div className={styles.iconListItem}>
+                </Grid>
+                <Grid item className={styles.iconListItem}>
                     <ScheduleIcon fontSize={iconSize}/> 
                     <label>Type: ...</label>
-                </div>
-                <div className={styles.iconListItem}>
+                </Grid>
+                <Grid item className={styles.iconListItem}>
                     <ListIcon fontSize={iconSize}/> 
                     <label>
                         Category: 
                         <a href=""> Category 1</a>
                     </label>
-                </div>
-                <div className={styles.iconListItem}>
+                </Grid>
+                <Grid item className={styles.iconListItem}>
                     <LinkIcon fontSize={iconSize}/> 
                     <label>Official Website: ...</label>
-                </div>
-                <div className={styles.iconListBtn}>
+                </Grid>
+                <Grid item className={styles.iconListBtn}>
                     <Button variant="outlined" color="primary">
                         View official post
                     </Button>
-                </div>
+                </Grid>
+
+                </Grid>
             </Grid>
         </Grid>
 
@@ -120,7 +134,7 @@ const Header = () => {
 const Footer = () => {
     const fontSize = "large";
     return (
-       <Grid container alignItems="center" justify="space-between"className={styles.footer}>
+       <Grid container alignItems="center" justify="space-between" className={styles.footer}>
             <Grid item xs={6}>
                 <div className={styles.shareTitle}>Share this role</div>
                 <div className={styles.iconSet}>
@@ -130,7 +144,7 @@ const Footer = () => {
                     <EmailIcon fontSize={fontSize}/>
                 </div>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
                 <Button variant="outlined" color="primary">
                     Report this job
                 </Button>    
