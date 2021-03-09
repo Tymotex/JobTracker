@@ -1,13 +1,11 @@
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Chip from '@material-ui/core/Chip';
+import { emphasize, withStyles } from '@material-ui/core/styles';
+import HomeIcon from '@material-ui/icons/Home';
 import React from 'react';
 import {
     Link
 } from 'react-router-dom';
-import { emphasize, withStyles } from '@material-ui/core/styles';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Chip from '@material-ui/core/Chip';
-import HomeIcon from '@material-ui/icons/Home';
-import Typography from '@material-ui/core/Typography';
-
 
 const StyledBreadcrumb = withStyles((theme) => ({
     root: {
@@ -24,7 +22,6 @@ const StyledBreadcrumb = withStyles((theme) => ({
         },
     },
 }))(Chip); 
-
 
 function handleClick(event) {
     event.preventDefault();
