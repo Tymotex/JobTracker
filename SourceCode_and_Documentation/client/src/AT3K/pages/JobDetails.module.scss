@@ -2,6 +2,9 @@ p {
 	font-family: Arial;
 }
 
+hr {
+	color: grey;
+}
 
 main {
 	padding: 0px 30px;
@@ -27,17 +30,6 @@ main {
 	display: flex;
 	align-items: center;
 	padding-bottom: 20px;
-}
-
-
-.footer {
-	padding: 20px;
-	font-weight: bold;
-}
-
-.shareTitle {
-	padding-left: 8px;
-	font-size: 12pt;
 }
 
 .iconSet svg {

@@ -8,26 +8,31 @@ const data = [
     {
         position: "Graduate software engineer",
         company: "Canva",
+        description: "This is some random descriptions about the job",
         link: "https://www.google.com"
     },
     {
         position: "Security engineer",
         company: "Citadel",
+        description: "This is some random descriptions about the job",
         link: "www.google.com"
     },
     {
         position: "Techlead",
         company: "Google",
+        description: "This is some random descriptions about the job",
         link: "www.google.com"
     },
     {
         position: "Techlead",
         company: "Google",
+        description: "This is some random descriptions about the job",
         link: "www.google.com"
     },
     {
         position: "Techlead",
         company: "Google",
+        description: "This is some random descriptions about the job",
         link: "www.google.com"
     },
 ];
@@ -45,7 +50,7 @@ const JobSearch = () => {
         <Layout>
             <h1>Job Search</h1>
             {(selectedCategory === "") ? (
-                <JobSelectionMenu handleSelectCategory={handleSelectCategory}/>
+                <JobSelectionMenu data={data} handleSelectCategory={handleSelectCategory}/>
             ) : (
                 <JobList data={data} searchValue={selectedCategory} onSearch={handleSearch} />
             )}

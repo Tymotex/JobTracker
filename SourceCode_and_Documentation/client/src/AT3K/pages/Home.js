@@ -11,7 +11,7 @@ const Home = ({ unknownPath }) => {
                 <div className={styles.container}>
                     <img className={styles.image} src="https://www.mystudenthouse.com.au/wp-content/uploads/2015/09/job-search.jpg"></img>
                     <p className={styles.bodyText}>
-                        Job Tracker is your own personalised app that you can use to search and apply for jobs! The app also has many features that can be customised to your preferences without taking away the ease and simiplicity of the design.
+                        Job Tracker is your own personalised app that you can use to search and apply for jobs! The app also has many features that can be customised to your preferences without taking away the ease and simplicity of the design.
                         <br></br>
                         <br></br>
                         Job Tracker offers a large range of resources to help fill in any gaps that you may have when you are applying for a job, helping to increase your chances of receiving an offer.
