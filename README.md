@@ -37,6 +37,8 @@ client/
     │   │   ├── job-boards
     │   │   ├── job-lists
     │   │   ├── job-map
+    │   │   ├── job-details
+    │   │   ├── company-profile
     │   │   ├── menus
     │   │   ├── modals
     │   │   └── settings
@@ -53,6 +55,7 @@ client/
     │   │   ├── JobDashboard.js
     │   │   ├── JobDetails.js
     │   │   ├── JobSearch.js
+    │   │   ├── CompanyProfile.js
     │   │   ├── RouterList.js
     │   │   ├── Settings.js
     │   │   └── Statistics.js
@@ -123,7 +126,7 @@ cd seng2021_at3k/SourceCode_and_Documentation/server
 pip3 install -r requirements.txt    # Only for first time setup
 
 python3 start.py
-``` 
+```
 
 ## Routes:
 
