@@ -41,10 +41,10 @@ const JobList = ({ data, searchValue, onSearch }) => {
             handleChangeBoard={null}
             menuItems={[
               { value: "0", text: "Sort by" },
-              { value: "1", text: "Posted Date (Hi-lo)" },
-              { value: "2", text: "Posted Date (lo-hi)" },
-              { value: "3", text: "Deadline (Hi-lo)" },
-              { value: "4", text: "Deadline (lo-hi)" },
+              { value: "1", text: "Posted Date (earliest to latest)" },
+              { value: "2", text: "Posted Date (latest to earliest)" },
+              { value: "3", text: "Deadline (earliest to latest)" },
+              { value: "4", text: "Deadline (latest to earliest)" },
               { value: "5", text: "Salary (Hi-lo)" },
               { value: "6", text: "Salary (lo-hi)" },
             ]}
