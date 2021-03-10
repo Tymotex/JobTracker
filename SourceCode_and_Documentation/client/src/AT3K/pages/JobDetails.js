@@ -83,8 +83,8 @@ const Header = () => {
 
     const companyIconStyle = {
         borderRadius: '50%',
-        width: '30px',
-        height: '30px',
+        width: '50px',
+        height: '50px',
         padding: '5px'
     };
 
