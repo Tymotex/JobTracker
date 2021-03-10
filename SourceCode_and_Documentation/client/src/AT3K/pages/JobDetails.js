@@ -5,7 +5,7 @@ import {
 import Layout from '../../components/Layout/Layout';
 import { JobMap } from '../components/job-map';
 import DescriptionSection from '../components/job-details/DescriptionSection';
-import ReportModal from '../components/modals/ReportModal.js';
+import Footer from '../components/job-details/Footer';
 import { JobDetailField } from '../components/job-details';
 
 import {
@@ -63,7 +63,7 @@ const jobDetailFields = [
     {
         value: "Official Website",
         icon: LinkIcon,
-        link: "www.google.com"
+        link: "https://www.google.com"
     }
 ];
 
@@ -109,7 +109,7 @@ const Header = () => {
                     <Grid item>
                         <div className={styles.iconLabelSet}>
                             <img src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7" style={companyIconStyle}/>
-                            <a href="">Whatever company</a>
+                            <a href="/search/company">Whatever company</a>
                         </div>
                         <div className={styles.mainTitle}>
                             Nulla sit amet ante a tellus elementum vulputate ut ac ante donec eu nunc aliquet arcu cursus posuere
@@ -162,25 +162,7 @@ const Header = () => {
     );
 }
 
-const Footer = () => {
-    const fontSize = "large";
-    return (
-        <Grid container alignItems="center" justify="space-between" className={styles.footer}>
-            <Grid item xs={6}>
-                <div className={styles.shareTitle}>Share this role</div>
-                <div className={styles.iconSet}>
-                    <FacebookIcon fontSize={fontSize}/>
-                    <TwitterIcon fontSize={fontSize}/>
-                    <LinkedInIcon fontSize={fontSize}/>
-                    <EmailIcon fontSize={fontSize}/>
-                </div>
-            </Grid>
-            <Grid item xs={2}>
-                <ReportModal />
-            </Grid>
-        </Grid>
-    );
-}
+
 
 const JobDetails = () => {
     return (
@@ -244,7 +226,7 @@ const JobDetails = () => {
 
             <hr />
 
-            <Footer />
+            <Footer type="job"/>
             
         </Layout>
     );

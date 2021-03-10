@@ -1,0 +1,24 @@
+.container {
+    border: 1px solid grey;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    height: 50px;
+    
+}
+
+.container:hover {
+    box-shadow: darkgrey 0px 0px 2px, grey 0px 3px 7px;
+    cursor: pointer;
+}
+
+.jobTitle {
+    margin: auto;
+    font-weight: bold;
+    font-size: 14pt;
+}   
+
+.jobDate {
+    margin: auto;
+    text-align: right;
+}   

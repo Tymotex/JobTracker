@@ -26,8 +26,7 @@ const Option = (props) => {
 }
 
 
-const ReportModal = () => {
-
+const ReportModal = ({type}) => {
 	const windowStyle = {
 		width: '500px',
 	    backgroundColor: '#fafafa',
@@ -39,15 +38,17 @@ const ReportModal = () => {
 	    padding: '30px',
 	}
 
-	const btnStyle = {
+	const closeBtnStyle = {
 		position: 'absolute',
 		right: '30px',
 		border: '1px solid black',
 	}
 
-	const btnHover = {
-		cursor: 'pointer'
-	}
+    const reportBtn = {
+        textAlign: 'center',
+        fontSize: '20px',
+        margin: '20px 0px',
+    }
 
 	const textareaStyle = {
 		width: '100%',
@@ -64,10 +65,17 @@ const ReportModal = () => {
         setOpen(false);
     };
 
+    const handleReport = () => {
+        setOpen(false);
+        alert("Thank you for your report :)");
+
+    };
+
+
     return (
         <div>
             <Button variant="outlined" color="primary" onClick={handleOpen}>
-                Report this job
+                Report this {type}
             </Button>
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -84,20 +92,22 @@ const ReportModal = () => {
                 <Fade in={open}>
                 	
                     <div style={windowStyle}>
-                    	<Button style={btnStyle} onClick={handleClose}>
+                    	<Button style={closeBtnStyle} onClick={handleClose}>
 			                X
 			            </Button>
                     	<h2 className={styles.title} id="transition-modal-title">Choose a Problem: </h2>
                     	<form>
                     		<Option text="It's offensive and/or discriminatory" />
-                    		<Option text="Asking for money or seems like a fake job" />
-                    		<Option text="Incorrect company, location, or details" />
-                    		<Option text="I think it's trying to sell something unrelated to the job" />
+                    		<Option text="Asking for money or seems like a fake {{type}}" />
+                    		<Option text="Incorrect company, location, or detail" />
+                    		<Option text="I think it's trying to sell something unrelated to the {{type}}" />
                     		<Option text="Other" />
-                    	</form>
-                    	<h2>Describe your problem below:</h2>
-                    	<textarea style={textareaStyle}></textarea>
-
+                        	<h2>Describe your problem below:</h2>
+                        	<textarea style={textareaStyle}></textarea>
+                            <div style={reportBtn}>
+                                <Button style={{border: '1px solid black'}} onClick={handleReport}>Report</Button>
+                            </div>
+                        </form>
 
                     </div>
                 </Fade>

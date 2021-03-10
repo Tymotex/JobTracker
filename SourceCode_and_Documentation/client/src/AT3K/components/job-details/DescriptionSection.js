@@ -9,7 +9,7 @@ const DescriptionSection = (props) => {
 		lineHeight: '1.7'
 	};
 	const titleStyle = {
-		fontSize: '40pt'
+		fontSize: '20pt'
 	};
 	return (
 		<p style={sectionStyles}>
