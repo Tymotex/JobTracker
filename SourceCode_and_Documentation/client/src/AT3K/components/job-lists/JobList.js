@@ -26,7 +26,6 @@ const JobList = ({ data, searchValue, onSearch }) => {
     setOffset(newOffset);
     setCurrent_data(data.slice(newOffset, newOffset + itemsPpage));
   };
-  alert(offset);
 
   return (
     <>
@@ -38,11 +37,16 @@ const JobList = ({ data, searchValue, onSearch }) => {
         <Grid item sm={3}>
           <BoardDropdown
             label={"Sort by"}
-            boardType={"test"}
+            boardType={"0"}
             handleChangeBoard={null}
             menuItems={[
-              { value: "less", text: "Less Details" },
-              { value: "more", text: "More Details" },
+              { value: "0", text: "Sort by" },
+              { value: "1", text: "Posted Date (Hi-lo)" },
+              { value: "2", text: "Posted Date (lo-hi)" },
+              { value: "3", text: "Deadline (Hi-lo)" },
+              { value: "4", text: "Deadline (lo-hi)" },
+              { value: "5", text: "Salary (Hi-lo)" },
+              { value: "6", text: "Salary (lo-hi)" },
             ]}
           />
         </Grid>
@@ -80,8 +84,8 @@ const JobList = ({ data, searchValue, onSearch }) => {
       <br></br>
       <Grid container>
         {current_data.map((eachJobPost) => (
-          <Grid item xs={boardType == "less" ? 4 : 12}>
-            <JobPost {...eachJobPost} />
+          <Grid item xs={boardType === "less" ? 4 : 12}>
+            <JobPost {...eachJobPost} detail={boardType} />
           </Grid>
         ))}
       </Grid>

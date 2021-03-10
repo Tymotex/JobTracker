@@ -36,13 +36,15 @@ const tempCompanies = [
         name: "Canva",
         description: `
             Canva is a graphic design platform, used to create social media graphics, presentations, posters, documents and other visual content. The app includes templates for users to use. The platform is free to use and offers paid subscriptions like Canva Pro and Canva for Enterprise for additional functionality.
-        `
+        `,
+        link: "https://www.canva.com/en_au/"
     },
     {
         name: "Atlassian",
         description: `
             Atlassian Corporation Plc is an Australian software company that develops products for software developers and project managers.
-        `
+        `,
+        link: "https://www.atlassian.com/"
     }
 ];
 
@@ -117,6 +119,7 @@ const JobDashboard = () => {
                         </Grid>
                     </Grid>
                     <hr />
+                    <h2>Favourited Companies</h2>
                     <CardCarousel 
                         companies={tempCompanies}
                     />

@@ -22,7 +22,7 @@ const PreferencesSettings = () => {
   return (
     <>
       <h2>Default Board View</h2>
-
+      <p>The selected view would be the view that be shown by default when you enter the job dashboards</p>
       <div className={styles.container}>
         {boardSettings.map((item, index) => {
           console.log(item.state);
@@ -31,7 +31,6 @@ const PreferencesSettings = () => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={true}
                     onChange={() => {}}
                     name="checkedB"
                     color="primary"

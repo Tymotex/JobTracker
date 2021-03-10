@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -7,8 +7,13 @@ import FormControl from '@material-ui/core/FormControl';
 import Accordion from './accordion'
 import Layout from '../../components/Layout/Layout';
 import styles from './FAQ.module.scss'
-
+import Card from './card'
 const FAQ = () => {
+    const [query, setQuery] = useState("");
+    const searchForQuestion = (event) => {
+        setQuery(event.target.value);
+    };
+
     return (
         <Layout>
             <h1 className={styles.Title}>FAQ</h1>
@@ -17,17 +22,32 @@ const FAQ = () => {
             </p>
             <br/>
             <FormControl fullWidth variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-amount">How do i get rid of this!?</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-amount"></InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-amount"
                     placeholder={"Search"}
-                    onChange={function() {}}
+                    onChange={searchForQuestion}
                     startAdornment={<InputAdornment position="start"></InputAdornment>}
-                    labelWidth={60}
                 />
             </FormControl>
-
-            <Accordion/>
+            {query === "" ? (
+                <div>
+                    <Accordion/>
+                </div>
+            ) : (
+                <div>
+                    {/* START HERE */}
+                    <strong><h2>Results:</h2></strong>
+                    <Card />
+                    <Card />
+                    <Card />
+                    <br/>
+                    <footer>
+                        For more information, please contact us at example@email.com
+                    </footer>
+                    {/* END HERE */}
+                </div>
+            )}
         </Layout>
     );
 };

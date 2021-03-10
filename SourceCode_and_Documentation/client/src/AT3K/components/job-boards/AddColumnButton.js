@@ -5,7 +5,9 @@ import {
 
 const AddColumnButton = () => {
     return (
-        <PlusIcon />        
+        <div>
+            <PlusIcon />        
+        </div>
     )
 };
 

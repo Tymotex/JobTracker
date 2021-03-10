@@ -23,7 +23,7 @@ const NotificationsSettings = () => {
   return (
     <>
       <h2>Email notifications</h2>
-
+      <p></p>
       <div className={styles.container}>
         {notiSettings.map((item, index) => {
           return (
@@ -31,7 +31,6 @@ const NotificationsSettings = () => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={true}
                     onChange={() => {}}
                     name="checkedB"
                     color="primary"
@@ -53,7 +52,6 @@ const NotificationsSettings = () => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={true}
                     onChange={() => {}}
                     name="checkedB"
                     color="primary"
