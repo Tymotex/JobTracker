@@ -5,7 +5,9 @@ import {
 import Layout from '../../components/Layout/Layout';
 import { JobMap } from '../components/job-map';
 import DescriptionSection from '../components/job-details/DescriptionSection';
-import { JobDetailField } from '../components/job-details'
+import ReportModal from '../components/modals/ReportModal.js';
+import { JobDetailField } from '../components/job-details';
+
 import {
     Grid,
     Button
@@ -163,7 +165,7 @@ const Header = () => {
 const Footer = () => {
     const fontSize = "large";
     return (
-       <Grid container alignItems="center" justify="space-between" className={styles.footer}>
+        <Grid container alignItems="center" justify="space-between" className={styles.footer}>
             <Grid item xs={6}>
                 <div className={styles.shareTitle}>Share this role</div>
                 <div className={styles.iconSet}>
@@ -174,14 +176,10 @@ const Footer = () => {
                 </div>
             </Grid>
             <Grid item xs={2}>
-                <Button variant="outlined" color="primary">
-                    Report this job
-                </Button>    
-
-          </Grid>
-       </Grid>
+                <ReportModal />
+            </Grid>
+        </Grid>
     );
-    
 }
 
 const JobDetails = () => {
