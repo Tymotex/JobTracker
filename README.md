@@ -6,7 +6,7 @@ This is a web app that scrapes together job postings from major job-hunting plat
 - Arthur Wang
 - Katrina Ding
 - Kaivalya Soman
-- Kelly Zhou
+- Kelly Zhou (z5257986)
 - Tim Zhang (z5258971)
 
 
