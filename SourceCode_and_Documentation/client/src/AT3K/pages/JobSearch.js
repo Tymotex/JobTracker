@@ -8,32 +8,117 @@ const data = [
     {
         position: "Graduate software engineer",
         company: "Canva",
-        description: "This is some random descriptions about the job",
-        link: "https://www.google.com"
+        description: "This is some random description about the job",
+        link: "https://www.google.com",
+        salary: "$50000/yr",
+        deadline: "Tomorrow",
+        location: "Sydney, NSW",
+        postedDate: "Yesterday",
+        requiredSkills: [
+            "Node.js",
+            "React",
+            "Express",
+            "MongoDB",
+            "Python",
+            "C++"
+        ],
+        missingSkills: [
+            "React",
+            "Express",
+            "MongoDB"
+        ]
     },
     {
         position: "Security engineer",
         company: "Citadel",
-        description: "This is some random descriptions about the job",
-        link: "www.google.com"
+        description: "This is some random description about the job",
+        link: "https://www.google.com",
+        salary: "$50000/yr",
+        deadline: "Tomorrow",
+        location: "Sydney, NSW",
+        postedDate: "Yesterday",
+        requiredSkills: [
+            "Node.js",
+            "React",
+            "Express",
+            "MongoDB",
+            "Python",
+            "C++"
+        ],
+        missingSkills: [
+            "React",
+            "Express",
+            "MongoDB"
+        ]
     },
     {
         position: "Techlead",
         company: "Google",
-        description: "This is some random descriptions about the job",
-        link: "www.google.com"
+        description: "This is some random description about the job",
+        link: "https://www.google.com",
+        salary: "$50000/yr",
+        deadline: "Tomorrow",
+        location: "Sydney, NSW",
+        postedDate: "Yesterday",
+        requiredSkills: [
+            "Node.js",
+            "React",
+            "Express",
+            "MongoDB",
+            "Python",
+            "C++"
+        ],
+        missingSkills: [
+            "React",
+            "Express",
+            "MongoDB"
+        ]
     },
     {
         position: "Techlead",
         company: "Google",
-        description: "This is some random descriptions about the job",
-        link: "www.google.com"
+        description: "This is some random description about the job",
+        link: "https://www.google.com",
+        salary: "$50000/yr",
+        deadline: "Tomorrow",
+        location: "Sydney, NSW",
+        postedDate: "Yesterday",
+        requiredSkills: [
+            "Node.js",
+            "React",
+            "Express",
+            "MongoDB",
+            "Python",
+            "C++"
+        ],
+        missingSkills: [
+            "React",
+            "Express",
+            "MongoDB"
+        ]
     },
     {
         position: "Techlead",
         company: "Google",
-        description: "This is some random descriptions about the job",
-        link: "www.google.com"
+        description: "This is some random description about the job",
+        link: "https://www.google.com",
+        salary: "$50000/yr",
+        deadline: "Tomorrow",
+        location: "Sydney, NSW",
+        postedDate: "Yesterday",
+        requiredSkills: [
+            "Node.js",
+            "React",
+            "Express",
+            "MongoDB",
+            "Python",
+            "C++"
+        ],
+        missingSkills: [
+            "React",
+            "Express",
+            "MongoDB"
+        ]
     },
 ];
 
@@ -50,7 +135,7 @@ const JobSearch = () => {
         <Layout>
             <h1>Job Search</h1>
             {(selectedCategory === "") ? (
-                <JobSelectionMenu data={data} handleSelectCategory={handleSelectCategory}/>
+                <JobSelectionMenu data={data} handleSelectCategory={handleSelectCategory} />
             ) : (
                 <JobList data={data} searchValue={selectedCategory} onSearch={handleSearch} />
             )}

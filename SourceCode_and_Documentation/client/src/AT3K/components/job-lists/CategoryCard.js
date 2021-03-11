@@ -8,11 +8,11 @@ import React from 'react';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    margin: 10
   },
 });
 
-export default function ImgMediaCard({image, title}) {
+export default function ImgMediaCard({ image, title }) {
   const classes = useStyles();
 
   return (

@@ -1,24 +1,7 @@
 import React, { useState } from 'react';
-import {
-    Grid,
-    Button
-} from '@material-ui/core';
 import Layout from '../../components/Layout/Layout';
-import { 
-    JobSpreadsheet, 
-    JobBoard,
-    JobCalendar,
-    JobList,
-    BoardDropdown,
-    BoardToolbar
-} from '../components/job-boards';
-import {
-    BoardCardGrid,
-    CardCarousel
-} from '../components/job-dashboard';
-import {
-    BreadCrumbs
-} from '../components/breadcrumbs';
+import JobDashboardIndex from './JobDashboardIndex';
+import JobDashboardWorkspace from './JobDashboardWorkspace';
 
 const tempBoards = [
     {
@@ -96,67 +79,19 @@ const JobDashboard = () => {
     return (
         <Layout>
             {selectedBoard === null ? (
-                <>
-                    <Grid container spacing={3}>
-                        <Grid item xs={6}>
-                            <h2>Recently Viewed</h2>
-                            <BoardCardGrid 
-                                selectBoard={handleSelectBoard}
-                                boards={tempBoards}
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <h2>Your Boards</h2>
-                            <BoardCardGrid
-                                selectBoard={handleSelectBoard}
-                                boards={tempBoards}
-                            />
-                            <div style={{"textAlign": "center"}}>
-                                <Button variant="contained" color="primary">
-                                    Create New Board
-                                </Button>
-                            </div>
-                        </Grid>
-                    </Grid>
-                    <hr />
-                    <h2>Favourited Companies</h2>
-                    <CardCarousel 
-                        companies={tempCompanies}
-                    />
-                </>
+                <JobDashboardIndex 
+                    boards={tempBoards}
+                    companies={tempCompanies}
+                    handleSelectBoard={handleSelectBoard}
+                />
             ) : (
-                <>
-                    <BreadCrumbs deselectBoard={handleDeselectBoard} name={selectedBoard} />
-                    <h1>Dashboard</h1>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
-                    <BoardToolbar 
-                        boardType={boardType}
-                        handleChangeBoard={handleChangeBoard}
-                    />
-                    
-                    {boardType === "spreadsheet" && (
-                        <>
-                            <JobSpreadsheet />
-                        </>
-                    )}
-                    {boardType === "board" && (
-                        <>
-                            <JobBoard />
-                        </>
-                    )}
-                    {boardType === "calendar" && (
-                        <>
-                            <JobCalendar />
-                        </>
-                    )}
-                    {boardType === "list" && (
-                        <>
-                            <JobList jobPostings={tempJobList} />
-                        </>
-                    )}
-                </>
+                <JobDashboardWorkspace
+                    boardType={boardType}
+                    jobPostings={tempJobList}
+                    selectedBoard={selectedBoard}
+                    handleChangeBoard={handleChangeBoard}
+                    handleDeselectBoard={handleDeselectBoard}
+                />
             )}
         </Layout>
     );

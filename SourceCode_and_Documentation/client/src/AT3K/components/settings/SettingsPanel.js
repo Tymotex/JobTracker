@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    Box,
     Paper
 } from '@material-ui/core';
 import {
@@ -8,6 +9,7 @@ import {
     PreferencesSettings,
     ThemeSettings
 } from './';
+import styles from './SettingsPanel.module.scss';
 
 const capitaliseFirstLetter = ([ first, ...rest ], locale = navigator.language) => (
     first.toLocaleUpperCase(locale) + rest.join('')
@@ -15,7 +17,7 @@ const capitaliseFirstLetter = ([ first, ...rest ], locale = navigator.language) 
 
 const SettingsPanel = ({ currCategory, replaceTheme, currTheme }) => {
     return (
-        <Paper elevation={2}> 
+        <Paper className={styles.container} elevation={2}> 
             <h1>
                 {capitaliseFirstLetter(currCategory)} Settings
             </h1>

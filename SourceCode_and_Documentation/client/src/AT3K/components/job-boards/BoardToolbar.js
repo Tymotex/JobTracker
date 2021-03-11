@@ -16,15 +16,21 @@ const BoardToolbar = ({ boardType, handleChangeBoard }) => {
     return (
         <Paper className={styles.toolbar} elevation={3}>
             <div className={styles.content}>
-                <div className={styles.searchbar}>
-                    <RecordSearchBar /> 
-                </div>
-                <div>
-                    <BoardDropdown 
-                        boardType={boardType} 
-                        handleChangeBoard={handleChangeBoard}
-                    />
-                </div>
+                <Grid container>
+                    <Grid item xs={6}>
+                        <div className={styles.full}>
+                            <RecordSearchBar /> 
+                        </div>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <div className={styles.full}>
+                            <BoardDropdown 
+                                boardType={boardType} 
+                                handleChangeBoard={handleChangeBoard}
+                            />
+                        </div>
+                    </Grid>
+                </Grid>
                 <BoardSettingsModal className={styles.button} />
                 <AddColumnButton className={styles.button} />
                 <AddRecordButton className={styles.button} />

@@ -1,3 +1,4 @@
+import { Button } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,9 +9,6 @@ import { Link } from "react-router-dom";
 import styles from "./jobPost.module.scss";
 
 const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
   bullet: {
     display: "inline-block",
     margin: "0 2px",
@@ -24,27 +22,105 @@ const useStyles = makeStyles({
   },
 });
 
-const JobPost = ({ position, company, link, detail, description }) => {
+const JobPost = ({
+  position,
+  company,
+  link,
+  detail,
+  description,
+  salary,
+  deadline,
+  location,
+  postedDate,
+  requiredSkills,
+  missingSkills
+}) => {
   const classes = useStyles();
   // const bull = <span className={classes.bullet}>•</span>;
   return (
     <>
-      <Card className={`${classes.root} ${styles.card}`}>
+      <Card className={`${styles.card}`}>
         <CardContent>
           <Typography variant="h5" component="h2">
-            Position: {position}
+            {position}
           </Typography>
           <Typography variant="body2" component="p">
-            Company: {company}
-            <br />
-            {detail === "more" && description}
-            <div>
-              <a href={link}>Link to details</a>
-            </div>
+            {detail == 1 && (
+              <div>
+                Company: {company}
+                <div>
+                  <a href={link}>Original post link</a>
+                </div>
+                <div>
+                  Salary: {salary}
+                </div>
+                <div>
+                  Deadline: {deadline}
+                </div>
+                <div>
+                  Location: {location}
+                </div>
+                <div>
+                  Posted date: {postedDate}
+                </div>
+              </div>
+            )}
+            {detail == 2 && (
+              <div>
+                <div>
+                  <a href={link}>Original post link</a>
+                </div>
+                <span className={styles.field}>Company: </span>{company}
+                <div>
+                  <span className={styles.field}>Salary:</span> {salary}
+                </div>
+                <div>
+                  <span className={styles.field}>Deadline:</span> {deadline}
+                </div>
+                <div>
+                  <span className={styles.field}>Location:</span> {location}
+                </div>
+                <div>
+                  <span className={styles.field}>Posted date:</span> {postedDate}
+                </div>
+                <div>
+                  <span className={styles.field}>Description:</span> {description}
+                </div>
+                {requiredSkills && (
+                  <div>
+                    <span className={styles.field}>Required skills:</span>
+                    <ul>
+                      {requiredSkills.map((eachSkill) => (
+                        <li>
+                          {eachSkill}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {missingSkills && (
+                  <div>
+                    <span className={styles.field}>Missing skills:</span>
+                    <ul>
+                      {missingSkills.map((eachSkill) => (
+                        <li>
+                          {eachSkill}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
             <div>
               <Link to={`/search/details?id=${"JOB_POST_ID_HERE"}`}>
-                See more details
+                <strong style={{ "font-size": "200%" }}>See more details</strong>
               </Link>
+            </div>
+            <div>
+              <Button variant="contained" color="info">
+                Track
+              </Button>
             </div>
           </Typography>
         </CardContent>

@@ -1,6 +1,8 @@
+import { Button } from '@material-ui/core';
 import React, { useState } from 'react';
 import { SketchPicker } from 'react-color';   // DOCUMENTATION HERE: https://github.com/casesandberg/react-color
 import DarkModeSwitch from './DarkModeSwitch';
+import styles from './ThemeSettings.module.scss';
 
 // TODO: Currently only one aspect of the palette is being change (the primary.main colour)
 // Check out AT3K/themes/default.js to see what else can be changed
@@ -20,16 +22,23 @@ const ThemeSettings = ({ replaceTheme, currTheme }) => {
     };
 
     return ( 
-        <div>
-            Dark mode:
+        <div className={styles.container}>
+            <h4>Dark mode</h4>
             <DarkModeSwitch />
             <div>
-                Set primary colour:
+                <h4>Choose Primary Colour</h4>
                 <SketchPicker
+                    className={styles.themeSelector}
                     color={primary}
                     onChangeComplete={getColourHex}
                 />
             </div>
+            <Button variant="contained" color="primary">
+                High contrast
+            </Button>
+            <Button variant="contained" color="primary">
+                Colourblind
+            </Button>
         </div>
     );
 };

@@ -7,16 +7,18 @@
 
     .content {
         display: flex;
-        flex-flow: row wrap;
-        align-content: space-between;
-        justify-content: space-between;
         flex-direction: row;
+        flex-flow: row wrap;
+        justify-content:space-evenly;
         padding: 15px;
-        // height: 80px;
 
-        .searchbar {
+        .full {
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
+        }
+        .full > div {
+            width: 100%;
+            margin-bottom: 5px;
         }
         div {
             svg {
@@ -25,6 +27,9 @@
                 margin-left: 20px;
                 margin-right: 20px;
                 flex: 0 0 10%;
+                &:hover {
+                    border: 1px solid black;
+                }
             }
         }
         .lineBreak {

@@ -1,18 +1,18 @@
 import tinycolor from "tinycolor2";
 
 const themeClasses = {
-	primary:   "#222222",
+	primary: "#222222",
 	secondary: "#222222",
-	warning:   "#FFC260",
-	success:   "#3CD4A0",
-	info:      "#9013FE"
+	warning: "#FFC260",
+	success: "#3CD4A0",
+	info: "#B3F1FF"
 };
 
 const lightIntensity = 7.5;
 const darkIntensity = 15;
 
 const defaultTheme = {
-    palette: {
+	palette: {
 		primary: {
 			main: themeClasses.primary,
 			light: tinycolor(themeClasses.primary)
@@ -85,8 +85,8 @@ const defaultTheme = {
 		},
 		MuiMenu: {
 			paper: {
-			boxShadow:
-				"0px 3px 11px 0px #E8EAFC, 0 3px 3px -2px #B2B2B21A, 0 1px 8px 0 #9A9A9A1A",
+				boxShadow:
+					"0px 3px 11px 0px #E8EAFC, 0 3px 3px -2px #B2B2B21A, 0 1px 8px 0 #9A9A9A1A",
 			},
 		},
 		MuiSelect: {
@@ -133,10 +133,10 @@ const defaultTheme = {
 		},
 		PrivateSwitchBase: {
 			root: {
-			marginLeft: 10
+				marginLeft: 10
 			}
 		}
-    },
+	},
 };
 
 export default defaultTheme;

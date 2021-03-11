@@ -3,12 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import Button from '@material-ui/core/Button';
 import {
     TextField,
-    Button,
     Grid
 } from '@material-ui/core';
-import GoogleButton from 'react-google-button'
+import GoogleButton from 'react-google-button';
 import styles from './Modal.module.scss';
 
 
@@ -20,27 +20,16 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+// TODO!!!!!!!
+// Modals are repetitive.
+// Maybe extract most of the html to a base component
 
-export default function TransitionsModal() {
+
+export default function TransitionsModal({ open, handleClose }) {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
-
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
 
     return (
         <div>
-            <Button variant="contained" color="info" onClick={handleOpen}>
-                Login
-            </Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -55,34 +44,35 @@ export default function TransitionsModal() {
             >
                 <Fade in={open}>
                     <div className={styles.window}>
-                        <h2 className={styles.title} id="transition-modal-title">Log In</h2>
-                        <p className={styles.message} id="transition-modal-description">Welcome back!</p>
+                        <h2 className={styles.title} id="transition-modal-title">
+                            Create Board
+                        </h2>
                         <form autoComplete="off">
                             <div className={styles.textGroup}>
-                                <TextField className={styles.emailBox}
+                                <TextField className={styles.nameBox}
                                     required
+                                    type="name"
                                     id="outlined-required"
-                                    label="Email"
+                                    label="Board Name"
+                                    value="Software Engineering"
                                     variant="outlined"
                                 />
-                                <TextField className={styles.passwordBox}
+                                <TextField className={styles.emailBox}
                                     required
-                                    type="password"
+                                    multiline
                                     id="outlined-required"
-                                    label="Password"
+                                    label="Description"
+                                    value="Lorem ipsum"
                                     variant="outlined"
                                 />
                             </div>
                         </form>
-                        <GoogleButton className={styles.googleButton}
-                            onClick={() => { console.log('Google button clicked') }}
-                        />
                         <Grid container className={styles.buttonGroup}>
                             <Grid item xs={6}>
                                 <Button className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
                             </Grid>
                             <Grid item xs={6}>
-                                <Button className={styles.loginButton} variant="contained" color="primary">Login</Button>
+                                <Button className={styles.registerButton} variant="contained" color="primary">Create</Button>
                             </Grid>
                         </Grid>
                     </div>

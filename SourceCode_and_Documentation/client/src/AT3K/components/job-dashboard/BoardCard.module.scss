@@ -1,5 +1,12 @@
 .boardCardGrid {
     .boardCard {
         margin: 7px;
+        .viewButton {
+            transition: all 0.15s ease-in-out;
+            &:hover {
+                transform: scale(1.05);
+                transition-duration: 0.15s;
+            }
+        }
     }
 }
