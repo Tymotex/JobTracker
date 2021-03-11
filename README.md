@@ -5,7 +5,7 @@ This is a web app that scrapes together job postings from major job-hunting plat
 ### Team AT3K:
 - Arthur Wang
 - Katrina Ding
-- Kaivalya Soman
+- Kaivalya Soman (z5259102)
 - Kelly Zhou (z5257986)
 - Tim Zhang (z5258971)
 
