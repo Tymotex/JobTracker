@@ -1,11 +1,18 @@
 # SENG2021 project
 
-This is a web app that scrapes together job postings from major job-hunting platforms like Indeed, Seek, etc. and lets the user track their application for postings they are interested in. 
+This is a web app that scrapes together job postings from major job-hunting platforms like Indeed, Monster, etc. and provides automation services for the user to track their application for postings they are interested in.  
 
-Bootstrapped from <a href="https://flatlogic.com/templates/react-material-admin/demo">this open-source project</a> (MIT Licence).
+### Team AT3K:
+- Arthur Wang
+- Katrina Ding
+- Kaivalya Soman
+- Kelly Zhou
+- Tim Zhang (z5258971)
 
 
 ## Important information for markers:
+
+Bootstrapped from <a href="https://flatlogic.com/templates/react-material-admin/demo">this open-source project</a> (MIT Licence).
 
 ### Links:
 - <a href="https://seng2021-at3k.netlify.app">Deployed prototype here</a>
@@ -13,6 +20,8 @@ Bootstrapped from <a href="https://flatlogic.com/templates/react-material-admin/
 - <a href="https://github.com/Tymotex/JobTracker">Repo linked to the deployed prototype</a>
 
 - <a href="https://github.com/ArthurW404/seng2021_AT3K">Repo to be marked</a>
+
+
 
 <hr />
 
