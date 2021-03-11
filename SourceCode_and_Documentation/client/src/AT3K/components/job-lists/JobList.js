@@ -19,7 +19,6 @@ const JobList = ({ data, searchValue, onSearch }) => {
 	const itemsPpage = 3;
 
 
-
 	const [currentData, setCurrent_data] = useState(
 		data.slice(offset, offset + itemsPpage)
 	);
@@ -49,12 +48,13 @@ const JobList = ({ data, searchValue, onSearch }) => {
 						value={sortStrategy}
 						onChange={(event) => setSortStrategy(event.target.value)}
 						items={[
-							{ value: "1", text: "Posted Date (Hi-lo)" },
-							{ value: "2", text: "Posted Date (lo-hi)" },
-							{ value: "3", text: "Deadline (Hi-lo)" },
-							{ value: "4", text: "Deadline (lo-hi)" },
-							{ value: "5", text: "Salary (Hi-lo)" },
-							{ value: "6", text: "Salary (lo-hi)" },
+				            { value: "0", text: "Sort by" },
+				            { value: "1", text: "Posted Date (earliest to latest)" },
+				            { value: "2", text: "Posted Date (latest to earliest)" },
+				            { value: "3", text: "Deadline (earliest to latest)" },
+				            { value: "4", text: "Deadline (latest to earliest)" },
+				            { value: "5", text: "Salary (Hi-lo)" },
+				            { value: "6", text: "Salary (lo-hi)" },
 						]}
 					/>
 				</Grid>

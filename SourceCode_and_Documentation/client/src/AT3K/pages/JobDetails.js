@@ -18,10 +18,6 @@ import Avatar from '@material-ui/core/Avatar';
 import {
     CalendarToday as CalendarTodayIcon,
     ArrowBack as ArrowBackIcon,
-    Facebook as FacebookIcon,
-    Twitter as TwitterIcon,
-    LinkedIn as LinkedInIcon,
-    Email as EmailIcon,
     EventBusy as EventBusyIcon,
     AttachMoney as AttachMoneyIcon,
     Schedule as ScheduleIcon,

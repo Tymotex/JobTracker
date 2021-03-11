@@ -141,8 +141,6 @@ const CompanyProfile = () => {
 						<JobItem {...job} />
 					))
 				}
-
-
 			</DescriptionSection>
 
 			<hr />
