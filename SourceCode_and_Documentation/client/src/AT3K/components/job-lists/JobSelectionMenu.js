@@ -1,6 +1,6 @@
 import { Button, Grid } from "@material-ui/core";
 import React, { useState } from "react";
-import ImgMediaCard from "./imgMediaCard";
+import CategoryCard from "./CategoryCard";
 import "./JobListPaginator.css";
 import Searchbar from "./searchbar";
 
@@ -48,7 +48,7 @@ const JobSelectionMenu = ({ data, handleSelectCategory }) => {
   const [locationSearch, setLocationSearch] = useState("");
 
   const head_data = data.slice(0, 3);
-  const onSearch = () => {};
+  const onSearch = () => { };
 
   return (
     <>
@@ -70,7 +70,7 @@ const JobSelectionMenu = ({ data, handleSelectCategory }) => {
         </Grid>
 
         <Grid item sm={4}>
-          <Button>Search</Button>
+          <Button variant="contained" color="primary">Search</Button>
         </Grid>
       </Grid>
       <h3>Quick Select category of job</h3>
@@ -78,9 +78,9 @@ const JobSelectionMenu = ({ data, handleSelectCategory }) => {
         <Grid container>
           {categories.map((category) => {
             return (
-              <grid item sm={3} className={styles.category}>
-                <ImgMediaCard title={category.title} image={category.image} />
-              </grid>
+              <Grid className={styles.category} item xs={6} sm={4} md={4} lg={3}>
+                <CategoryCard title={category.title} image={category.image} />
+              </Grid>
             );
           })}
         </Grid>

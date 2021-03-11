@@ -19,8 +19,9 @@ const FAQ = () => {
             <h1 className={styles.Title}>FAQ</h1>
             <p className={styles.text}>
                 Search for your question or browse our frequently asked questions
+                (TYPE IN THE SEARCH BAR TO BRING UP ANOTHER VIEW)
             </p>
-            <br/>
+            <br />
             <FormControl fullWidth variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-amount"></InputLabel>
                 <OutlinedInput
@@ -32,7 +33,7 @@ const FAQ = () => {
             </FormControl>
             {query === "" ? (
                 <div>
-                    <Accordion/>
+                    <Accordion />
                 </div>
             ) : (
                 <div>
@@ -44,7 +45,7 @@ const FAQ = () => {
                     <Card />
                     <Card />
                     <Card />
-                    <br/>
+                    <br />
                     <footer>
                         For more information, please contact us at example@email.com
                     </footer>

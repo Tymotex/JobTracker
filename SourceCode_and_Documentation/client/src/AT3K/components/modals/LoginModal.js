@@ -38,9 +38,9 @@ export default function TransitionsModal() {
 
     return (
         <div>
-            <button type="button" onClick={handleOpen}>
+            <Button variant="contained" color="info" onClick={handleOpen}>
                 Login
-            </button>
+            </Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -60,24 +60,24 @@ export default function TransitionsModal() {
                         <form autoComplete="off">
                             <div className={styles.textGroup}>
                                 <TextField className={styles.emailBox}
-                                        required
-                                        id="outlined-required"
-                                        label="Email"
-                                        variant="outlined"
+                                    required
+                                    id="outlined-required"
+                                    label="Email"
+                                    variant="outlined"
                                 />
                                 <TextField className={styles.passwordBox}
-                                        required
-                                        type="password"
-                                        id="outlined-required"
-                                        label="Password"
-                                        variant="outlined"
+                                    required
+                                    type="password"
+                                    id="outlined-required"
+                                    label="Password"
+                                    variant="outlined"
                                 />
                             </div>
                         </form>
                         <GoogleButton className={styles.googleButton}
                             onClick={() => { console.log('Google button clicked') }}
                         />
-                        <Grid container className={styles.buttonGroup}> 
+                        <Grid container className={styles.buttonGroup}>
                             <Grid item xs={6}>
                                 <Button className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
                             </Grid>

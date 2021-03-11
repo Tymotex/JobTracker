@@ -60,12 +60,12 @@ const JobList = ({ data, searchValue, onSearch }) => {
 				</Grid>
 				<Grid item sm={3}>
 					<Dropdown
-						label={"toggle detail"}
+						label={"Toggle detail"}
 						value={detailLevel}
 						onChange={(event) => setDetailLevel(event.target.value)}
 						items={[
-							{ value: 1, text: "Less Details" },
-							{ value: 2, text: "More Details" },
+							{ value: 1, text: "Less detail" },
+							{ value: 2, text: "More detail" },
 						]}
 					/>
 				</Grid>

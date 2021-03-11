@@ -22,7 +22,19 @@ const useStyles = makeStyles({
   },
 });
 
-const JobPost = ({ position, company, link, detail, description, salary, deadline, location, postedDate, missingSkills }) => {
+const JobPost = ({
+  position,
+  company,
+  link,
+  detail,
+  description,
+  salary,
+  deadline,
+  location,
+  postedDate,
+  requiredSkills,
+  missingSkills
+}) => {
   const classes = useStyles();
   // const bull = <span className={classes.bullet}>•</span>;
   return (
@@ -46,7 +58,7 @@ const JobPost = ({ position, company, link, detail, description, salary, deadlin
                   Deadline: {deadline}
                 </div>
                 <div>
-                  Location: {location} 
+                  Location: {location}
                 </div>
                 <div>
                   Posted date: {postedDate}
@@ -66,7 +78,7 @@ const JobPost = ({ position, company, link, detail, description, salary, deadlin
                   <span className={styles.field}>Deadline:</span> {deadline}
                 </div>
                 <div>
-                  <span className={styles.field}>Location:</span> {location} 
+                  <span className={styles.field}>Location:</span> {location}
                 </div>
                 <div>
                   <span className={styles.field}>Posted date:</span> {postedDate}
@@ -74,23 +86,35 @@ const JobPost = ({ position, company, link, detail, description, salary, deadlin
                 <div>
                   <span className={styles.field}>Description:</span> {description}
                 </div>
+                {requiredSkills && (
+                  <div>
+                    <span className={styles.field}>Required skills:</span>
+                    <ul>
+                      {requiredSkills.map((eachSkill) => (
+                        <li>
+                          {eachSkill}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 {missingSkills && (
-                    <div>
-                      <span className={styles.field}>Missing skills:</span>
-                      <ul>
-                        {missingSkills.map((eachSkill) => (
-                          <li>
-                            {eachSkill}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>  
-                  )}
+                  <div>
+                    <span className={styles.field}>Missing skills:</span>
+                    <ul>
+                      {missingSkills.map((eachSkill) => (
+                        <li>
+                          {eachSkill}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
             <div>
               <Link to={`/search/details?id=${"JOB_POST_ID_HERE"}`}>
-                <strong style={{"font-size": "200%"}}>See more details</strong>
+                <strong style={{ "font-size": "200%" }}>See more details</strong>
               </Link>
             </div>
             <div>

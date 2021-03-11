@@ -14,6 +14,14 @@ const data = [
         deadline: "Tomorrow",
         location: "Sydney, NSW",
         postedDate: "Yesterday",
+        requiredSkills: [
+            "Node.js",
+            "React",
+            "Express",
+            "MongoDB",
+            "Python",
+            "C++"
+        ],
         missingSkills: [
             "React",
             "Express",
@@ -29,6 +37,14 @@ const data = [
         deadline: "Tomorrow",
         location: "Sydney, NSW",
         postedDate: "Yesterday",
+        requiredSkills: [
+            "Node.js",
+            "React",
+            "Express",
+            "MongoDB",
+            "Python",
+            "C++"
+        ],
         missingSkills: [
             "React",
             "Express",
@@ -44,6 +60,14 @@ const data = [
         deadline: "Tomorrow",
         location: "Sydney, NSW",
         postedDate: "Yesterday",
+        requiredSkills: [
+            "Node.js",
+            "React",
+            "Express",
+            "MongoDB",
+            "Python",
+            "C++"
+        ],
         missingSkills: [
             "React",
             "Express",
@@ -59,6 +83,14 @@ const data = [
         deadline: "Tomorrow",
         location: "Sydney, NSW",
         postedDate: "Yesterday",
+        requiredSkills: [
+            "Node.js",
+            "React",
+            "Express",
+            "MongoDB",
+            "Python",
+            "C++"
+        ],
         missingSkills: [
             "React",
             "Express",
@@ -74,6 +106,14 @@ const data = [
         deadline: "Tomorrow",
         location: "Sydney, NSW",
         postedDate: "Yesterday",
+        requiredSkills: [
+            "Node.js",
+            "React",
+            "Express",
+            "MongoDB",
+            "Python",
+            "C++"
+        ],
         missingSkills: [
             "React",
             "Express",
@@ -95,7 +135,7 @@ const JobSearch = () => {
         <Layout>
             <h1>Job Search</h1>
             {(selectedCategory === "") ? (
-                <JobSelectionMenu data={data} handleSelectCategory={handleSelectCategory}/>
+                <JobSelectionMenu data={data} handleSelectCategory={handleSelectCategory} />
             ) : (
                 <JobList data={data} searchValue={selectedCategory} onSearch={handleSearch} />
             )}
