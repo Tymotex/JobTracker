@@ -1,10 +1,8 @@
-import { Avatar, Button, Container, Box, Modal } from "@material-ui/core";
+import { Avatar, Box, Button, Container, Modal } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
-import Dropzone from "react-dropzone";
 import ResumeDropZone from "./ResumeDropZone";
 
-// TODO: file drop input: https://react-dropzone.js.org/#section-examples
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;

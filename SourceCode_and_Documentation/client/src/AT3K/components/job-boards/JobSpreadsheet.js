@@ -23,12 +23,6 @@ const rows = [
     { jobPosition: "NEWLY TRACKED JOB POSTINGS ARE AUTOMATICALLY", companyName: "GENERATED", salary: "HERE"}
 ];
 
-
-const data = [
-    [{ value: "Job Position" }, { value: "Company" }, { value: "Salary" }],
-    [{ value: "Graduate Software Engineer" }, { value: "Canva" }, { value: "$50000/yr"}],
-];
-
 const JobSpreadsheet = () => {
     return (
         <>

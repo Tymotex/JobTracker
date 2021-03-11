@@ -14,6 +14,7 @@ export default makeStyles(theme => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: "nowrap",
+    zIndex: "0"   // Keeping the side nav below the bottom nav
   },
   drawerOpen: {
     width: drawerWidth,

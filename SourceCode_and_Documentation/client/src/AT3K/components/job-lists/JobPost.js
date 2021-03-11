@@ -1,26 +1,11 @@
 import { Button } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { Link } from "react-router-dom";
-
 import styles from "./jobPost.module.scss";
 
-const useStyles = makeStyles({
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
 
 const JobPost = ({
   position,
@@ -35,7 +20,6 @@ const JobPost = ({
   requiredSkills,
   missingSkills
 }) => {
-  const classes = useStyles();
   // const bull = <span className={classes.bullet}>•</span>;
   return (
     <>
@@ -45,7 +29,7 @@ const JobPost = ({
             {position}
           </Typography>
           <Typography variant="body2" component="p">
-            {detail == 1 && (
+            {detail === 1 && (
               <div>
                 Company: {company}
                 <div>
@@ -65,7 +49,7 @@ const JobPost = ({
                 </div>
               </div>
             )}
-            {detail == 2 && (
+            {detail === 2 && (
               <div>
                 <div>
                   <a href={link}>Original post link</a>

@@ -41,7 +41,6 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard }) => {
                         label="Sort by"
                         value={1}
                         onChange={(event) => { }}
-                        label="Sort Boards"
                         items={[
                             { value: 1, text: "Urgency" },
                             { value: 2, text: "Alphabetical A-Z" },

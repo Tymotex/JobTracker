@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-
 import Layout from '../../components/Layout/Layout';
-import { JobList, JobSelectionMenu } from '../components/job-lists';
-
+import { JobList, JobSearchToolbar, JobSelectionMenu } from '../components/job-lists';
 
 const data = [
     {
@@ -124,17 +122,27 @@ const data = [
 
 const JobSearch = () => {
     const [searchQuery, setSearchQuery] = useState("");
+    const [locationQuery, setLocationQuery] = useState("");
+
     const handleSelectCategory = () => {
         setSearchQuery("Software");
     }
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
     }
+    const handleLocationSearch = (event) => {
+        setLocationQuery(event.target.value);
+    }
 
     return (
         <Layout>
             <h1>Job Search</h1>
-            {/* TODO: Search bar should be moved to this component, don't keep it in the children */}
+            <JobSearchToolbar 
+                searchQuery={searchQuery}
+                handleSearch={handleSearch}
+                locationQuery={locationQuery}
+                handleLocationSearch={handleLocationSearch}
+            />
             {(searchQuery === "") ? (
                 <JobSelectionMenu
                     data={data}

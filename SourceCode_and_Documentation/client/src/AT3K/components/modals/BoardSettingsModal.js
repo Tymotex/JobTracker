@@ -1,15 +1,13 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
+import {
+    TextField
+} from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import {
-    TextField,
-    Button,
-    Grid
-} from '@material-ui/core';
-import styles from './Modal.module.scss';
+import Modal from '@material-ui/core/Modal';
+import { makeStyles } from '@material-ui/core/styles';
 import SettingsIcon from '@material-ui/icons/Settings';
+import React from 'react';
+import styles from './Modal.module.scss';
 
 const useStyles = makeStyles((theme) => ({
     modal: {

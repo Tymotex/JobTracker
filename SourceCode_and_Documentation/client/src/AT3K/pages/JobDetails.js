@@ -1,33 +1,25 @@
+import {
+    Button, Grid
+} from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
+import Chip from '@material-ui/core/Chip';
+import {
+    ArrowBack as ArrowBackIcon,
+    AttachMoney as AttachMoneyIcon, CalendarToday as CalendarTodayIcon,
+    EventBusy as EventBusyIcon,
+    Label as LabelIcon, Link as LinkIcon, List as ListIcon, Schedule as ScheduleIcon
+} from '@material-ui/icons';
 import React from 'react';
 import {
     Link
 } from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
-import { JobMap } from '../components/job-map';
+import { JobDetailField } from '../components/job-details';
 import DescriptionSection from '../components/job-details/DescriptionSection';
 import Footer from '../components/job-details/Footer';
-import { JobDetailField } from '../components/job-details';
-
-import {
-    Grid,
-    Button
-} from '@material-ui/core';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-
-import {
-    CalendarToday as CalendarTodayIcon,
-    ArrowBack as ArrowBackIcon,
-    EventBusy as EventBusyIcon,
-    AttachMoney as AttachMoneyIcon,
-    Schedule as ScheduleIcon,
-    List as ListIcon,
-    Link as LinkIcon,
-    Label as LabelIcon,
-    RestoreFromTrashRounded
-} from '@material-ui/icons';
-
+import { JobMap } from '../components/job-map';
 import styles from './JobDetails.module.scss';
+
 
 const jobDetailFields = [
     {
@@ -104,7 +96,11 @@ const Header = () => {
 
                     <Grid item>
                         <div className={styles.iconLabelSet}>
-                            <img src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7" style={companyIconStyle}/>
+                            <img 
+                                src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7" 
+                                style={companyIconStyle}
+                                alt="company icon"
+                            />
                             <a href="/search/company">Whatever company</a>
                         </div>
                         <div className={styles.mainTitle}>

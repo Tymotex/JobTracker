@@ -1,12 +1,10 @@
-import React from 'react';
 import {
-    Box,
     Paper
 } from '@material-ui/core';
+import React from 'react';
 import {
-    ProfileSettings,
     NotificationsSettings,
-    PreferencesSettings,
+    PreferencesSettings, ProfileSettings,
     ThemeSettings
 } from './';
 import styles from './SettingsPanel.module.scss';

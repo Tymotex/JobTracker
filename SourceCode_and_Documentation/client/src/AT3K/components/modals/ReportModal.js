@@ -1,14 +1,12 @@
-import React from 'react';
-import Modal from '@material-ui/core/Modal';
+import {
+    Button
+} from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import {
-    TextField,
-    Button,
-    Grid
-} from '@material-ui/core';
-
+import Modal from '@material-ui/core/Modal';
+import React from 'react';
 import styles from './Modal.module.scss';
+
 
 
 const Option = (props) => {

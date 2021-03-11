@@ -5,11 +5,19 @@ import styles from './Home.module.scss';
 const Home = ({ unknownPath }) => {
     return (
         <Layout>
-            <img className={styles.headerImage} src="https://www.ashdownpeople.com.au/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBb3RKIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--ada3c8dc8b85e0c85ec5de54bf615377d7618fc7/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lPTWpBd01IZzFNREErQmpvR1JWUT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--dd63425399ff8805b68fabd53739560ae8aaa28f/e56a551f"></img>
+            <img 
+                className={styles.headerImage} 
+                src="https://www.ashdownpeople.com.au/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBb3RKIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--ada3c8dc8b85e0c85ec5de54bf615377d7618fc7/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lPTWpBd01IZzFNREErQmpvR1JWUT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--dd63425399ff8805b68fabd53739560ae8aaa28f/e56a551f" 
+                alt="banner"
+            />
             <h1 className={styles.title}>Home</h1>
             <h2 className={styles.welcome}>Welcome to <strong>Job Tracker!</strong></h2>
                 <div className={styles.container}>
-                    <img className={styles.image} src="https://www.mystudenthouse.com.au/wp-content/uploads/2015/09/job-search.jpg"></img>
+                    <img 
+                        className={styles.image} 
+                        src="https://www.mystudenthouse.com.au/wp-content/uploads/2015/09/job-search.jpg"
+                        alt="demo"
+                    />
                     <p className={styles.bodyText}>
                         Job Tracker is your own personalised app that you can use to search and apply for jobs! The app also has many features that can be customised to your preferences without taking away the ease and simplicity of the design.
                         <br></br>

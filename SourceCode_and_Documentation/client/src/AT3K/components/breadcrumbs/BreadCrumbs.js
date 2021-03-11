@@ -23,11 +23,6 @@ const StyledBreadcrumb = withStyles((theme) => ({
     },
 }))(Chip); 
 
-function handleClick(event) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-}
-
 const BreadCrumbs = ({ deselectBoard, name }) => {
     return (
         <Breadcrumbs aria-label="breadcrumb">

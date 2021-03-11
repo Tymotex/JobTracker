@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import React from 'react';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-
 import calendarStyles from './JobCalendar.module.scss';
+
 
 // Google Calendar API documentation: https://developers.google.com/calendar
 // React Calendar component documentation: https://www.npmjs.com/package/react-calendar

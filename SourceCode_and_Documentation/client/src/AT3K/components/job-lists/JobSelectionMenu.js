@@ -1,12 +1,11 @@
 import { Button, Grid } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import CategoryCard from "./CategoryCard";
 import "./JobListPaginator.css";
-import Searchbar from "./searchbar";
-
 import JobPost from "./JobPost";
-
 import styles from "./JobSelectionMenu.module.scss";
+
+
 
 const categories = [
   {
@@ -44,28 +43,11 @@ const categories = [
 ];
 
 const JobSelectionMenu = ({ data, onSearch, searchQuery, handleSelectCategory }) => {
-  const [locationSearch, setLocationSearch] = useState("");
   const head_data = data.slice(0, 3);
 
   return (
     <>
       <Grid container>
-        <Grid item sm={4}>
-          <Searchbar
-            placeholder="Job Search"
-            value={searchQuery}
-            onSearch={onSearch}
-          />
-        </Grid>
-
-        <Grid item sm={4}>
-          <Searchbar
-            placeholder="Location"
-            value={locationSearch}
-            onSearch={onSearch}
-          />
-        </Grid>
-
         <Grid item sm={4}>
           <Button variant="contained" color="primary">Search</Button>
         </Grid>

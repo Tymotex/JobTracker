@@ -75,7 +75,7 @@ const recentJobs = [
 
 
 const Header = () => {
-    const iconSize = "small";
+    // const iconSize = "small";
     const btnStyle = {
         margin: '20px 5px'
     };
@@ -87,10 +87,10 @@ const Header = () => {
         padding: '5px'
     };
 
-    const tagStyle = {
-        height: '30px',
-        margin: '5px'
-    };
+    // const tagStyle = {
+    //     height: '30px',
+    //     margin: '5px'
+    // };
 
 	return (
 		<Grid container direction="column">
@@ -103,7 +103,11 @@ const Header = () => {
 
             <Grid item>
                 <div className={styles.iconLabelSet}>
-                    <img src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7" style={companyIconStyle}/>
+                    <img 
+						src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7" 
+						style={companyIconStyle}
+						alt="Company"
+					/>
                     <div>Whatever company</div>
                 </div>
                 <div className={styles.mainTitle}>

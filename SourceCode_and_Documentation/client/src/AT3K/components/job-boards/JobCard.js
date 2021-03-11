@@ -35,7 +35,8 @@ const JobCard = ({ position, description }) => {
 }
 
 JobCard.propTypes = {
-
+    position: PropTypes.string, 
+    description: PropTypes.string
 }
 
 export default JobCard;

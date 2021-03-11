@@ -1,5 +1,4 @@
 import React from 'react';
-import { JobMap } from '../job-map';
 
 const DescriptionSection = (props) => {
 	const sectionStyles = {

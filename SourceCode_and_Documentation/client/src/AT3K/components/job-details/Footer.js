@@ -1,20 +1,18 @@
+import {
+    Grid
+} from '@material-ui/core';
+import {
+    Email as EmailIcon, Facebook as FacebookIcon,
+
+    LinkedIn as LinkedInIcon, Twitter as TwitterIcon
+} from '@material-ui/icons';
 import React from 'react';
-
 import ReportModal from '../modals/ReportModal.js';
-
 import styles from './Footer.module.scss';
 
-import {
-    Facebook as FacebookIcon,
-    Twitter as TwitterIcon,
-    LinkedIn as LinkedInIcon,
-    Email as EmailIcon,
-} from '@material-ui/icons';
 
-import {
-    Grid,
-    Button
-} from '@material-ui/core';
+
+
 
 const Footer = ({type}) => {
     const fontSize = "large";

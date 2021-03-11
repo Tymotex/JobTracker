@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 
 const Dropdown = ({ label, value, onChange, items }) => {
     return (
-        <FormControl variant="outlined">
+        <FormControl className="form-control" variant="outlined">
             <InputLabel id={label}>{label}</InputLabel>
             <Select
                 labelId={label}
