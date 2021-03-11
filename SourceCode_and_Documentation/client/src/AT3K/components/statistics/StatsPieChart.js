@@ -91,7 +91,7 @@ const pieChartData = [
 const StatsPieChart = ({ theme }) => {
     const [activeIndex, setActiveIndexId] = useState(0);
     return (
-        <PieChart width={200} height={300}>
+        <PieChart width={500} height={300}>
             <Pie
                 activeIndex={activeIndex}
                 activeShape={renderActiveShape}
