@@ -39,17 +39,17 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard }) => {
                     <h2>Personal Boards</h2>
                     <Dropdown 
                         label="Sort by"
-                        value="Urgency"
-                        onChange={(event) => {}}
+                        value={1}
+                        onChange={(event) => { }}
                         label="Sort Boards"
                         items={[
-                            "Urgency", 
-                            "Alphabetical A-Z",
-                            "Alphabetical Z-A",
-                            "Most recent created",
-                            "Least recent created",
-                            "Last modified",
-                            "Most recently changed"
+                            { value: 1, text: "Urgency" },
+                            { value: 2, text: "Alphabetical A-Z" },
+                            { value: 3, text: "Alphabetical Z-A" },
+                            { value: 4, text: "Most recent created" },
+                            { value: 5, text: "Least recent created" },
+                            { value: 6, text: "Last modified" },
+                            { value: 7, text: "Most recently changed" }
                         ]}
                     />
                     <BoardCardGrid

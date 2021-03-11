@@ -43,12 +43,9 @@ const categories = [
   },
 ];
 
-const JobSelectionMenu = ({ data, handleSelectCategory }) => {
-  const [jobSearch, jobsetSearch] = useState("");
+const JobSelectionMenu = ({ data, onSearch, searchQuery, handleSelectCategory }) => {
   const [locationSearch, setLocationSearch] = useState("");
-
   const head_data = data.slice(0, 3);
-  const onSearch = () => { };
 
   return (
     <>
@@ -56,7 +53,7 @@ const JobSelectionMenu = ({ data, handleSelectCategory }) => {
         <Grid item sm={4}>
           <Searchbar
             placeholder="Job Search"
-            value={jobSearch}
+            value={searchQuery}
             onSearch={onSearch}
           />
         </Grid>

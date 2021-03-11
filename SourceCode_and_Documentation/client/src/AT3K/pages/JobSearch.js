@@ -123,21 +123,31 @@ const data = [
 ];
 
 const JobSearch = () => {
-    const [selectedCategory, setCategory] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
     const handleSelectCategory = () => {
-        setCategory("TEST");
+        setSearchQuery("Software");
     }
     const handleSearch = (event) => {
-        setCategory(event.target.value);
+        setSearchQuery(event.target.value);
     }
 
     return (
         <Layout>
             <h1>Job Search</h1>
-            {(selectedCategory === "") ? (
-                <JobSelectionMenu data={data} handleSelectCategory={handleSelectCategory} />
+            {/* TODO: Search bar should be moved to this component, don't keep it in the children */}
+            {(searchQuery === "") ? (
+                <JobSelectionMenu
+                    data={data}
+                    searchValue={searchQuery}
+                    onSearch={handleSearch}
+                    handleSelectCategory={handleSelectCategory}
+                />
             ) : (
-                <JobList data={data} searchValue={selectedCategory} onSearch={handleSearch} />
+                <JobList
+                    data={data}
+                    searchValue={searchQuery}
+                    onSearch={handleSearch}
+                />
             )}
         </Layout>
     );
