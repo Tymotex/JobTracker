@@ -8,32 +8,77 @@ const data = [
     {
         position: "Graduate software engineer",
         company: "Canva",
-        description: "This is some random descriptions about the job",
-        link: "https://www.google.com"
+        description: "This is some random description about the job",
+        link: "https://www.google.com",
+        salary: "$50000/yr",
+        deadline: "Tomorrow",
+        location: "Sydney, NSW",
+        postedDate: "Yesterday",
+        missingSkills: [
+            "React",
+            "Express",
+            "MongoDB"
+        ]
     },
     {
         position: "Security engineer",
         company: "Citadel",
-        description: "This is some random descriptions about the job",
-        link: "www.google.com"
+        description: "This is some random description about the job",
+        link: "https://www.google.com",
+        salary: "$50000/yr",
+        deadline: "Tomorrow",
+        location: "Sydney, NSW",
+        postedDate: "Yesterday",
+        missingSkills: [
+            "React",
+            "Express",
+            "MongoDB"
+        ]
     },
     {
         position: "Techlead",
         company: "Google",
-        description: "This is some random descriptions about the job",
-        link: "www.google.com"
+        description: "This is some random description about the job",
+        link: "https://www.google.com",
+        salary: "$50000/yr",
+        deadline: "Tomorrow",
+        location: "Sydney, NSW",
+        postedDate: "Yesterday",
+        missingSkills: [
+            "React",
+            "Express",
+            "MongoDB"
+        ]
     },
     {
         position: "Techlead",
         company: "Google",
-        description: "This is some random descriptions about the job",
-        link: "www.google.com"
+        description: "This is some random description about the job",
+        link: "https://www.google.com",
+        salary: "$50000/yr",
+        deadline: "Tomorrow",
+        location: "Sydney, NSW",
+        postedDate: "Yesterday",
+        missingSkills: [
+            "React",
+            "Express",
+            "MongoDB"
+        ]
     },
     {
         position: "Techlead",
         company: "Google",
-        description: "This is some random descriptions about the job",
-        link: "www.google.com"
+        description: "This is some random description about the job",
+        link: "https://www.google.com",
+        salary: "$50000/yr",
+        deadline: "Tomorrow",
+        location: "Sydney, NSW",
+        postedDate: "Yesterday",
+        missingSkills: [
+            "React",
+            "Express",
+            "MongoDB"
+        ]
     },
 ];
 

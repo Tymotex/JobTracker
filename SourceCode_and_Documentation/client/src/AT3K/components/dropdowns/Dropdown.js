@@ -6,30 +6,29 @@ import {
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const BoardDropdown = ({ label, text, value, onChange, items }) => {
+const Dropdown = ({ label, value, onChange, items }) => {
     return (
         <FormControl variant="outlined">
             <InputLabel id={label}>{label}</InputLabel>
             <Select
                 labelId={label}
-                value={value.toLowerCase()}
+                value={value ? value.toString().toLowerCase() : ""}
                 onChange={onChange}
                 label={label}
             >
             {items.map((eachItem) => (
-                <MenuItem value={eachItem.toLowerCase()}>{eachItem}</MenuItem>
+                <MenuItem value={eachItem.value}>{eachItem.text}</MenuItem>
             ))}
             </Select>
         </FormControl>
     )
 }
 
-BoardDropdown.propTypes = {
+Dropdown.propTypes = {
     label: PropTypes.string, 
-    text: PropTypes.string,
     value: PropTypes.string, 
     onChange: PropTypes.func, 
     items: PropTypes.array
 };
 
-export default BoardDropdown;
+export default Dropdown;

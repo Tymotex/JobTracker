@@ -1,7 +1,7 @@
 import { Button, Grid } from "@material-ui/core";
 import React, { useState } from "react";
 import ImgMediaCard from "./imgMediaCard";
-import "./JobList.css";
+import "./JobListPaginator.css";
 import Searchbar from "./searchbar";
 
 import JobPost from "./JobPost";
