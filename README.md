@@ -3,7 +3,7 @@
 This is a web app that scrapes together job postings from major job-hunting platforms like Indeed, Monster, etc. and provides automation services for the user to track their application for postings they are interested in.  
 
 ### Team AT3K:
-- Arthur Wang
+- Arthur Wang (z5257096)
 - Katrina Ding (z5211336)
 - Kaivalya Soman (z5259102)
 - Kelly Zhou (z5257986)
