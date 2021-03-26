@@ -4,15 +4,32 @@ experiments.
 """
 from flask import (
     Blueprint,
-    render_template
+    render_template,
+    request
 )
 from JobTracker.utils.colourisation import printColoured
 
-test_router = Blueprint("test", __name__)
+landing_router = Blueprint("test", __name__)
 
-@test_router.route("/")
+@landing_router.route("/")
 def index():
     """ Landing page """
+    namespaces = [
+        "jobs",
+        "user",
+        "auth",
+        "stats",
+        "job"
+    ]
     return render_template(
-        "landing.html"
+        "landing.html",
+        namespaces=[ 
+            "{}{}/{}/{}".format(
+                request.base_url, 
+                "api", 
+                namespace,
+                "doc"
+            ) 
+            for namespace in namespaces 
+        ]
     )

@@ -6,9 +6,13 @@
     <body>
         <div>
             <h1>Landing page!</h1>
-            <p>
-                The server is alive and responding
-            </p>
+            <ul>
+                {% for namespace in namespaces %}
+                    <li>
+                        <a href="{{ namespace }}">{{ namespace }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
     </body>
 </html>

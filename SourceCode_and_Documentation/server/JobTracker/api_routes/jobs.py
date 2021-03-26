@@ -21,7 +21,7 @@ jobs_api = Api(
 )
 
 @jobs_api.route('/')
-class HelloWorld(Resource):
+class JobPostSearch(Resource):
     """ 
         Endpoint: /jobs
 
@@ -47,6 +47,5 @@ class HelloWorld(Resource):
                     "company": "canva"
                 }
             ]
-        }    # Assumes you are returning JSON
-
+        }   
 
