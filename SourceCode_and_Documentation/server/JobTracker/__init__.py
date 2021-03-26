@@ -5,13 +5,14 @@ This is the root package where:
 - The environment variables are loaded from either .env.development or .env.production
   in the same directory
 """
-from flask import Flask
+from flask import Flask, Blueprint
 from dotenv import load_dotenv
 from pathlib import Path 
 from JobTracker.utils.colourisation import printColoured
 from flask_pymongo import PyMongo
 from JobTracker.exceptions import error_handler
 from oauthlib.oauth2 import WebApplicationClient
+from flask_restplus import Api, Resource
 import pymongo
 import os
 
@@ -22,7 +23,17 @@ load_dotenv(dotenv_path=env_path)
 
 # Creating the Flask app instance
 printColoured(" * Initialising Flask application")
+
 app = Flask(__name__)
+
+# blueprint = Blueprint("api", __name__, url_prefix="/api")
+
+# api = Api(blueprint, doc="/doc")
+
+# app.register_blueprint(blueprint)
+
+app.config["SWAGGER_UI_JSONEDITOR"] = True
+
 
 # ===== App Configuration =====
 

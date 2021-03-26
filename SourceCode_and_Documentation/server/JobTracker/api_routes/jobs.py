@@ -8,11 +8,20 @@ from flask import (
     jsonify
 )
 from JobTracker.utils.colourisation import printColoured
+from flask_restplus import Resource, Api, Namespace
 
 jobs_router = Blueprint("jobs", __name__)
+jobs_api = Api(
+    jobs_router, 
+    doc="/doc",
+    title="Job Post Search",
+    description="Routes for retrieving job postings",
+    default="/api/jobs",
+    default_label="Job Post Search Namespace",
+)
 
-@jobs_router.route("/")
-def index():
+@jobs_api.route('/')
+class HelloWorld(Resource):
     """ 
         Endpoint: /jobs
 
@@ -31,11 +40,13 @@ def index():
                     ...
                 ]
     """
-    return jsonify({
-        "jobs": [
-            {
-                "company": "canva"
-            }
-        ]
-    })
+    def get(self):
+        return {
+            "jobs": [
+                {
+                    "company": "canva"
+                }
+            ]
+        }    # Assumes you are returning JSON
+
 
