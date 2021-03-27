@@ -19,7 +19,8 @@ def index():
         "user",
         "auth",
         "stats",
-        "job"
+        "job",
+        "tracker"
     ]
     return render_template(
         "landing.html",

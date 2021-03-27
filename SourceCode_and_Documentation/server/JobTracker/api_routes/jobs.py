@@ -8,7 +8,7 @@ from flask import (
     jsonify
 )
 from JobTracker.utils.colourisation import printColoured
-from flask_restplus import Resource, Api, Namespace
+from flask_restplus import Resource, Api, fields
 
 jobs_router = Blueprint("jobs", __name__)
 jobs_api = Api(
@@ -20,26 +20,29 @@ jobs_api = Api(
     default_label="Job Post Search Namespace",
 )
 
+# Data model definitions
+user_fields = jobs_api.model("User", {
+    "skills": fields.String,
+    # TODO: Need more here!
+})
+
+search_fields = jobs_api.model("SearchFields", {
+    "sorting_strategy": fields.String,
+    "reverse": fields.Boolean,
+    "user_profile": fields.Nested(user_fields)
+    # TODO: Need more here!
+})
+
+response_fields = jobs_api.model("JobPostings", {
+    "position_name": fields.String,
+    # TODO: Need more here!
+})
+
+# RESTful route handlers:
 @jobs_api.route('/')
 class JobPostSearch(Resource):
-    """ 
-        Endpoint: /jobs
-
-        Getting job postings from APIs here:
-            https://blog.api.rakuten.net/top-10-best-jobs-apis-linkedin-indeed-glassdoor-and-others/ 
-            https://www.programmableweb.com/news/top-10-apis-jobs/brief/2020/02/23 
-
-        TODO:
-            Think about what paramters this route should take.
-            Eg. /jobs?num_postings=10&sort_strategy=most_recent
-        
-        TODO: 
-            Think about what info the job posting should contain:
-                [
-                    { ... what goes here? }, 
-                    ...
-                ]
-    """
+    @jobs_api.marshal_list_with(response_fields)
+    @jobs_api.expect(search_fields)
     def get(self):
         return {
             "jobs": [

@@ -8,34 +8,41 @@ from flask import (
     jsonify
 )
 from JobTracker.utils.colourisation import printColoured
+from flask_restplus import Resource, Api, fields
 
 tracker_router = Blueprint("tracker", __name__)
+tracker_api = Api(
+    tracker_router, 
+    doc="/doc",
+    title="Job Posting Tracking",
+    description="Routes for managing the user's boards and job tracking automation",
+    default="/api/tracking",
+    default_label="Job board automation",
+)
 
-@tracker_router.route("/")
-def index():
-    """ 
-        Endpoint: /user/jobs
+# Data model definitions
+board_fields = tracker_api.model("Board", {
+    "position_name": fields.String,
+    "deadline": fields.String
+})
 
-        Getting job postings from APIs here:
-            https://blog.api.rakuten.net/top-10-best-jobs-apis-linkedin-indeed-glassdoor-and-others/ 
-            https://www.programmableweb.com/news/top-10-apis-jobs/brief/2020/02/23 
+authorisation_fields = tracker_api.model("Auth", {
+    "user_id": fields.String,
+    "token": fields.String,
+    "board_id": fields.String
+}) 
 
-        TODO:
-            Think about what paramters this route should take.
-            Eg. /jobs?num_postings=10&sort_strategy=most_recent
-        
-        TODO: 
-            Think about what info the job posting should contain:
-                [
-                    { ... what goes here? }, 
-                    ...
-                ]
-    """
-    return jsonify({
-        "jobs": [
-            {
-                "company": "canva"
-            }
-        ]
-    })
+# RESTful route handlers:
+@tracker_api.route("/")
+class Tracker(Resource):
+    @tracker_api.marshal_list_with(board_fields)
+    @tracker_api.expect(authorisation_fields)
+    def get(self):
+        return jsonify({
+            "jobs": [
+                {
+                    "company": "canva"
+                }
+            ]
+        })
 

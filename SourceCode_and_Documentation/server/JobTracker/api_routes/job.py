@@ -20,6 +20,10 @@ job_api = Api(
     default_label="Job posting",
 )
 
+# Data model definitions
+
+
+# RESTful route handlers:
 @job_api.route('/')
 class JobPostDetail(Resource):
     def get(self):

@@ -20,6 +20,10 @@ stats_api = Api(
     default_label="Job statistics",
 )
 
+# Data model definitions
+
+
+# RESTful route handlers:
 @stats_api.route('/')
 class Stats(Resource):
     def get(self):
