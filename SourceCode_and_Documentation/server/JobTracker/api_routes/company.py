@@ -10,13 +10,13 @@ from flask import (
 from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, Namespace
 
-job_router = Blueprint("job", __name__)
-job_api = Api(
-    job_router, 
+company_router = Blueprint("company", __name__)
+company_api = Api(
+    company_router, 
     doc="/doc",
     title="Job Post Details",
     description="Routes for fetching specific details on a job posting",
-    default="/api/job",
+    default="/api/company",
     default_label="Job posting",
 )
 
@@ -24,8 +24,8 @@ job_api = Api(
 
 
 # RESTful route handlers:
-@job_api.route('/')
-class JobPostDetail(Resource):
+@company_api.route('/')
+class CompanyFetch(Resource):
     def get(self):
         return {
             "details": {

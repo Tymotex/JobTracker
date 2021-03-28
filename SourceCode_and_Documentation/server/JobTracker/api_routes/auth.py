@@ -8,7 +8,7 @@ from flask import (
     jsonify
 )
 from JobTracker.utils.colourisation import printColoured
-from flask_restplus import Resource, Api, fields
+from flask_restx import Resource, Api, fields
 
 
 
@@ -63,4 +63,3 @@ class AuthenticationLogin(Resource):
                 
             }
         }   
-

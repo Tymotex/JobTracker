@@ -8,7 +8,7 @@ from flask import (
     jsonify
 )
 from JobTracker.utils.colourisation import printColoured
-from flask_restplus import Resource, Api, fields
+from flask_restx import Resource, Api, fields
 
 jobs_router = Blueprint("jobs", __name__)
 jobs_api = Api(
@@ -43,7 +43,7 @@ response_fields = jobs_api.model("JobPostings", {
 class JobPostSearch(Resource):
     @jobs_api.marshal_list_with(response_fields)
     @jobs_api.expect(search_fields)
-    def get(self):
+    def get(self):  
         return {
             "jobs": [
                 {
@@ -51,4 +51,4 @@ class JobPostSearch(Resource):
                 }
             ]
         }   
-
+    

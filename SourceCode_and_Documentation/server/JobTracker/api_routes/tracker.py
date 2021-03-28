@@ -8,7 +8,7 @@ from flask import (
     jsonify
 )
 from JobTracker.utils.colourisation import printColoured
-from flask_restplus import Resource, Api, fields
+from flask_restx import Resource, Api, fields
 
 tracker_router = Blueprint("tracker", __name__)
 tracker_api = Api(

@@ -8,7 +8,7 @@ from flask import (
     jsonify
 )
 from JobTracker.utils.colourisation import printColoured
-from flask_restplus import Resource, Api, fields
+from flask_restx import Resource, Api, fields
 
 user_router = Blueprint("user", __name__)
 user_api = Api(
@@ -35,6 +35,7 @@ class UserJobProfile(Resource):
             "token": "JWT token"
         }
     )
+    
     @user_api.marshal_with(user_fields)
     def get(self):
         return {

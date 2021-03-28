@@ -12,7 +12,7 @@ from JobTracker.utils.colourisation import printColoured
 from flask_pymongo import PyMongo
 from JobTracker.exceptions import error_handler
 from oauthlib.oauth2 import WebApplicationClient
-from flask_restplus import Api, Resource
+from flask_restx import Api, Resource
 import pymongo
 import os
 
