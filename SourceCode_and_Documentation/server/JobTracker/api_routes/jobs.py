@@ -34,7 +34,15 @@ def index():
     return jsonify({
         "jobs": [
             {
-                "company": "canva"
+                "id": "12345",
+                "url": "google.com",
+                "title": "software engineer",
+                "description": "a job for software engineers",
+                "company": "google",
+                "date": "30/03/21",
+                "location": "sydney, nsw, australia",
+                "salary": "70000",
+                "job type": "full time"
             }
         ]
     })
