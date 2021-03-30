@@ -27,17 +27,23 @@ stats_api = Api(
 # Data model definitions
 search_fields = jobs_api.model("SearchFields", {
     "career_type": fields.String,
+})
+
+
+#How to do fields.list of lists?
+
+response_fields = jobs_api.model("Statistics", {
+    "growth_data": fields.List(fields.List(fields.Integer)),
+    "popular_skills" fields.List(fields.String) ,
     # TODO: Need more here!
 })
 
-response_fields = jobs_api.model("JobPostings", {
-    "position_name": fields.String,1
-    # TODO: Need more here!
-})
 
 # RESTful route handlers:
 @stats_api.route('/')
 class Stats(Resource):
+    @jobs_api.marshal_list_with(response_fields)
+    @jobs_api.expect(search_fields)
     def get(self):
         return {
             "stats": []
