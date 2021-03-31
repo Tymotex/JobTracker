@@ -7,6 +7,10 @@ from flask import (
     request,
     jsonify
 )
+from JobTracker.database_ops import (
+    add_user,
+    login_user
+)
 from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, fields
 
@@ -31,35 +35,44 @@ session_fields = auth_api.model("User", {
 # RESTful route handlers:
 @auth_api.route('/register')
 class AuthenticationRegister(Resource):
-    @auth_api.marshal_with(session_fields)
-    @auth_api.doc(
-        description="Registration",
-        params={
-            "username": "Registered username",
-            "email": "Registration email",
-            "password": "Password"
-        }
-    )
+    # @auth_api.marshal_with(session_fields)
+    # @auth_api.doc(
+    #     description="Registration",
+    #     params={
+    #         "username": "Registered username",
+    #         "email": "Registration email",
+    #         "password": "Password"
+    #     }
+    # )
     def post(self):
+        printColoured(" * Registering a new user", colour="yellow")
+        request_params = dict(request.form)
+        username = request_params["username"]
+        email = request_params["email"]
+        password = request_params["password"]
+        user_id = add_user(username, email, password)
         return {
-            "username": {
-                
-            }
+            "user_id": user_id,
+            "token": "EMPTY"
         }   
 
 @auth_api.route('/login')
 class AuthenticationLogin(Resource):
-    @auth_api.marshal_with(session_fields)
-    @auth_api.doc(
-        description="Login",
-        params={
-            "email": "Login email",
-            "password": "Login password"
-        }
-    )
+    # @auth_api.marshal_with(session_fields)
+    # @auth_api.doc(
+    #     description="Login",
+    #     params={
+    #         "email": "Login email",
+    #         "password": "Login password"
+    #     }
+    # )
     def post(self):
+        printColoured(" * Logging in a user", colour="yellow")
+        request_params = dict(request.form)
+        email = request_params["email"]
+        password = request_params["password"]
+        user_id = login_user(email, password)
         return {
-            "username": {
-                
-            }
+            "user_id": user_id,
+            "token": "EMPTY"
         }   

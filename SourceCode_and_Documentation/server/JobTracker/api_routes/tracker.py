@@ -7,6 +7,13 @@ from flask import (
     request,
     jsonify
 )
+from JobTracker.database_ops import (
+    add_job,
+    get_board
+)
+from JobTracker.exceptions import (
+    InvalidUserInput
+)
 from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, fields
 
@@ -35,14 +42,40 @@ authorisation_fields = tracker_api.model("Auth", {
 # RESTful route handlers:
 @tracker_api.route("/")
 class Tracker(Resource):
-    @tracker_api.marshal_list_with(board_fields)
-    @tracker_api.expect(authorisation_fields)
+    # @tracker_api.marshal_list_with(board_fields)
+    # @tracker_api.expect(authorisation_fields)
     def get(self):
-        return jsonify({
-            "jobs": [
-                {
-                    "company": "canva"
-                }
-            ]
-        })
+        """
+            Fetches the list of tracked jobs for a specific board owned by a user
+            Parameters:
+                - user_id
+                - board_id
+        """
+        printColoured(" * Retrieving specific board", colour="yellow")
+        request_params = dict(request.args)
+        user_id = request_params["user_id"]
+        board_id = request_params["board_id"]
+        board = get_board(user_id, board_id)
+        return board
 
+    def post(self):
+        """
+            Pushes a new job to be tracked under a specific board owned by a user
+            Parameters:
+                - user_id
+                - board_id
+                - job_to_track
+        """
+        # TODO: Error handling
+        printColoured(" * Tracking a new job", colour="yellow")
+        request_params = dict(request.get_json())
+        try:
+            board_id = request_params["board_id"]
+            user_id = request_params["user_id"]
+            job_to_track = request_params["job_to_track"]
+        except KeyError as err:
+            raise InvalidUserInput(description="Missing mandatory fields: {}".format(err))
+        
+        return add_job(board_id, user_id, job_to_track)
+
+        

@@ -133,7 +133,7 @@ const JobSearch = () => {
         const results_per_page = "10";
         const page = "1";
         // const sort_criteria = "relevance";
-        
+
         axios.get(`
             ${api.BASE_URL}/api/jobs?location=${locationQuery}&query=${searchQuery}&results_per_page=${resultsPerPage}&page=${newPageNum}
         `).then((response) => {
@@ -158,11 +158,6 @@ const JobSearch = () => {
 
     // ===== GET /api/jobs =====
 
-    // let jobList = [];
-    
-    
-
-    
     
 
     // =========================

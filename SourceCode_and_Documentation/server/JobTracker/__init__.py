@@ -18,7 +18,6 @@ import pymongo
 import os
 
 # Setting the environment variables:
-# env_path = Path('.') / '.env.{}'.format(os.getenv("GALACTIC_ED_DEV_MODE"))
 env_path = Path('.') / '.env.{}'.format("development")
 load_dotenv(dotenv_path=env_path)
 
@@ -49,8 +48,10 @@ app.register_error_handler(Exception, error_handler)
 # client = pymongo.MongoClient("")
 
 # Creating the database handler:
-# db = client[""]
-db = {}
+client = pymongo.MongoClient("mongodb+srv://tim:1984@jobtrackercluster.vznsj.mongodb.net/jobtracker?retryWrites=true&w=majority")
+
+# Creating the database handler:
+db = client["jobtracker"]
 
 # The routes must be imported after the Flask application object is created. See https://flask.palletsprojects.com/en/1.1.x/patterns/packages/
 import JobTracker.routes
