@@ -8,17 +8,17 @@ import styles from "./jobPost.module.scss";
 
 
 const JobPost = ({
-  position,
+  detailLevel,
+  title,
   company,
-  link,
-  detail,
+  locations,
+  url,
   description,
   salary,
-  deadline,
-  location,
-  postedDate,
-  requiredSkills,
-  missingSkills
+  // deadline,
+  date,
+  // requiredSkills,
+  // missingSkills
 }) => {
   // const bull = <span className={classes.bullet}>•</span>;
   return (
@@ -26,51 +26,51 @@ const JobPost = ({
       <Card className={`${styles.card}`}>
         <CardContent>
           <Typography variant="h5" component="h2">
-            {position}
+            {title}
           </Typography>
           <Typography variant="body2" component="p">
-            {detail === 1 && (
+            {detailLevel === 1 && (
               <div>
                 Company: {company}
                 <div>
-                  <a href={link}>Original post link</a>
+                  <a href={url}>Original post link</a>
                 </div>
                 <div>
                   Salary: {salary}
                 </div>
-                <div>
+                {/* <div>
                   Deadline: {deadline}
+                </div> */}
+                <div>
+                  Location: {locations}
                 </div>
                 <div>
-                  Location: {location}
-                </div>
-                <div>
-                  Posted date: {postedDate}
+                  Posted date: {date}
                 </div>
               </div>
             )}
-            {detail === 2 && (
+            {detailLevel === 2 && (
               <div>
                 <div>
-                  <a href={link}>Original post link</a>
+                  <a href={url}>Original post link</a>
                 </div>
                 <span className={styles.field}>Company: </span>{company}
                 <div>
                   <span className={styles.field}>Salary:</span> {salary}
                 </div>
-                <div>
+                {/* <div>
                   <span className={styles.field}>Deadline:</span> {deadline}
+                </div> */}
+                <div>
+                  <span className={styles.field}>Location:</span> {locations}
                 </div>
                 <div>
-                  <span className={styles.field}>Location:</span> {location}
-                </div>
-                <div>
-                  <span className={styles.field}>Posted date:</span> {postedDate}
+                  <span className={styles.field}>Posted date:</span> {date}
                 </div>
                 <div>
                   <span className={styles.field}>Description:</span> {description}
                 </div>
-                {requiredSkills && (
+                {/* {requiredSkills && (
                   <div>
                     <span className={styles.field}>Required skills:</span>
                     <ul>
@@ -93,7 +93,7 @@ const JobPost = ({
                       ))}
                     </ul>
                   </div>
-                )}
+                )} */}
               </div>
             )}
             <div>

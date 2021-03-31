@@ -9,22 +9,28 @@ import {
     JobList, JobSpreadsheet
 } from '../components/job-boards';
 
-const JobDashboardWorkspace = ({ boardType, selectedBoard, jobPostings, handleChangeBoard, handleDeselectBoard }) => {
+
+const JobDashboardWorkspace = ({ 
+    boardType, 
+    selectedBoard, 
+    jobPostings, 
+    handleChangeBoard, 
+    handleDeselectBoard 
+}) => {
     return (
         <div>
             <BreadCrumbs deselectBoard={handleDeselectBoard} name={selectedBoard} />
             <h1>Dashboard</h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             <BoardToolbar 
                 boardType={boardType}
                 handleChangeBoard={handleChangeBoard}
             />
-            
             {boardType === "spreadsheet" && (
                 <>
-                    <JobSpreadsheet />
+                    <JobSpreadsheet 
+                        
+                    />
                 </>
             )}
             {boardType === "board" && (

@@ -1,33 +1,41 @@
 import { Grid } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dropdown } from "../dropdowns";
 import styles from './JobList.module.scss';
 import JobListPaginator from './JobListPaginator';
 import JobPost from "./JobPost";
+import axios from 'axios';
+import api from '../../constants/api';
 
-const JobList = ({ data, searchValue, onSearch }) => {
+const JobList = ({ fetchJobPosts, pageNum, searchValue, onSearch }) => {
 	// Dropdown states:
 	const [detailLevel, setDetailLevel] = useState(1);
 	const [sortStrategy, setSortStrategy] = useState(1);
-	
+	const [jobList, setJobList] = useState([]);
 	// Paginator states 
 	const [offset, setOffset] = useState(0);
 	// const [pageCount, setPageCount] = useState(100);
-	const pageCount = 100;
-	const [itemsPerPage, setItemsPerPage] = useState(3);
+	const pageCount = 10;
+	const [itemsPerPage, setItemsPerPage] = useState(10);
+	// const [pageNumber, setPageNumber] = useState(1);
+	const resultsPerPage = 10;
 
-	const [currentData, setCurrent_data] = useState(
-		data.slice(offset, offset + itemsPerPage)
-	);
+	
+    useEffect(() => {
+		alert("RENDERING JOB LIST");
+        fetchJobPosts(setJobList, 1, resultsPerPage);
+    }, []);
 
+	// Handler for when the user clicks on a different page number
 	const handlePageClick = (d) => {
-		console.log(d);
-		let selected = d.selected;
-		let newOffset = Math.ceil(selected * itemsPerPage);
-		setOffset(newOffset);
-		setCurrent_data(data.slice(newOffset, newOffset + itemsPerPage));
+		setJobList([]);
+		fetchJobPosts(setJobList, d.selected + 1, resultsPerPage);
+		// let newOffset = Math.ceil(selected * itemsPerPage);
+		// setOffset(newOffset);
+		// setCurrent_data(jobList.slice(newOffset, newOffset + itemsPerPage));
 	};
 
+	const isLoading = (jobList && jobList.length <= 0);
 	return (
 		<>
 			<Grid container spacing={2}>
@@ -73,15 +81,19 @@ const JobList = ({ data, searchValue, onSearch }) => {
 					/>
 				</Grid>
 			</Grid>
-			<JobListPaginator 
+			<JobListPaginator
+				currPage={pageNum} 
 				pageCount={pageCount}
 				handlePageClick={handlePageClick}
 			/>
 			<br></br>
+			{isLoading && (
+				<div>Loading...</div>
+			)}
 			<Grid className={styles.jobList} container>
-				{currentData.map((eachJobPost) => (
+				{jobList.map((eachJobPost) => (
 					<Grid className={styles.jobCard} item xs={12} sm={6} md={6} lg={4} >
-						<JobPost {...eachJobPost} detail={detailLevel} />
+						<JobPost {...eachJobPost} detailLevel={detailLevel} />
 					</Grid>
 				))}
 			</Grid>

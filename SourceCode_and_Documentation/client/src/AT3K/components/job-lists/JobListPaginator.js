@@ -5,7 +5,7 @@ import {
     BottomNav
 } from '../menus';
 
-const JobListPaginator = ({ pageCount, handlePageClick }) => {
+const JobListPaginator = ({ currPage, pageCount, handlePageClick }) => {
     return (
         <>
 
@@ -13,6 +13,7 @@ const JobListPaginator = ({ pageCount, handlePageClick }) => {
                 <BottomNav>
                 <ReactPaginate
                     className="bottomNavPaginator"
+                    initialSelected={currPage}
                     previousLabel={<ChevronLeft />}
                     nextLabel={<ChevronRight />}
                     breakLabel={"..."}

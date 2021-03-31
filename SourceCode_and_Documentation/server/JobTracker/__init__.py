@@ -13,6 +13,7 @@ from flask_pymongo import PyMongo
 from JobTracker.exceptions import error_handler
 from oauthlib.oauth2 import WebApplicationClient
 from flask_restx import Api, Resource
+from flask_cors import CORS
 import pymongo
 import os
 
@@ -25,6 +26,7 @@ load_dotenv(dotenv_path=env_path)
 printColoured(" * Initialising Flask application")
 
 app = Flask(__name__)
+cors = CORS(app)
 
 # blueprint = Blueprint("api", __name__, url_prefix="/api")
 

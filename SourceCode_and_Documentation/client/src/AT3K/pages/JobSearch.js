@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../../components/Layout/Layout';
 import { JobList, JobSearchToolbar, JobSelectionMenu } from '../components/job-lists';
+import axios from 'axios';
+import api from '../constants/api';
 
 const data = [
     {
@@ -123,6 +125,26 @@ const data = [
 const JobSearch = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [locationQuery, setLocationQuery] = useState("");
+    const [pageNum, setPageNum] = useState(1);
+
+    const fetchJobPosts = (setJobList, newPageNum, resultsPerPage) => {
+        const location = "sydney";
+        const query = "software";
+        const results_per_page = "10";
+        const page = "1";
+        // const sort_criteria = "relevance";
+        
+        axios.get(`
+            ${api.BASE_URL}/api/jobs?location=${locationQuery}&query=${searchQuery}&results_per_page=${resultsPerPage}&page=${newPageNum}
+        `).then((response) => {
+            console.log(response.data.jobs);
+            setPageNum(newPageNum);
+            setJobList(response.data.jobs);
+        }).catch((err) => {
+            alert(`Failed to GET ${api.BASE_URL}/api/jobs: ` + err.message);
+        });
+    }
+
 
     const handleSelectCategory = () => {
         setSearchQuery("Software");
@@ -133,6 +155,17 @@ const JobSearch = () => {
     const handleLocationSearch = (event) => {
         setLocationQuery(event.target.value);
     }
+
+    // ===== GET /api/jobs =====
+
+    // let jobList = [];
+    
+    
+
+    
+    
+
+    // =========================
 
     return (
         <Layout>
@@ -152,7 +185,9 @@ const JobSearch = () => {
                 />
             ) : (
                 <JobList
-                    data={data}
+                    // jobList={jobList}
+                    pageNum={pageNum}
+                    fetchJobPosts={fetchJobPosts}
                     searchValue={searchQuery}
                     onSearch={handleSearch}
                 />
