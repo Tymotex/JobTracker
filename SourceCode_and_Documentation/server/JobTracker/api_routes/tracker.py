@@ -8,8 +8,7 @@ from flask import (
     jsonify
 )
 from JobTracker.database_ops import (
-    add_job,
-    get_board
+    add_job
 )
 from JobTracker.exceptions import (
     InvalidUserInput
@@ -42,22 +41,6 @@ authorisation_fields = tracker_api.model("Auth", {
 # RESTful route handlers:
 @tracker_api.route("/")
 class Tracker(Resource):
-    # @tracker_api.marshal_list_with(board_fields)
-    # @tracker_api.expect(authorisation_fields)
-    def get(self):
-        """
-            Fetches the list of tracked jobs for a specific board owned by a user
-            Parameters:
-                - user_id
-                - board_id
-        """
-        printColoured(" * Retrieving specific board", colour="yellow")
-        request_params = dict(request.args)
-        user_id = request_params["user_id"]
-        board_id = request_params["board_id"]
-        board = get_board(user_id, board_id)
-        return board
-
     def post(self):
         """
             Pushes a new job to be tracked under a specific board owned by a user

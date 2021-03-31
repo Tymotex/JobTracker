@@ -9,7 +9,8 @@ from flask import (
 )
 from JobTracker.database_ops import (
     get_boards,
-    create_board
+    create_board,
+    get_board
 )
 from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, fields
@@ -74,3 +75,21 @@ class UserBoardManagement(Resource):
         return {
             "board_id": board_id
         }
+
+@user_api.route("/board")
+class UserBoard(Resource):
+    def get(self):
+        """
+            Retrieves a specific board
+            Parameters: 
+                - user_id
+                - board_id
+        """
+        printColoured(" * Retrieving specific board", colour="yellow")
+        request_params = dict(request.args)
+        user_id = request_params["user_id"]
+        board_id = request_params["board_id"]
+        board = get_board(user_id, board_id)
+        return board
+
+        
