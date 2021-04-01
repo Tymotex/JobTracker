@@ -25,7 +25,7 @@ load_dotenv(dotenv_path=env_path)
 printColoured(" * Initialising Flask application")
 
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app)
 
 # blueprint = Blueprint("api", __name__, url_prefix="/api")
 

@@ -1,19 +1,17 @@
 import { Grid } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Dropdown } from "../dropdowns";
 import styles from './JobList.module.scss';
 import JobListPaginator from './JobListPaginator';
 import JobPost from "./JobPost";
-import axios from 'axios';
-import api from '../../constants/api';
 
-const JobList = ({ fetchJobPosts, pageNum, searchValue, onSearch }) => {
+const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearch }) => {
 	// Dropdown states:
 	const [detailLevel, setDetailLevel] = useState(1);
 	const [sortStrategy, setSortStrategy] = useState(1);
 	const [jobList, setJobList] = useState([]);
 	// Paginator states 
-	const [offset, setOffset] = useState(0);
+	// const [offset, setOffset] = useState(0);
 	// const [pageCount, setPageCount] = useState(100);
 	const pageCount = 10;
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -93,7 +91,7 @@ const JobList = ({ fetchJobPosts, pageNum, searchValue, onSearch }) => {
 			<Grid className={styles.jobList} container>
 				{jobList.map((eachJobPost) => (
 					<Grid className={styles.jobCard} item xs={12} sm={6} md={6} lg={4} >
-						<JobPost {...eachJobPost} detailLevel={detailLevel} />
+						<JobPost {...eachJobPost} selectedBoardID={selectedBoardID} detailLevel={detailLevel} />
 					</Grid>
 				))}
 			</Grid>

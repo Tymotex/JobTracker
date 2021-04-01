@@ -16,9 +16,9 @@ const Dropdown = ({ label, value, onChange, items }) => {
                 onChange={onChange}
                 label={label}
             >
-            {items.map((eachItem) => (
-                <MenuItem value={eachItem.value}>{eachItem.text}</MenuItem>
-            ))}
+                {items && items.map((eachItem) => (
+                    <MenuItem value={eachItem.value}>{eachItem.text}</MenuItem>
+                ))}
             </Select>
         </FormControl>
     )

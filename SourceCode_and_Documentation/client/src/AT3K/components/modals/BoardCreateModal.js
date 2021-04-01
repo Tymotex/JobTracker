@@ -8,7 +8,9 @@ import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import styles from './Modal.module.scss';
-
+import axios from 'axios';
+import api from '../../constants/api';
+import Cookie from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -22,9 +24,37 @@ const useStyles = makeStyles((theme) => ({
 // Modals are repetitive.
 // Maybe extract most of the html to a base component
 
-
-export default function TransitionsModal({ open, handleClose }) {
+export default function TransitionsModal({ open, handleClose, updateBoardList }) {
     const classes = useStyles();
+
+    // ===== POST /api/boards =====
+
+    const createBoard = (event) => {
+		event.preventDefault();
+		const formData = new FormData(event.target);
+        const userID = Cookie.get("user_id");
+        if (userID) {
+            formData.append("user_id", userID);
+            const postData = {
+                method: "post",
+                url: `${api.BASE_URL}/api/user/boards`,
+                data: formData,
+                headers: { "Content-Type": "multipart/form-data" }
+            };
+            axios(postData)
+                .then((response) => {
+                    alert("Succesfully created a board: " + response.data.board_id);
+                    updateBoardList();
+                })
+                .catch((err) => {
+                    alert("Failed to create board: " + err);
+                });
+        } else {
+            alert("Please register or log in first");
+        }
+    }
+
+    // ============================
 
     return (
         <div>
@@ -45,34 +75,33 @@ export default function TransitionsModal({ open, handleClose }) {
                         <h2 className={styles.title} id="transition-modal-title">
                             Create Board
                         </h2>
-                        <form autoComplete="off">
+                        <form autoComplete="off" onSubmit={createBoard}>
                             <div className={styles.textGroup}>
                                 <TextField className={styles.nameBox}
                                     required
+                                    name="name"
                                     type="name"
                                     id="outlined-required"
                                     label="Board Name"
-                                    value="Software Engineering"
                                     variant="outlined"
                                 />
                                 <TextField className={styles.emailBox}
-                                    required
+                                    name="description"
                                     multiline
                                     id="outlined-required"
                                     label="Description"
-                                    value="Lorem ipsum"
                                     variant="outlined"
                                 />
                             </div>
+                            <Grid container className={styles.buttonGroup}>
+                                <Grid item xs={6}>
+                                    <Button className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Button type="submit" className={styles.registerButton} variant="contained" color="primary">Create</Button>
+                                </Grid>
+                            </Grid>
                         </form>
-                        <Grid container className={styles.buttonGroup}>
-                            <Grid item xs={6}>
-                                <Button className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Button className={styles.registerButton} variant="contained" color="primary">Create</Button>
-                            </Grid>
-                        </Grid>
                     </div>
                 </Fade>
             </Modal>

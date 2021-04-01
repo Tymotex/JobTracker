@@ -1,7 +1,11 @@
+import Cookies from 'js-cookie';
 import React, { useState } from 'react';
 import Layout from '../../components/Layout/Layout';
 import JobDashboardIndex from './JobDashboardIndex';
 import JobDashboardWorkspace from './JobDashboardWorkspace';
+import axios from 'axios';
+import api from '../constants/api';
+import { useEffect } from 'react';
 
 const tempBoards = [
     {
@@ -63,32 +67,58 @@ const JobDashboard = () => {
     // so that the site remembers the user's preferences
     const [boardType, setBoardType] = useState("spreadsheet".toLowerCase());
     const [selectedBoard, setBoard] = useState(null);
+    const [boards, setBoards] = useState(null);
 
     const handleChangeBoard = (event) => {
         setBoardType(event.target.value);
     }
 
-    const handleSelectBoard = () => {
-        setBoard("Software Engineering");
+    const handleSelectBoard = (boardID) => {
+        setBoard(boardID);
     }
 
     const handleDeselectBoard = () => {
         setBoard(null);
     }
+
+    // ===== GET /api/user/boards =====
+
+    const fetchBoards = () => {
+        // Fetches the currently logged in user's boards
+        const userID = Cookies.get("user_id");
+        if (userID) {
+            axios.get(`${api.BASE_URL}/api/user/boards?user_id=${userID}`)
+                .then((response) => {
+                    console.log(response.data);
+                    setBoards(response.data);
+                })
+        } else {
+            alert("Please register or log in first!")
+        }
+    }
+
+
+    useEffect(() => {
+		alert("Rendering your boards");
+        fetchBoards();
+    }, [])
+
+    // ================================
     
     return (
         <Layout>
             {selectedBoard === null ? (
                 <JobDashboardIndex 
-                    boards={tempBoards}
+                    boards={boards}
                     companies={tempCompanies}
                     handleSelectBoard={handleSelectBoard}
+                    updateBoardList={fetchBoards}
                 />
             ) : (
                 <JobDashboardWorkspace
                     boardType={boardType}
                     jobPostings={tempJobList}
-                    selectedBoard={selectedBoard}
+                    selectedBoardID={selectedBoard}
                     handleChangeBoard={handleChangeBoard}
                     handleDeselectBoard={handleDeselectBoard}
                 />

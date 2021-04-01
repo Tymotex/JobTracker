@@ -10,7 +10,9 @@ import {
 } from '@material-ui/core';
 import GoogleButton from 'react-google-button';
 import styles from './Modal.module.scss';
-
+import axios from 'axios';
+import api from '../../constants/api';
+import Cookie from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -35,6 +37,36 @@ export default function TransitionsModal() {
 		setOpen(false);
 	};
 
+	// ===== POST /api/auth/register =====
+
+	const register = (event) => {
+		event.preventDefault();
+		const formData = new FormData(event.target);
+		const postData = {
+			method: "post",
+			url: `${api.BASE_URL}/api/auth/register`,
+			// data: {
+			// 	username: formData.get("username"),
+			// 	email:    formData.get("email"),
+			// 	password: formData.get("password") 
+			// },
+			data: formData,
+			headers: { "Content-Type": "multipart/form-data" }
+		};
+		axios(postData)
+			.then((newUserData) => {
+				alert("Successfully register! Your ID is: " + newUserData.data.user_id);
+				// TODO: Do something other than force reload the window
+				Cookie.set("user_id", newUserData.data.user_id);
+				Cookie.set("token", newUserData.data.token);
+				window.location.reload();
+			})
+			.catch((err) => {
+				alert(err);
+			})
+	}
+
+	// ===================================
 
 	return (
 		<div>
@@ -57,23 +89,26 @@ export default function TransitionsModal() {
 					<div className={styles.window}>
 						<h2 className={styles.title} id="transition-modal-title">Register</h2>
 						<p className={styles.message} id="transition-modal-description">Register now! </p>
-						<form autoComplete="off">
+						<form autoComplete="off" onSubmit={register}>
 							<div className={styles.textGroup}>
 								<TextField className={styles.nameBox}
 									required
+									name="username"
 									type="name"
 									id="outlined-required"
-									label="Full Name"
+									label="Username"
 									variant="outlined"
 								/>
 								<TextField className={styles.emailBox}
 									required
+									name="email"
 									id="outlined-required"
 									label="Email"
 									variant="outlined"
 								/>
 								<TextField className={styles.passwordBox}
 									required
+									name="password"
 									type="password"
 									id="outlined-required"
 									label="Password"
@@ -87,15 +122,15 @@ export default function TransitionsModal() {
 									variant="outlined"
 								/>
 							</div>
+							<Grid container className={styles.buttonGroup}>
+								<Grid item xs={6}>
+									<Button className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
+								</Grid>
+								<Grid item xs={6}>
+									<Button type="submit" className={styles.registerButton} variant="contained" color="primary">Register</Button>
+								</Grid>
+							</Grid>
 						</form>
-						<Grid container className={styles.buttonGroup}>
-							<Grid item xs={6}>
-								<Button className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
-							</Grid>
-							<Grid item xs={6}>
-								<Button className={styles.registerButton} variant="contained" color="primary">Register</Button>
-							</Grid>
-						</Grid>
 						<p className={styles.register}>Or register with your Google account</p>
 						<GoogleButton className={styles.googleButton}
 							onClick={() => { console.log('Google button clicked') }}

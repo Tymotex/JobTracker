@@ -4,10 +4,10 @@ import {
 } from '@material-ui/core';
 import JobCard from './JobCard';
 
-const JobList = ({ jobPostings }) => {
+const JobList = ({ trackedJobs }) => {
     return (
         <Grid container>
-            {jobPostings && jobPostings.map((eachPosting) => (
+            {trackedJobs && trackedJobs.map((eachPosting) => (
                 <Grid item xs={6}>
                     <JobCard 
                         {...eachPosting}

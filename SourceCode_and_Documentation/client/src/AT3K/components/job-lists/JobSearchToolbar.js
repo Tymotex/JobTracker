@@ -6,14 +6,16 @@ import {
     Paper
 } from '@material-ui/core';
 import styles from './JobSearchToolbar.module.scss';
+import { Dropdown } from '../dropdowns';
 
-const JobSearchToolbar = ({ searchQuery, handleSearch, locationQuery, handleLocationSearch }) => {
+const JobSearchToolbar = ({ searchQuery, boards, handleSearch, locationQuery, handleLocationSearch, selectedBoardID, handleSelectBoard }) => {
+    
     return (
         <>
             <Paper className={styles.toolbar} elevation={3}>
                 <div className={styles.content}>
                     <Grid container>
-                        <Grid item xs={6}>
+                        <Grid item xs={4}>
                             <div className={styles.full}>
                                 <Searchbar
                                     placeholder="Job Search"
@@ -22,7 +24,7 @@ const JobSearchToolbar = ({ searchQuery, handleSearch, locationQuery, handleLoca
                                 />
                             </div>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={4}>
                             <div className={styles.full}>
                                 <Searchbar
                                     placeholder="Location"
@@ -30,6 +32,17 @@ const JobSearchToolbar = ({ searchQuery, handleSearch, locationQuery, handleLoca
                                     onSearch={handleLocationSearch}
                                 />
                             </div>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Dropdown 
+                                label="SelectedBoard"
+                                value={selectedBoardID}
+                                onChange={handleSelectBoard}
+                                items={boards && boards.map((eachBoard) => ({
+                                    text: eachBoard.name,
+                                    value: eachBoard._id
+                                }))}
+                            />
                         </Grid>
                     </Grid>
                 </div>

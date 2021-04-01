@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Layout from '../../components/Layout/Layout';
 import { JobList, JobSearchToolbar, JobSelectionMenu } from '../components/job-lists';
 import axios from 'axios';
 import api from '../constants/api';
+import Cookie from 'js-cookie';
+import { useEffect } from 'react';
 
 const data = [
     {
@@ -126,6 +128,8 @@ const JobSearch = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [locationQuery, setLocationQuery] = useState("");
     const [pageNum, setPageNum] = useState(1);
+    const [boards, setBoards] = useState(null);
+    const [selectedBoardID, setSelectedBoardID] = useState(null);
 
     const fetchJobPosts = (setJobList, newPageNum, resultsPerPage) => {
         const location = "sydney";
@@ -145,7 +149,6 @@ const JobSearch = () => {
         });
     }
 
-
     const handleSelectCategory = () => {
         setSearchQuery("Software");
     }
@@ -155,10 +158,32 @@ const JobSearch = () => {
     const handleLocationSearch = (event) => {
         setLocationQuery(event.target.value);
     }
+    const handleSelectBoard = (event) => {
+        alert("SELECTED BOARD: " + event.target.value);
+        setSelectedBoardID(event.target.value);
+    }
 
-    // ===== GET /api/jobs =====
+    // ===== GET /api/user/boards =====
 
-    
+    // If the user is logged in, fetch their boards
+    const fetchUserBoards = () => {
+        const userID = Cookie.get("user_id");
+        if (userID) {
+            axios.get(`${api.BASE_URL}/api/user/boards?user_id=${userID}`)
+                .then((response) => {
+                    setBoards(response.data);
+                })
+                .catch((err) => {
+                    alert("Failed to get boards: " + err);
+                });
+        } else {
+            alert("Register or log in if you want to track jobs!");
+        }
+    }
+
+    useEffect(() => {
+        fetchUserBoards();
+    }, []);
 
     // =========================
 
@@ -170,6 +195,9 @@ const JobSearch = () => {
                 handleSearch={handleSearch}
                 locationQuery={locationQuery}
                 handleLocationSearch={handleLocationSearch}
+                boards={boards}
+                selectedBoardID={selectedBoardID}
+                handleSelectBoard={handleSelectBoard}
             />
             {(searchQuery === "") ? (
                 <JobSelectionMenu
@@ -181,6 +209,7 @@ const JobSearch = () => {
             ) : (
                 <JobList
                     // jobList={jobList}
+                    selectedBoardID={selectedBoardID}
                     pageNum={pageNum}
                     fetchJobPosts={fetchJobPosts}
                     searchValue={searchQuery}

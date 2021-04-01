@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 });
 
 
-const BoardCard = ({ name, description, selectBoard }) => {
+const BoardCard = ({ _id, name, description, selectBoard }) => {
     const [editModalOpen, setEditModalOpen] = React.useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
 
@@ -71,7 +71,7 @@ const BoardCard = ({ name, description, selectBoard }) => {
                 </Typography>
                 <Button 
                     className={styles.viewButton}
-                    onClick={selectBoard} 
+                    onClick={() => selectBoard(_id)} 
                     variant="contained" 
                     color="info"
                 >
