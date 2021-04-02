@@ -42,15 +42,15 @@ export default function TransitionsModal({ open, handleClose, updateBoardList })
                 headers: { "Content-Type": "multipart/form-data" }
             };
             axios(postData)
-                .then((response) => {
-                    alert("Succesfully created a board: " + response.data.board_id);
+                .then(() => {
+                    Notification.spawnSuccess("Successfully created board");
                     updateBoardList();
                 })
                 .catch((err) => {
-                    alert("Failed to create board: " + err);
+                    Notification.spawnError(err);
                 });
         } else {
-            alert("Please register or log in first");
+            Notification.spawnRegisterError();
         }
     }
 

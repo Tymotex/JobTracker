@@ -1,5 +1,6 @@
 import React from 'react';
 import DataGrid from 'react-data-grid';
+import FullscreenMode from './FullscreenMode';
 
 // import { Editors } from "react-data-grid-addons";
 
@@ -30,8 +31,6 @@ const columns = [
 // Documentation: https://adazzle.github.io/react-data-grid/docs/ReactDataGrid
 
 const JobSpreadsheet = ({ trackedJobs }) => {
-
-
     Date.prototype.yyyymmdd = function() {
         var mm = this.getMonth() + 1; // getMonth() is zero-based
         var dd = this.getDate();
@@ -56,11 +55,13 @@ const JobSpreadsheet = ({ trackedJobs }) => {
 
     return (
         <>
-            <DataGrid 
-                columns={columns} 
-                rows={trackedJobs}
+            <FullscreenMode>
+                <DataGrid 
+                    columns={columns} 
+                    rows={trackedJobs}
 
-            />
+                />
+            </FullscreenMode>
         </>
     );
 };

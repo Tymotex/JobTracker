@@ -28,6 +28,9 @@ class Notification extends React.Component {
             error: errorMessage,
         });
     }
+    static spawnSuccess(message) {
+        toast.success(message);
+    }
     static spawnError(err) {
         if (err) {
             const message = (err.response.data.message) ? (err.response.data.message) : "Something went horribly wrong!"; 
@@ -35,6 +38,12 @@ class Notification extends React.Component {
         } else {
             toast.error("Unknown error");
         }
+    }
+    static spawnInvalid(message) {
+        toast.error(message);
+    }
+    static spawnRegisterError() {
+        toast.error("Please register or log in first!");
     }
 }
 

@@ -5,6 +5,7 @@ import axios from 'axios';
 import api from '../constants/api';
 import Cookie from 'js-cookie';
 import { useEffect } from 'react';
+import { Notification } from '../components/notification';
 
 const data = [
     {
@@ -141,11 +142,10 @@ const JobSearch = () => {
         axios.get(`
             ${api.BASE_URL}/api/jobs?location=${locationQuery}&query=${searchQuery}&results_per_page=${resultsPerPage}&page=${newPageNum}
         `).then((response) => {
-            console.log(response.data.jobs);
             setPageNum(newPageNum);
             setJobList(response.data.jobs);
         }).catch((err) => {
-            alert(`Failed to GET ${api.BASE_URL}/api/jobs: ` + err.message);
+            Notification.spawnError(err);
         });
     }
 
@@ -159,7 +159,6 @@ const JobSearch = () => {
         setLocationQuery(event.target.value);
     }
     const handleSelectBoard = (event) => {
-        alert("SELECTED BOARD: " + event.target.value);
         setSelectedBoardID(event.target.value);
     }
 
@@ -174,10 +173,10 @@ const JobSearch = () => {
                     setBoards(response.data);
                 })
                 .catch((err) => {
-                    alert("Failed to get boards: " + err);
+                    Notification.spawnError(err);
                 });
         } else {
-            alert("Register or log in if you want to track jobs!");
+            Notification.spawnRegisterError();
         }
     }
 

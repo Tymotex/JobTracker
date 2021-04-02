@@ -22,10 +22,11 @@ import { useLayoutState } from "../../context/LayoutContext";
 const TopNavItems = menuItems.TopNavItems;
 
 function Layout(props) {
-  var classes = useStyles();
 
+  var classes = useStyles();
+  
   // global
-  var layoutState = useLayoutState();
+  var layoutState = useLayoutState()
 
   return (
     <div className={classes.root}>

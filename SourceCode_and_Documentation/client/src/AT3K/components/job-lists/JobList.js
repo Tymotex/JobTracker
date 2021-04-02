@@ -20,7 +20,6 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 
 	
     useEffect(() => {
-		alert("RENDERING JOB LIST");
         fetchJobPosts(setJobList, 1, resultsPerPage);
     }, []);
 

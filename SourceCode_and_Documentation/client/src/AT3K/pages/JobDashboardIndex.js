@@ -13,6 +13,9 @@ import {
 import {
     BoardCreateModal
 } from '../components/modals';
+import {
+    ContentLoader
+} from '../components/loaders';
 
 
 // Force update hook
@@ -39,9 +42,7 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                 <Grid item xs={6}>
                     <h2>Recently Viewed</h2>
                     {isLoading ? (
-                        <div>
-                            Loading...
-                        </div>
+                        <ContentLoader />
                     ) : (
                         <BoardCardGrid 
                             selectBoard={handleSelectBoard}
@@ -52,9 +53,7 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                 <Grid item xs={6}>
                     <h2>Personal Boards</h2>
                     {isLoading ? (
-                        <div>
-                            Loading...
-                        </div>
+                        <ContentLoader />
                     ) : (
                         <>
                             <Dropdown 

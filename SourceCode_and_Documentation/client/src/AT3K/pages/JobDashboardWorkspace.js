@@ -33,17 +33,16 @@ const JobDashboardWorkspace = ({
                     console.log(response.data.tracked_jobs);
                 }) 
                 .catch((err) => {
-                    alert("Failed to get board: " + err);
+                    Notification.spawnError(err);
                 });
         } else {
-            alert("Please log in first!");
+            Notification.spawnRegisterError();
         }
     }
 
     // ===============================
 
     useEffect(() => {
-        alert("Fetching board: " + selectedBoardID);
         fetchBoardInfo();
     }, []);
 

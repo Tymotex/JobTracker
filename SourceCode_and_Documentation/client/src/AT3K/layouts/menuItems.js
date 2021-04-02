@@ -8,6 +8,10 @@ import {
   Settings as SettingsIcon,
   HelpOutline as FAQIcon,
 } from "@material-ui/icons";
+import {
+    Button
+} from "@material-ui/core";
+import Cookie from 'js-cookie';
 
 // Top nav components:
 import { LoginModal, RegisterModal } from '../components/modals';
@@ -53,13 +57,43 @@ const sideNavItems = [
 /**
  * Top nav items
  */
-// const topNavItems = [];
+
+const Welcome = ({ username }) => {
+    return (
+        <div>
+            Welcome <em>{username}</em>
+        </div>
+    );
+};
+
+const SignOutButton = () => {
+    const signOut = () => {
+        Cookie.remove("username");
+        Cookie.remove("user_id");
+        Cookie.remove("token");
+    };
+    return (
+        <div>
+            <Button variant="contained" onClick={signOut}>Sign Out</Button>
+        </div>
+    );
+};
 
 const TopNavItems = () => {
+    const username = Cookie.get("username");
     return (
         <>
-            <LoginModal />
-            <RegisterModal />
+            {(username && username !== "") ? (
+                <div>
+                    <Welcome username={username} />
+                    <SignOutButton />
+                </div>
+            ) : (
+                <>
+                    <LoginModal />
+                    <RegisterModal />
+                </>
+            )}
         </>
     );
 };

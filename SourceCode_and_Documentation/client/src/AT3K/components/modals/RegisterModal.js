@@ -54,22 +54,23 @@ export default function TransitionsModal() {
 			data: formData,
 			headers: { "Content-Type": "multipart/form-data" }
 		};
-		const prom = axios(postData);
+		const registerRequest = axios(postData);
 		Notification.spawnNotification(
-			prom,
+			registerRequest,
             "Loading",
 			"Successfully registered!",
 			"Failed to register!"
 		)
-		prom.then((newUserData) => {
+		registerRequest.then((newUserData) => {
 			// TODO: Do something other than force reload the window
 			Cookie.set("user_id", newUserData.data.user_id);
 			Cookie.set("token", newUserData.data.token);
-			// window.location.reload();
+			Cookie.set("username", formData.get("username"));
+			window.location.reload();
 		})
 		.catch((err) => {
 			Notification.spawnError(err);
-		})
+		});
 	}
 
 	// ===================================

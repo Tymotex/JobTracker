@@ -8,6 +8,7 @@ import styles from "./jobPost.module.scss";
 import axios from 'axios';
 import Cookie from 'js-cookie';
 import api from '../../constants/api';
+import { Notification } from '../../components/notification';
 
 const JobPost = ({
 	selectedBoardID,
@@ -26,12 +27,11 @@ const JobPost = ({
 
 	// ===== POST /api/tracker ======
 
-	
 	const trackNewJob = () => {
 		const userID = Cookie.get("user_id");
 		if (userID) {
 			if (!selectedBoardID) {
-				alert("You haven't selected a board for tracking this job");
+				Notification.spawnInvalid("Please select a board first");
 			} else {
 				const jobToTrack = {
 					title, company, locations, url, description, salary, date
@@ -46,13 +46,6 @@ const JobPost = ({
 					},
 					headers: { "Content-Type": "text/plain" }
 				}
-				// axios(postData)
-				// 	.then((response) => {
-				// 		alert(`Added job to board: ${selectedBoardID}, ${response.data.title}`);
-				// 	})
-				// 	.catch((err) => {
-				// 		alert("Failed to add job to board: " + err.message);
-				// 	});
 				axios.post(`${api.BASE_URL}/api/tracker/`, {
 					user_id: userID,
 					board_id: selectedBoardID,
@@ -62,13 +55,13 @@ const JobPost = ({
 					  "Content-Type": "application/json"
 					}
 				}).then((response) => {
-					alert(`Added job to board: ${selectedBoardID}, ${response.data.title}`);
+					Notification.spawnSuccess(`Tracking '${response.data.title}'`);
 				}).catch((err) => {
-					alert("Failed to track new job: " + err);
+					Notification.spawnError(err);
 				})
 			}
 		} else {
-			alert("Please register or log in first");
+			Notification.spawnRegisterError();
 		}
 	}
 

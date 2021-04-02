@@ -66,7 +66,6 @@ const ReportModal = ({type}) => {
     const handleReport = () => {
         setOpen(false);
         alert("Thank you for your report :)");
-
     };
 
 

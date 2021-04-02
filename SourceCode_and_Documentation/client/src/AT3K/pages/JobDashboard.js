@@ -6,6 +6,7 @@ import JobDashboardWorkspace from './JobDashboardWorkspace';
 import axios from 'axios';
 import api from '../constants/api';
 import { useEffect } from 'react';
+import { Notification } from '../components/notification';
 
 const tempBoards = [
     {
@@ -89,17 +90,15 @@ const JobDashboard = () => {
         if (userID) {
             axios.get(`${api.BASE_URL}/api/user/boards?user_id=${userID}`)
                 .then((response) => {
-                    console.log(response.data);
                     setBoards(response.data);
                 })
         } else {
-            alert("Please register or log in first!")
+            Notification.spawnRegisterError();
         }
     }
 
 
     useEffect(() => {
-		alert("Rendering your boards");
         fetchBoards();
     }, [])
 
