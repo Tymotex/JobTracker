@@ -11,12 +11,20 @@ import calendarStyles from './JobCalendar.module.scss';
 
 const localizer = momentLocalizer(moment);
 
-const JobCalendar = () => {
+const JobCalendar = ({ trackedJobs }) => {
+
+    
+    const jobEvents = trackedJobs.map(job => ({
+        title: job.title,
+        start: new Date(job.date),
+        end: new Date(job.date)
+    }));
+    
     return (
         <div className={calendarStyles.container}>
             <Calendar
                 localizer={localizer}
-                events={[]}
+                events={jobEvents}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 500 }}

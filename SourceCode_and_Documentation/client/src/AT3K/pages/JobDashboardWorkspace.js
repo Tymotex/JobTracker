@@ -50,8 +50,12 @@ const JobDashboardWorkspace = ({
     return (
         <div>
             <BreadCrumbs deselectBoard={handleDeselectBoard} name={selectedBoardID} />
-            <h1>Dashboard</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            {board && (
+                <h1>{board.name}</h1>
+            )}
+            {board && (
+                <p>{board.description}</p>
+            )}
             <BoardToolbar 
                 boardType={boardType}
                 handleChangeBoard={handleChangeBoard}

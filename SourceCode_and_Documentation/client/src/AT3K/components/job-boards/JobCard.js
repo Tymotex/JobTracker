@@ -11,12 +11,12 @@ import {
 import styles from './JobCard.module.scss';
 import LabelIcon from '@material-ui/icons/Label';
 
-const JobCard = ({ position, description }) => {
+const JobCard = ({ company, title, description }) => {
     return (
         <Card className={styles.jobCard} variant="outlined">
             <CardContent>
                 <Typography gutterBottom>
-                    {position}
+                    {company} - {title}
                 </Typography>
                 <Typography variant="body2" component="p">
                     {description}
@@ -24,7 +24,7 @@ const JobCard = ({ position, description }) => {
                 <CardActionArea>
                 <Chip
                     avatar={<Avatar><LabelIcon /></Avatar>}
-                    label="Tag"
+                    label="Awaiting Application"
                     clickable
                     color="primary"
                 />
@@ -35,7 +35,7 @@ const JobCard = ({ position, description }) => {
 }
 
 JobCard.propTypes = {
-    position: PropTypes.string, 
+    title: PropTypes.string, 
     description: PropTypes.string
 }
 
