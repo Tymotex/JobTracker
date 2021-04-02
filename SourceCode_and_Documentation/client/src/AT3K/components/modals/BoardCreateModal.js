@@ -11,6 +11,7 @@ import styles from './Modal.module.scss';
 import axios from 'axios';
 import api from '../../constants/api';
 import Cookie from 'js-cookie';
+import { Notification } from '../notification';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -47,6 +48,7 @@ export default function TransitionsModal({ open, handleClose, updateBoardList })
                     updateBoardList();
                 })
                 .catch((err) => {
+                    alert(err);
                     Notification.spawnError(err);
                 });
         } else {
