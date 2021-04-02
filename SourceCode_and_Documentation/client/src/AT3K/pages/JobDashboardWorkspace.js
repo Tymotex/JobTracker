@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 import api from '../constants/api';
 import Cookie from 'js-cookie';
+import { LoadingSpinner } from '../components/loaders';
 
 const JobDashboardWorkspace = ({ 
     boardType, 
@@ -77,7 +78,7 @@ const JobDashboardWorkspace = ({
                 </>
             ) : (
                 <div>
-                    Loading...
+                    <LoadingSpinner type={"Rings"} />
                 </div>
             )}
         </div>

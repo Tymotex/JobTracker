@@ -4,6 +4,7 @@ import { Dropdown } from "../dropdowns";
 import styles from './JobList.module.scss';
 import JobListPaginator from './JobListPaginator';
 import JobPost from "./JobPost";
+import { ContentLoader } from '../loaders';
 
 const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearch }) => {
 	// Dropdown states:
@@ -85,7 +86,9 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 			/>
 			<br></br>
 			{isLoading && (
-				<div>Loading...</div>
+				[...Array(resultsPerPage)].map((elem, i) => (
+					<ContentLoader />
+				))
 			)}
 			<Grid className={styles.jobList} container>
 				{jobList.map((eachJobPost) => (
