@@ -1,8 +1,11 @@
 import React from 'react';
 import Layout from '../../components/Layout/Layout';
 import styles from './Home.module.scss';
+import { Notification } from '../components/notification';
+
 
 const Home = ({ unknownPath }) => {
+    
     return (
         <Layout>
             <img 

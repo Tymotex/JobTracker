@@ -13,6 +13,7 @@ import styles from './Modal.module.scss';
 import axios from 'axios';
 import api from '../../constants/api';
 import Cookie from 'js-cookie';
+import { Notification } from '../notification';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -53,17 +54,22 @@ export default function TransitionsModal() {
 			data: formData,
 			headers: { "Content-Type": "multipart/form-data" }
 		};
-		axios(postData)
-			.then((newUserData) => {
-				alert("Successfully register! Your ID is: " + newUserData.data.user_id);
-				// TODO: Do something other than force reload the window
-				Cookie.set("user_id", newUserData.data.user_id);
-				Cookie.set("token", newUserData.data.token);
-				window.location.reload();
-			})
-			.catch((err) => {
-				alert(err);
-			})
+		const prom = axios(postData);
+		Notification.spawnNotification(
+			prom,
+            "Loading",
+			"Successfully registered!",
+			"Failed to register!"
+		)
+		prom.then((newUserData) => {
+			// TODO: Do something other than force reload the window
+			Cookie.set("user_id", newUserData.data.user_id);
+			Cookie.set("token", newUserData.data.token);
+			// window.location.reload();
+		})
+		.catch((err) => {
+			Notification.spawnError(err);
+		})
 	}
 
 	// ===================================
