@@ -1,6 +1,7 @@
 import React from 'react';
 import Board from 'react-trello';
 import boardStyles from './JobBoard.module.scss';
+import FullscreenMode from './FullscreenMode';
 
 // Documentation:
 // https://github.com/rcdexta/react-trello
@@ -44,15 +45,18 @@ const JobBoard = ({ trackedJobs }) => {
         ]
     }
     return (
-        <div className={boardStyles.container}>
-            <Board 
-                className={boardStyles.board} 
-                data={data} 
-                editable={true}
-                canAddLanes={true}
-                collapsibleLanes={true}
-            />
-        </div>
+        <FullscreenMode>
+            <div className={boardStyles.container}>
+                
+                <Board 
+                    className={boardStyles.board} 
+                    data={data} 
+                    editable={true}
+                    canAddLanes={true}
+                    collapsibleLanes={true}
+                />
+            </div>
+        </FullscreenMode>
     );
 };
 

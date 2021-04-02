@@ -3,18 +3,21 @@ import {
     Grid
 } from '@material-ui/core';
 import JobCard from './JobCard';
+import FullscreenMode from './FullscreenMode';
 
 const JobList = ({ trackedJobs }) => {
     return (
-        <Grid container>
-            {trackedJobs && trackedJobs.map((eachPosting) => (
-                <Grid item xs={6}>
-                    <JobCard 
-                        {...eachPosting}
-                    />
-                </Grid>
-            ))}
-        </Grid>
+        <FullscreenMode>
+            <Grid container>
+                {trackedJobs && trackedJobs.map((eachPosting) => (
+                    <Grid item xs={6}>
+                        <JobCard 
+                            {...eachPosting}
+                        />
+                    </Grid>
+                ))}
+            </Grid>
+        </FullscreenMode>
     );
 };
 

@@ -1,22 +1,26 @@
-import React, { useCallback } from 'react';
+import React, { useState } from 'react';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
+import './FullscreenMode.css';
 
 const FullscreenMode = ({ children }) => {
-	const screen1 = useFullScreenHandle();
-
+	const fullscreen = useFullScreenHandle();
 	return (
 		<div>
-			<button onClick={screen1.enter}>
-				Fullscreen
+			<button onClick={fullscreen.enter}>
+				<FullscreenIcon />
 			</button>
-			<FullScreen handle={screen1}>
-				<div className="full-screenable-node">
+			<FullScreen handle={fullscreen}>
+				<div className={`full-screenable-node fullscreen-enabled`}>
 					{children}
-					<button onClick={screen1.exit}>
-						Exit
-					</button>
 				</div>
 			</FullScreen>
+			{fullscreen && (
+				<button onClick={fullscreen.exit}>
+					<FullscreenExitIcon />
+				</button>
+			)}
 		</div>
 	);
 };
