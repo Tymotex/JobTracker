@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Checkbox, FormLabel, FormControl, FormGroup, FormControlLabel, FormHelperText } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Dropdown } from "../dropdowns";
 import styles from './JobList.module.scss';
@@ -19,6 +19,15 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 	// const [pageNumber, setPageNumber] = useState(1);
 	const resultsPerPage = 10;
 
+	const [fieldsToShow, setFields] = useState({
+		title: true,
+		company: true,
+		locations: true,
+		url: true,
+		description: true,
+		salary: true,
+		date: true
+	});
 	
     useEffect(() => {
         fetchJobPosts(setJobList, 1, resultsPerPage);
@@ -32,6 +41,16 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 		// setOffset(newOffset);
 		// setCurrent_data(jobList.slice(newOffset, newOffset + itemsPerPage));
 	};
+
+	// Handler for setting which fields to show
+	const handleFieldsToShow = (event) => {
+		setFields(
+			{
+				...fieldsToShow, 
+				[event.target.name]: event.target.checked
+			}
+		)
+	}
 
 	const isLoading = (jobList && jobList.length <= 0);
 	return (
@@ -79,6 +98,17 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 					/>
 				</Grid>
 			</Grid>
+			<FormControl component="fieldset">
+				<FormLabel component="legend">Select fields to display</FormLabel>
+				<FormGroup>
+				{Object.keys(fieldsToShow).map(eachField => (
+					<FormControlLabel
+						control={<Checkbox checked={fieldsToShow[eachField]} onChange={handleFieldsToShow} name={eachField} />}
+						label={eachField}
+					/>
+				))}
+				</FormGroup>
+			</FormControl>
 			<JobListPaginator
 				currPage={pageNum} 
 				pageCount={pageCount}
@@ -93,7 +123,12 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 			<Grid className={styles.jobList} container>
 				{jobList.map((eachJobPost) => (
 					<Grid className={styles.jobCard} item xs={12} sm={6} md={6} lg={4} >
-						<JobPost {...eachJobPost} selectedBoardID={selectedBoardID} detailLevel={detailLevel} />
+						<JobPost 
+							{...eachJobPost} 
+							fieldsToShow={fieldsToShow}
+							selectedBoardID={selectedBoardID} 
+							detailLevel={detailLevel} 
+						/>
 					</Grid>
 				))}
 			</Grid>

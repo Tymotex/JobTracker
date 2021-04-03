@@ -133,10 +133,10 @@ const JobSearch = () => {
     const [selectedBoardID, setSelectedBoardID] = useState(null);
 
     const fetchJobPosts = (setJobList, newPageNum, resultsPerPage) => {
-        const location = "sydney";
-        const query = "software";
-        const results_per_page = "10";
-        const page = "1";
+        // const location = "sydney";
+        // const query = "software";
+        // const results_per_page = "10";
+        // const page = "1";
         // const sort_criteria = "relevance";
 
         axios.get(`

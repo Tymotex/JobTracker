@@ -11,6 +11,7 @@ import api from '../../constants/api';
 import { Notification } from '../../components/notification';
 
 const JobPost = ({
+	fieldsToShow,
 	selectedBoardID,
 	detailLevel,
 	title,
@@ -19,10 +20,7 @@ const JobPost = ({
 	url,
 	description,
 	salary,
-	// deadline,
 	date,
-	// requiredSkills,
-	// missingSkills
 }) => {
 
 	// ===== POST /api/tracker ======
@@ -71,75 +69,78 @@ const JobPost = ({
 		<>
 			<Card className={`${styles.card}`}>
 				<CardContent>
-					<Typography variant="h5" component="h2">
-						{title}
-					</Typography>
+					{fieldsToShow && fieldsToShow.title && (
+						<Typography variant="h5" component="h2">
+							{title}
+						</Typography>
+					)}
 					<Typography variant="body2" component="p">
 						{detailLevel === 1 && (
 							<div>
-								Company: {company}
-								<div>
-									<a href={url}>Original post link</a>
-								</div>
-								<div>
-									Salary: {salary}
-								</div>
-								{/* <div>
-									Deadline: {deadline}
-								</div> */}
-								<div>
-									Location: {locations}
-								</div>
-								<div>
-									Posted date: {date}
-								</div>
+								{fieldsToShow.company && (
+									<span>
+										Company: {company}
+									</span>
+								)}
+								{fieldsToShow.url && (
+									<div>
+										<a href={url}>Original post link</a>
+									</div>
+								)}
+								{fieldsToShow.salary && (
+									<div>
+										Salary: {salary}
+									</div>
+								)}
+								{fieldsToShow.locations && (
+									<div>
+										Location: {locations}
+									</div>
+								)}
+								{fieldsToShow.date && (
+									<div>
+										Posted date: {date}
+									</div>
+								)}
+								{fieldsToShow.description && (
+									<div>
+										Description: {description}
+									</div>
+								)}
 							</div>
 						)}
 						{detailLevel === 2 && (
 							<div>
-								<div>
-									<a href={url}>Original post link</a>
-								</div>
-								<span className={styles.field}>Company: </span>{company}
-								<div>
-									<span className={styles.field}>Salary:</span> {salary}
-								</div>
-								{/* <div>
-									<span className={styles.field}>Deadline:</span> {deadline}
-								</div> */}
-								<div>
-									<span className={styles.field}>Location:</span> {locations}
-								</div>
-								<div>
-									<span className={styles.field}>Posted date:</span> {date}
-								</div>
-								<div>
-									<span className={styles.field}>Description:</span> {description}
-								</div>
-								{/* {requiredSkills && (
-									<div>
-										<span className={styles.field}>Required skills:</span>
-										<ul>
-										{requiredSkills.map((eachSkill) => (
-											<li>
-											{eachSkill}
-											</li>
-										))}
-										</ul>
+								{fieldsToShow.company && (
+									<span className={styles.field}>
+										Company: {company}
+									</span>
+								)}
+								{fieldsToShow.url && (
+									<div className={styles.field}>
+										<a href={url}>Original post link</a>
 									</div>
-									)}
-									{missingSkills && (
-									<div>
-										<span className={styles.field}>Missing skills:</span>
-										<ul>
-										{missingSkills.map((eachSkill) => (
-											<li>
-											{eachSkill}
-											</li>
-										))}
-										</ul>
+								)}
+								{fieldsToShow.salary && (
+									<div className={styles.field}>
+										Salary: {salary}
 									</div>
-								)} */}
+								)}
+								{fieldsToShow.locations && (
+									<div className={styles.field}>
+										Location: {locations}
+									</div>
+								)}
+								{fieldsToShow.date && (
+									<div className={styles.field}>
+										Posted date: {date}
+									</div>
+								)}
+								{fieldsToShow.description && (
+									<div className={styles.field}>
+										Description: {description}
+									</div>
+								)}
 							</div>
 						)}
 						<div>
