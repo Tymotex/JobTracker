@@ -9,7 +9,18 @@ import styles from './JobSearchToolbar.module.scss';
 import { Dropdown } from '../dropdowns';
 
 const JobSearchToolbar = ({ searchQuery, boards, handleSearch, locationQuery, handleLocationSearch, selectedBoardID, handleSelectBoard }) => {
-    
+
+    // FOR DROPDOWN HIERARCHICAL
+    // const boardList = [
+    //     {
+    //         label: "Your Boards",
+    //         options: !boards ? [] : boards.map(eachBoard => ({
+    //             name: eachBoard.name,
+    //             value: eachBoard._id
+    //         }))
+    //     }
+    // ];
+
     return (
         <>
             <Paper className={styles.toolbar} elevation={3}>

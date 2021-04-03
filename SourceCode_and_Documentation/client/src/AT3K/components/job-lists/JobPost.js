@@ -111,43 +111,43 @@ const JobPost = ({
 						)}
 						{detailLevel === 2 && (
 							<div>
-								{fieldsToShow.company && (
+								{fieldsToShow.company && company && company !== "" && (
 									<span className={styles.field}>
 										Company: {company}
 									</span>
 								)}
-								{fieldsToShow.url && (
+								{fieldsToShow.url && url && url !== "" && (
 									<div className={styles.field}>
 										<a href={url}>Original post link</a>
 									</div>
 								)}
-								{fieldsToShow.salary && (
+								{fieldsToShow.salary && salary && salary !== "" && (
 									<div className={styles.field}>
 										Salary: {salary}
 									</div>
 								)}
-								{fieldsToShow.locations && (
+								{fieldsToShow.locations && locations && locations !== "" && (
 									<div className={styles.field}>
 										Location: {locations}
 									</div>
 								)}
-								{fieldsToShow.date && (
+								{fieldsToShow.date && date && date !== "" && (
 									<div className={styles.field}>
 										Posted date: {date}
 									</div>
 								)}
-								{fieldsToShow.description && (
+								{fieldsToShow.description && description && description !== "" && (
 									<div className={styles.field}>
 										Description: {description}
 									</div>
 								)}
+								<div>
+									<Link to={`/search/details?id=${"JOB_POST_ID_HERE"}`}>
+										<strong style={{ "font-size": "200%" }}>View more here</strong>
+									</Link>
+								</div>
 							</div>
 						)}
-						<div>
-							<Link to={`/search/details?id=${"JOB_POST_ID_HERE"}`}>
-								<strong style={{ "font-size": "200%" }}>See more details</strong>
-							</Link>
-						</div>
 						<div>
 							<Button variant="contained" color="info" onClick={trackNewJob}>
 								Track

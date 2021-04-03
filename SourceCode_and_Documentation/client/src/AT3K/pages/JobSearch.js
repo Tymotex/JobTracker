@@ -159,6 +159,7 @@ const JobSearch = () => {
         setLocationQuery(event.target.value);
     }
     const handleSelectBoard = (event) => {
+        alert("SELECTED: " + event.target.value);
         setSelectedBoardID(event.target.value);
     }
 

@@ -51,11 +51,11 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                     )}
                 </Grid>
                 <Grid item xs={6}>
-                    <h2>Personal Boards</h2>
-                    {isLoading ? (
-                        <ContentLoader />
-                    ) : (
-                        <>
+                    <Grid container spacing={3}>
+                        <Grid item xs={6}>
+                            <h2>Personal Boards</h2>
+                        </Grid>
+                        <Grid item xs={6}>
                             <Dropdown 
                                 label="Sort by"
                                 value={1}
@@ -70,6 +70,12 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                                     { value: 7, text: "Most recently changed" }
                                 ]}
                             />
+                        </Grid>
+                    </Grid>
+                    {isLoading ? (
+                        <ContentLoader />
+                    ) : (
+                        <>
                             <BoardCardGrid
                                 selectBoard={handleSelectBoard}
                                 boards={boards}
