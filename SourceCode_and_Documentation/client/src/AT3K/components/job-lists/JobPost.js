@@ -22,7 +22,6 @@ const JobPost = ({
 	salary,
 	date,
 }) => {
-
 	// ===== POST /api/tracker ======
 
 	const trackNewJob = () => {
