@@ -5,6 +5,7 @@ import styles from './JobList.module.scss';
 import JobListPaginator from './JobListPaginator';
 import JobPost from "./JobPost";
 import { ContentLoader } from '../loaders';
+import Slider from '@material-ui/core/Slider';
 
 const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearch }) => {
 	// Dropdown states:
@@ -15,9 +16,9 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 	// const [offset, setOffset] = useState(0);
 	// const [pageCount, setPageCount] = useState(100);
 	const pageCount = 10;
-	const [itemsPerPage, setItemsPerPage] = useState(10);
-	// const [pageNumber, setPageNumber] = useState(1);
-	const resultsPerPage = 10;
+	// const [itemsPerPage, setItemsPerPage] = useState(10);
+	const [pageNumber, setPageNumber] = useState(1);
+    const [resultsPerPage, setResultsPerPage] = useState(9);
 
 	const [fieldsToShow, setFields] = useState({
 		title: true,
@@ -30,12 +31,13 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 	});
 	
     useEffect(() => {
-        fetchJobPosts(setJobList, 1, resultsPerPage);
+        fetchJobPosts(setJobList, pageNumber, resultsPerPage);
     }, []);
 
 	// Handler for when the user clicks on a different page number
 	const handlePageClick = (d) => {
 		setJobList([]);
+		setPageNumber(d.selected + 1);
 		fetchJobPosts(setJobList, d.selected + 1, resultsPerPage);
 		// let newOffset = Math.ceil(selected * itemsPerPage);
 		// setOffset(newOffset);
@@ -51,6 +53,11 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 			}
 		)
 	}
+
+    const handleSetResultsPerPage = (val) => {
+		setResultsPerPage(val);
+        fetchJobPosts(setJobList, pageNumber, val);
+    }
 
 	const isLoading = (jobList && jobList.length <= 0);
 	return (
@@ -84,17 +91,16 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 						/>
 				</Grid>
 				<Grid className={styles.dropdown}  item sm={4}>
-					<Dropdown
-						label={"Results per page"}
-						value={itemsPerPage}
-						onChange={(event) => setItemsPerPage(event.target.value)}
-						items={[
-							{ value: 1, text: "1" },
-							{ value: 3, text: "3" },
-							{ value: 10, text: "10" },
-							{ value: 20, text: "20" },
-							{ value: 30, text: "30" }, // TODO: this could be a typeable field instead of a dropdown
-						]}
+					<h4 className={styles.fieldTitle}>Results per page</h4>
+					<Slider
+						defaultValue={resultsPerPage}
+						onChangeCommitted={(_, val) => handleSetResultsPerPage(val)}
+						aria-labelledby="discrete-slider"
+						valueLabelDisplay="auto"
+						step={1}
+						marks
+						min={1}
+						max={30}
 					/>
 				</Grid>
 			</Grid>

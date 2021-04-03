@@ -24,7 +24,7 @@ const useForceUpdate = () => {
     return () => setValue(value => value + 1); 
 }
 
-const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardList }) => {
+const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardList, boardSortStrategy, handleSetBoardSorter }) => {
     const [modalOpen, setModalOpen] = React.useState(false);
 
     const handleModalOpen = () => {
@@ -58,16 +58,15 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                         <Grid item xs={6}>
                             <Dropdown 
                                 label="Sort by"
-                                value={1}
-                                onChange={(event) => { }}
+                                value={boardSortStrategy}
+                                onChange={handleSetBoardSorter}
                                 items={[
-                                    { value: 1, text: "Urgency" },
-                                    { value: 2, text: "Alphabetical A-Z" },
-                                    { value: 3, text: "Alphabetical Z-A" },
-                                    { value: 4, text: "Most recent created" },
-                                    { value: 5, text: "Least recent created" },
-                                    { value: 6, text: "Last modified" },
-                                    { value: 7, text: "Most recently changed" }
+                                    { value: "alphabetical", text: "Alphabetical A-Z" },
+                                    { value: "reverse-alphabetical", text: "Alphabetical Z-A" },
+                                    { value: "recency", text: "Most recently interacted" },
+                                    { value: "reverse-recency", text: "Least recently interacted" },
+                                    { value: "priority", text: "Highest priority" },
+                                    { value: "reversepriority", text: "Lowest priority" }
                                 ]}
                             />
                         </Grid>

@@ -14,7 +14,7 @@ const Dropdown = ({ label, value, onChange, items }) => {
                 labelId={label}
                 value={value ? value.toString().toLowerCase() : ""}
                 onChange={onChange}
-                style={{"width": "200px"}}
+                style={{"min-width": "200px"}}
                 label={label}
             >
                 {items && items.map((eachItem) => (
