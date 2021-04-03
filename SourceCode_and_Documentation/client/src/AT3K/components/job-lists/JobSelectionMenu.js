@@ -52,28 +52,33 @@ const JobSelectionMenu = ({ data, onSearch, searchQuery, handleSelectCategory })
           <Button variant="contained" color="primary">Search</Button>
         </Grid>
       </Grid>
-      <h3>Quick Select category of job</h3>
-      <div onClick={handleSelectCategory}>
+      <h3>Quick select category of job</h3>
+      <div>
         <Grid container>
           {categories.map((category) => {
             return (
-              <Grid className={styles.category} item xs={6} sm={4} md={4} lg={3}>
-                <CategoryCard title={category.title} image={category.image} />
+              <Grid 
+                className={styles.category} item xs={6} sm={4} md={4} lg={3}
+                onClick={() => handleSelectCategory(category.title)}
+              >
+                <CategoryCard 
+                  title={category.title} 
+                  image={category.image} 
+                />
               </Grid>
             );
           })}
         </Grid>
       </div>
 
-      <h3>Recommended Job Postings</h3>
-
+      {/* <h3>Recommended Job Postings</h3>
       <Grid container>
         {head_data.map((eachJobPost) => (
           <Grid item xs={4}>
             <JobPost {...eachJobPost} />
           </Grid>
         ))}
-      </Grid>
+      </Grid> */}
     </>
   );
 };

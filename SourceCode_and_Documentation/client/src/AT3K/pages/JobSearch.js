@@ -131,26 +131,32 @@ const JobSearch = () => {
     const [pageNum, setPageNum] = useState(1);
     const [boards, setBoards] = useState(null);
     const [selectedBoardID, setSelectedBoardID] = useState(null);
+    const [numResults, setNumResults] = useState(0);
+    const [pageCount, setPageCount] = useState(10);
+	const [jobList, setJobList] = useState(null);
+    const [resultsPerPage, setResultsPerPage] = useState(9);
 
-    const fetchJobPosts = (setJobList, newPageNum, resultsPerPage) => {
+    const fetchJobPosts = (newPageNum, resultsPerPage) => {
         // const location = "sydney";
         // const query = "software";
         // const results_per_page = "10";
         // const page = "1";
         // const sort_criteria = "relevance";
-
+        setJobList([]);
         axios.get(`
             ${api.BASE_URL}/api/jobs?location=${locationQuery}&query=${searchQuery}&results_per_page=${resultsPerPage}&page=${newPageNum}
         `).then((response) => {
             setPageNum(newPageNum);
             setJobList(response.data.jobs);
+            setNumResults(response.data.hits);
+            setPageCount(response.data.pages);
         }).catch((err) => {
             Notification.spawnError(err);
         });
     }
 
-    const handleSelectCategory = () => {
-        setSearchQuery("Software");
+    const handleSelectCategory = (category) => {
+        setSearchQuery(category);
     }
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
@@ -197,6 +203,9 @@ const JobSearch = () => {
                 boards={boards}
                 selectedBoardID={selectedBoardID}
                 handleSelectBoard={handleSelectBoard}
+                fetchJobPosts={fetchJobPosts}
+                resultsPerPage={resultsPerPage}
+                pageNum={pageNum}
             />
             {(searchQuery === "") ? (
                 <JobSelectionMenu
@@ -213,6 +222,11 @@ const JobSearch = () => {
                     fetchJobPosts={fetchJobPosts}
                     searchValue={searchQuery}
                     onSearch={handleSearch}
+                    numResults={numResults}
+                    pageCount={pageCount}
+                    jobList={jobList}
+                    resultsPerPage={resultsPerPage}
+                    setResultsPerPage={setResultsPerPage}
                 />
             )}
         </Layout>

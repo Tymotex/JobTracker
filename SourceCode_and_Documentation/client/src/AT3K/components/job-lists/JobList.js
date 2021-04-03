@@ -1,4 +1,4 @@
-import { Grid, Checkbox, FormLabel, FormControl, FormGroup, FormControlLabel, FormHelperText } from "@material-ui/core";
+import { Grid, Checkbox, FormLabel, FormControl, FormGroup, FormControlLabel, FormHelperText, Button } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Dropdown } from "../dropdowns";
 import styles from './JobList.module.scss';
@@ -7,18 +7,14 @@ import JobPost from "./JobPost";
 import { ContentLoader } from '../loaders';
 import Slider from '@material-ui/core/Slider';
 
-const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearch }) => {
+const JobList = ({ selectedBoardID, jobList, resultsPerPage, setResultsPerPage, fetchJobPosts, pageNum, numResults, searchValue, onSearch, pageCount }) => {
 	// Dropdown states:
 	const [detailLevel, setDetailLevel] = useState(1);
 	const [sortStrategy, setSortStrategy] = useState(1);
-	const [jobList, setJobList] = useState([]);
 	// Paginator states 
 	// const [offset, setOffset] = useState(0);
-	// const [pageCount, setPageCount] = useState(100);
-	const pageCount = 10;
 	// const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [pageNumber, setPageNumber] = useState(1);
-    const [resultsPerPage, setResultsPerPage] = useState(9);
 
 	const [fieldsToShow, setFields] = useState({
 		title: true,
@@ -31,14 +27,13 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 	});
 	
     useEffect(() => {
-        fetchJobPosts(setJobList, pageNumber, resultsPerPage);
+        fetchJobPosts(pageNumber, resultsPerPage);
     }, []);
 
 	// Handler for when the user clicks on a different page number
 	const handlePageClick = (d) => {
-		setJobList([]);
 		setPageNumber(d.selected + 1);
-		fetchJobPosts(setJobList, d.selected + 1, resultsPerPage);
+		fetchJobPosts(d.selected + 1, resultsPerPage);
 		// let newOffset = Math.ceil(selected * itemsPerPage);
 		// setOffset(newOffset);
 		// setCurrent_data(jobList.slice(newOffset, newOffset + itemsPerPage));
@@ -56,10 +51,10 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 
     const handleSetResultsPerPage = (val) => {
 		setResultsPerPage(val);
-        fetchJobPosts(setJobList, pageNumber, val);
+        fetchJobPosts(pageNumber, val);
     }
 
-	const isLoading = (jobList && jobList.length <= 0);
+	const isLoading = (jobList && jobList.length <= 0) ? true : false;
 	return (
 		<>
 			<Grid container spacing={2}>
@@ -104,6 +99,10 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 					/>
 				</Grid>
 			</Grid>
+			{/* TODO: Show search results summary - how many jobs were found */}
+			<p>
+				{numResults} jobs were found
+			</p>
 			<FormControl component="fieldset">
 				<FormLabel component="legend">Select fields to display</FormLabel>
 				<FormGroup>
@@ -115,29 +114,31 @@ const JobList = ({ selectedBoardID, fetchJobPosts, pageNum, searchValue, onSearc
 				))}
 				</FormGroup>
 			</FormControl>
+			
 			<JobListPaginator
 				currPage={pageNum} 
 				pageCount={pageCount}
 				handlePageClick={handlePageClick}
 			/>
 			<br></br>
-			{isLoading && (
+			{isLoading ? (
 				[...Array(resultsPerPage)].map((elem, i) => (
 					<ContentLoader />
 				))
+			) : (
+				<Grid className={styles.jobList} container>
+					{jobList && jobList.map((eachJobPost) => (
+						<Grid className={styles.jobCard} item xs={12} sm={6} md={6} lg={4} >
+							<JobPost 
+								{...eachJobPost} 
+								fieldsToShow={fieldsToShow}
+								selectedBoardID={selectedBoardID} 
+								detailLevel={detailLevel} 
+							/>
+						</Grid>
+					))}
+				</Grid>
 			)}
-			<Grid className={styles.jobList} container>
-				{jobList.map((eachJobPost) => (
-					<Grid className={styles.jobCard} item xs={12} sm={6} md={6} lg={4} >
-						<JobPost 
-							{...eachJobPost} 
-							fieldsToShow={fieldsToShow}
-							selectedBoardID={selectedBoardID} 
-							detailLevel={detailLevel} 
-						/>
-					</Grid>
-				))}
-			</Grid>
 		</>
 	);
 };
