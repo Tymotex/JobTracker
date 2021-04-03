@@ -14,7 +14,7 @@ const JobSearchToolbar = ({ searchQuery, boards, handleSearch, fetchJobPosts, pa
         <Paper className={styles.toolbar} elevation={3}>
             <div className={styles.content}>
                 <Grid container>
-                    <Grid item xs={4}>
+                    <Grid item  xs={12} sm={3}>
                         <div className={styles.full}>
                             <Searchbar
                                 placeholder="Job Search"
@@ -23,7 +23,7 @@ const JobSearchToolbar = ({ searchQuery, boards, handleSearch, fetchJobPosts, pa
                             />
                         </div>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} sm={3}>
                         <div className={styles.full}>
                             <Searchbar
                                 placeholder="Location"
@@ -32,7 +32,7 @@ const JobSearchToolbar = ({ searchQuery, boards, handleSearch, fetchJobPosts, pa
                             />
                         </div>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} sm={3}>
                         <Dropdown 
                             label="SelectedBoard"
                             value={selectedBoardID}
@@ -43,9 +43,11 @@ const JobSearchToolbar = ({ searchQuery, boards, handleSearch, fetchJobPosts, pa
                             }))}
                         />
                     </Grid>
+                    <Grid item xs={12} sm={3}>
+            			<Button variant="outlined" onClick={() => fetchJobPosts(pageNum, resultsPerPage)}>Search</Button>
+                    </Grid>
                 </Grid>
             </div>
-			<Button variant="outlined" onClick={() => fetchJobPosts(pageNum, resultsPerPage)}>Search</Button>
         </Paper>
     )
 };
