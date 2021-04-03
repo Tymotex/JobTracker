@@ -7,123 +7,6 @@ import Cookie from 'js-cookie';
 import { useEffect } from 'react';
 import { Notification } from '../components/notification';
 
-const data = [
-    {
-        position: "Graduate software engineer",
-        company: "Canva",
-        description: "This is some random description about the job",
-        link: "https://www.google.com",
-        salary: "$50000/yr",
-        deadline: "Tomorrow",
-        location: "Sydney, NSW",
-        postedDate: "Yesterday",
-        requiredSkills: [
-            "Node.js",
-            "React",
-            "Express",
-            "MongoDB",
-            "Python",
-            "C++"
-        ],
-        missingSkills: [
-            "React",
-            "Express",
-            "MongoDB"
-        ]
-    },
-    {
-        position: "Security engineer",
-        company: "Citadel",
-        description: "This is some random description about the job",
-        link: "https://www.google.com",
-        salary: "$50000/yr",
-        deadline: "Tomorrow",
-        location: "Sydney, NSW",
-        postedDate: "Yesterday",
-        requiredSkills: [
-            "Node.js",
-            "React",
-            "Express",
-            "MongoDB",
-            "Python",
-            "C++"
-        ],
-        missingSkills: [
-            "React",
-            "Express",
-            "MongoDB"
-        ]
-    },
-    {
-        position: "Techlead",
-        company: "Google",
-        description: "This is some random description about the job",
-        link: "https://www.google.com",
-        salary: "$50000/yr",
-        deadline: "Tomorrow",
-        location: "Sydney, NSW",
-        postedDate: "Yesterday",
-        requiredSkills: [
-            "Node.js",
-            "React",
-            "Express",
-            "MongoDB",
-            "Python",
-            "C++"
-        ],
-        missingSkills: [
-            "React",
-            "Express",
-            "MongoDB"
-        ]
-    },
-    {
-        position: "Techlead",
-        company: "Google",
-        description: "This is some random description about the job",
-        link: "https://www.google.com",
-        salary: "$50000/yr",
-        deadline: "Tomorrow",
-        location: "Sydney, NSW",
-        postedDate: "Yesterday",
-        requiredSkills: [
-            "Node.js",
-            "React",
-            "Express",
-            "MongoDB",
-            "Python",
-            "C++"
-        ],
-        missingSkills: [
-            "React",
-            "Express",
-            "MongoDB"
-        ]
-    },
-    {
-        position: "Techlead",
-        company: "Google",
-        description: "This is some random description about the job",
-        link: "https://www.google.com",
-        salary: "$50000/yr",
-        deadline: "Tomorrow",
-        location: "Sydney, NSW",
-        postedDate: "Yesterday",
-        requiredSkills: [
-            "Node.js",
-            "React",
-            "Express",
-            "MongoDB",
-            "Python",
-            "C++"
-        ],
-        missingSkills: [
-            "React",
-            "Express",
-            "MongoDB"
-        ]
-    },
-];
 
 const JobSearch = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -137,11 +20,6 @@ const JobSearch = () => {
     const [resultsPerPage, setResultsPerPage] = useState(9);
 
     const fetchJobPosts = (newPageNum, resultsPerPage) => {
-        // const location = "sydney";
-        // const query = "software";
-        // const results_per_page = "10";
-        // const page = "1";
-        // const sort_criteria = "relevance";
         setJobList([]);
         axios.get(`
             ${api.BASE_URL}/api/jobs?location=${locationQuery}&query=${searchQuery}&results_per_page=${resultsPerPage}&page=${newPageNum}
@@ -209,14 +87,12 @@ const JobSearch = () => {
             />
             {(searchQuery === "") ? (
                 <JobSelectionMenu
-                    data={data}
                     searchValue={searchQuery}
                     onSearch={handleSearch}
                     handleSelectCategory={handleSelectCategory}
                 />
             ) : (
                 <JobList
-                    // jobList={jobList}
                     selectedBoardID={selectedBoardID}
                     pageNum={pageNum}
                     fetchJobPosts={fetchJobPosts}

@@ -42,16 +42,9 @@ const categories = [
   },
 ];
 
-const JobSelectionMenu = ({ data, onSearch, searchQuery, handleSelectCategory }) => {
-  const head_data = data.slice(0, 3);
-
+const JobSelectionMenu = ({ onSearch, searchQuery, handleSelectCategory }) => {
   return (
     <>
-      <Grid container>
-        <Grid item sm={4}>
-          <Button variant="contained" color="primary">Search</Button>
-        </Grid>
-      </Grid>
       <h3>Quick select category of job</h3>
       <div>
         <Grid container>
@@ -70,15 +63,6 @@ const JobSelectionMenu = ({ data, onSearch, searchQuery, handleSelectCategory })
           })}
         </Grid>
       </div>
-
-      {/* <h3>Recommended Job Postings</h3>
-      <Grid container>
-        {head_data.map((eachJobPost) => (
-          <Grid item xs={4}>
-            <JobPost {...eachJobPost} />
-          </Grid>
-        ))}
-      </Grid> */}
     </>
   );
 };

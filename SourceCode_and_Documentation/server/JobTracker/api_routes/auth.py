@@ -38,15 +38,6 @@ session_fields = auth_api.model("User", {
 # RESTful route handlers:
 @auth_api.route('/register')
 class AuthenticationRegister(Resource):
-    # @auth_api.marshal_with(session_fields)
-    # @auth_api.doc(
-    #     description="Registration",
-    #     params={
-    #         "username": "Registered username",
-    #         "email": "Registration email",
-    #         "password": "Password"
-    #     }
-    # )
     def post(self):
         printColoured(" * Registering a new user", colour="yellow")
         request_params = dict(request.form)
@@ -65,14 +56,6 @@ class AuthenticationRegister(Resource):
 
 @auth_api.route('/login')
 class AuthenticationLogin(Resource):
-    # @auth_api.marshal_with(session_fields)
-    # @auth_api.doc(
-    #     description="Login",
-    #     params={
-    #         "email": "Login email",
-    #         "password": "Login password"
-    #     }
-    # )
     def post(self):
         printColoured(" * Logging in a user", colour="yellow")
         request_params = dict(request.form)
