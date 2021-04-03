@@ -29,11 +29,59 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-function ResumeDropZone(props) {
+// function ResumeDropZone(props) {
+//   const onDrop = useCallback((acceptedFiles) => {
+//     console.log(acceptedFiles);
+//     // TODO do something with the resume
+//   }, []);
+
+//   const {
+//     getRootProps,
+//     getInputProps,
+//     isDragActive,
+//     isDragAccept,
+//     isDragReject,
+//   } = useDropzone({ accept: "image/*", onDrop });
+
+//   const style = useMemo(
+//     () => ({
+//       ...baseStyle,
+//       ...(isDragActive ? activeStyle : {}),
+//       ...(isDragAccept ? acceptStyle : {}),
+//       ...(isDragReject ? rejectStyle : {}),
+//     }),
+//     [isDragActive, isDragReject, isDragAccept]
+//   );
+
+//   return (
+//     <div className="container">
+//       <div {...getRootProps({ style })}>
+//         <input {...getInputProps()} />
+//         <p>Drag 'n' drop or click to add your resume</p>
+//       </div>
+//     </div>
+//   );
+// }
+
+function ResumeDropZone({ setResume }) {
   const onDrop = useCallback((acceptedFiles) => {
     console.log(acceptedFiles);
-    // TODO do something with the resume
-  }, []);
+    acceptedFiles.forEach((file) => {
+      const reader = new FileReader()
+
+      reader.onabort = () => console.log('file reading was aborted')
+      reader.onerror = () => console.log('file reading has failed')
+      reader.onload = () => {
+      // Do whatever you want with the file contents
+        const binaryStr = reader.result
+        console.log(binaryStr)
+        setResume(binaryStr)
+      }
+      reader.readAsArrayBuffer(file)
+    })
+    
+  }, [])
+  // const {getRootProps, getInputProps} = useDropzone({onDrop})
 
   const {
     getRootProps,
@@ -41,7 +89,7 @@ function ResumeDropZone(props) {
     isDragActive,
     isDragAccept,
     isDragReject,
-  } = useDropzone({ accept: "image/*", onDrop });
+  } = useDropzone({ onDrop });
 
   const style = useMemo(
     () => ({
@@ -52,15 +100,14 @@ function ResumeDropZone(props) {
     }),
     [isDragActive, isDragReject, isDragAccept]
   );
-
+  
   return (
-    <div className="container">
-      <div {...getRootProps({ style })}>
-        <input {...getInputProps()} />
-        <p>Drag 'n' drop or click to add your resume</p>
-      </div>
+    <div {...getRootProps()}>
+      <input {...getInputProps({ style })} />
+      <p>Drag 'n' drop some files here, or click to select files</p>
     </div>
-  );
+  )
 }
+
 
 export default ResumeDropZone;

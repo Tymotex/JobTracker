@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Container, Modal } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
 import ResumeDropZone from "./ResumeDropZone";
-
+import ResumeRenderer from "./ResumeRenderer";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileSettings = () => {
   const classes = useStyles();
+  const [resume, setResume] = useState(null); 
 
   const [modalStyle] = useState(getModalStyle);
   const [modalVisible, setModalVisible] = useState(false);
@@ -64,7 +65,7 @@ const ProfileSettings = () => {
         <label>
           Resume
           {/* <Button variant="contained">Upload Resume</Button> */}
-          <ResumeDropZone/>
+          <ResumeDropZone setResume={setResume} />
           {/* <Dropzone>
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps()}>
@@ -74,6 +75,9 @@ const ProfileSettings = () => {
             )}
           </Dropzone> */}
         </label>
+      </Box>
+      <Box>
+        <ResumeRenderer file={resume} setFile={setResume} />
       </Box>
       <Button variant="contained" color="secondary" onClick={openModal}>
         Delete account
