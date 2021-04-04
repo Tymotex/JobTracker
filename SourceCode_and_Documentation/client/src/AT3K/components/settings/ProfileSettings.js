@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 const ProfileSettings = () => {
   const classes = useStyles();
   const [resume, setResume] = useState(null); 
+  const [resumeBinaryFile, setResumeBinaryFile] = useState(null);
 
   const [modalStyle] = useState(getModalStyle);
   const [modalVisible, setModalVisible] = useState(false);
@@ -65,7 +66,7 @@ const ProfileSettings = () => {
         <label>
           Resume
           {/* <Button variant="contained">Upload Resume</Button> */}
-          <ResumeDropZone setResume={setResume} />
+          <ResumeDropZone setResume={setResume} setResumeBinaryFile={setResumeBinaryFile} />
           {/* <Dropzone>
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps()}>
@@ -77,7 +78,7 @@ const ProfileSettings = () => {
         </label>
       </Box>
       <Box>
-        <ResumeRenderer file={resume} setFile={setResume} />
+        <ResumeRenderer file={resume} setFile={setResume} resumeBinaryFile={resumeBinaryFile} />
       </Box>
       <Button variant="contained" color="secondary" onClick={openModal}>
         Delete account

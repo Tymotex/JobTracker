@@ -1,7 +1,10 @@
 """
 Routes for fetching job postings
 """
+import json
+from JobTracker.utils.debug import pretty_print_dict
 from flask import (
+    send_file,
     Blueprint,
     render_template,
     request,
@@ -12,8 +15,11 @@ from JobTracker.database_ops import (
     create_board,
     get_board
 )
+from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, fields
+
+RESUME_DIR_PATH = "JobTracker/static/resumes"
 
 user_router = Blueprint("user", __name__)
 user_api = Api(
@@ -92,4 +98,37 @@ class UserBoard(Resource):
         board = get_board(user_id, board_id)
         return board
 
-        
+@user_api.route("/resume")
+class UserResume(Resource):
+    def get(self):
+        """
+            Retrieves the user's resume, if it exists, and sends it back
+        """        
+        printColoured(" * Retrieving resume pdf", colour="yellow")
+        request_params = dict(request.args)
+        try:
+            user_id = request_params["user_id"]
+            resume = send_file("static/resumes/{}.pdf".format(user_id))
+            return resume
+        except Exception as err:
+            raise InvalidUserInput(description="Failed to send resume: {}".format(err))
+
+    def post(self):
+        """
+            Receives the user's uploaded pdf and stores it locally on the file system
+        """
+        request_params = dict(request.form)
+        # return user_id
+        printColoured(" * Uploading resume pdf", colour="yellow")
+        pretty_print_dict(request_params)
+        # user_id = json.loads(request_params["data"])["user_id"]
+        user_id = request_params["user_id"]
+        # printColoured(request_params["resume"], colour="yellow")
+        printColoured(request.files["resume"], colour="yellow")
+        # path = "{}/{}.pdf".format(RESUME_DIR_PATH, user_id)
+        # file = open(path, "wb")
+        # file.write(bytearray(request_params["resume"], "utf-8"))
+        # file.close()
+        # request_params["resume"].save()
+        request.files["resume"].save("{}/{}.pdf".format(RESUME_DIR_PATH, user_id))
+        return "Saved"

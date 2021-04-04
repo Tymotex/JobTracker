@@ -21,10 +21,11 @@ import os
 env_path = Path('.') / '.env.{}'.format("development")
 load_dotenv(dotenv_path=env_path)
 
+
 # Creating the Flask app instance
 printColoured(" * Initialising Flask application")
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="/static")
 CORS(app)
 
 # blueprint = Blueprint("api", __name__, url_prefix="/api")
@@ -34,6 +35,7 @@ CORS(app)
 # app.register_blueprint(blueprint)
 
 app.config["SWAGGER_UI_JSONEDITOR"] = True
+app.config["RESUME_UPLOAD_PATH"] = 'resumes'
 
 
 # ===== App Configuration =====
