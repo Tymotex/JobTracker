@@ -13,7 +13,7 @@ const JobSearchToolbar = ({ searchQuery, boards, handleSearch, fetchJobPosts, pa
     return (
         <Paper className={styles.toolbar} elevation={3}>
             <div className={styles.content}>
-                <Grid container>
+                <Grid container className={styles.grid}>
                     <Grid item xs={4}>
                         <div className={styles.full}>
                             <Searchbar
@@ -45,7 +45,16 @@ const JobSearchToolbar = ({ searchQuery, boards, handleSearch, fetchJobPosts, pa
                     </Grid>
                 </Grid>
             </div>
-			<Button variant="outlined" onClick={() => fetchJobPosts(pageNum, resultsPerPage)}>Search</Button>
+            <div style={{ textAlign: "center", padding: "10px" }}>
+                <Button 
+                    variant="outlined" 
+                    onClick={() => fetchJobPosts(pageNum, resultsPerPage)}
+                    style={{ width: "30%" }}
+                >
+                    Search
+                </Button>
+                
+            </div>
         </Paper>
     )
 };

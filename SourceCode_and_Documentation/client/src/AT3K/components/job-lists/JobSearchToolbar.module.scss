@@ -5,21 +5,26 @@
         display: flex;
         flex-direction: row;
         flex-flow: row wrap;
-        justify-content:space-evenly;
+        justify-content: space-evenly;
         padding: 15px;
+
+        .grid {
+            align-items: center;
+        }
         .full {
             width: 100%;
-            margin-bottom: 5px;
+            // margin-bottom: 5px;
         }
         .full > div {
             width: 100%;
-            margin-bottom: 5px;
+            // margin-bottom: 5px;
         }
         .lineBreak {
             width:100%;
         }
         .dropdown {
             width:100%;
+            text-align: center;
         }
     }
 }

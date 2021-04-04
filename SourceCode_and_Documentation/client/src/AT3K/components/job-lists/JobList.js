@@ -103,15 +103,20 @@ const JobList = ({ selectedBoardID, jobList, resultsPerPage, setResultsPerPage, 
 			<p>
 				{numResults} jobs were found
 			</p>
-			<FormControl component="fieldset">
+			<FormControl component="fieldset" style={{ width: "100%", padding: "10px 0px"}}>
 				<FormLabel component="legend">Select fields to display</FormLabel>
 				<FormGroup>
-				{Object.keys(fieldsToShow).map(eachField => (
-					<FormControlLabel
-						control={<Checkbox checked={fieldsToShow[eachField]} onChange={handleFieldsToShow} name={eachField} />}
-						label={eachField}
-					/>
-				))}
+					<Grid container justify="space-between" style={{ border: "1px solid lightgrey", borderRadius: "4px" }}>
+
+						{Object.keys(fieldsToShow).map(eachField => (
+							<Grid item>
+								<FormControlLabel
+									control={<Checkbox checked={fieldsToShow[eachField]} onChange={handleFieldsToShow} name={eachField} />}
+									label={eachField}
+								/>
+							</Grid>
+						))}
+					</Grid>
 				</FormGroup>
 			</FormControl>
 			

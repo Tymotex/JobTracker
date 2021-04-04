@@ -38,31 +38,45 @@ const ProfileSettings = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
+
+  const boxStyle = {
+    padding: "10px"
+  }
+
+  const inputStyle = {
+    marginLeft: "10px"
+  }
+
+  const arrangeBtns = {
+    display: "flex",
+    justifyContent: "space-around"
+  }
+
   return (
     <Container maxWidth="sm">
-      <Box>
+      <Box style={boxStyle}>
         <Avatar />
       </Box>
-      <Box>
+      <Box style={boxStyle}>
         <label>
           First Name
-          <input type="text" />
+          <input style={inputStyle} type="text" />
         </label>
       </Box>
-      <Box>
+      <Box style={boxStyle}>
         <label>
           Last Name
-          <input type="text" />
+          <input  style={inputStyle} type="text" />
         </label>
       </Box>
-      <Box>
+      <Box style={boxStyle}>
         <label>
           Password
-          <Button variant="contained">Change Password</Button>
+          <Button style={inputStyle} variant="contained">Change Password</Button>
         </label>
       </Box>
 
-      <Box>
+      <Box style={boxStyle}>
         <label>
           Resume
           {/* <Button variant="contained">Upload Resume</Button> */}
@@ -77,27 +91,33 @@ const ProfileSettings = () => {
           </Dropzone> */}
         </label>
       </Box>
-      <Box>
+      <Box style={boxStyle}>
         <ResumeRenderer file={resume} setFile={setResume} resumeBinaryFile={resumeBinaryFile} />
       </Box>
-      <Button variant="contained" color="secondary" onClick={openModal}>
-        Delete account
-      </Button>
-      <Modal
-        open={modalVisible}
-        onClose={closeModal}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <div style={modalStyle} className={classes.paper}>
-          <h2 id="simple-modal-title">Are you sure about that?</h2>
-          <Button variant="contained" onClick={closeModal}>
-            Cancel
-          </Button>
-          <Button variant="contained">Confirm</Button>
-        </div>
-      </Modal>
-      <Button variant="contained">Save changes</Button>
+      <div>
+        <Button variant="contained" color="secondary" onClick={openModal}>
+          Delete account
+        </Button>
+        <Modal
+          open={modalVisible}
+          onClose={closeModal}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          <div style={modalStyle} className={classes.paper} >
+            <h2 id="simple-modal-title" style={{ textAlign: "center"}}>Are you sure about that?</h2>
+            <div style={arrangeBtns}>
+              <Button variant="contained" onClick={closeModal}>
+                Cancel
+              </Button>
+              <Button variant="contained">Confirm</Button>
+            </div>
+
+          
+          </div>
+        </Modal>
+        <Button variant="contained" style={{ marginLeft: "20px"}}>Save changes</Button>
+      </div>
     </Container>
   );
 };
