@@ -15,6 +15,7 @@ import JobListPaginator from "./JobListPaginator";
 import JobPost from "./JobPost";
 import { ContentLoader } from "../loaders";
 import Slider from "@material-ui/core/Slider";
+import TempJobPost from "./TempJobPost";
 import style from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark";
 
 const JobList = ({
@@ -122,8 +123,11 @@ const JobList = ({
       <p>{numResults} jobs were found</p>
       <FormControl component="fieldset">
         <FormLabel component="legend">Select fields to display</FormLabel>
-		{/* TODO Can't override formgroup css without using style = {} */}
-        <FormGroup classes={{ root: styles.fields }} style={{flexDirection : "row"}}>
+        {/* TODO Can't override formgroup css without using style = {} */}
+        <FormGroup
+          classes={{ root: styles.fields }}
+          style={{ flexDirection: "row" }}
+        >
           {Object.keys(fieldsToShow).map((eachField) => (
             <FormControlLabel
               control={
@@ -159,12 +163,19 @@ const JobList = ({
                 md={6}
                 lg={4}
               >
-                <JobPost
+                <TempJobPost
                   {...eachJobPost}
                   fieldsToShow={fieldsToShow}
                   selectedBoardID={selectedBoardID}
                   detailLevel={detailLevel}
                 />
+{/* 
+                <JobPost
+                  {...eachJobPost}
+                  fieldsToShow={fieldsToShow}
+                  selectedBoardID={selectedBoardID}
+                  detailLevel={detailLevel}
+                /> */}
               </Grid>
             ))}
         </Grid>
