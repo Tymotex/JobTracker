@@ -144,6 +144,7 @@ const JobList = ({ selectedBoardID, jobList, resultsPerPage, setResultsPerPage, 
 					))}
 				</Grid>
 			)}
+			
 		</>
 	);
 };
