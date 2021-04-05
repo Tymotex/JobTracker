@@ -35,6 +35,9 @@ CORS(app)
 
 app.config["SWAGGER_UI_JSONEDITOR"] = True
 
+@app.route("/")
+def index_route():
+        return "Hello, looks like this works"
 
 # ===== App Configuration =====
 
