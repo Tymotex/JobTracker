@@ -37,6 +37,9 @@ CORS(app)
 app.config["SWAGGER_UI_JSONEDITOR"] = True
 app.config["RESUME_UPLOAD_PATH"] = 'resumes'
 
+@app.route("/")
+def index_route():
+        return "Hello, looks like this works"
 
 # ===== App Configuration =====
 
