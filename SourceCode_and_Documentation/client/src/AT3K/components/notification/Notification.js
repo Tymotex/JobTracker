@@ -32,11 +32,19 @@ class Notification extends React.Component {
         toast.success(message);
     }
     static spawnError(err) {
-        if (err) {
-            const message = (err.response.data.message) ? (err.response.data.message) : "Something went horribly wrong!"; 
-            toast.error(message);
-        } else {
-            toast.error("Unknown error");
+        try {
+            if (err) {
+                if (err.response && err.response.data) {
+                    const message = (err.response.data.message) ? (err.response.data.message) : "Something went horribly wrong!"; 
+                    toast.error(message);
+                } else {
+                    toast.error("No error response was found. The server is offline most likely");
+                }
+            } else {
+                toast.error("Unknown error");
+            }
+        } catch {
+            toast.error("The server is offline most likely");
         }
     }
     static spawnInvalid(message) {

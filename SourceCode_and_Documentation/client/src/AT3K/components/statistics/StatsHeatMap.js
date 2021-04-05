@@ -5,75 +5,61 @@ import ApexCharts from "react-apexcharts";
 
 const series = [
     {
-        name: "Metric1",
-        data: generateData(18, {
+        name: "Monday",
+        data: generateData(8, {
             min: 0,
-            max: 90,
+            max: 10,
         }),
     },
     {
-        name: "Metric2",
-        data: generateData(18, {
+        name: "Tuesday",
+        data: generateData(8, {
             min: 0,
-            max: 90,
+            max: 10,
         }),
     },
     {
-        name: "Metric3",
-        data: generateData(18, {
+        name: "Wednesday",
+        data: generateData(8, {
             min: 0,
-            max: 90,
+            max: 10,
         }),
     },
     {
-        name: "Metric4",
-        data: generateData(18, {
+        name: "Thursday",
+        data: generateData(8, {
             min: 0,
-            max: 90,
+            max: 10,
         }),
     },
     {
-        name: "Metric5",
-        data: generateData(18, {
+        name: "Friday",
+        data: generateData(8, {
             min: 0,
-            max: 90,
+            max: 10,
         }),
     },
     {
-        name: "Metric6",
-        data: generateData(18, {
+        name: "Saturday",
+        data: generateData(8, {
             min: 0,
-            max: 90,
+            max: 10,
         }),
     },
     {
-        name: "Metric7",
-        data: generateData(18, {
+        name: "Sunday",
+        data: generateData(8, {
             min: 0,
-            max: 90,
+            max: 10,
         }),
-    },
-    {
-        name: "Metric8",
-        data: generateData(18, {
-            min: 0,
-            max: 90,
-        }),
-    },
-    {
-        name: "Metric9",
-        data: generateData(18, {
-            min: 0,
-            max: 90,
-        }),
-    },
+    }
 ];
 
 function generateData(count, yrange) {
     var i = 0;
     var series = [];
     while (i < count) {
-        var x = "w" + (i + 1).toString();
+        var x = "Week " + (i + 1).toString();
         var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
 
         series.push({

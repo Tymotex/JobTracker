@@ -8,12 +8,13 @@ import PropTypes from 'prop-types';
 
 const Dropdown = ({ label, value, onChange, items }) => {
     return (
-        <FormControl className="form-control" variant="outlined">
+        <FormControl className="form-control" variant="outlined" style={{ width: "100%" }}>
             <InputLabel id={label}>{label}</InputLabel>
             <Select
                 labelId={label}
                 value={value ? value.toString().toLowerCase() : ""}
                 onChange={onChange}
+                style={{"min-width": "200px" }}
                 label={label}
             >
                 {items && items.map((eachItem) => (

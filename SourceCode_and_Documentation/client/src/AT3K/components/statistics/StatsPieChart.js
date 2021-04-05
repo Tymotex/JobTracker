@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
     Pie,
     PieChart,
-
     Sector
 } from "recharts";
 
@@ -45,7 +44,7 @@ function renderActiveShape(props) {
                 outerRadius={outerRadius}
                 startAngle={startAngle}
                 endAngle={endAngle}
-                fill={fill}
+                fill={"#8884d8"}
             />
             <Sector
                 cx={cx}
@@ -67,7 +66,7 @@ function renderActiveShape(props) {
                 y={ey}
                 textAnchor={textAnchor}
                 fill="#333"
-            >{`PV ${value}`}</text>
+            >{`Number: ${value}`}</text>
             <text
                 x={ex + (cos >= 0 ? 1 : -1) * 12}
                 y={ey}
@@ -75,20 +74,13 @@ function renderActiveShape(props) {
                 textAnchor={textAnchor}
                 fill="#999"
             >
-                {`(Rate ${(percent * 100).toFixed(2)}%)`}
+                {`${(percent * 100).toFixed(2)}%`}
             </text>
         </g>
     );
 }
 
-const pieChartData = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
-    { name: "Group C", value: 300 },
-    { name: "Group D", value: 200 },
-];
-
-const StatsPieChart = ({ theme }) => {
+const StatsPieChart = ({ theme, pieChartData }) => {
     const [activeIndex, setActiveIndexId] = useState(0);
     return (
         <PieChart width={500} height={300}>

@@ -1,6 +1,7 @@
 """
 Routes for fetching job postings
 """
+import re
 from flask import (
     Blueprint,
     render_template,
@@ -109,6 +110,19 @@ class JobPostSearch(Resource):
                 "url"         : "http://www.example.com/jobsearch?q=electrical&l=sydney",   # TODO: Set this to be our url
                 "user_agent"  : "Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0"
             })
+            for each_job in jobs_json["jobs"]:
+                # Strip all leading non-alphanumeric characters
+                each_job["description"] = re.sub("^[^A-Za-z0-9]*", "", each_job["description"]).capitalize()
+                # Truncate duplicate whitespaces
+                each_job["description"] = re.sub("\s+", " ", each_job["description"])
+                each_job["description"] = re.sub("<b>", "", each_job["description"])
+                each_job["description"] = re.sub("</b>", "", each_job["description"])
+
+                # Capitalise all words occurring after punctuation such as . or !
+                p = re.compile(r'(?<=[\.\?!]\s)(\w+)')
+                each_job["description"] = p.sub(lambda match: match.group().capitalize(), each_job["description"])
+
+                
             return dict(jobs_json)  
         except Exception as err:
             printColoured(" * CareerJet API Client failed to fetch jobs. Error: {}".format(err), colour="red")

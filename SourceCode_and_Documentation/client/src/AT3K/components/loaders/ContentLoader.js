@@ -7,8 +7,8 @@ const Loader = (props) => (
         width={400}
         height={160}
         viewBox="0 0 400 160"
-        backgroundColor="#f3f3f3"
-        foregroundColor="#ecebeb"
+        backgroundColor="#e0e0e0"
+        foregroundColor="#b3afaf"
         {...props}
     >
         <rect x="48" y="8" rx="3" ry="3" width="88" height="6" />

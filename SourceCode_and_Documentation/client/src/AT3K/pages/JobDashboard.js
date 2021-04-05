@@ -69,6 +69,7 @@ const JobDashboard = () => {
     const [boardType, setBoardType] = useState("spreadsheet".toLowerCase());
     const [selectedBoard, setBoard] = useState(null);
     const [boards, setBoards] = useState(null);
+    const [boardSortStrategy, setBoardSortStrategy] = useState(null);
 
     const handleChangeBoard = (event) => {
         setBoardType(event.target.value);
@@ -80,6 +81,10 @@ const JobDashboard = () => {
 
     const handleDeselectBoard = () => {
         setBoard(null);
+    }
+
+    const handleSetBoardSorter = (event) => {
+        setBoardSortStrategy(event.target.value);
     }
 
     // ===== GET /api/user/boards =====
@@ -112,6 +117,8 @@ const JobDashboard = () => {
                     companies={tempCompanies}
                     handleSelectBoard={handleSelectBoard}
                     updateBoardList={fetchBoards}
+                    boardSortStrategy={boardSortStrategy}
+                    handleSetBoardSorter={handleSetBoardSorter}
                 />
             ) : (
                 <JobDashboardWorkspace
