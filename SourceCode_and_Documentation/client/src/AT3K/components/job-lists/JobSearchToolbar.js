@@ -59,6 +59,7 @@ const JobSearchToolbar = ({ searchQuery, boards, handleSearch, fetchJobPosts, pa
     )
 };
 
+
 JobSearchToolbar.propTypes = {
     searchQuery: PropTypes.string,
     handleSearch: PropTypes.func,

@@ -33,7 +33,8 @@ def add_user(username: str, email: str, password: str) -> str:
     inserted_user = db.users.insert_one({
         "username": username,
         "email": email,
-        "password": password
+        "password": password,
+        "resume": {}
     })
     return str(inserted_user.inserted_id)
 
@@ -55,6 +56,23 @@ def login_user(email: str, password: str) -> str:
     if not target_user["password"] == password:
         raise InvalidUserInput(description="Password incorrect")
     return str(target_user["_id"])
+
+# ===== User Profile Management =====
+
+def set_user_resume_fields(user_id: str, resume_data: dict):
+    """
+        Overwrites the user document's resume field with the provided resume_data 
+    """
+    db.users.update_one(
+        {
+            "_id": ObjectId(user_id)
+        },
+        {
+            "$set": {
+                "resume": resume_data
+            }
+        }
+    )
 
 # ===== Board Management =====
 
