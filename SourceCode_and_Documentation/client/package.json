@@ -43,6 +43,7 @@
     "react-loader-spinner": "^4.0.0",
     "react-paginate": "^7.1.0",
     "react-pdf": "^5.2.0",
+    "react-planet": "^1.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.1",
     "react-slick": "^0.28.1",

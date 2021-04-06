@@ -12,6 +12,7 @@ from JobTracker.exceptions import (
     InvalidUserInput
 )
 from bson import ObjectId
+import uuid
 
 # ===== User Management =====
 
@@ -109,6 +110,7 @@ def get_board(user_id: str, board_id: str):
     board["_id"] = str(board["_id"])
     return board
 
+
 # ============================================ START KAI ============================================
 # TODO: KAI
 
@@ -117,8 +119,31 @@ def get_board(user_id: str, board_id: str):
 def edit_board(user_id: str, board_id: str, name: str, description: str):
     """
         Updates an existing board's details
+
+
     """
     # Use db.boards.update_one() to update an existing board
+
+# Note: Tim did this. Needed to set the tracked jobs
+def set_tracked_jobs(user_id: str, board_id: str, tracked_jobs):
+    """
+        Updates the tracked jobs of the given board
+    """
+    printColoured(user_id)
+    printColoured(board_id)
+    printColoured(tracked_jobs)
+    db.boards.update_one(
+        {
+            "user_id": user_id, 
+            "_id": ObjectId(board_id)
+        },
+        {
+            "$set": {
+                "tracked_jobs": tracked_jobs
+            }
+        }
+    )
+    return tracked_jobs
 
 def delete_board(user_id: str, board_id: str):
     """
@@ -166,6 +191,14 @@ def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
             - job_to_track
     """
     # TODO: What happens on failure?
+
+    # Additional fields
+    job_to_track["current_status"] = "application"
+    job_to_track["notes"] = ""
+    job_to_track["priority"] = 5
+    # Assign a random ID. TODO: not robust
+    job_to_track["job_id"] = "{}-{}".format(board_id, str(uuid.uuid4()))
+
     # Push the new job into the board's tracked_jobs list
     db.boards.update_one(
         { 
@@ -179,6 +212,35 @@ def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
         }
     )
     return job_to_track
+
+def update_job(user_id, board_id, job_id, updated_job):
+    """
+        Updates an existing tracked job for a given user's board
+    """
+    target_board = db.boards.find_one({ 
+        "_id": ObjectId(board_id), 
+        "user_id": user_id 
+    })
+    new_jobs = target_board["tracked_jobs"].copy()
+    # Find the target job
+    target_index = -1
+    for job in new_jobs:
+        target_index += 1
+        if job["job_id"] == job_id:
+            break 
+    new_jobs[target_index] = updated_job
+    db.boards.update_one(
+        { 
+            "_id": ObjectId(board_id), 
+            "user_id": user_id 
+        },
+        {
+            "$set": {
+                "tracked_jobs": new_jobs.copy()
+            }
+        }
+    )
+    return updated_job
 
 # ===== User Analytics =====
 

@@ -16,6 +16,8 @@ import {
 import {
     ContentLoader
 } from '../components/loaders';
+import FunctionsMenu from '../components/job-boards/FunctionsMenu';
+import { Planet } from 'react-planet';
 
 
 // Force update hook
@@ -23,6 +25,54 @@ const useForceUpdate = () => {
     const [value, setValue] = useState(0);             
     return () => setValue(value => value + 1); 
 }
+
+function Test() {
+    return (
+        <Planet
+            centerContent={
+                <div
+                    style={{
+                        height: 100,
+                        width: 100,
+                        borderRadius: '50%',
+                        backgroundColor: '#0008a4',
+                    }}
+                />
+            }
+            open
+            dragablePlanet
+            dragRadiusPlanet={20}
+            bounce
+            autoClose
+        >
+            <div
+                style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: '50%',
+                    backgroundColor: '#9257ad',
+                }}
+            />
+            <div
+                style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: '50%',
+                    backgroundColor: '#9257ad',
+                }}
+            />
+        </Planet>
+    );
+}
+
+
+
+
+
+
+
+
+
 
 const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardList, boardSortStrategy, handleSetBoardSorter }) => {
     const [modalOpen, setModalOpen] = React.useState(false);
@@ -102,6 +152,7 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                 handleClose={handleModalClose} 
                 open={modalOpen} 
             />
+            <Test />
         </div>
     )
 }

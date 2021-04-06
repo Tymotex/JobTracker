@@ -8,11 +8,12 @@ import {
 import {
     Grid
 } from '@material-ui/core';
-import AddColumnButton from './AddColumnButton'; 
-import AddRecordButton from './AddRecordButton'; 
+import FunctionsMenu from './FunctionsMenu';
 import RecordSearchBar from './RecordSearchBar';
+import SaveButton from './SaveButton';
 
-const BoardToolbar = ({ boardType, handleChangeBoard }) => {
+
+const BoardToolbar = ({ boardType, handleChangeBoard, saveBoard }) => {
     return (
         <Paper className={styles.toolbar} elevation={3}>
             <div className={styles.content}>
@@ -31,9 +32,14 @@ const BoardToolbar = ({ boardType, handleChangeBoard }) => {
                         </div>
                     </Grid>
                 </Grid>
-                <BoardSettingsModal className={styles.button} />
-                <AddColumnButton className={styles.button} />
-                <AddRecordButton className={styles.button} />
+                <Grid container>
+                    <Grid item xs={3}>
+                        <FunctionsMenu saveBoard={saveBoard} />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <SaveButton saveBoard={saveBoard} />
+                    </Grid>
+                </Grid>
             </div>
         </Paper>
     );

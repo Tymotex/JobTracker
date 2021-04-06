@@ -18,7 +18,7 @@ const JobBoard = ({ trackedJobs }) => {
                 title: 'Awaiting Application',
                 label: `${trackedJobs.length} Jobs`,
                 cards: trackedJobs.map((eachJob, i) => ({
-                    id: `job${i}`,
+                    id: eachJob.job_id,
                     title: eachJob.title,
                     label: eachJob.company,
                     description: eachJob.description,
@@ -44,6 +44,17 @@ const JobBoard = ({ trackedJobs }) => {
             }
         ]
     }
+
+    console.log("==== UPDATED BOARD ====");
+    console.log(trackedJobs);
+    console.log(data);
+
+    // TODO: API call: PUT api/user/tracked_job - user_id, board_id, job_id, updated_job
+    //  toLaneId -> resumeSent
+    //  get the original job by using the index in the new lane's card array
+    //  update its status
+    //  make the API call
+
     return (
         <FullscreenMode>
             <div className={boardStyles.container}>
@@ -54,6 +65,7 @@ const JobBoard = ({ trackedJobs }) => {
                     editable={true}
                     canAddLanes={true}
                     collapsibleLanes={true}
+                    onCardMoveAcrossLanes={(_, __, cardId, index) => console.log(`${cardId}, ${index}`)}
                 />
             </div>
         </FullscreenMode>

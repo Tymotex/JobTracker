@@ -15,18 +15,22 @@ import FullscreenMode from './FullscreenMode';
 // ];
 // const StateDropdown = <DropDownEditor options={stateTypes} />;
 
+
 const columns = [
-    { key: 'company', name: "Company", frozen: true },
-    { key: "title", name: "Title", filterable: true, frozen: true },
-    { key: "date", name: "Date" },
+    { key: "job_id", name: "Job ID", resizable: true },
+    { key: 'company', name: "Company", frozen: true,  resizable: true },
+    { key: "title", name: "Title", filterable: true, frozen: true,  resizable: true },
+    { key: "date", name: "Date",  resizable: true },
     { key: "description", name: "Description", resizable: true },
-    { key: "url", name: "URL" },
-    { key: "salary", name: "Salary" },
-    { key: "locations", name: "Locations" },
-    { key: "priority", name: "Priority", sortable: true, sortDescendingFirst: true },
-    { key: "keyDates", name: "Key Dates", isExpanded: true,  },
-    { key: "state", name: "Current State" },
+    { key: "url", name: "URL",  resizable: true },
+    { key: "salary", name: "Salary",  resizable: true },
+    { key: "locations", name: "Locations",  resizable: true },
+    { key: "priority", name: "Priority", sortable: true, sortDescendingFirst: true,  resizable: true },
+    // { key: "key_date", name: "Key Dates", isExpanded: true, ,  resizable: true },
+    { key: "current_state", name: "Current State",  resizable: true },
+    { key: "notes", name: "Notes",  resizable: true },
 ];
+
 
 // Documentation: https://adazzle.github.io/react-data-grid/docs/ReactDataGrid
 
@@ -41,17 +45,8 @@ const JobSpreadsheet = ({ trackedJobs }) => {
         ].join('/');
     };
 
-    // Rendering preprocessing 
-    trackedJobs.forEach((eachJob) => {
-        // eachJob.date = (new Date(eachJob.date)).yyyymmdd();
-        eachJob.priority = 5;
-        eachJob.children = [
-            {
-                deadline: "Today"
-            }
-        ]
-        eachJob.state = "Awaiting Application";
-    });
+    // TODO: API call: when a field is changed, call POST /api/user/board and give the new trackedJobs
+    // https://www.google.com/search?q=react+data+grid+on+change&oq=react+data+grid+on+change&aqs=chrome..69i57.2423j0j7&sourceid=chrome&ie=UTF-8
 
     return (
         <>

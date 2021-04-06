@@ -16,7 +16,9 @@ from JobTracker.database_ops import (
     get_boards,
     create_board,
     set_user_resume_fields,
-    get_board
+    get_board,
+    set_tracked_jobs,
+    update_job
 )
 from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
@@ -103,6 +105,24 @@ class UserBoard(Resource):
         board = get_board(user_id, board_id)
         return board
 
+    def post(self):
+        """
+            Updates the tracked jobs of a board
+
+            POST /api/user/board
+
+            Parameters:
+                - user_id
+                - board_id
+                - tracked_jobs
+        """
+        printColoured(" * Setting tracked jobs for board", colour="yellow")
+        request_params = dict(request.get_json())
+        user_id = request_params["user_id"]
+        board_id = request_params["board_id"]
+        tracked_jobs = request_params["tracked_jobs"]
+        return set_tracked_jobs(user_id, board_id, tracked_jobs)
+
     # TODO: Kai
     # TODO: PUT /api/user/board
     def put(self):
@@ -128,6 +148,25 @@ class UserBoard(Resource):
         # Call delete_board in database_ops.py
 
 # ============================================ END KAI ============================================
+
+@user_api.route("/tracked_job")
+class UpdateBoard(Resource):
+    def put(self):
+        """
+            Updates a tracked job
+            Parameters:
+                - user_id
+                - board_id
+                - job_id
+                - updated_job
+        """
+        printColoured(" * Updating an existing tracked job", colour="yellow")
+        requests_params = dict(request.get_json())
+        user_id = requests_params["user_id"]
+        board_id = requests_params["board_id"]
+        job_id = requests_params["job_id"]
+        updated_job = requests_params["updated_job"]
+        return update_job(user_id, board_id, job_id, updated_job)
 
 @user_api.route("/resume")
 class UserResume(Resource):
