@@ -18,7 +18,6 @@ from JobTracker.database_ops import (
     set_user_resume_fields,
     get_board,
     set_tracked_jobs,
-    update_job
 )
 from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
@@ -148,25 +147,6 @@ class UserBoard(Resource):
         # Call delete_board in database_ops.py
 
 # ============================================ END KAI ============================================
-
-@user_api.route("/tracked_job")
-class UpdateBoard(Resource):
-    def put(self):
-        """
-            Updates a tracked job
-            Parameters:
-                - user_id
-                - board_id
-                - job_id
-                - updated_job
-        """
-        printColoured(" * Updating an existing tracked job", colour="yellow")
-        requests_params = dict(request.get_json())
-        user_id = requests_params["user_id"]
-        board_id = requests_params["board_id"]
-        job_id = requests_params["job_id"]
-        updated_job = requests_params["updated_job"]
-        return update_job(user_id, board_id, job_id, updated_job)
 
 @user_api.route("/resume")
 class UserResume(Resource):

@@ -10,7 +10,7 @@ import { Notification } from '../components/notification';
 
 const JobSearch = () => {
     const [searchQuery, setSearchQuery] = useState("");
-    const [locationQuery, setLocationQuery] = useState("");
+    const [locationQuery, setLocationQuery] = useState("Sydney");
     const [pageNum, setPageNum] = useState(1);
     const [boards, setBoards] = useState(null);
     const [selectedBoardID, setSelectedBoardID] = useState(null);
@@ -18,13 +18,14 @@ const JobSearch = () => {
     const [pageCount, setPageCount] = useState(10);
 	const [jobList, setJobList] = useState(null);
     const [resultsPerPage, setResultsPerPage] = useState(9);
+    const [sortStrategy, setSortStrategy] = useState("relevance");
 
-    const fetchJobPosts = (newPageNum, resultsPerPage) => {
+    const fetchJobPosts = (pageNum, resultsPerPage, sortCriteria="relevance") => {
         setJobList([]);
         axios.get(`
-            ${api.BASE_URL}/api/jobs?location=${locationQuery}&query=${searchQuery}&results_per_page=${resultsPerPage}&page=${newPageNum}
+            ${api.BASE_URL}/api/jobs?location=${locationQuery}&query=${searchQuery}&results_per_page=${resultsPerPage}&page=${pageNum}&sort_criteria=${sortCriteria}
         `).then((response) => {
-            setPageNum(newPageNum);
+            setPageNum(pageNum);
             setJobList(response.data.jobs);
             setNumResults(response.data.hits);
             setPageCount(response.data.pages);
@@ -44,6 +45,10 @@ const JobSearch = () => {
     }
     const handleSelectBoard = (event) => {
         setSelectedBoardID(event.target.value);
+    }
+    const handleSetSortStrategy = (val) => {
+        setSortStrategy(val);
+        fetchJobPosts(pageNum, resultsPerPage, val);
     }
 
     // ===== GET /api/user/boards =====
@@ -103,6 +108,8 @@ const JobSearch = () => {
                     jobList={jobList}
                     resultsPerPage={resultsPerPage}
                     setResultsPerPage={setResultsPerPage}
+                    sortStrategy={sortStrategy}
+                    handleSetSortStrategy={handleSetSortStrategy}
                 />
             )}
         </Layout>

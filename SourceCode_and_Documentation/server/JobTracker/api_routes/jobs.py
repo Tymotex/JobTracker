@@ -91,7 +91,7 @@ class JobPostSearch(Resource):
                 "query", 
                 "results_per_page", 
                 "page", 
-                # "sort_criteria"
+                "sort_criteria"
             ]
         ):
             printColoured(" * Missing mandatory fields", colour="red")

@@ -54,6 +54,7 @@ const JobBoard = ({ trackedJobs }) => {
     //  get the original job by using the index in the new lane's card array
     //  update its status
     //  make the API call
+    // Save board is unnecessary?
 
     return (
         <FullscreenMode>

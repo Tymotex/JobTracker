@@ -29,10 +29,11 @@ const JobList = ({
   searchValue,
   onSearch,
   pageCount,
+  sortStrategy,
+  handleSetSortStrategy
 }) => {
   // Dropdown states:
   const [detailLevel, setDetailLevel] = useState(1);
-  const [sortStrategy, setSortStrategy] = useState(1);
   // Paginator states
   // const [offset, setOffset] = useState(0);
   // const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -48,9 +49,9 @@ const JobList = ({
     date: true,
   });
 
-  useEffect(() => {
-    fetchJobPosts(pageNumber, resultsPerPage);
-  }, []);
+  // useEffect(() => {
+  //   fetchJobPosts(pageNumber, resultsPerPage);
+  // }, []);
 
   // Handler for when the user clicks on a different page number
   const handlePageClick = (d) => {
@@ -82,15 +83,11 @@ const JobList = ({
           <Dropdown
             label={"Sort by"}
             value={sortStrategy}
-            onChange={(event) => setSortStrategy(event.target.value)}
+            onChange={(event) => handleSetSortStrategy(event.target.value)}
             items={[
-              { value: "0", text: "Sort by" },
-              { value: "1", text: "Posted Date (earliest to latest)" },
-              { value: "2", text: "Posted Date (latest to earliest)" },
-              { value: "3", text: "Deadline (earliest to latest)" },
-              { value: "4", text: "Deadline (latest to earliest)" },
-              { value: "5", text: "Salary (Hi-lo)" },
-              { value: "6", text: "Salary (lo-hi)" },
+              { value: "relevance", text: "Relevance (highest to lowest)" },
+              { value: "date", text: "Posted date (most recent to least recent)" },
+              { value: "salary", text: "Salary (highest to lowest)" },
             ]}
           />
         </Grid>

@@ -8,7 +8,8 @@ from flask import (
     jsonify
 )
 from JobTracker.database_ops import (
-    add_job
+    add_job,
+    update_job
 )
 from JobTracker.exceptions import (
     InvalidUserInput
@@ -59,6 +60,27 @@ class Tracker(Resource):
         except KeyError as err:
             raise InvalidUserInput(description="Missing mandatory fields: {}".format(err))
         
+        # TODO: push stat for new application
+
         return add_job(board_id, user_id, job_to_track)
 
-        
+    def put(self):
+        """
+            Updates a tracked job
+            Parameters:
+                - user_id
+                - board_id
+                - job_id
+                - updated_job
+        """
+        printColoured(" * Updating an existing tracked job", colour="yellow")
+        requests_params = dict(request.get_json())
+        user_id = requests_params["user_id"]
+        board_id = requests_params["board_id"]
+        job_id = requests_params["job_id"]
+        updated_job = requests_params["updated_job"]
+
+        # TODO: push stat if status changed
+
+        return update_job(user_id, board_id, job_id, updated_job)
+ 
