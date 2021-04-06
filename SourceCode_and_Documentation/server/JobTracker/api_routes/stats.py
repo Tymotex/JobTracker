@@ -24,9 +24,72 @@ stats_api = Api(
 
 
 # RESTful route handlers:
-@stats_api.route('/')
+# ============================================ START KELLY ============================================
+
+@stats_api.route('/activity')
 class Stats(Resource):
     def get(self):
-        return {
-            "stats": []
-        }   
+        """
+            To hit this route - call GET http://localhost:5000/api/user/stats/activity
+
+            Fetches user activity data for each date.
+            Preprocesses it so that each date has a list of activities the user did.
+            This makes it easy for the frontend to render graphically
+
+            Parameters:
+                - user_id
+                - start time
+                - end time
+
+            Some possibly relevant resources:
+                - https://stackoverflow.com/questions/29721228/given-a-date-range-how-can-we-break-it-up-into-n-contiguous-sub-intervals
+                - https://stackoverflow.com/questions/7274267/print-all-day-dates-between-two-dates
+            
+            Some additional info:
+                - the stats array should contain objects sorted in ascending order of timestamp (sort again just in case)
+        """
+
+        # First call fetch_stats in database_ops.py
+
+        """
+            Note: the stats object looks like:
+            [
+                {
+                    "timestamp": 123,
+                    "activity": "application"
+                },
+                {
+                    "timestamp": 1256,
+                    "activity": "interview"
+                }
+            ]
+        """
+
+        # For each day between start time and end time,
+        """
+        Suppose this endpoint gets called on start=6/4/2020, end=23/4/2020,
+        return an array that might look like this for example:
+        [
+            "6/4/2020": [
+                "application",
+                "application",
+                "interview",
+                ...
+            ]
+            "7/4/2020": [
+                ...
+            ],
+            ...,
+            "23/4/2020": [
+                ...
+            ]
+        ]
+
+        """
+
+        return [
+            
+        ]
+
+# ============================================ END KELLY ============================================
+

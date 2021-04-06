@@ -85,6 +85,8 @@ class UserBoardManagement(Resource):
             "board_id": board_id
         }
 
+# ============================================ START KAI ============================================
+
 @user_api.route("/board")
 class UserBoard(Resource):
     def get(self):
@@ -100,6 +102,32 @@ class UserBoard(Resource):
         board_id = request_params["board_id"]
         board = get_board(user_id, board_id)
         return board
+
+    # TODO: Kai
+    # TODO: PUT /api/user/board
+    def put(self):
+        """
+            To hit this route - call PUT http://localhost:5000/api/user/board
+
+            Parameters:
+                - user_id
+                - board_id
+                - new_name
+                - new_description
+        """
+        # Call edit_board in database_ops.py
+
+    def delete(self):
+        """
+            To hit this route - call DELETE http://localhost:5000/api/user/board
+
+            Parameters:
+                - user_id
+                - board_id
+        """
+        # Call delete_board in database_ops.py
+
+# ============================================ END KAI ============================================
 
 @user_api.route("/resume")
 class UserResume(Resource):
@@ -135,6 +163,44 @@ class UserResume(Resource):
         # request_params["resume"].save()
         request.files["resume"].save("{}/{}.pdf".format(RESUME_DIR_PATH, user_id))
         return "Saved"
+
+
+# ============================================ START KATRINA ============================================
+
+# TODO: KATRINA
+
+@user_api.route("/company")
+class UserFavouriteCompany(Resource):
+    
+    def get(self):
+        """
+            To hit this route - call GET http://localhost:5000/api/user/company
+
+            Get the user's favourite companies
+            Parameters:
+                - user_id
+            Returns:
+                ["canva", "Atlassian", ... ]
+        """
+        return []
+
+    def post(self):
+        """
+            To hit this route - call POST http://localhost:5000/api/user/company
+
+            Save a new favourite company for a user
+            Parameters:
+                - user_id
+                - company_name
+                - ...more?
+        """
+        # Call save_favourite_company in database_ops.py
+
+        return "Success" # Or anything else
+
+
+# ============================================ END KATRINA ============================================
+
 
 @user_api.route("/parse_resume")
 class UserResumeParser(Resource):
@@ -182,50 +248,21 @@ Return value:
 {
   "education": [
     {
-      "dates": "2020",
-      "name": "School of Engineering"
-    },
-    {
       "name": "University of New South Wales"
     },
-    {
-      "dates": "2019",
-      "name": "Faculty of Engineering Dean\u2019s Award"
-    }
   ],
   "email": "admin@timz.dev",
   "experience": [
     {
-      "organization": "University of New South Wales",
-      "title": "Academic Tutor"
-    },
-    {
-      "organization": "Computer Science & Engineering Society",
-      "title": "Team Lead"
+      "organization": "Test company",
+      "title": "Junior Engineer"
     }
   ],
   "name": "Tim Zhang",
-  "phone": "493-045-119",
+  "phone": "123-123-123",
   "skills": [
     "Shell",
-    "Api",
-    "Github",
-    "Python",
-    "Javascript",
-    "C",
-    "Postgresql",
-    "Ui",
-    "Pytorch",
-    "Engineering",
-    "Scripting",
-    "Apis",
-    "Algorithms",
-    "Perl",
-    "Flask",
-    "C++",
-    "Java",
-    "Ruby",
-    "C#"
+    ...
   ]
 }
 

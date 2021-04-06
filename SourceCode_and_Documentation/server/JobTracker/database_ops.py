@@ -34,7 +34,9 @@ def add_user(username: str, email: str, password: str) -> str:
         "username": username,
         "email": email,
         "password": password,
-        "resume": {}
+        "resume": {},
+        "statistics": [],
+        "favourited_companies": []
     })
     return str(inserted_user.inserted_id)
 
@@ -107,6 +109,52 @@ def get_board(user_id: str, board_id: str):
     board["_id"] = str(board["_id"])
     return board
 
+# ============================================ START KAI ============================================
+# TODO: KAI
+
+# use the pymongo docs if lost: https://pymongo.readthedocs.io/en/stable/
+
+def edit_board(user_id: str, board_id: str, name: str, description: str):
+    """
+        Updates an existing board's details
+    """
+    # Use db.boards.update_one() to update an existing board
+
+def delete_board(user_id: str, board_id: str):
+    """
+        Deletes a given user's board
+    """
+    # Use db.boards.delete_one
+
+# ============================================ END KAI ============================================
+
+
+# ============================================ START KATRINA ============================================
+# TODO: KATRINA
+
+# use the pymongo docs if lost: https://pymongo.readthedocs.io/en/stable/
+
+def save_favourite_company(user_id: str, company_name: str):  # TODO: more params needed?
+    """
+
+    """
+    # Use db.users.update_one
+
+    # Finding the user, then pushing an object into the favourited_companies field
+    db.users.update_one(
+        {
+            "_id": ObjectId(user_id),
+        },
+        {
+            "$push": {
+                "favourited_companies": company_name
+            }
+        }
+    )
+
+# ============================================ END KATRINA ============================================
+
+
 # ===== Job Tracking =====
 
 def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
@@ -131,6 +179,41 @@ def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
         }
     )
     return job_to_track
+
+# ===== User Analytics =====
+
+def push_stat(user_id: str, stat: dict):
+    """
+        Pushes a new statistic to the user document
+    """
+    db.users.update_one(
+        { 
+            "_id": ObjectId(user_id)
+        },
+        {
+            "$push": {
+                "statistics": stat
+            }
+        }
+    )
+
+
+# ============================================ START KELLY ============================================
+
+# This function should be working. Just need to call it
+def fetch_stats(user_id: str):
+    """
+        Fetches all stats for a user
+    """
+    target_user = db.user.find_one(
+        {
+            "_id": ObjectId(user_id)
+        }
+    )
+    return target_user["statistics"]
+
+# ============================================ END KELLY ============================================
+
 
 # ===== Utilities =====
 

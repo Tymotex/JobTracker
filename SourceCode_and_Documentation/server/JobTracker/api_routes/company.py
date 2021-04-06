@@ -27,8 +27,32 @@ company_api = Api(
 @company_api.route('/')
 class CompanyFetch(Resource):
     def get(self):
+        """
+            Getting company info [using opencorporates or wikipedia]
+
+            Parameters:
+                - company_name
+        """
+
+        # Get company info through Wikipedia (or opencorporates)
+
+
+        # Get relevant jobs
+
+        # Call: get_job_postings(location, query, results_per_page, page, sort_criteria)
+        # To get job list
+
+        # Filter for the jobs that actually belong to company_name
+
         return {
-            "details": {
-                
-            }
+            "company_info": {
+                # ...
+            },
+            "jobs": [
+                {
+                    # ...
+                }
+            ]
         }  
+
+

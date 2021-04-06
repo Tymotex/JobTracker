@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// TODO: Call parse_resume endpoint
+// TODO: Render user profile data on this page.
+// TODO: Write the route for fetching user profile data
+
 const ProfileSettings = () => {
   const classes = useStyles();
   const [resume, setResume] = useState(null); 
@@ -75,24 +79,25 @@ const ProfileSettings = () => {
           <Button style={inputStyle} variant="contained">Change Password</Button>
         </label>
       </Box>
-
+      <hr />
       <Box style={boxStyle}>
         <label>
-          Resume
+          <h3>Upload your resume</h3>
           {/* <Button variant="contained">Upload Resume</Button> */}
           <ResumeDropZone setResume={setResume} setResumeBinaryFile={setResumeBinaryFile} />
           {/* <Dropzone>
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
+              <input {...getInputProps()} />
+              <p>Drag 'n' drop some files here, or click to select files</p>
               </div>
-            )}
-          </Dropzone> */}
+              )}
+            </Dropzone> */}
         </label>
       </Box>
       <Box style={boxStyle}>
         <ResumeRenderer file={resume} setFile={setResume} resumeBinaryFile={resumeBinaryFile} />
+        <Button variant="outlined" onClick={() => {}}>Parse resume</Button>
       </Box>
       <div>
         <Button variant="contained" color="secondary" onClick={openModal}>

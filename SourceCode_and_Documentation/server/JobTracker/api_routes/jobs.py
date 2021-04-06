@@ -78,7 +78,6 @@ class JobPostSearch(Resource):
                 }
         """
         # Run `pydoc careerjet_api` to see documentation. 
-        cj  =  CareerjetAPIClient("en_AU")
         printColoured(" * Getting a list of jobs")
         request_params = dict(request.args)
         pretty_print_dict(request_params)
@@ -99,31 +98,41 @@ class JobPostSearch(Resource):
             raise InvalidUserInput(description="Request parameter is missing mandatory fields")
 
         try:
-            jobs_json = cj.search({
-                "location"    : request.args.get("location"),
-                "keywords"    : request.args.get("query"),
-                "affid"       : "213e213hd12344552",
-                "pagesize"    : request.args.get("results_per_page"),
-                "page"        : request.args.get("page"), 
-                # "sort"        : request.args.get("sort_criteria"),                    
-                "user_ip"     : "11.22.33.44",
-                "url"         : "http://www.example.com/jobsearch?q=electrical&l=sydney",   # TODO: Set this to be our url
-                "user_agent"  : "Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0"
-            })
-            for each_job in jobs_json["jobs"]:
-                # Strip all leading non-alphanumeric characters
-                each_job["description"] = re.sub("^[^A-Za-z0-9]*", "", each_job["description"]).capitalize()
-                # Truncate duplicate whitespaces
-                each_job["description"] = re.sub("\s+", " ", each_job["description"])
-                each_job["description"] = re.sub("<b>", "", each_job["description"])
-                each_job["description"] = re.sub("</b>", "", each_job["description"])
-
-                # Capitalise all words occurring after punctuation such as . or !
-                p = re.compile(r'(?<=[\.\?!]\s)(\w+)')
-                each_job["description"] = p.sub(lambda match: match.group().capitalize(), each_job["description"])
-
-                
-            return dict(jobs_json)  
+            return get_job_postings(
+                request.args.get("location"),
+                request.args.get("query"),
+                request.args.get("results_per_page"),
+                request.args.get("page"),
+                request.args.get("sort_criteria")
+            )
         except Exception as err:
             printColoured(" * CareerJet API Client failed to fetch jobs. Error: {}".format(err), colour="red")
     
+
+def get_job_postings(location, query, results_per_page, page, sort_criteria):
+    """ 
+        Gets job postings
+    """
+    cj  =  CareerjetAPIClient("en_AU")
+    jobs_json = cj.search({
+        "location"    : location,
+        "keywords"    : query,
+        "affid"       : "213e213hd12344552",
+        "pagesize"    : results_per_page,
+        "page"        : page,
+        "sort"        : sort_criteria,                  
+        "user_ip"     : "11.22.33.44",
+        "url"         : "http://www.example.com/jobsearch?q=electrical&l=sydney",   # TODO: Set this to be our url
+        "user_agent"  : "Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0"
+    })
+    for each_job in jobs_json["jobs"]:
+        # Strip all leading non-alphanumeric characters
+        each_job["description"] = re.sub("^[^A-Za-z0-9]*", "", each_job["description"]).capitalize()
+        # Truncate duplicate whitespaces
+        each_job["description"] = re.sub("\s+", " ", each_job["description"])
+        each_job["description"] = re.sub("<b>", "", each_job["description"])
+        each_job["description"] = re.sub("</b>", "", each_job["description"])
+        # Capitalise all words occurring after punctuation such as . or !
+        p = re.compile(r'(?<=[\.\?!]\s)(\w+)')
+        each_job["description"] = p.sub(lambda match: match.group().capitalize(), each_job["description"])
+    return dict(jobs_json)  
