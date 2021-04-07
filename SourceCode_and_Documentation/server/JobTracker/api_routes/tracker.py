@@ -11,7 +11,8 @@ from flask import (
 from JobTracker.database_ops import (
     add_job,
     update_job,
-    push_stat
+    push_stat,
+    eliminate_stat_duplicates
 )
 from JobTracker.exceptions import (
     InvalidUserInput
@@ -41,6 +42,10 @@ authorisation_fields = tracker_api.model("Auth", {
     "board_id": fields.String
 }) 
 
+
+
+
+
 # RESTful route handlers:
 @tracker_api.route("/")
 class Tracker(Resource):
@@ -65,15 +70,11 @@ class Tracker(Resource):
         job_id = add_job(board_id, user_id, job_to_track)
 
         # TODO: push stat for new application
-        push_stat(user_id, {
+        push_stat(board_id, {
             "timestamp": time.time(),
             "activity": "application",
             "job_id": job_id
         })
-
-        # TODO: issue: currently if you switch from application -> resume, then back to application,
-        # you will have 3 stats when you should just have 1 (need a way of clearing the resume stat
-        # if the user switches a job back to "application")
 
         return job_to_track
 
@@ -93,11 +94,19 @@ class Tracker(Resource):
         job_id = requests_params["job_id"]
         updated_job = requests_params["updated_job"]
 
-        # TODO: push stat if status changed
-
-
-        # TODO: issue: upating status in spreadsheet doesn't update track job. Can we add some kind of
-        # a hook to the statusselector components? Eg. on change, grab job id, then make request to PUT /... 
+        # Push stat and eliminate duplicates if they occur after pushing
+        push_stat(board_id, {
+            "timestamp": time.time(),
+            "activity": updated_job["current_status"],
+            "job_id": job_id
+        })
+        eliminate_stat_duplicates(board_id, job_id, updated_job["current_status"])
 
         return update_job(user_id, board_id, job_id, updated_job)
  
+    def delete(self):
+        """
+            Removes a tracked job and all its associated data
+        """
+        printColoured(" * Removing a tracked job")
+        
