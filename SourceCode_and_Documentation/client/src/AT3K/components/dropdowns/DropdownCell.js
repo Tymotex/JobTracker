@@ -11,6 +11,7 @@ class DropdownCell extends React.Component {
 
     this.ref = React.createRef()
     this.onChange = this.onChange.bind(this)
+    console.log(this.props)
   }
 
   getValue() {
@@ -22,7 +23,8 @@ class DropdownCell extends React.Component {
   }
 
   onChange(_, value) {
-    this.setState({ value })
+    alert(value);
+    this.props.onRowChange();
     // This will close the dropdown as soon as an option is selected
     // this.props.onCommit()
   }
@@ -33,7 +35,7 @@ class DropdownCell extends React.Component {
         ref={this.ref}
         autoHighlight
         value={this.state.value}
-        options={['Awaiting Application', 'Resume Sent', 'Interview Stage', 'Finalised']}
+        options={['application', 'resume', 'interview', 'final']}
         getOptionLabel={s => s}
         getOptionDisabled={s => this.state.value === s}
         onChange={this.onChange}

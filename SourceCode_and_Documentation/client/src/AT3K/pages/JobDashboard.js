@@ -123,7 +123,6 @@ const JobDashboard = () => {
             ) : (
                 <JobDashboardWorkspace
                     boardType={boardType}
-                    jobPostings={tempJobList}
                     selectedBoardID={selectedBoard}
                     handleChangeBoard={handleChangeBoard}
                     handleDeselectBoard={handleDeselectBoard}

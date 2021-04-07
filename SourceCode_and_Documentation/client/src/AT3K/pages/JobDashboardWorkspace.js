@@ -12,18 +12,18 @@ import axios from 'axios';
 import api from '../constants/api';
 import Cookie from 'js-cookie';
 import { LoadingSpinner } from '../components/loaders';
-
+import { Notification } from '../components/notification';
 
 
 const JobDashboardWorkspace = ({ 
     boardType, 
     selectedBoardID,
-    jobPostings, 
     handleChangeBoard, 
     handleDeselectBoard 
 }) => {
 
     const [board, setBoard] = useState(null);
+    const [trackedJobs, setTrackedJobs] = useState(null);
 
     // ===== GET /api/user/board =====
 
@@ -33,7 +33,7 @@ const JobDashboardWorkspace = ({
             axios.get(`${api.BASE_URL}/api/user/board?user_id=${userID}&board_id=${selectedBoardID}`)
                 .then((response) => {
                     setBoard(response.data);
-                    console.log(response.data.tracked_jobs);
+                    setTrackedJobs(response.data.tracked_jobs);
                 }) 
                 .catch((err) => {
                     Notification.spawnError(err);
@@ -62,20 +62,19 @@ const JobDashboardWorkspace = ({
                 boardType={boardType}
                 handleChangeBoard={handleChangeBoard}
             />
-            {board ? (
+            {board && trackedJobs !== null ? (
                 <>
-                    {console.log(board.tracked_jobs)}
                     {boardType === "spreadsheet" && (
-                        <JobSpreadsheet trackedJobs={board.tracked_jobs} />
+                        <JobSpreadsheet trackedJobs={trackedJobs} setTrackedJobs={setTrackedJobs} boardID={board._id} />
                     )}
                     {boardType === "board" && (
-                        <JobBoard trackedJobs={board.tracked_jobs} />
+                        <JobBoard trackedJobs={trackedJobs} boardID={board._id} />
                     )}
                     {boardType === "calendar" && (
-                        <JobCalendar trackedJobs={board.tracked_jobs} />
+                        <JobCalendar trackedJobs={trackedJobs} boardID={board._id} />
                     )}
                     {boardType === "list" && (
-                        <JobList trackedJobs={board.tracked_jobs} /> // GET RID OF jobPostings
+                        <JobList trackedJobs={trackedJobs} boardID={board._id} /> 
                     )}
                 </>
             ) : (
