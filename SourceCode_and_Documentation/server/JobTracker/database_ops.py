@@ -36,7 +36,6 @@ def add_user(username: str, email: str, password: str) -> str:
         "email": email,
         "password": password,
         "resume": {},
-        "statistics": [],
         "favourited_companies": []
     })
     return str(inserted_user.inserted_id)
@@ -89,7 +88,8 @@ def create_board(user_id: str, name: str, description: str) -> str:
         "user_id": user_id,
         "name": name,
         "description": description,
-        "tracked_jobs": []
+        "tracked_jobs": [],
+        "statistics": []
     })
     return str(inserted_document.inserted_id) 
 
@@ -129,9 +129,6 @@ def set_tracked_jobs(user_id: str, board_id: str, tracked_jobs):
     """
         Updates the tracked jobs of the given board
     """
-    printColoured(user_id)
-    printColoured(board_id)
-    printColoured(tracked_jobs)
     db.boards.update_one(
         {
             "user_id": user_id, 
@@ -244,13 +241,13 @@ def update_job(user_id, board_id, job_id, updated_job):
 
 # ===== User Analytics =====
 
-def push_stat(user_id: str, stat: dict):
+def push_stat(board_id: str, stat: dict):
     """
-        Pushes a new statistic to the user document
+        Pushes a new statistic to the given board
     """
-    db.users.update_one(
+    db.boards.update_one(
         { 
-            "_id": ObjectId(user_id)
+            "_id": ObjectId(board_id)
         },
         {
             "$push": {
@@ -259,24 +256,94 @@ def push_stat(user_id: str, stat: dict):
         }
     )
 
-# ============================================ START KELLY ============================================
+def eliminate_stat_duplicates(board_id: str, job_id: str, new_status: str):
+    """
+        Suppose you have [
+            {
+                "timestamp": 1,
+                "activity":  "application",
+                "job_id": "123"
+            },
+            {
+                "timestamp": 2,
+                "activity":  "resume",
+                "job_id": "123"
+            },
+            {
+                "timestamp": 3,
+                "activity":  "resume",       <--- This object should not be stored
+                "job_id": "123"
+            },
+            {
+                "timestamp": 4,
+                "activity": "interview",
+                "job_id": "123"
+            },
+            {
+                "timestamp": 5,
+                "activity": "application",   <--- This object should not be stored
+                "job_id": "123"
+            }
+        ].
+        This function eliminates duplicate stats for a tracked job
+    """
+    # Activity orders:
+    # application -> resume -> interview -> final
+    activities_stage = {
+        "application": 0,
+        "resume": 10,
+        "interview": 20,
+        "final": 30
+    }
 
-# This function should be working. Just need to call it
-def fetch_stats(user_id: str):
-    """
-        Fetches all stats for a user
-    """
-    target_user = db.users.find_one(
+    # Fetching the stats array for the board
+    board = db.boards.find_one({ "_id": ObjectId(board_id) })
+    stats = board["statistics"]
+
+    # Sort timestamps into ascending order
+    stats.sort(key=lambda x: x["timestamp"])
+
+    # Clear all duplicate statistics
+    latest_stage =  -1
+    i = 0
+    new_stage = activities_stage[new_status]
+    while i < len(stats):
+        each_stat = stats[i]
+        if each_stat["job_id"] != job_id:
+            i += 1
+            continue
+        curr_stage = activities_stage[each_stat["activity"]]
+        if latest_stage < curr_stage and curr_stage <= new_stage:
+            latest_stage = curr_stage
+            i += 1
+        else:
+            # Duplicate discovered. Eliminate it from the list
+            del stats[i]
+
+    # Replace original stats array
+    new_stats = stats.copy()
+    db.boards.update_one(
+        { "_id": ObjectId(board_id) },
         {
-            "_id": ObjectId(user_id)
+            "$set": {
+                "statistics": new_stats
+            }
         }
     )
-    if not target_user:
-        raise InvalidUserInput(description="User {} wasn't found".format(user_id))
-    return target_user["statistics"]
+    return new_stats
 
-# ============================================ END KELLY ============================================
-
+def fetch_stats(board_id: str):
+    """
+        Fetches all stats associated with the given board
+    """
+    target_board = db.boards.find_one(
+        {
+            "_id": ObjectId(board_id)
+        }
+    )
+    if not target_board:
+        raise InvalidUserInput(description="Board {} wasn't found".format(board_id))
+    return target_board["statistics"]
 
 # ===== Utilities =====
 

@@ -7,7 +7,6 @@ import Cookie from 'js-cookie';
 import axios from 'axios';
 import api from '../../constants/api';
 import styles from './JobSpreadsheet.module.scss';
-import { DropdownCell } from '../dropdowns';
 import DropdownEditor from '../dropdowns/DropdownEditor';
 
 
@@ -16,47 +15,47 @@ import { PrimaryButton } from '../buttons';
 import ReactTooltip from 'react-tooltip';
 import { Notification } from '../notification';
 
-const issueTypes = [
-    { id: "bug", value: "Bug" },
-    { id: "epic", value: "Epic" },
-    { id: "story", value: "Story" }
-];
-
-const columns = [
-    SelectColumn,
-    { key: "job_id", name: "Job ID", resizable: true },
-    { key: 'company', name: "Company", frozen: true, resizable: true, editor: TextEditor },
-    { key: "title", name: "Title", filterable: true, frozen: true, resizable: true, editor: TextEditor },
-    { key: "date", name: "Date", resizable: true },
-    { key: "description", name: "Description", resizable: true, editor: TextEditor },
-    { key: "url", name: "URL", resizable: true, editor: TextEditor, 
-        formatter({ row }) {    
-            return (
-                <strong>
-                    <a 
-                        className={styles.link} 
-                        href={row.url}
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                    >
-                        View Post
-                    </a>
-                </strong>
-            );
-        }
-    },
-    { key: "salary", name: "Salary", resizable: true, editor: TextEditor },
-    { key: "locations", name: "Locations", resizable: true, editor: TextEditor },
-    { key: "priority", name: "Priority", sortable: true, sortDescendingFirst: true, resizable: true, editor: DropdownEditor.PriorityEditor },
-    // { key: "key_date", name: "Key Dates", isExpanded: true, ,  resizable: true },
-    { key: "current_status", name: "Current Status",  resizable: true, editor: DropdownEditor.StatusEditor },
-    { key: "notes", name: "Notes",  resizable: true, editor: TextEditor },
-];
-
 // Documentation: https://adazzle.github.io/react-data-grid/docs/ReactDataGrid
 
 const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID }) => {
     const [selectedRows, setSelectedRows] = useState(() => new Set());
+
+    const StatusEditor = ({ row, onRowChange }) => {
+        return (
+            <DropdownEditor.StatusEditor row={row} onRowChange={onRowChange} boardID={boardID} />
+        )
+    }
+
+    const columns = [
+        SelectColumn,
+        { key: "job_id", name: "Job ID", resizable: true },
+        { key: 'company', name: "Company", frozen: true, resizable: true, editor: TextEditor },
+        { key: "title", name: "Title", filterable: true, frozen: true, resizable: true, editor: TextEditor },
+        { key: "date", name: "Date", resizable: true },
+        { key: "description", name: "Description", resizable: true, editor: TextEditor },
+        { key: "url", name: "URL", resizable: true, editor: TextEditor, 
+            formatter({ row }) {    
+                return (
+                    <strong>
+                        <a 
+                            className={styles.link} 
+                            href={row.url}
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                        >
+                            View Post
+                        </a>
+                    </strong>
+                );
+            }
+        },
+        { key: "salary", name: "Salary", resizable: true, editor: TextEditor },
+        { key: "locations", name: "Locations", resizable: true, editor: TextEditor },
+        { key: "priority", name: "Priority", sortable: true, sortDescendingFirst: true, sortable: true, resizable: true, editor: DropdownEditor.PriorityEditor },
+        // { key: "key_date", name: "Key Dates", isExpanded: true, ,  resizable: true },
+        { key: "current_status", name: "Current Status",  resizable: true, editor: StatusEditor },
+        { key: "notes", name: "Notes",  resizable: true, editor: TextEditor },
+    ];
 
     const onGridRowsUpdated = (newTrackedJobs) => {
         console.log(newTrackedJobs);
