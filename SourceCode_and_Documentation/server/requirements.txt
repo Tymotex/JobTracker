@@ -46,3 +46,4 @@ toml==0.10.2
 urllib3==1.25.8
 webencodings==0.5.1
 Werkzeug==1.0.1
+Wikipedia-API==0.5.4
