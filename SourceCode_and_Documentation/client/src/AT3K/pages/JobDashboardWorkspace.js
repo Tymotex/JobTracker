@@ -19,7 +19,7 @@ const JobDashboardWorkspace = ({
     boardType, 
     selectedBoardID,
     handleChangeBoard, 
-    handleDeselectBoard 
+    handleDeselectBoard,
 }) => {
 
     const [board, setBoard] = useState(null);
@@ -61,6 +61,9 @@ const JobDashboardWorkspace = ({
             <BoardToolbar 
                 boardType={boardType}
                 handleChangeBoard={handleChangeBoard}
+                trackedJobs={trackedJobs}
+                boardID={selectedBoardID}
+                fetchBoardInfo={fetchBoardInfo}
             />
             {board && trackedJobs !== null ? (
                 <>

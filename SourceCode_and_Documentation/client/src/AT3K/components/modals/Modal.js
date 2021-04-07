@@ -7,14 +7,18 @@ class Modal extends React.Component {
     }
 
     render() {
-
+        const { title, children, Contents } = this.props;
         return (
             <div>
                 <section onClick={() => this.simpleDialog.show()}>
-                    {this.props.children}
+                    {children}
                 </section>
-                <SkyLight hideOnOverlayClicked ref={ref => this.simpleDialog = ref} title="Hi, I'm a simple modal">
-                    Hello, I dont have any callback.
+                <SkyLight 
+                    hideOnOverlayClicked 
+                    ref={ref => this.simpleDialog = ref} 
+                    title={title}
+                >
+                    <Contents />
                 </SkyLight>
             </div>
         )

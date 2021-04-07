@@ -27,7 +27,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID }) => {
     }
 
     const columns = [
-        SelectColumn,
+        // SelectColumn,
         { key: "job_id", name: "Job ID", resizable: true },
         { key: 'company', name: "Company", frozen: true, resizable: true, editor: TextEditor },
         { key: "title", name: "Title", filterable: true, frozen: true, resizable: true, editor: TextEditor },
@@ -94,6 +94,20 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID }) => {
 
     // TODO: API call: when a field is changed, call POST /api/user/board and give the new trackedJobs
     // https://www.google.com/search?q=react+data+grid+on+change&oq=react+data+grid+on+change&aqs=chrome..69i57.2423j0j7&sourceid=chrome&ie=UTF-8
+
+
+
+    console.log("COLUMNS");
+    console.log(columns);
+    console.log("ROWS");
+    console.log(trackedJobs);
+  
+    const csvColumn = {};
+    columns.forEach(eachCol => {
+        csvColumn[eachCol.key] = eachCol.name;
+    });
+    console.log(csvColumn);
+    const csvRows = [...trackedJobs];
 
     return (
         <>

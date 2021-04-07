@@ -8,17 +8,6 @@ import api from '../constants/api';
 import { useEffect } from 'react';
 import { Notification } from '../components/notification';
 
-const tempBoards = [
-    {
-        name: "Software Engineering",
-        description: "Software engineering is the systematic application of engineering approaches to the development of software."
-    },
-    {
-        name: "Electrical Engineering",
-        description: "Electrical engineering is an engineering discipline concerned with the study, design and application of equipment, devices and systems which use electricity, electronics, and electromagnetism."
-    }
-];
-
 const tempCompanies = [
     {
         name: "Canva",
@@ -33,33 +22,6 @@ const tempCompanies = [
             Atlassian Corporation Plc is an Australian software company that develops products for software developers and project managers.
         `,
         link: "/search/company"
-    }
-];
-
-const tempJobList = [
-    {
-        position: "Frontend engineer",
-        description: "Serverless Platform with a Vue.js front end."
-    },
-    {
-        position: "Backend engineer",
-        description: "Designing, building, and maintaining the server-side of web apps using Express"
-    },
-    {
-        position: "Frontend engineer",
-        description: "Serverless Platform with a Vue.js front end."
-    },
-    {
-        position: "Backend engineer",
-        description: "Designing, building, and maintaining the server-side of web apps using Express"
-    },
-    {
-        position: "Frontend engineer",
-        description: "Serverless Platform with a Vue.js front end."
-    },
-    {
-        position: "Backend engineer",
-        description: "Designing, building, and maintaining the server-side of web apps using Express"
     }
 ];
 
