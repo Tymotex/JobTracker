@@ -211,7 +211,7 @@ def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
             }
         }
     )
-    return job_to_track
+    return job_to_track["job_id"]
 
 def update_job(user_id, board_id, job_id, updated_job):
     """
@@ -259,7 +259,6 @@ def push_stat(user_id: str, stat: dict):
         }
     )
 
-
 # ============================================ START KELLY ============================================
 
 # This function should be working. Just need to call it
@@ -267,11 +266,13 @@ def fetch_stats(user_id: str):
     """
         Fetches all stats for a user
     """
-    target_user = db.user.find_one(
+    target_user = db.users.find_one(
         {
             "_id": ObjectId(user_id)
         }
     )
+    if not target_user:
+        raise InvalidUserInput(description="User {} wasn't found".format(user_id))
     return target_user["statistics"]
 
 # ============================================ END KELLY ============================================

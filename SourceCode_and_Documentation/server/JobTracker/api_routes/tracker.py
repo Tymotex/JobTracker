@@ -1,6 +1,7 @@
 """
 Routes for managing the user's tracked jobs 
 """
+import time
 from flask import (
     Blueprint,
     render_template,
@@ -9,7 +10,8 @@ from flask import (
 )
 from JobTracker.database_ops import (
     add_job,
-    update_job
+    update_job,
+    push_stat
 )
 from JobTracker.exceptions import (
     InvalidUserInput
@@ -60,9 +62,20 @@ class Tracker(Resource):
         except KeyError as err:
             raise InvalidUserInput(description="Missing mandatory fields: {}".format(err))
         
-        # TODO: push stat for new application
+        job_id = add_job(board_id, user_id, job_to_track)
 
-        return add_job(board_id, user_id, job_to_track)
+        # TODO: push stat for new application
+        push_stat(user_id, {
+            "timestamp": time.time(),
+            "activity": "application",
+            "job_id": job_id
+        })
+
+        # TODO: issue: currently if you switch from application -> resume, then back to application,
+        # you will have 3 stats when you should just have 1 (need a way of clearing the resume stat
+        # if the user switches a job back to "application")
+
+        return job_to_track
 
     def put(self):
         """
@@ -81,6 +94,10 @@ class Tracker(Resource):
         updated_job = requests_params["updated_job"]
 
         # TODO: push stat if status changed
+
+
+        # TODO: issue: upating status in spreadsheet doesn't update track job. Can we add some kind of
+        # a hook to the statusselector components? Eg. on change, grab job id, then make request to PUT /... 
 
         return update_job(user_id, board_id, job_id, updated_job)
  

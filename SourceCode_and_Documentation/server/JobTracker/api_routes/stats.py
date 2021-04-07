@@ -7,6 +7,9 @@ from flask import (
     request,
     jsonify
 )
+from JobTracker.database_ops import (
+    fetch_stats
+)
 from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, Namespace
 
@@ -48,6 +51,14 @@ class Stats(Resource):
             Some additional info:
                 - the stats array should contain objects sorted in ascending order of timestamp (sort again just in case)
         """
+        printColoured(" * Getting user stats", colour="yellow")
+        request_params = dict(request.args)
+        user_id = request_params["user_id"]
+        start_time = request_params["start_time"]
+        end_time = request_params["end_time"]
+
+        # NOTE: temporarily just returning stats
+        return fetch_stats(user_id)
 
         # First call fetch_stats in database_ops.py
 
