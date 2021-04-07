@@ -106,9 +106,17 @@ const Header = ({name}) => {
 
             <Grid item>
                 <div className={styles.iconLabelSet}>
-					{/* Using Logo API */}
+					{/*
+						Using Logo API
+						NOTE: 
+							has some conditions  
+							required to link 
+							<a href="https://clearbit.com">Logos provided by Clearbit</a>
+							on pages where this is used
+					*/}
                     <img 
-						src={`https://logo.clearbit.com/${name}.com` }
+						// src={`https://logo.clearbit.com/${name}.com` }
+						src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7"
 						style={companyIconStyle}
 						alt={name}
 					/>

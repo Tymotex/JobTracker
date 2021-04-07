@@ -86,94 +86,100 @@ const DetailedJobPost = ({
     setOnHover(false);
   };
 
+  const moreInfoURL = `/search/details?id=${"JOB_POST_ID_HERE"}`;
+
   return (
     <div
       className="card card-1"
       onMouseEnter={mouseEnterHanlder}
       onMouseLeave={mouseLeaveHanlder}
     >
-      <div className="card-img"></div>
-      <a href="" className="card-link">
+      <Link to={moreInfoURL}>
+        {/* <div className="card-img"></div> */}
+        {/* <Link to={moreInfoURL} className="card-link">
         <div className="card-img-hovered"></div>
-      </a>
-      <div className="card-info">
-        <div className="card-about">
-          {/* <a className="card-tag tag-news">NEWS</a> */}
-          <Button
-            className="card-tag tag-news"
-            variant="contained"
-            color="info"
-            onClick={trackNewJob}
-          >
-            Track
-          </Button>
-          {detailLevel === 1 && fieldsToShow.date && date && date !== "" && (
-            <div className="card-time">Posted date: {date}</div>
-          )}
-          {/* <div className="card-time">6/11/2018</div> */}
-        </div>
-        {fieldsToShow && fieldsToShow.title && (
-          <h1 className="card-title">{title}</h1>
-        )}
-
-        <div className="card-creator">
-          {detailLevel === 1 && (
-            <div>
-              {fieldsToShow.company && <span>Company: {company}</span>}
-              {fieldsToShow.url && (
-                <div>
-                  <a href={url}>Original post link</a>
-                </div>
-              )}
-              {fieldsToShow.salary && <div>Salary: {salary}</div>}
-              {fieldsToShow.locations && <div>Location: {locations}</div>}
-              {fieldsToShow.date && <div>Posted date: {date}</div>}
-              {fieldsToShow.description && (
-                <div>Description: {description}</div>
-              )}
-            </div>
-          )}
-          {detailLevel === 2 && (
-            <div>
-              {fieldsToShow.company && company && company !== "" && (
-                <span className={styles.field}>Company: {company}</span>
-              )}
-              {fieldsToShow.url && url && url !== "" && (
-                <div className={styles.field}>
-                  <a href={url}>Original post link</a>
-                </div>
-              )}
-              {fieldsToShow.salary && salary && salary !== "" && (
-                <div className={styles.field}>Salary: {salary}</div>
-              )}
-              {fieldsToShow.locations && locations && locations !== "" && (
-                <div className={styles.field}>Location: {locations}</div>
-              )}
-              {fieldsToShow.date && date && date !== "" && (
-                <div className={styles.field}>Posted date: {date}</div>
-              )}
-              {fieldsToShow.description &&
-                description &&
-                description !== "" && (
-                  <div className={styles.field}>Description: {description}</div>
-                )}
-            </div>
-          )}
-        </div>
-        {onHover && (
-          <div className={styles.spaced_container}>
-            <Link to={`/search/details?id=${"JOB_POST_ID_HERE"}`}>
-              <strong style={{ "font-size": "150%" }}>View more here</strong>
-            </Link>
-            <Link
-              className={styles.field}
-              to={`/search/company?company=${company}`}
+      </Link> */}
+        <div className="card-info">
+          <div className="card-about">
+            {/* <a className="card-tag tag-news">NEWS</a> */}
+            <Button
+              className="card-tag tag-news"
+              variant="contained"
+              color="info"
+              onClick={trackNewJob}
             >
-              <strong style={{ "font-size": "150%" }}>{company}</strong>
-            </Link>
+              Track
+            </Button>
+            {detailLevel === 2 && fieldsToShow.date && date && date !== "" && (
+              <div className="card-time">Posted date: {date}</div>
+            )}
+            {/* <div className="card-time">6/11/2018</div> */}
           </div>
-        )}
-      </div>
+          {fieldsToShow && fieldsToShow.title && (
+            <h1 className="card-title">{title}</h1>
+          )}
+
+          <div className="card-creator">
+            {detailLevel === 1 && (
+              <div>
+                {fieldsToShow.company && <span>Company: {company}</span>}
+                {fieldsToShow.url && (
+                  <div>
+                    <a href={url}>Original post link</a>
+                  </div>
+                )}
+                {fieldsToShow.salary && <div>Salary: {salary}</div>}
+                {fieldsToShow.locations && <div>Location: {locations}</div>}
+                {fieldsToShow.date && <div>Posted date: {date}</div>}
+                {fieldsToShow.description && (
+                  <div>Description: {description}</div>
+                )}
+              </div>
+            )}
+            {detailLevel === 2 && (
+              <div>
+                {fieldsToShow.company && company && company !== "" && (
+                  <span className={styles.field}>Company: {company}</span>
+                )}
+                {fieldsToShow.url && url && url !== "" && (
+                  <div className={styles.field}>
+                    <a href={url}>Original post link</a>
+                  </div>
+                )}
+                {fieldsToShow.salary && salary && salary !== "" && (
+                  <div className={styles.field}>Salary: {salary}</div>
+                )}
+                {fieldsToShow.locations && locations && locations !== "" && (
+                  <div className={styles.field}>Location: {locations}</div>
+                )}
+                {fieldsToShow.date && date && date !== "" && (
+                  <div className={styles.field}>Posted date: {date}</div>
+                )}
+                {fieldsToShow.description &&
+                  description &&
+                  description !== "" && (
+                    <div className={styles.field}>
+                      Description: {description}
+                    </div>
+                  )}
+              </div>
+            )}
+          </div>
+          {onHover && (
+            <div className={styles.spaced_container}>
+              <Link to={moreInfoURL}>
+                <strong style={{ "font-size": "150%" }}>View more here</strong>
+              </Link>
+              <Link
+                className={styles.field}
+                to={`/search/company?company=${company}`}
+              >
+                <strong style={{ "font-size": "150%" }}>{company}</strong>
+              </Link>
+            </div>
+          )}
+        </div>
+      </Link>
     </div>
   );
 };
