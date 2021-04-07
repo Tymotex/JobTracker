@@ -106,10 +106,11 @@ const Header = ({name}) => {
 
             <Grid item>
                 <div className={styles.iconLabelSet}>
+					{/* Using Logo API */}
                     <img 
-						src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7" 
+						src={`https://logo.clearbit.com/${name}.com` }
 						style={companyIconStyle}
-						alt="Company"
+						alt={name}
 					/>
                     <div>{name}</div>
                 </div>
@@ -165,7 +166,6 @@ const CompanyProfile = () => {
 
 			<Footer type="company"/>
 		</Layout>
-
 
 	);
 };

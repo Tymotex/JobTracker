@@ -5,3 +5,8 @@
 .field {
     font-weight: 800;
 }
+
+.spaced_container {
+    display: flex;
+    justify-content: space-between;
+}

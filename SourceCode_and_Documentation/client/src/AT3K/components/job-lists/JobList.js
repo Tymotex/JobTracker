@@ -15,7 +15,7 @@ import JobListPaginator from "./JobListPaginator";
 import JobPost from "./JobPost";
 import { ContentLoader } from "../loaders";
 import Slider from "@material-ui/core/Slider";
-import TempJobPost from "./TempJobPost";
+import DetailedJobPost from "./DetailedJobPost";
 import style from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark";
 
 const JobList = ({
@@ -160,7 +160,7 @@ const JobList = ({
                 md={6}
                 lg={4}
               >
-                <TempJobPost
+                <DetailedJobPost
                   {...eachJobPost}
                   fieldsToShow={fieldsToShow}
                   selectedBoardID={selectedBoardID}

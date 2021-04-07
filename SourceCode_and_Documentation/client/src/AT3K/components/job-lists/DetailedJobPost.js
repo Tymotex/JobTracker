@@ -1,5 +1,5 @@
-import React from "react";
-import "./TempJobPost.scss";
+import React, { useState } from "react";
+import "./DetailedJobPost.scss";
 import { Button } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -9,9 +9,9 @@ import styles from "./jobPost.module.scss";
 import axios from "axios";
 import Cookie from "js-cookie";
 import api from "../../constants/api";
-import { Notification } from "../../components/notification";
+import { Notification } from "../notification";
 
-const TempJobPost = ({
+const DetailedJobPost = ({
   fieldsToShow,
   selectedBoardID,
   detailLevel,
@@ -76,8 +76,22 @@ const TempJobPost = ({
     }
   };
 
+  const [onHover, setOnHover] = useState(false);
+
+  const mouseEnterHanlder = () => {
+    setOnHover(true);
+  };
+
+  const mouseLeaveHanlder = () => {
+    setOnHover(false);
+  };
+
   return (
-    <div className="card card-1">
+    <div
+      className="card card-1"
+      onMouseEnter={mouseEnterHanlder}
+      onMouseLeave={mouseLeaveHanlder}
+    >
       <div className="card-img"></div>
       <a href="" className="card-link">
         <div className="card-img-hovered"></div>
@@ -143,20 +157,25 @@ const TempJobPost = ({
                 description !== "" && (
                   <div className={styles.field}>Description: {description}</div>
                 )}
-              <div>
-                <Link to={`/search/details?id=${"JOB_POST_ID_HERE"}`}>
-                  <strong style={{ "font-size": "200%" }}>
-                    View more here
-                  </strong>
-                </Link>
-              </div>
             </div>
           )}
-          <div></div>
         </div>
+        {onHover && (
+          <div className={styles.spaced_container}>
+            <Link to={`/search/details?id=${"JOB_POST_ID_HERE"}`}>
+              <strong style={{ "font-size": "150%" }}>View more here</strong>
+            </Link>
+            <Link
+              className={styles.field}
+              to={`/search/company?company=${company}`}
+            >
+              <strong style={{ "font-size": "150%" }}>{company}</strong>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default TempJobPost;
+export default DetailedJobPost;
