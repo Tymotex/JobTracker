@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-    Link
+    Link, useLocation
 } from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
 import DescriptionSection from '../components/job-details/DescriptionSection';
@@ -16,7 +16,10 @@ import {
 	ArrowBack as ArrowBackIcon
 } from '@material-ui/icons';
 
+import api from '../constants/api';
+
 import styles from './JobDetails.module.scss';
+import axios from 'axios';
 
 
 const recentJobs = [
@@ -74,7 +77,7 @@ const recentJobs = [
 ]
 
 
-const Header = () => {
+const Header = ({name}) => {
     // const iconSize = "small";
     const btnStyle = {
         margin: '20px 5px'
@@ -108,10 +111,10 @@ const Header = () => {
 						style={companyIconStyle}
 						alt="Company"
 					/>
-                    <div>Whatever company</div>
+                    <div>{name}</div>
                 </div>
                 <div className={styles.mainTitle}>
-                    Nulla sit amet ante 
+                    {name}
                 </div>
             </Grid>
 
@@ -128,20 +131,31 @@ const Header = () => {
 };
 
 const CompanyProfile = () => {
+	const [companyDetails, setCompanyDetails] = useState();
+	const search = useLocation().search;
+	const params = new URLSearchParams(search);
+	const company = params.get('company'); // bar
+	console.log("==== " + company)
+	useEffect(() => {
+		axios.get(`${api.BASE_URL}/api/company?company=${company}`)
+		.then(response => setCompanyDetails(response.data))
+	}, [company])
+
 	return (
 		<Layout>
 
-			<Header />
+			<Header name={company}/>
 
 			<hr />
 
 			<DescriptionSection title="About">
-				It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+				{/* It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). */}
+				{companyDetails && companyDetails.company_info.company_details}
 			</DescriptionSection>
 
 			<DescriptionSection title="Recent Jobs">
-				{
-					recentJobs.map((job) => (
+				{	companyDetails &&
+					companyDetails.jobs.map((job) => (
 						<JobItem {...job} />
 					))
 				}

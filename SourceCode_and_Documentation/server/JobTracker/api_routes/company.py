@@ -60,7 +60,6 @@ class CompanyFetch(Resource):
 
         # Get company info through Wikipedia (or opencorporates)
 
-
         # Get relevant jobs
 
         # Call: get_job_postings(location, query, results_per_page, page, sort_criteria)
@@ -80,7 +79,6 @@ class CompanyFetch(Resource):
         print(len(job_list))
         return {
             "company_info": {
-                # ...
                 "company_details": company_details
             },
             "jobs" : [
