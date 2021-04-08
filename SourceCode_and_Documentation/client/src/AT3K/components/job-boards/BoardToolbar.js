@@ -56,12 +56,6 @@ const BoardToolbar = ({ boardType, handleChangeBoard, trackedJobs, boardID, fetc
                             Download as CSV
                         </CsvDownload>
                     </Grid>
-                    <Grid item xs={3}>
-                        <Button variant="contained">
-                            Upload CSV 
-                        </Button>
-                        (stats won't be generated. Also not implemented yet. Maybe this should only be an option if the user is creating a new board, rather than overwriting)
-                    </Grid>
                 </Grid>
             </div>
         </Paper>

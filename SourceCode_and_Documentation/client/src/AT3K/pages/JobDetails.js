@@ -169,7 +169,7 @@ const JobDetails = () => {
             </DescriptionSection>
 
             <DescriptionSection title="Location">
-                <JobMap />
+                <JobMap locationQuery={"UNSW"} />  {/* Substitute this for actual location query */}
             </DescriptionSection>
 
             <DescriptionSection title="Requirements">

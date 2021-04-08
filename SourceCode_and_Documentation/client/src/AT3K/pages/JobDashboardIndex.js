@@ -69,7 +69,7 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                                 boards={boards}
                                 fetchBoards={fetchBoards}
                             />
-                            <div style={{"textAlign": "center"}}>
+                            <div style={{"textAlign": "center", "margin": "20px"}}>
                                 <Button 
                                     variant="contained" 
                                     color="primary"

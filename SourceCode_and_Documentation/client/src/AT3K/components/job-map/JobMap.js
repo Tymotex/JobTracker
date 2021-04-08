@@ -1,39 +1,18 @@
 import React from "react";
-import {
-    GoogleMap,
-    Marker, withGoogleMap,
-    withScriptjs
-} from "react-google-maps";
-import { compose, withProps } from "recompose";
 import mapStyles from './JobMap.module.scss';
 
-const MyMapComponent = compose(
-    withProps({
-        /**
-         * Note: create and replace your own key in the Google console.
-         * https://console.developers.google.com/apis/dashboard
-         * The key "AIzaSyBkNaAGLEVq0YLQMi-PYEMabFeREadYe1Q" can be ONLY used in this sandbox (no forked).
-         */
-        googleMapURL:
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyBkNaAGLEVq0YLQMi-PYEMabFeREadYe1Q&v=3.exp&libraries=geometry,drawing,places",
-        loadingElement: <div style={{ height: `100%` }} />,
-        containerElement: <div style={{ height: `400px` }} />,
-        mapElement: <div style={{ height: `100%` }} />
-    }),
-    withScriptjs,
-    withGoogleMap
-)(props => (
-    <GoogleMap defaultZoom={8} defaultCenter={{ lat: -34.397, lng: 150.644 }}>
-        {props.isMarkerShown && (
-            <Marker position={{ lat: -34.397, lng: 150.644 }} />
-        )}
-    </GoogleMap>
-));
-
-export default function Maps() {
+const EmbeddedMap = ({ locationQuery="unsw" }) => {
     return (
-        <div className={mapStyles.mapContainer}>
-            <MyMapComponent />
-        </div>
+        <iframe
+            width="100%"
+            height="500px"
+            // style="border:0"
+            loading="lazy"
+            allowfullscreen
+            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBjeL-5oS9102g1BbWRcmoAB2tx2tY_Au4&q=${locationQuery}`}
+        >
+        </iframe>
     );
 };
+
+export default EmbeddedMap;
