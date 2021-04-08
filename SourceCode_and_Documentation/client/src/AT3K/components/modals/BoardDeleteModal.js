@@ -8,7 +8,10 @@ import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import styles from './Modal.module.scss';
-
+import axios from 'axios';
+import api from '../../constants/api';
+import { Notification } from '../notification';
+import Cookie from 'js-cookie'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -19,8 +22,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function TransitionsModal({ open, handleClose }) {
+export default function TransitionsModal({ open, handleClose, boardID, fetchBoards }) {
     const classes = useStyles();
+
+    const deleteBoard = (event) => {
+        event.preventDefault();
+        const userID = Cookie.get("user_id");
+        if (userID) {
+            const deleteData = {
+                method: "delete",
+                url: `${api.BASE_URL}/api/user/board`,
+                data: {
+                    user_id: userID,
+                    board_id: boardID
+                }
+            }
+            axios(deleteData)
+                .then(() => {
+                    Notification.spawnSuccess(`Successfully deleted board`);
+                    fetchBoards();
+                    handleClose();
+                })
+                .catch((err) => alert(err));
+        } else {
+            Notification.spawnRegisterError();
+        }
+    };
 
     return (
         <div>
@@ -43,10 +70,10 @@ export default function TransitionsModal({ open, handleClose }) {
                         </h2>
                         <Grid container className={styles.buttonGroup}>
                             <Grid item xs={6}>
-                                <Button className={styles.cancelButton} variant="contained" color="secondary">Cancel</Button>
+                                <Button onClick={handleClose} className={styles.cancelButton} variant="contained" color="secondary">Cancel</Button>
                             </Grid>
                             <Grid item xs={6}>
-                                <Button className={styles.registerButton} variant="contained" color="danger">Proceed</Button>
+                                <Button onClick={deleteBoard} className={styles.registerButton} variant="contained" color="danger">Proceed</Button>
                             </Grid>
                         </Grid>
                     </div>

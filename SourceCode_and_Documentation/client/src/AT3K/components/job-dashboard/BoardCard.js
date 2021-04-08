@@ -27,9 +27,12 @@ const useStyles = makeStyles({
 });
 
 
-const BoardCard = ({ _id, name, description, selectBoard }) => {
+const BoardCard = ({ _id, name, description, selectBoard, fetchBoards }) => {
     const [editModalOpen, setEditModalOpen] = React.useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
+    const [boardName, setBoardName] = React.useState(name); 
+    const [boardDescription, setBoardDescription] = React.useState(description); 
+    
 
     const handleEditModelOpen = () => {
         setEditModalOpen(true);
@@ -43,6 +46,7 @@ const BoardCard = ({ _id, name, description, selectBoard }) => {
     const handleCloseDeleteModal = () => {
         setDeleteModalOpen(false);
     }
+    
     const openBoardControlModal = (option) => {
         if (option === "Edit this board") {    // TODO: Hardcoded string is bad :(
             handleEditModelOpen();
@@ -64,10 +68,10 @@ const BoardCard = ({ _id, name, description, selectBoard }) => {
             />
             <CardContent>
                 <Typography className={classes.title} gutterBottom>
-                    {name}
+                    {boardName}
                 </Typography>
                 <Typography variant="body2" component="p">
-                    {description}
+                    {boardDescription}
                 </Typography>
                 <Button 
                     className={styles.viewButton}
@@ -82,10 +86,15 @@ const BoardCard = ({ _id, name, description, selectBoard }) => {
             <BoardEditModal 
                 handleClose={handleCloseEditModal} 
                 open={editModalOpen} 
+                boardID={_id}
+                setBoardName={setBoardName}
+                setBoardDescription={setBoardDescription}
             />
             <BoardDeleteModal 
                 handleClose={handleCloseDeleteModal} 
                 open={deleteModalOpen} 
+                boardID={_id}
+                fetchBoards={fetchBoards}
             />
         </Card>
     );

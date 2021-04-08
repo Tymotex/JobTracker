@@ -46,6 +46,7 @@ export default function TransitionsModal({ open, handleClose, updateBoardList })
                 .then(() => {
                     Notification.spawnSuccess("Successfully created board");
                     updateBoardList();
+                    handleClose();
                 })
                 .catch((err) => {
                     alert(err);
@@ -97,7 +98,7 @@ export default function TransitionsModal({ open, handleClose, updateBoardList })
                             </div>
                             <Grid container className={styles.buttonGroup}>
                                 <Grid item xs={6}>
-                                    <Button className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
+                                    <Button onClick={handleClose} className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <Button type="submit" className={styles.registerButton} variant="contained" color="primary">Create</Button>

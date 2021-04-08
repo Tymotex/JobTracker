@@ -81,6 +81,7 @@ const JobDashboard = () => {
                     updateBoardList={fetchBoards}
                     boardSortStrategy={boardSortStrategy}
                     handleSetBoardSorter={handleSetBoardSorter}
+                    fetchBoards={fetchBoards}
                 />
             ) : (
                 <JobDashboardWorkspace

@@ -166,8 +166,7 @@ class UserBoard(Resource):
         request_params = dict(request.get_json())
         user_id = request_params["user_id"]
         board_id = request_params["board_id"]
-        delete_board(user_id, board_id)
-        return
+        return delete_board(user_id, board_id)
         # Call delete_board in database_ops.py
 
 # ============================================ END KAI ============================================

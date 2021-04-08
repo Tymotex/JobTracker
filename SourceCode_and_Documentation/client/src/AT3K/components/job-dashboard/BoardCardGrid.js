@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const BoardCardGrid = ({ boards, selectBoard }) => {
+const BoardCardGrid = ({ boards, selectBoard, fetchBoards }) => {
     const classes = useStyles();
 
     return (
@@ -28,6 +28,7 @@ const BoardCardGrid = ({ boards, selectBoard }) => {
                             className={styles.boardCard}
                             selectBoard={selectBoard}
                             {...eachBoard}
+                            fetchBoards={fetchBoards}
                         />
                     </Grid>
                 ))}

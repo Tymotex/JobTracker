@@ -24,7 +24,7 @@ const useForceUpdate = () => {
     return () => setValue(value => value + 1); 
 }
 
-const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardList, boardSortStrategy, handleSetBoardSorter }) => {
+const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardList, boardSortStrategy, handleSetBoardSorter, fetchBoards }) => {
     const [modalOpen, setModalOpen] = React.useState(false);
 
     const handleModalOpen = () => {
@@ -39,18 +39,7 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
     return (
         <div>
             <Grid container spacing={3}>
-                <Grid item xs={6}>
-                    <h2>Recently Viewed</h2>
-                    {isLoading ? (
-                        <ContentLoader />
-                    ) : (
-                        <BoardCardGrid 
-                            selectBoard={handleSelectBoard}
-                            boards={boards}
-                        />
-                    )}
-                </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                     <Grid container spacing={3}>
                         <Grid item xs={6}>
                             <h2>Personal Boards</h2>
@@ -78,6 +67,7 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                             <BoardCardGrid
                                 selectBoard={handleSelectBoard}
                                 boards={boards}
+                                fetchBoards={fetchBoards}
                             />
                             <div style={{"textAlign": "center"}}>
                                 <Button 

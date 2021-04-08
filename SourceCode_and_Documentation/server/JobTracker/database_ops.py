@@ -128,7 +128,7 @@ def edit_board(user_id: str, board_id: str, name: str, description: str):
     )
     return {
         "new_name": name,
-        "description": description
+        "new_description": description
     }
     # Use db.boards.update_one() to update an existing board
 
@@ -157,8 +157,7 @@ def delete_board(user_id: str, board_id: str):
     db.boards.delete_one(
         {'user_id' : user_id, '_id': ObjectId(board_id)}
     )
-
-    # Use db.boards.delete_one
+    return board_id
 
 # ============================================ END KAI ============================================
 

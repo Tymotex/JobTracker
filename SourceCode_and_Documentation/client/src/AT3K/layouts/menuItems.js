@@ -71,6 +71,7 @@ const SignOutButton = () => {
         Cookie.remove("username");
         Cookie.remove("user_id");
         Cookie.remove("token");
+        window.location.reload();
     };
     return (
         <div>

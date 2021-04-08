@@ -131,7 +131,7 @@ export default function TransitionsModal() {
 							</div>
 							<Grid container className={styles.buttonGroup}>
 								<Grid item xs={6}>
-									<Button className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
+									<Button onClick={handleClose} className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
 								</Grid>
 								<Grid item xs={6}>
 									<Button type="submit" className={styles.registerButton} variant="contained" color="primary">Register</Button>
