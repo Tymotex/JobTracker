@@ -116,6 +116,7 @@ def get_board(user_id: str, board_id: str):
 
 # use the pymongo docs if lost: https://pymongo.readthedocs.io/en/stable/
 
+# TODO: LOOK INTO ANY POTENTIAL ERROR CASES
 def edit_board(user_id: str, board_id: str, name: str, description: str):
     """
         Updates an existing board's details
@@ -149,7 +150,7 @@ def delete_board(user_id: str, board_id: str):
     """
         Deletes a given user's board
     """
-    db.boards.update_one(
+    db.boards.delete_one(
         {'user_id' : user_id, '_id': ObjectId(board_id)}
     )
 

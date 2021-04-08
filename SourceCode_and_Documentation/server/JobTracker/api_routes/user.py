@@ -18,6 +18,8 @@ from JobTracker.database_ops import (
     set_user_resume_fields,
     get_board,
     set_tracked_jobs,
+    delete_board,
+    edit_board,
 )
 from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
@@ -124,6 +126,7 @@ class UserBoard(Resource):
 
     # TODO: Kai
     # TODO: PUT /api/user/board
+
     def put(self):
         """
             To hit this route - call PUT http://localhost:5000/api/user/board
@@ -134,6 +137,17 @@ class UserBoard(Resource):
                 - new_name
                 - new_description
         """
+        # Dont know what this does, just copied from other functions.
+        printColoured(" * Editing board values", colour="yellow")
+
+        request_params = dict(request.get_json())
+        user_id = request_params["user_id"]
+        board_id = request_params["board_id"]
+        new_names = request_params["new_name"]
+        new_description = request_params["new_description"]
+        edit_board(user_id, board_id, new_names, new_description)
+        return
+
         # Call edit_board in database_ops.py
 
     def delete(self):
@@ -144,6 +158,14 @@ class UserBoard(Resource):
                 - user_id
                 - board_id
         """
+        # Dont know what this does, just copied from other functions.
+        printColoured(" * Deleting a board", colour="yellow")
+
+        request_params = dict(request.get_json())
+        user_id = request_params["user_id"]
+        board_id = request_params["board_id"]
+        delete_board(user_id, board_id)
+        return
         # Call delete_board in database_ops.py
 
 # ============================================ END KAI ============================================
