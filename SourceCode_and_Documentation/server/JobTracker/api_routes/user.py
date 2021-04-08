@@ -20,6 +20,9 @@ from JobTracker.database_ops import (
     set_tracked_jobs,
     delete_board,
     edit_board,
+    get_favourite_company,
+    save_favourite_company,
+    delete_favourite_company
 )
 from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
@@ -223,7 +226,9 @@ class UserFavouriteCompany(Resource):
             Returns:
                 ["canva", "Atlassian", ... ]
         """
-        return []
+        request_params = dict(request.args)
+        user_id = request_params["user_id"]
+        return get_favourite_company(user_id)
 
     def post(self):
         """
@@ -236,9 +241,38 @@ class UserFavouriteCompany(Resource):
                 - ...more?
         """
         # Call save_favourite_company in database_ops.py
+        request_params = dict(request.args)
+        user_id = request_params["user_id"]
+        company_name = request_params["company_name"]
 
-        return "Success" # Or anything else
+        # check duplicate
+        companies = get_favourite_company(user_id)
+        if company_name in companies:  
+            raise InvalidUserInput(description="You have saved company '{}'.".format(company_name))
 
+        return save_favourite_company(user_id, company_name)
+        
+
+    def delete(self):
+        """
+            To hit this route - call POST http://localhost:5000/api/user/company
+
+            Delete a saved favourite company for a user
+            Parameters:
+                - user_id
+                - company_name
+                - ...more?
+        """
+        request_params = dict(request.args)
+        user_id = request_params["user_id"]
+        company_name = request_params["company_name"]
+
+        # check existence 
+        companies = get_favourite_company(user_id)
+        if company_name not in companies:  
+            raise InvalidUserInput(description="Company '{}' is not in your favourited companies list.".format(company_name))
+
+        return delete_favourite_company(user_id, company_name)
 
 # ============================================ END KATRINA ============================================
 

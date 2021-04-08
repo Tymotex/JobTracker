@@ -14,7 +14,6 @@ const Option = (props) => {
 		display: 'flex'
 	}
 
-
 	return (
 		<div style={style}> 
 			<input type="checkbox" />
@@ -22,7 +21,6 @@ const Option = (props) => {
 		</div>
 	);
 }
-
 
 const ReportModal = ({type}) => {
 	const windowStyle = {
@@ -87,7 +85,6 @@ const ReportModal = ({type}) => {
             >
             	
                 <Fade in={open}>
-                	
                     <div style={windowStyle}>
                     	<Button style={closeBtnStyle} onClick={handleClose}>
 			                X
@@ -95,9 +92,9 @@ const ReportModal = ({type}) => {
                     	<h2 className={styles.title} id="transition-modal-title">Choose a Problem: </h2>
                     	<form>
                     		<Option text="It's offensive and/or discriminatory" />
-                    		<Option text="Asking for money or seems like a fake {{type}}" />
+                    		<Option text={ `Asking for money or seems like a fake ${type}` } />
                     		<Option text="Incorrect company, location, or detail" />
-                    		<Option text="I think it's trying to sell something unrelated to the {{type}}" />
+                    		<Option text={ `I think it's trying to sell something unrelated to the ${type}`} />
                     		<Option text="Other" />
                         	<h2>Describe your problem below:</h2>
                         	<textarea style={textareaStyle}></textarea>
@@ -105,7 +102,6 @@ const ReportModal = ({type}) => {
                                 <Button style={{border: '1px solid black'}} onClick={handleReport}>Report</Button>
                             </div>
                         </form>
-
                     </div>
                 </Fade>
             </Modal>

@@ -15,72 +15,92 @@ import FAQ from './FAQ';
 import Error404 from './404';
 import JobDetails from './JobDetails';
 import CompanyProfile from './CompanyProfile';
+import Restricted from "./Restricted";
+import Cookie from 'js-cookie';
 
- /**
+/**
   * Routes are created here!
   */
-const routes = [
+let routes = [
     {
         path: "/",
         page: Home
     },
     {
         path: "/dashboard",
-        page: JobDashboard
+        page: JobDashboard,
+        requiresAuth: true
     },
     {
         path: "/statistics",
-        page: Statistics
+        page: Statistics,
+        requiresAuth: true
     },
     {
         path: "/settings",
-        page: Settings
+        page: Settings,
+        requiresAuth: true
     },
     {
         path: "/settings/profile",
         page: Settings,
         props: {
             settingsCategory: "profile"
-        }
+        },
+        requiresAuth: true
     },
     {
         path: "/settings/theme",
         page: Settings,
         props: {
             settingsCategory: "theme"
-        }
+        },
+        requiresAuth: true
     },
     {
         path: "/settings/notifications",
         page: Settings,
         props: {
             settingsCategory: "notifications"
-        }
+        },
+        requiresAuth: true
     },
     {
         path: "/settings/preferences",
         page: Settings,
         props: {
             settingsCategory: "preferences"
-        }
+        },
+        requiresAuth: true
     },
     {
         path: "/search",
-        page: JobSearch
+        page: JobSearch,
+        requiresAuth: true
     },
     {
         path: "/search/details",
-        page: JobDetails
+        page: JobDetails,
+        requiresAuth: true
     },
     {
         path: "/search/company",
-        page: CompanyProfile
+        page: CompanyProfile,
+        requiresAuth: true
     },
     {
         path: "/faq",
         page: FAQ
     }
 ];
+
+const userID = Cookie.get("user_id");
+routes = routes.map((route) => {
+    return (route.requiresAuth) ? ({
+        ...route,
+        page: (userID && userID !== "") ? route.page : Restricted
+    }) : route;
+});
 
 const RouterList = ({ replaceTheme, currTheme }) => {
     const location = useLocation();

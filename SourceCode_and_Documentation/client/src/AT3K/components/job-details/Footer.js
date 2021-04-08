@@ -14,12 +14,12 @@ import styles from './Footer.module.scss';
 
 
 
-const Footer = ({type}) => {
+const Footer = ({ type }) => {
     const fontSize = "large";
     return (
         <Grid container alignItems="center" justify="space-between" className={styles.footer}>
             <Grid item xs={6}>
-                <div className={styles.shareTitle}>Share this {type}</div>
+                <div className={styles.shareTitle}>{ `Share this ${type}` }</div>
                 <div className={styles.iconSet}>
                     <FacebookIcon fontSize={fontSize}/>
                     <TwitterIcon fontSize={fontSize}/>

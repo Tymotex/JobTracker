@@ -13,7 +13,7 @@ const capitaliseFirstLetter = ([ first, ...rest ], locale = navigator.language) 
     first.toLocaleUpperCase(locale) + rest.join('')
 );
 
-const SettingsPanel = ({ currCategory, replaceTheme, currTheme }) => {
+const SettingsPanel = ({ currCategory="profile", replaceTheme, currTheme }) => {
     return (
         <Paper className={styles.container} elevation={2}> 
             <h1>
