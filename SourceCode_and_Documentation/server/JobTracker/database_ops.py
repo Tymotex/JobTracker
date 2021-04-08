@@ -119,9 +119,12 @@ def get_board(user_id: str, board_id: str):
 def edit_board(user_id: str, board_id: str, name: str, description: str):
     """
         Updates an existing board's details
-
-
     """
+
+    db.boards.update_one(
+        {'user_id' : user_id, '_id': ObjectId(board_id)}, 
+        {'$set' : {"name" : name, 'description' : description}}
+    )
     # Use db.boards.update_one() to update an existing board
 
 # Note: Tim did this. Needed to set the tracked jobs
@@ -146,6 +149,10 @@ def delete_board(user_id: str, board_id: str):
     """
         Deletes a given user's board
     """
+    db.boards.update_one(
+        {'user_id' : user_id, '_id': ObjectId(board_id)}
+    )
+
     # Use db.boards.delete_one
 
 # ============================================ END KAI ============================================
