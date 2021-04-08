@@ -157,9 +157,7 @@ def delete_board(user_id: str, board_id: str):
 # use the pymongo docs if lost: https://pymongo.readthedocs.io/en/stable/
 
 def save_favourite_company(user_id: str, company_name: str):  # TODO: more params needed?
-    """
 
-    """
     # Use db.users.update_one
 
     # Finding the user, then pushing an object into the favourited_companies field
@@ -176,6 +174,7 @@ def save_favourite_company(user_id: str, company_name: str):  # TODO: more param
     return "Success"
 
 def get_favourite_company(user_id: str):
+    # Finding the user, then getting and return the favourited companies name array
     user = db.users.find_one({ 
         "_id":  ObjectId(user_id)
     })
@@ -183,6 +182,19 @@ def get_favourite_company(user_id: str):
         raise InvalidUserInput(description="Couldn't find the user with id: {}".format(user_id))
 
     return user["favourited_companies"]
+
+def delete_favourite_company(user_id: str, company_name: str):
+    res = db.users.update_one(
+        {
+            "_id": ObjectId(user_id),
+        },
+        {
+            "$pull": {
+                "favourited_companies": company_name
+            }
+        }
+    )
+    return "Success"
 
 # ============================================ END KATRINA ============================================
 

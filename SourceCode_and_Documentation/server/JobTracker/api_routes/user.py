@@ -19,7 +19,8 @@ from JobTracker.database_ops import (
     get_board,
     set_tracked_jobs,
     get_favourite_company,
-    save_favourite_company
+    save_favourite_company,
+    delete_favourite_company
 )
 from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
@@ -207,7 +208,6 @@ class UserFavouriteCompany(Resource):
         user_id = request_params["user_id"]
         return get_favourite_company(user_id)
 
-
     def post(self):
         """
             To hit this route - call POST http://localhost:5000/api/user/company
@@ -223,8 +223,34 @@ class UserFavouriteCompany(Resource):
         user_id = request_params["user_id"]
         company_name = request_params["company_name"]
 
-        return save_favourite_company(user_id, company_name)
+        # check duplicate
+        companies = get_favourite_company(user_id)
+        if company_name in companies:  
+            raise InvalidUserInput(description="You have saved company '{}'.".format(company_name))
 
+        return save_favourite_company(user_id, company_name)
+        
+
+    def delete(self):
+        """
+            To hit this route - call POST http://localhost:5000/api/user/company
+
+            Delete a saved favourite company for a user
+            Parameters:
+                - user_id
+                - company_name
+                - ...more?
+        """
+        request_params = dict(request.args)
+        user_id = request_params["user_id"]
+        company_name = request_params["company_name"]
+
+        # check existence 
+        companies = get_favourite_company(user_id)
+        if company_name not in companies:  
+            raise InvalidUserInput(description="Company '{}' is not in your favourited companies list.".format(company_name))
+
+        return delete_favourite_company(user_id, company_name)
 
 # ============================================ END KATRINA ============================================
 
