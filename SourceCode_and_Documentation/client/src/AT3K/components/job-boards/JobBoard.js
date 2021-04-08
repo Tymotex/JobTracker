@@ -27,7 +27,7 @@ const getJobCardsOfStatus = ((trackedJobs, status) => (
     }))
 ));
 
-const JobBoard = ({ trackedJobs, boardID }) => {
+const JobBoard = ({ trackedJobs, boardID, fieldsToShow }) => {
     const [jobs, setJobs] = useState({
         lanes: [
             {

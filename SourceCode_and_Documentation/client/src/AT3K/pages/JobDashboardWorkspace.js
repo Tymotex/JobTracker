@@ -24,6 +24,19 @@ const JobDashboardWorkspace = ({
 
     const [board, setBoard] = useState(null);
     const [trackedJobs, setTrackedJobs] = useState(null);
+    const [fieldsToShow, setFields] = useState({
+        title: true,
+        company: true,
+        locations: true,
+        url: true,
+        description: true,
+        salary: true,
+        date: true,
+        priority: true,
+        notes: true,
+        current_status: true,
+        job_id: true
+    });
 
     // ===== GET /api/user/board =====
 
@@ -64,20 +77,39 @@ const JobDashboardWorkspace = ({
                 trackedJobs={trackedJobs}
                 boardID={selectedBoardID}
                 fetchBoardInfo={fetchBoardInfo}
+                fieldsToShow={fieldsToShow} 
+                setFields={setFields}
             />
             {board && trackedJobs !== null ? (
                 <>
                     {boardType === "spreadsheet" && (
-                        <JobSpreadsheet trackedJobs={trackedJobs} setTrackedJobs={setTrackedJobs} boardID={board._id} />
+                        <JobSpreadsheet 
+                            trackedJobs={trackedJobs} 
+                            setTrackedJobs={setTrackedJobs} 
+                            boardID={board._id} 
+                            fieldsToShow={fieldsToShow} 
+                        />
                     )}
                     {boardType === "board" && (
-                        <JobBoard trackedJobs={trackedJobs} boardID={board._id} />
+                        <JobBoard 
+                            trackedJobs={trackedJobs} 
+                            boardID={board._id} 
+                            fieldsToShow={fieldsToShow} 
+                        />
                     )}
                     {boardType === "calendar" && (
-                        <JobCalendar trackedJobs={trackedJobs} boardID={board._id} />
+                        <JobCalendar 
+                            trackedJobs={trackedJobs} 
+                            boardID={board._id} 
+                            fieldsToShow={fieldsToShow} 
+                        />
                     )}
                     {boardType === "list" && (
-                        <JobList trackedJobs={trackedJobs} boardID={board._id} /> 
+                        <JobList 
+                            trackedJobs={trackedJobs} 
+                            boardID={board._id} 
+                            fieldsToShow={fieldsToShow} 
+                        /> 
                     )}
                 </>
             ) : (

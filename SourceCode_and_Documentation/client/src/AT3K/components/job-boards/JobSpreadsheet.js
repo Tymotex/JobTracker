@@ -17,7 +17,7 @@ import { Notification } from '../notification';
 
 // Documentation: https://adazzle.github.io/react-data-grid/docs/ReactDataGrid
 
-const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID }) => {
+const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) => {
     const [selectedRows, setSelectedRows] = useState(() => new Set());
 
     const StatusEditor = ({ row, onRowChange }) => {
@@ -26,8 +26,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID }) => {
         )
     }
 
-    const columns = [
-        // SelectColumn,
+    let columns = [
         { key: "job_id", name: "Job ID", resizable: true },
         { key: 'company', name: "Company", frozen: true, resizable: true, editor: TextEditor },
         { key: "title", name: "Title", filterable: true, frozen: true, resizable: true, editor: TextEditor },
@@ -37,14 +36,16 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID }) => {
             formatter({ row }) {    
                 return (
                     <strong>
-                        <a 
-                            className={styles.link} 
-                            href={row.url}
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                        >
-                            View Post
-                        </a>
+                        {(row.url && row.url !== "") && (
+                            <a 
+                                className={styles.link} 
+                                href={row.url}
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                            >
+                                View Post
+                            </a>
+                        )}
                     </strong>
                 );
             }
@@ -56,6 +57,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID }) => {
         { key: "current_status", name: "Current Status",  resizable: true, editor: StatusEditor },
         { key: "notes", name: "Notes",  resizable: true, editor: TextEditor },
     ];
+    columns = columns.filter(eachCol => fieldsToShow[eachCol.key]);
 
     const onGridRowsUpdated = (newTrackedJobs) => {
         console.log(newTrackedJobs);

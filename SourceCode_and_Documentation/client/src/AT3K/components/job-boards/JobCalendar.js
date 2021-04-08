@@ -12,7 +12,7 @@ import FullscreenMode from './FullscreenMode';
 
 const localizer = momentLocalizer(moment);
 
-const JobCalendar = ({ trackedJobs }) => {
+const JobCalendar = ({ trackedJobs, fieldsToShow }) => {
 
     
     const jobEvents = trackedJobs.map(job => ({

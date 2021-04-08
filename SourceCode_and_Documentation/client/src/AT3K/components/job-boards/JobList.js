@@ -5,7 +5,7 @@ import {
 import JobCard from './JobCard';
 import FullscreenMode from './FullscreenMode';
 
-const JobList = ({ trackedJobs }) => {
+const JobList = ({ trackedJobs, fieldsToShow }) => {
     return (
         <FullscreenMode>
             <Grid container>

@@ -3,30 +3,15 @@ import Paper from '@material-ui/core/Paper';
 import styles from './BoardToolbar.module.scss';
 import { BoardDropdown } from '.';
 import {
-    Grid
+    Grid,
+    Button
 } from '@material-ui/core';
 import AddNewJob from './AddNewJob';
+import CustomiseView from './CustomiseView';
 import RecordSearchBar from './RecordSearchBar';
-import SaveButton from './SaveButton';
-import Cookie from 'js-cookie';
-import axios from 'axios';
-import api from '../../constants/api';
-
-// import { CSVLink, CSVDownload } from "react-csv";
-
 import CsvDownload from 'react-json-to-csv';
 
-// const CSVDownloader = ({ data }) => {
-//     return (
-//         <div>
-//             <CSVLink>Download me</CSVLink>
-//         </div>
-//     );
-// }
-
-
-
-const BoardToolbar = ({ boardType, handleChangeBoard, trackedJobs, boardID, fetchBoardInfo }) => {
+const BoardToolbar = ({ boardType, handleChangeBoard, trackedJobs, boardID, fetchBoardInfo, fieldsToShow, setFields }) => {
     return (
         <Paper className={styles.toolbar} elevation={3}>
             <div className={styles.content}>
@@ -50,7 +35,7 @@ const BoardToolbar = ({ boardType, handleChangeBoard, trackedJobs, boardID, fetc
                         <AddNewJob boardID={boardID} fetchBoardInfo={fetchBoardInfo} />
                     </Grid>
                     <Grid item xs={3}>
-                        <SaveButton />
+                        <CustomiseView boardType={boardType} fieldsToShow={fieldsToShow} setFields={setFields} />
                     </Grid>
                     <Grid item xs={3}>
                         {/* <CSVLink data={{}}>Download me</CSVLink> */}
@@ -70,6 +55,12 @@ const BoardToolbar = ({ boardType, handleChangeBoard, trackedJobs, boardID, fetc
                         >
                             Download as CSV
                         </CsvDownload>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button variant="contained">
+                            Upload CSV 
+                        </Button>
+                        (stats won't be generated. Also not implemented yet. Maybe this should only be an option if the user is creating a new board, rather than overwriting)
                     </Grid>
                 </Grid>
             </div>
