@@ -125,8 +125,10 @@ const JobList = ({
           classes={{ root: styles.fields }}
           style={{ flexDirection: "row" }}
         >
-          {Object.keys(fieldsToShow).map((eachField) => (
-            <FormControlLabel
+          {Object.keys(fieldsToShow).map((eachField) => {
+            const alwaysShowFields = ["title", "company", "locations"];
+            if (detailLevel === 2 || alwaysShowFields.indexOf(eachField) !== -1 ) {
+              return  <FormControlLabel
               control={
                 <Checkbox
                   checked={fieldsToShow[eachField]}
@@ -136,7 +138,9 @@ const JobList = ({
               }
               label={eachField}
             />
-          ))}
+            }
+            return null;
+          })}
         </FormGroup>
       </FormControl>
 
@@ -159,20 +163,19 @@ const JobList = ({
                 sm={6}
                 md={6}
                 lg={4}
-              >
-                <DetailedJobPost
+              > 
+              {detailLevel === 1 ? <JobPost
                   {...eachJobPost}
                   fieldsToShow={fieldsToShow}
                   selectedBoardID={selectedBoardID}
                   detailLevel={detailLevel}
-                />
-{/* 
-                <JobPost
+                /> :                <DetailedJobPost
                   {...eachJobPost}
                   fieldsToShow={fieldsToShow}
                   selectedBoardID={selectedBoardID}
                   detailLevel={detailLevel}
-                /> */}
+                /> }
+
               </Grid>
             ))}
         </Grid>
