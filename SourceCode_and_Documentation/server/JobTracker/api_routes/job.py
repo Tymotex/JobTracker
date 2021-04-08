@@ -58,4 +58,16 @@ class JobPostDetail(Resource):
     @job_api.response(400, 'Malformed Request')
     @job_api.response(403, 'Invalid id')
     def get(self):
-        pass
+        """
+            Given the job post URL, returns 
+
+            Parameters:
+                - job_post_url
+            Returns:
+                {
+                    post_details: "",
+                    fields: {}
+                }
+        """
+
+

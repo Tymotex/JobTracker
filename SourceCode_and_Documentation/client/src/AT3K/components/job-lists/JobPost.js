@@ -141,7 +141,8 @@ const JobPost = ({
 									</div>
 								)}
 								<div>
-									<Link to={`/search/details?id=${"JOB_POST_ID_HERE"}`}>
+									<Link to={`/search/details`} params={{ testvalue: "hello" }}>  
+									{/* TODO: pass relevant info into job search page: all job post fields  */}
 										<strong style={{ "font-size": "200%" }}>View more here</strong>
 									</Link>
 								</div>

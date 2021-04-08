@@ -126,6 +126,10 @@ def edit_board(user_id: str, board_id: str, name: str, description: str):
         {'user_id' : user_id, '_id': ObjectId(board_id)}, 
         {'$set' : {"name" : name, 'description' : description}}
     )
+    return {
+        "new_name": name,
+        "description": description
+    }
     # Use db.boards.update_one() to update an existing board
 
 # Note: Tim did this. Needed to set the tracked jobs
@@ -166,10 +170,13 @@ def delete_board(user_id: str, board_id: str):
 
 def save_favourite_company(user_id: str, company_name: str):  # TODO: more params needed?
 
-    # Use db.users.update_one
-
+    user = db.users.find_one({ "_id": ObjectId(user_id) })
+    fav_companies = user["favourited_companies"]
+    if len(fav_companies) > 10:
+        raise InvalidUserInput(description="You can't have more than 10 favourite companies")
+    
     # Finding the user, then pushing an object into the favourited_companies field
-    res = db.users.update_one(
+    db.users.update_one(
         {
             "_id": ObjectId(user_id),
         },

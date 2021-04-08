@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-    Link
+    Link, useLocation
 } from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
 import DescriptionSection from '../components/job-details/DescriptionSection';
 import Footer from '../components/job-details/Footer'; 
 import JobItem from '../components/company-profile/JobItem';
+import { ContentLoader } from '../components/loaders';
 
 import {
     Grid,
@@ -16,7 +17,10 @@ import {
 	ArrowBack as ArrowBackIcon
 } from '@material-ui/icons';
 
+import api from '../constants/api';
+
 import styles from './JobDetails.module.scss';
+import axios from 'axios';
 
 
 const recentJobs = [
@@ -74,9 +78,10 @@ const recentJobs = [
 ]
 
 
-const Header = () => {
+	
+const Header = ({name}) => {
 	const [save, setSave] = React.useState(false); //TODO
-
+    // const iconSize = "small";
     const btnStyle = {
         margin: '20px 5px'
     };
@@ -104,15 +109,24 @@ const Header = () => {
             <Grid item>
                 <div className={styles.iconLabelSet}>
 					{/* FIXME: drop icon if we don't have one */}
+					{/*
+						Using Logo API
+						NOTE: 
+							has some conditions  
+							required to link 
+							<a href="https://clearbit.com">Logos provided by Clearbit</a>
+							on pages where this is used
+					*/}
                     <img 
-						src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7" 
+						src={`https://logo.clearbit.com/${name}.com` }
+						// src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7"
 						style={companyIconStyle}
-						alt="Company"
+						alt={name}
 					/>
-                    <div>Whatever company</div>
+                    <div>{name}</div>
                 </div>
                 <div className={styles.mainTitle}>
-                    Nulla sit amet ante 
+                    {name}
                 </div>
             </Grid>
 
@@ -129,30 +143,53 @@ const Header = () => {
 };
 
 const CompanyProfile = () => {
+	const [companyDetails, setCompanyDetails] = useState(null);
+	const search = useLocation().search;
+	const params = new URLSearchParams(search);
+	const company = params.get('company');
+	useEffect(() => {
+		if (company && company !== "") {
+			axios.get(`${api.BASE_URL}/api/company?company=${company}`)
+			.then(response => setCompanyDetails(response.data))
+		}
+	}, [company])
+
+	const isLoading = companyDetails === null;
 	return (
 		<Layout>
+			{(company && company !== "") ? (
+				<>
+					<Header name={company}/>
+					<hr />
+					<DescriptionSection title="About">
+						{isLoading ? (
+							<ContentLoader />
+						) : (
+							<>{companyDetails && companyDetails.company_info.company_details}</>
+						)}
+					</DescriptionSection>
 
-			<Header />
-
-			<hr />
-
-			<DescriptionSection title="About">
-				It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-			</DescriptionSection>
-
-			<DescriptionSection title="Recent Jobs">
-				{
-					recentJobs.map((job) => (
-						<JobItem {...job} />
-					))
-				}
-			</DescriptionSection>
-
-			<hr />
-
-			<Footer type="company"/>
+					<DescriptionSection title="Recent Jobs">
+						{isLoading ? (
+							<ContentLoader />
+						) : (
+							<>{	companyDetails &&
+								companyDetails.jobs.map((job) => (
+									<JobItem {...job} />
+								))
+							}</>
+						)}
+					</DescriptionSection>
+					<hr />
+		
+					<Footer type="company"/>
+				</>
+			) : (
+				<>
+					No company
+				</>
+			)}
 		</Layout>
-
 
 	);
 };

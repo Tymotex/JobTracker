@@ -11,6 +11,30 @@ from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, fields
 
 
+from wikipediaapi import Wikipedia
+from JobTracker.api_routes.jobs import get_job_postings
+
+def get_company_details(company):
+    """
+        Params: 
+            - company (str)
+        Returns:
+            - company_description (str)
+    """
+    wiki_wiki = Wikipedia('en')
+
+    # try different methods for searching  for the company until something good is returned
+    page = wiki_wiki.page(company + " (company)")
+
+    if not page.exists():
+        page = wiki_wiki.page(company)
+
+
+    company_data = page.text
+    company_description = company_data.split("\n")[0]
+    return company_description
+
+
 company_router = Blueprint("company", __name__)
 
 company_api = Api(
@@ -32,7 +56,7 @@ response_fields = company_api.model("CompanyProfile", {
 })
 
 # RESTful route handlers:
-@company_api.route('/api/company', strict_slashes=False)
+@company_api.route('/', strict_slashes=False)
 class CompanyFetch(Resource):
     @company_api.param('id', 'the id of the company to fetch')
     @company_api.param('name', 'the name of the company to fetch')
@@ -59,22 +83,29 @@ class CompanyFetch(Resource):
 
         # Get company info through Wikipedia (or opencorporates)
         
-
         # Get relevant jobs
 
         # Call: get_job_postings(location, query, results_per_page, page, sort_criteria)
         # To get job list
 
         # Filter for the jobs that actually belong to company_name
+        request_params = dict(request.args)
+        # print(request_params)
+        company_name = request_params["company"]
+        company_details = get_company_details(company_name)
 
+        job_resp = get_job_postings("Sydney", company_name, 10, 1, "relevance")
+
+        job_list = job_resp["jobs"]
+        job_list = list(filter(lambda x: x["company"].lower() == company_name.lower(), job_list))
+
+        print(len(job_list))
         return {
             "company_info": {
-                # ...
+                "company_details": company_details
             },
-            "jobs": [
-                {
-                    # ...
-                }
+            "jobs" : [
+                *job_list
             ]
         }  
 

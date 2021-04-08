@@ -59,6 +59,7 @@ class Stats(Resource):
 
             Parameters:
                 - user_id
+                - board_id
                 - start time
                 - end time
 
@@ -72,11 +73,16 @@ class Stats(Resource):
         printColoured(" * Getting user stats", colour="yellow")
         request_params = dict(request.args)
         user_id = request_params["user_id"]
+        board_id = request_params["board_id"]
         start_time = request_params["start_time"]
         end_time = request_params["end_time"]
 
-        # NOTE: temporarily just returning stats
-        return fetch_stats(user_id)
+        stats = fetch_stats(board_id)
+
+        # Sort timestamps into ascending order
+        stats.sort(key=lambda x: x["timestamp"])
+
+
 
         # First call fetch_stats in database_ops.py
 
@@ -98,7 +104,7 @@ class Stats(Resource):
         """
         Suppose this endpoint gets called on start=6/4/2020, end=23/4/2020,
         return an array that might look like this for example:
-        [
+        {
             "6/4/2020": [
                 "application",
                 "application",
@@ -112,7 +118,7 @@ class Stats(Resource):
             "23/4/2020": [
                 ...
             ]
-        ]
+        }
 
         """
 

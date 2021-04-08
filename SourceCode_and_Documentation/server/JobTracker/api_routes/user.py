@@ -143,13 +143,12 @@ class UserBoard(Resource):
         # Dont know what this does, just copied from other functions.
         printColoured(" * Editing board values", colour="yellow")
 
-        request_params = dict(request.get_json())
+        request_params = dict(request.form)
         user_id = request_params["user_id"]
         board_id = request_params["board_id"]
         new_names = request_params["new_name"]
         new_description = request_params["new_description"]
-        edit_board(user_id, board_id, new_names, new_description)
-        return
+        return edit_board(user_id, board_id, new_names, new_description)
 
         # Call edit_board in database_ops.py
 

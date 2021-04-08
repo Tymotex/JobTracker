@@ -15,7 +15,7 @@ import JobListPaginator from "./JobListPaginator";
 import JobPost from "./JobPost";
 import { ContentLoader } from "../loaders";
 import Slider from "@material-ui/core/Slider";
-import TempJobPost from "./TempJobPost";
+import DetailedJobPost from "./DetailedJobPost";
 import style from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark";
 
 const JobList = ({
@@ -75,110 +75,113 @@ const JobList = ({
 		fetchJobPosts(pageNumber, val);
 	};
 
-	const isLoading = jobList && jobList.length <= 0 ? true : false;
-	return (
-		<>
-			<Grid container spacing={2}>
-				<Grid className={styles.dropdown} item sm={4}>
-					<Dropdown
-						label={"Sort by"}
-						value={sortStrategy}
-						onChange={(event) => handleSetSortStrategy(event.target.value)}
-						items={[
-							{ value: "relevance", text: "Relevance (highest to lowest)" },
-							{ value: "date", text: "Posted date (most recent to least recent)" },
-							{ value: "salary", text: "Salary (highest to lowest)" },
-						]}
-					/>
-				</Grid>
-				<Grid className={styles.dropdown} item sm={4}>
-					<Dropdown
-						label={"Toggle detail"}
-						value={detailLevel}
-						onChange={(event) => setDetailLevel(event.target.value)}
-						items={[
-							{ value: 1, text: "Less detail" },
-							{ value: 2, text: "More detail" },
-						]}
-					/>
-				</Grid>
-				<Grid className={styles.dropdown} item sm={4}>
-					<h4 className={styles.fieldTitle}>Results per page</h4>
-					<Slider
-						defaultValue={resultsPerPage}
-						onChangeCommitted={(_, val) => handleSetResultsPerPage(val)}
-						aria-labelledby="discrete-slider"
-						valueLabelDisplay="auto"
-						step={1}
-						marks
-						min={1}
-						max={30}
-					/>
-				</Grid>
-			</Grid>
-			{/* TODO: Show search results summary - how many jobs were found */}
-			<p>{numResults} jobs were found</p>
-			<FormControl component="fieldset">
-				<FormLabel component="legend">Select fields to display</FormLabel>
-				{/* TODO Can't override formgroup css without using style = {} */}
-				<FormGroup
-					classes={{ root: styles.fields }}
-					style={{ flexDirection: "row" }}
-				>
-					{Object.keys(fieldsToShow).map((eachField) => (
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={fieldsToShow[eachField]}
-									onChange={handleFieldsToShow}
-									name={eachField}
-								/>
-							}
-							label={eachField}
-						/>
-					))}
-				</FormGroup>
-			</FormControl>
+  const isLoading = jobList && jobList.length <= 0 ? true : false;
+  return (
+    <>
+      <Grid container spacing={2}>
+        <Grid className={styles.dropdown} item sm={4}>
+          <Dropdown
+            label={"Sort by"}
+            value={sortStrategy}
+            onChange={(event) => handleSetSortStrategy(event.target.value)}
+            items={[
+              { value: "relevance", text: "Relevance (highest to lowest)" },
+              { value: "date", text: "Posted date (most recent to least recent)" },
+              { value: "salary", text: "Salary (highest to lowest)" },
+            ]}
+          />
+        </Grid>
+        <Grid className={styles.dropdown} item sm={4}>
+          <Dropdown
+            label={"Toggle detail"}
+            value={detailLevel}
+            onChange={(event) => setDetailLevel(event.target.value)}
+            items={[
+              { value: 1, text: "Less detail" },
+              { value: 2, text: "More detail" },
+            ]}
+          />
+        </Grid>
+        <Grid className={styles.dropdown} item sm={4}>
+          <h4 className={styles.fieldTitle}>Results per page</h4>
+          <Slider
+            defaultValue={resultsPerPage}
+            onChangeCommitted={(_, val) => handleSetResultsPerPage(val)}
+            aria-labelledby="discrete-slider"
+            valueLabelDisplay="auto"
+            step={1}
+            marks
+            min={1}
+            max={30}
+          />
+        </Grid>
+      </Grid>
+      {/* TODO: Show search results summary - how many jobs were found */}
+      <p>{numResults} jobs were found</p>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Select fields to display</FormLabel>
+        {/* TODO Can't override formgroup css without using style = {} */}
+        <FormGroup
+          classes={{ root: styles.fields }}
+          style={{ flexDirection: "row" }}
+        >
+          {Object.keys(fieldsToShow).map((eachField) => {
+            const alwaysShowFields = ["title", "company", "locations"];
+            if (detailLevel === 2 || alwaysShowFields.indexOf(eachField) !== -1 ) {
+              return  <FormControlLabel
+              control={
+                <Checkbox
+                  checked={fieldsToShow[eachField]}
+                  onChange={handleFieldsToShow}
+                  name={eachField}
+                />
+              }
+              label={eachField}
+            />
+            }
+            return null;
+          })}
+        </FormGroup>
+      </FormControl>
 
-			<JobListPaginator
-				currPage={pageNum}
-				pageCount={pageCount}
-				handlePageClick={handlePageClick}
-			/>
-			<br></br>
-			{isLoading ? (
-				[...Array(resultsPerPage)].map((elem, i) => <ContentLoader />)
-			) : (
-				<Grid className={styles.jobList} container>
-					{jobList &&
-						jobList.map((eachJobPost) => (
-							<Grid
-								className={styles.jobCard}
-								item
-								xs={12}
-								sm={6}
-								md={6}
-								lg={4}
-							>
-								<TempJobPost
-									{...eachJobPost}
-									fieldsToShow={fieldsToShow}
-									selectedBoardID={selectedBoardID}
-									detailLevel={detailLevel}
-								/>
-								{/* 
-                <JobPost
+      <JobListPaginator
+        currPage={pageNum}
+        pageCount={pageCount}
+        handlePageClick={handlePageClick}
+      />
+      <br></br>
+      {isLoading ? (
+        [...Array(resultsPerPage)].map((elem, i) => <ContentLoader />)
+      ) : (
+        <Grid className={styles.jobList} container>
+          {jobList &&
+            jobList.map((eachJobPost) => (
+              <Grid
+                className={styles.jobCard}
+                item
+                xs={12}
+                sm={6}
+                md={6}
+                lg={4}
+              > 
+              {detailLevel === 1 ? <JobPost
                   {...eachJobPost}
                   fieldsToShow={fieldsToShow}
                   selectedBoardID={selectedBoardID}
                   detailLevel={detailLevel}
-                /> */}
-							</Grid>
-						))}
-				</Grid>
-			)}
-		</>
-	);
+                /> :                <DetailedJobPost
+                  {...eachJobPost}
+                  fieldsToShow={fieldsToShow}
+                  selectedBoardID={selectedBoardID}
+                  detailLevel={detailLevel}
+                /> }
+
+              </Grid>
+            ))}
+        </Grid>
+      )}
+    </>
+  );
 };
 
 export default JobList;
