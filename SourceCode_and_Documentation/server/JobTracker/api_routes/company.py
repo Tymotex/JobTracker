@@ -58,7 +58,7 @@ class CompanyFetch(Resource):
         """
 
         # Get company info through Wikipedia (or opencorporates)
-
+        
 
         # Get relevant jobs
 

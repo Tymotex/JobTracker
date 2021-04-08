@@ -28,16 +28,16 @@ stats_api = Api(
 )
 
 # Data model definitions
-search_fields = jobs_api.model("SearchFields", {
+search_fields = stats_api.model("SearchFields", {
     "career_type": fields.String,
 })
 
 
 #How to do fields.list of lists?
 
-response_fields = jobs_api.model("Statistics", {
+response_fields = stats_api.model("Statistics", {
     "growth_data": fields.List(fields.List(fields.Integer)),
-    "popular_skills" fields.List(fields.String) ,
+    "popular_skills": fields.List(fields.String) ,
     # TODO: Need more here!
 })
 
@@ -47,8 +47,8 @@ response_fields = jobs_api.model("Statistics", {
 
 @stats_api.route('/activity')
 class Stats(Resource):
-    @jobs_api.marshal_list_with(response_fields)
-    @jobs_api.expect(search_fields)
+    @stats_api.marshal_list_with(response_fields)
+    @stats_api.expect(search_fields)
     def get(self):
         """
             To hit this route - call GET http://localhost:5000/api/user/stats/activity

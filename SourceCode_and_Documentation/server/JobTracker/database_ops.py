@@ -163,7 +163,7 @@ def save_favourite_company(user_id: str, company_name: str):  # TODO: more param
     # Use db.users.update_one
 
     # Finding the user, then pushing an object into the favourited_companies field
-    db.users.update_one(
+    res = db.users.update_one(
         {
             "_id": ObjectId(user_id),
         },
@@ -173,6 +173,16 @@ def save_favourite_company(user_id: str, company_name: str):  # TODO: more param
             }
         }
     )
+    return "Success"
+
+def get_favourite_company(user_id: str):
+    user = db.users.find_one({ 
+        "_id":  ObjectId(user_id)
+    })
+    if not user:
+        raise InvalidUserInput(description="Couldn't find the user with id: {}".format(user_id))
+
+    return user["favourited_companies"]
 
 # ============================================ END KATRINA ============================================
 

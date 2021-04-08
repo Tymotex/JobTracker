@@ -18,6 +18,8 @@ from JobTracker.database_ops import (
     set_user_resume_fields,
     get_board,
     set_tracked_jobs,
+    get_favourite_company,
+    save_favourite_company
 )
 from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
@@ -201,7 +203,10 @@ class UserFavouriteCompany(Resource):
             Returns:
                 ["canva", "Atlassian", ... ]
         """
-        return []
+        request_params = dict(request.args)
+        user_id = request_params["user_id"]
+        return get_favourite_company(user_id)
+
 
     def post(self):
         """
@@ -214,8 +219,11 @@ class UserFavouriteCompany(Resource):
                 - ...more?
         """
         # Call save_favourite_company in database_ops.py
+        request_params = dict(request.args)
+        user_id = request_params["user_id"]
+        company_name = request_params["company_name"]
 
-        return "Success" # Or anything else
+        return save_favourite_company(user_id, company_name)
 
 
 # ============================================ END KATRINA ============================================
