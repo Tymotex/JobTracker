@@ -8,24 +8,47 @@ from flask import (
     jsonify
 )
 from JobTracker.utils.colourisation import printColoured
-from flask_restx import Resource, Api, Namespace
+from flask_restx import Resource, Api, fields
+
 
 company_router = Blueprint("company", __name__)
+
 company_api = Api(
     company_router, 
     doc="/doc",
-    title="Job Post Details",
-    description="Routes for fetching specific details on a job posting",
-    default="/api/company",
-    default_label="Job posting",
+    title="Company Profile",
+    description="Routes for fetching specific details on a company",
+    default="Company",
+    default_label="Company Profile Services",
 )
 
-# Data model definitions
 
+# Data model definitions
+response_fields = company_api.model("CompanyProfile", {
+    "id": fields.Integer,
+    "name": fields.String,
+    "description": fields.String,
+    "jobs": fields.List(fields.Integer)
+})
 
 # RESTful route handlers:
-@company_api.route('/')
+@company_api.route('/api/company', strict_slashes=False)
 class CompanyFetch(Resource):
+    @company_api.param('id', 'the id of the company to fetch')
+    @company_api.param('name', 'the name of the company to fetch')
+
+    @company_api.response(200,'Success', response_fields)
+    @company_api.response(400, 'Malformed Request')
+    @company_api.response(404, 'Company Not Found')
+    @company_api.doc(description='''
+        Gets the information for the company. if neither id nor name is specified,
+        the corresponding to the supplied 
+        If both are supplied the id is used first and on failure the name is used.
+        If all supplied forms of identification are invalid the request is 
+        considered malformed.
+        The response object contains a list of job_post_ids of the jobs released 
+        by the company. Use the GET /job to retrive the entire job post.
+    ''')
     def get(self):
         """
             Getting company info [using opencorporates or wikipedia]
