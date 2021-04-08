@@ -75,7 +75,8 @@ const recentJobs = [
 
 
 const Header = () => {
-    // const iconSize = "small";
+	const [save, setSave] = React.useState(false); //TODO
+
     const btnStyle = {
         margin: '20px 5px'
     };
@@ -87,10 +88,9 @@ const Header = () => {
         padding: '5px'
     };
 
-    // const tagStyle = {
-    //     height: '30px',
-    //     margin: '5px'
-    // };
+	const handleSave = () => {
+		setSave(!save);
+	};
 
 	return (
 		<Grid container direction="column">
@@ -103,6 +103,7 @@ const Header = () => {
 
             <Grid item>
                 <div className={styles.iconLabelSet}>
+					{/* FIXME: drop icon if we don't have one */}
                     <img 
 						src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7" 
 						style={companyIconStyle}
@@ -119,8 +120,8 @@ const Header = () => {
                 <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
                     View official Website
                 </Button>
-                <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
-                    Save
+                <Button style={btnStyle} variant="outlined" color="secondary" size="small" onClick={handleSave}>
+                    { save ? "Saved" : "Save" }
                 </Button>
             </Grid>
         </Grid>
