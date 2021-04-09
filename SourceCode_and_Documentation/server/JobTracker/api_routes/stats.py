@@ -82,8 +82,6 @@ class Stats(Resource):
         # Sort timestamps into ascending order
         stats.sort(key=lambda x: x["timestamp"])
 
-
-
         # First call fetch_stats in database_ops.py
 
         """
@@ -100,10 +98,55 @@ class Stats(Resource):
             ]
         """
 
+        start_date = datetime.fromtimestamp(stats[0]['timestamp'])
+        end_date = datetime.fromtimestamp(stats[-1]['timestamp'])
+
+        delta = end_date - start_date
+
+        date_list = {}
+
+        # METHOD 1 - iterating through the entire stats array for each day
+        #            takes longer but more confident that it is more accurate
+        for i in range(delta.days + 2):
+            day = start_date + time(delta(days = i))
+            day = day.strftime('%d/%m/%Y')
+            for j in range(len(stats)):
+                curr_day = datetime.fromtimestamp(stats[j]['timestamp']).strftime('%d/%m/%Y')
+                if curr_day != day:
+                    continue
+
+                if day not in date_list.keys():
+                    activity_list = []
+
+                activity_list.append((stats[j]['activity']))
+                activity_list.sort()
+                date_list[day] = activity_list
+        
+        # METHOD 2 - stop iterating through the stats array when dates no longer match
+        #            keeps track of last position in stats array so no need to iterate through days that have already been matched
+        #            takes shorter time but might be less accurate
+        '''for i in range(delta.days + 2):
+            day = (start_date + timedelta(days = i)).strftime('%d/%m/%Y')
+            k = 0
+            for j in range(k, len(stats)):
+                curr_day = datetime.fromtimestamp(stats[j]['timestamp']).strftime('%d/%m/%Y')
+                if curr_day < day:
+                    continue
+                elif curr_day > day:
+                    k = j
+                    break
+
+                if day not in date_list.keys():
+                    activity_list = []
+
+                activity_list.append((stats[j]['activity']))
+                activity_list.sort()
+                date_list[day] = activity_list'''
+
         # For each day between start time and end time,
         """
         Suppose this endpoint gets called on start=6/4/2020, end=23/4/2020,
-        return an array that might look like this for example:
+        return an array (dictionary?) that might look like this for example:
         {
             "6/4/2020": [
                 "application",
@@ -122,9 +165,6 @@ class Stats(Resource):
 
         """
 
-        return [
-            
-        ]
-
+        return date_list
 # ============================================ END KELLY ============================================
 
