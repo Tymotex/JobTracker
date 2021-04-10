@@ -9,6 +9,10 @@ from flask import (
 )
 from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, fields
+import requests
+from bs4 import BeautifulSoup
+from functools import lru_cache
+
 
 job_router = Blueprint("job", __name__)
 job_api = Api(
@@ -43,7 +47,8 @@ response_fields = job_api.model("JobPostings", {
 
 
 # RESTful route handlers:
-@job_api.route('/api/job', strict_slashes=False)
+# @job_api.route('/api/job', strict_slashes=False)
+@job_api.route('/', strict_slashes=False)
 class JobPostDetail(Resource):
     @job_api.param('id', 'the id of the job post to fetch')
     @job_api.doc(description='''
@@ -69,5 +74,19 @@ class JobPostDetail(Resource):
                     fields: {}
                 }
         """
+        request_params = dict(request.args)
 
+        url = request_params["url"]
+        post_details = get_content(url)
 
+        return {
+            "post_details": post_details,
+            "fields": {}
+        }
+
+@lru_cache(maxsize=100)
+def get_content(url):
+    web_page = requests.get(url)
+    soup = BeautifulSoup(web_page.content, "html.parser")
+    content = str(soup.section)
+    return content

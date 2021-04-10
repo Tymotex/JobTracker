@@ -86,7 +86,7 @@ const DetailedJobPost = ({
     setOnHover(false);
   };
 
-  const moreInfoURL = `/search/details?id=${"JOB_POST_ID_HERE"}`;
+  const moreInfoURL = `/search/details?url=${url}`;
 
   return (
     <div
