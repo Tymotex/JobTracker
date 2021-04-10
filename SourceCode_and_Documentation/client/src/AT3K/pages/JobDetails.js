@@ -21,41 +21,9 @@ import { JobMap } from '../components/job-map';
 import styles from './JobDetails.module.scss';
 import api from "../constants/api";
 import axios from "axios";
+import MapIcon from '@material-ui/icons/Map';
 
 
-const jobDetailFields = [
-    {
-        label: "Posted on",
-        value: "9th March, 2021",
-        icon: CalendarTodayIcon
-    },
-    {
-        label: "Deadline",
-        value: "Tomorrow",
-        icon: EventBusyIcon
-    },
-    {
-        label: "Salary",
-        value: "$12000",
-        icon: AttachMoneyIcon
-    },
-    {
-        label: "Type",
-        value: "Full time",
-        icon: ScheduleIcon
-    },
-    {
-        label: "Category",
-        value: "Computer Science",
-        icon: ListIcon,
-        link: "https://www.google.com",
-    },
-    {
-        value: "Official Website",
-        icon: LinkIcon,
-        link: "https://www.google.com"
-    }
-];
 
 const tags = [
     "Tag 1",
@@ -67,7 +35,53 @@ const tags = [
     "Tag hsdfdsjfsdfdsfweufndnfndsi"
 ]
 
-const Header = () => {
+const Header = ({ title,
+    company,
+    locations,
+    salary,
+    date,
+    url
+}) => {
+    const jobDetailFields = [
+        {
+            label: "Posted on",
+            value: date,
+            icon: CalendarTodayIcon
+        },
+        {
+            label: "Deadline",
+            value: "Tomorrow",
+            icon: EventBusyIcon
+        },
+        {
+            label: "Salary",
+            value: salary,
+            icon: AttachMoneyIcon
+        },
+        {
+            label: "Type",
+            value: "Full time",
+            icon: ScheduleIcon
+        },
+        {
+            label: "Location",
+            value: locations,
+            icon: MapIcon,
+        },
+        {
+            label: "Category",
+            value: "Computer Science",
+            icon: ListIcon,
+            link: "https://www.google.com",
+        },
+ 
+        {
+            value: "Official Website",
+            icon: LinkIcon,
+            link: "https://www.google.com"
+        }
+        
+    ];
     const iconSize = "small";
     const btnStyle = {
         margin: '20px 5px'
@@ -104,15 +118,21 @@ const Header = () => {
                                 style={companyIconStyle}
                                 alt="company icon"
                             />
-                            <a href="/search/company">Whatever company</a>
+                                 <Link
+                                    className={styles.field}
+                                    to={`/search/company?company=${company}`}
+                                >
+                                    {company}
+                                </Link>
+                            {/* <a href="/search/company">{company}</a> */}
                         </div>
                         <div className={styles.mainTitle}>
-                            Nulla sit amet ante a tellus elementum vulputate ut ac ante donec eu nunc aliquet arcu cursus posuere
+                            {title}
                         </div>
                     </Grid>
 
                     <Grid item direction="row">
-                        <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
+                        <Button  style={btnStyle} variant="outlined" color="secondary" size="small" component="a" href={url}>
                             View official post
                         </Button>
                         <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
@@ -164,7 +184,12 @@ const JobDetails = () => {
     // get data from 
     const search = useLocation().search;
     const params = new URLSearchParams(search);
+    const title = params.get('title');
+    const company = params.get('company');
+    const locations = params.get('locations');
     const url = params.get('url');
+    const salary = params.get('salary');
+    const date = params.get('date');
     //
 
     useEffect(() => {
@@ -174,7 +199,7 @@ const JobDetails = () => {
 
     return (
         <Layout>
-            <Header />
+            <Header url={url} company={company} title={title} salary={salary} locations={locations} date={date}/>
 
             <hr />
 
@@ -184,7 +209,7 @@ const JobDetails = () => {
             </DescriptionSection>
 
             <DescriptionSection title="Location">
-                <JobMap locationQuery={"UNSW"} />  {/* Substitute this for actual location query */}
+                <JobMap locationQuery={locations} />  {/* Substitute this for actual location query */}
             </DescriptionSection>
 
             {/* <DescriptionSection title="Requirements">

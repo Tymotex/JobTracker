@@ -86,7 +86,17 @@ const DetailedJobPost = ({
     setOnHover(false);
   };
 
-  const moreInfoURL = `/search/details?url=${url}`;
+  const data = {
+    title,
+    company,
+    locations,
+    url,
+    salary,
+    date,
+  };
+
+  const searchParams = new URLSearchParams(data);
+  const moreInfoURL = `/search/details?${searchParams.toString()}`;
 
   return (
     <div
@@ -94,7 +104,7 @@ const DetailedJobPost = ({
       onMouseEnter={mouseEnterHanlder}
       onMouseLeave={mouseLeaveHanlder}
     >
-      <Link to={moreInfoURL}>
+      {/* <Link to={moreInfoURL}> */}
         {/* <div className="card-img"></div> */}
         {/* <Link to={moreInfoURL} className="card-link">
         <div className="card-img-hovered"></div>
@@ -179,7 +189,7 @@ const DetailedJobPost = ({
             </div>
           )}
         </div>
-      </Link>
+      {/* </Link> */}
     </div>
   );
 };
