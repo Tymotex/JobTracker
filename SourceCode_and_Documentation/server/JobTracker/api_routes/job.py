@@ -12,7 +12,7 @@ from flask_restx import Resource, Api, fields
 import requests
 from bs4 import BeautifulSoup
 from functools import lru_cache
-
+from re import findall, sub
 
 job_router = Blueprint("job", __name__)
 job_api = Api(
@@ -77,16 +77,29 @@ class JobPostDetail(Resource):
         request_params = dict(request.args)
 
         url = request_params["url"]
-        post_details = get_content(url)
 
-        return {
-            "post_details": post_details,
-            "fields": {}
-        }
+        return get_content(url)
 
-@lru_cache(maxsize=100)
+
+# @lru_cache(maxsize=100)
 def get_content(url):
     web_page = requests.get(url)
     soup = BeautifulSoup(web_page.content, "html.parser")
     content = str(soup.section)
-    return content
+    print(type(soup))
+    # for ul in soup.find_all('ul', attrs={"class": "details"}):
+    #     print(type(ul))
+    # print(fields)
+    for field in soup.find('ul', attrs={"class": "details"}).children:
+        field_str = str(field)
+        field_str = field_str.replace("\n", "")
+        print(field_str)
+        if "#icon-contract" in field_str:
+            
+            m = findall(r"svg>(\w|\s)+<\/li>", field_str)
+            print(m)
+        print("===")
+        print("\"",str(field), "\"")
+        print("===")
+        # print(field.string)
+    return {"post_details" : content, "fields": {}}

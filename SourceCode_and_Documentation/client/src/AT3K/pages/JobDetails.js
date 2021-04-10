@@ -165,15 +165,13 @@ const JobDetails = () => {
     const search = useLocation().search;
     const params = new URLSearchParams(search);
     const url = params.get('url');
-    console.log(url)
     //
 
     useEffect(() => {
         axios.get(`${api.BASE_URL}/api/job?url=${url}`)
             .then(response => setJobDescription(response.data))
     }, [])
-    console.log(jobDescription)
-    console.log(jobDescription && jobDescription.post_details)
+
     return (
         <Layout>
             <Header />
