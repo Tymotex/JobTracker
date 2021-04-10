@@ -75,7 +75,11 @@ def set_user_resume_fields(user_id: str, resume_data: dict):
             }
         }
     )
-
+def get_user_profile(user_id: str):
+    """
+        GEt the user's profile fields.
+    """
+    pass
 # ===== Board Management =====
 
 def create_board(user_id: str, name: str, description: str) -> str: 
