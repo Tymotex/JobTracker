@@ -14,13 +14,14 @@ import {
 } from '@material-ui/core';
 
 import {
-	ArrowBack as ArrowBackIcon
+	ArrowBack as ArrowBackIcon, StarSharp
 } from '@material-ui/icons';
 
 import api from '../constants/api';
 
 import styles from './JobDetails.module.scss';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 
 const recentJobs = [
@@ -80,8 +81,21 @@ const recentJobs = [
 
 	
 const Header = ({name}) => {
-	const [save, setSave] = React.useState(false); //TODO
-    // const iconSize = "small";
+	const [save, setSave] = React.useState(); //TODO
+	
+	const userID = Cookies.get("user_id");
+	
+	useEffect(() => {
+		// load initial state of this company
+		if (userID) {
+			axios.get(`${api.BASE_URL}/api/user/company?user_id=${userID}`)
+				.then(res => setSave(res.data.indexOf(name) > -1))
+				.catch(err => console.log(err))
+		} else {
+			Notification.spawnRegisterError();
+		}
+	}, []);
+
     const btnStyle = {
         margin: '20px 5px'
     };
@@ -94,7 +108,20 @@ const Header = ({name}) => {
     };
 
 	const handleSave = () => {
-		setSave(!save);
+		const url = `${api.BASE_URL}/api/user/company?user_id=${userID}&company_name=${name}`;
+		
+		// if current state is 'already saved', unsave the company
+		if (save) {
+			axios.delete(url)
+				.then(() => setSave(false))
+				.catch(() => alert('Fail to unsave company'))
+
+		// if current state is 'not saved', save the company
+		} else {
+			axios.post(url)
+				.then(() => setSave(true))
+				.catch(() => alert('Fail to save company'))
+		}
 	};
 
 	return (
@@ -108,7 +135,6 @@ const Header = ({name}) => {
 
             <Grid item>
                 <div className={styles.iconLabelSet}>
-					{/* FIXME: drop icon if we don't have one */}
 					{/*
 						Using Logo API
 						NOTE: 
