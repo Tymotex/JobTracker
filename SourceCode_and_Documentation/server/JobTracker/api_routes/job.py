@@ -81,7 +81,7 @@ class JobPostDetail(Resource):
         return get_content(url)
 
 
-# @lru_cache(maxsize=100)
+@lru_cache(maxsize=100)
 def get_content(url):
     web_page = requests.get(url)
     soup = BeautifulSoup(web_page.content, "html.parser")
