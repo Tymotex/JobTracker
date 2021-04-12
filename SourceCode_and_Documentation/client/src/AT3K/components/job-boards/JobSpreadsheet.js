@@ -3,7 +3,9 @@ import DataGrid, { SelectColumn, TextEditor } from 'react-data-grid';
 import FullscreenMode from './FullscreenMode';
 import Cookie from 'js-cookie';
 import {
-    Button
+    Button,
+    InputLabel,
+    MenuItem
 } from '@material-ui/core';
 
 import axios from 'axios';
@@ -17,16 +19,14 @@ import { PrimaryButton } from '../buttons';
 import ReactTooltip from 'react-tooltip';
 import { Notification } from '../notification';
 import MUIDataTable from "mui-datatables";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
 // Given the current_status, returns a formatted string for displaying
 const mapStatusToStr = (currentStatus) => {
-    // return currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1); 
-    return currentStatus;
+    return currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1); 
+    // return currentStatus;
 }
 
 // TODO: PREFERNCES THAT SHOULD BE SAVED TO LOCALSTORAGE:
@@ -35,6 +35,7 @@ const mapStatusToStr = (currentStatus) => {
 // Rows per page
 // Table size
 
+// TODO: Clean up this clusterfuck of a file
 
 
 // Given the array of trackedJobs, reshapes it to be compatible with mui-datatable's rendering format
@@ -44,7 +45,7 @@ const fitToDataFormat = (trackedJobs) => {
         eachJob.title,
         eachJob.date,
         eachJob.description,
-        mapStatusToStr(eachJob.current_status),
+        eachJob.current_status,
         eachJob.url,
         eachJob.locations,
         eachJob.priority,
@@ -53,6 +54,7 @@ const fitToDataFormat = (trackedJobs) => {
         eachJob.job_id
     ]));
 }
+
 
 
 
@@ -85,6 +87,32 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         }
     };
 
+    const updateTrackedJobStatus = (userID, boardID, jobID, updatedJob, newStatus) => {
+        // Update tracked job's status as a special case (since we need to push the statistic to the
+        // board document)
+        updatedJob.current_status = newStatus;
+        const putData = {
+            method: "put",
+            url: `${api.BASE_URL}/api/tracker/`,
+            data: {
+                user_id: userID, 
+                board_id: boardID, 
+                job_id: jobID, 
+                updated_job: updatedJob
+            },
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        axios(putData)
+            .then((res) => {
+                alert(res.data);
+            })
+            .catch((err) => {
+                Notification.spawnError(err);
+            });
+    };
+
     // Table cell components
     const EditableField = (currValue, tableMeta) => {
         const setNewBoard = (event, row, fieldName) => {
@@ -92,12 +120,45 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             trackedJobs[row][fieldName] = event.target.value;
         }
         return (
-            <TextField 
-                multiline
-                rowsMax={4}
-                onChange={(e) => setNewBoard(e, tableMeta.rowIndex, tableMeta.columnData.name)}
-                defaultValue={currValue}
-            />
+            <>
+                <TextField 
+                    multiline
+                    rowsMax={4}
+                    onChange={(e) => setNewBoard(e, tableMeta.rowIndex, tableMeta.columnData.name)}
+                    defaultValue={currValue}
+                />
+            </>
+        );
+    }
+
+    const DropdownField = (currValue, tableMeta) => {
+        const setNewBoard = (event, row, fieldName) => {
+            event.preventDefault();
+            trackedJobs[row][fieldName] = event.target.value;
+        }
+        const options = [
+            { label: "Awaiting Application", name: "application" },
+            { label: "Resume Sent", name: "resume" },
+            { label: "Interview Stage", name: "interview" },
+            { label: "Final Outcome", name: "final" }
+        ]
+        return (
+            <>
+                <InputLabel id="status-dropdown">Status</InputLabel>
+                <Select 
+                    id="status-dropdown"
+                    multiline
+                    rowsMax={4}
+                    onChange={(e) => setNewBoard(e, tableMeta.rowIndex, tableMeta.columnData.name)}
+                    defaultValue={currValue}
+                >
+                    {options.map(option => (
+                        <MenuItem value={option.name}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </>
         );
     }
 
@@ -139,13 +200,16 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             }
         },
         {
-            name: "status", 
+            name: "current_status", 
             label: "Status", 
             options: {
                 filter: true,
                 sort: true,
                 draggable: true,
-                hint: "What stage this job post is currently at"
+                hint: "What stage this job post is currently at",
+                customBodyRender(value) {
+                    return <>{mapStatusToStr(value)}</>
+                }
             }
         },
         {
@@ -226,13 +290,17 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         else col.options.sort = true;
 
         if (editingEnabled) {
-            // if (col.name !== "url") {
+            if (col.name !== "current_status") {
                 col.options.customBodyRender = EditableField;
-            // }
+            } else {
+                col.options.customBodyRender = DropdownField;
+            }
+
         }
     })
 
-    const datatableOptions = {
+    const [datatableOptions, setOptions] = useState({
+        filter: true,
         filterType: "dropdown",
         responsive: "vertical",
         tableBodyHeight,
@@ -250,18 +318,26 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         selectableRowsHeader: false,             // Removed selection checkboxes here!!!
         selectableRowsHideCheckboxes: true,
         resizableColumns: true
-    };
+    });
 
     const data = fitToDataFormat(trackedJobs);
 
     return (
 
-            <FullscreenMode>
+            <FullscreenMode
+                // Switching off filtering, column selection, printing, rows per page selection when in fullscreen mode. This is a workaround for the UI not showing up in fullscreen mode
+                onFullScreenEnter={() => {
+                    if (datatableOptions.filter === true) setOptions({...datatableOptions, filter: false, print: false, viewColumns: false, rowsPerPageOptions: [] })}
+                }
+                onFullScreenExit={() => {
+                    if (datatableOptions.filter === false) setOptions({...datatableOptions, filter: true, print: true, viewColumns: true, rowsPerPageOptions: [5, 10, 20, 50] })}
+                }
+            >
                 <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)}>
                     Save board!!!
                 </Button>
                 <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
-                    EDIT BOARD
+                    TOGGLE EDIT MODE
                 </Button>
                 <React.Fragment>
                     <MUIDataTable
