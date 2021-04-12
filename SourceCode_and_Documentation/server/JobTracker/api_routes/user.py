@@ -82,8 +82,6 @@ class UserJobProfile(Resource):
         params = request.get_json()
         return set_user_profile(params['user_id'],params['username'],params['email'],params['password'],params['experience'],params['phone'],params['skills'])
  
-
-
 @user_api.route('/boards')
 class UserBoardManagement(Resource):
     def get(self):
