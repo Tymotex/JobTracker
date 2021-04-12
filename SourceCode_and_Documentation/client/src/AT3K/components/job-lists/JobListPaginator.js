@@ -8,26 +8,24 @@ import {
 const JobListPaginator = ({ currPage, pageCount, handlePageClick }) => {
     return (
         <>
-
-
-                <BottomNav>
-                <ReactPaginate
-                    className="bottomNavPaginator"
-                    initialSelected={currPage}
-                    previousLabel={<ChevronLeft />}
-                    nextLabel={<ChevronRight />}
-                    breakLabel={"..."}
-                    breakClassName={"break-me"}
-                    pageCount={pageCount}g
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={handlePageClick}
-                    containerClassName={"pagination"}
-                    subContainerClassName={"pages pagination"}
-                    activeClassName={"active"}
-                /> 
-                
-                </BottomNav>
+            <BottomNav>
+            <ReactPaginate
+                className="bottomNavPaginator"
+                initialSelected={currPage}
+                previousLabel={<ChevronLeft />}
+                nextLabel={<ChevronRight />}
+                breakLabel={"..."}
+                breakClassName={"break-me"}
+                pageCount={pageCount}g
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"}
+            /> 
+            
+            </BottomNav>
         </>
     )
 }

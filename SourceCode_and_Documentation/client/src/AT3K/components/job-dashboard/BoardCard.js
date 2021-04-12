@@ -1,6 +1,7 @@
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
@@ -11,6 +12,7 @@ import {
     BoardDeleteModal, BoardEditModal
 } from '../modals';
 import styles from './BoardCard.module.scss';
+import Unsplash from "react-unsplash-wrapper";
 
 const useStyles = makeStyles({
     bullet: {
@@ -52,7 +54,7 @@ const BoardCard = ({ _id, name, description, selectBoard, fetchBoards }) => {
             handleEditModelOpen();
         } else if (option === "Delete this board") {
             handleDeleteModelOpen();
-        }
+        } 
     }
     
     const classes = useStyles();
@@ -66,10 +68,24 @@ const BoardCard = ({ _id, name, description, selectBoard, fetchBoards }) => {
                 ]}
                 onItemClick={option => openBoardControlModal(option)}
             />
+            {/* <CardMedia
+                className={classes.media}
+                image=""
+                title="Contemplative Reptile"
+            /> */}
+            <Unsplash 
+                img
+                keywords={name.split(/\s+/).join(", ")}
+                height="150"
+            />
+            
             <CardContent>
                 <Typography className={classes.title} gutterBottom>
-                    {boardName}
+                    <strong>
+                        {boardName}
+                    </strong>
                 </Typography>
+                <hr />
                 <Typography variant="body2" component="p">
                     {boardDescription}
                 </Typography>

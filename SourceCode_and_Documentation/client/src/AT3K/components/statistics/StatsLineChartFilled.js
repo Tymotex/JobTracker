@@ -1,15 +1,33 @@
 import React from "react";
 import ApexCharts from "react-apexcharts";
 
+
+const returnedData = {
+    "6/4/2020": [
+        "application",
+        "application",
+        "interview",
+    ],
+    "7/4/2020": [
+    ],
+    // ...
+    "23/4/2020": [
+    ]
+};
+
+
+// Ideas:
+// Toggleability to show number of "applications", "resumes", etc.
+
 const series = [
     {
-        name: "series1",
+        name: "applications",
         data: [31, 40, 28, 51, 42, 109, 100],
     },
-    {
-        name: "series2",
-        data: [11, 32, 45, 32, 34, 52, 41],
-    },
+    // {
+    //     name: "series2",
+    //     data: [11, 32, 45, 32, 34, 52, 41],
+    // },
 ];
 
 function themeOptions(theme) {

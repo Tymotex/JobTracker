@@ -3,6 +3,7 @@ import Layout from '../../components/Layout/Layout';
 import styles from './Home.module.scss';
 import { Notification } from '../components/notification';
 
+import Unsplash from "react-unsplash-wrapper";
 
 import { ParallaxBanner, Parallax, Image } from 'react-scroll-parallax';
 
@@ -30,7 +31,6 @@ const ParallaxWallpaper = ({ image }) => {
 }
 
 const Home = ({ unknownPath }) => {
-    
     return (
         <Layout>
             <img 
@@ -38,11 +38,17 @@ const Home = ({ unknownPath }) => {
                 src="https://www.ashdownpeople.com.au/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBb3RKIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--ada3c8dc8b85e0c85ec5de54bf615377d7618fc7/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lPTWpBd01IZzFNREErQmpvR1JWUT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--dd63425399ff8805b68fabd53739560ae8aaa28f/e56a551f" 
                 alt="banner"
             />
+            <Unsplash 
+                img
+                keywords={"jobs"}
+                height="500"
+            />
+            ^random unsplash image for "jobs"
 
-            <ParallaxWallpaper image="https://images.unsplash.com/photo-1462206092226-f46025ffe607?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1506&q=80"/>
+            {/* <ParallaxWallpaper image="https://images.unsplash.com/photo-1462206092226-f46025ffe607?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1506&q=80"/>
             ^cool parallax effect
             <div className={styles.parallax}></div>
-            ^cool parallax effect
+            ^cool parallax effect */}
             <h1 className={styles.title}>Home</h1>
             <h2 className={styles.welcome}>Welcome to <strong>Job Tracker!</strong></h2>
             <div className={styles.container}>
@@ -67,7 +73,7 @@ const Home = ({ unknownPath }) => {
                     Have more questions? Head to our FAQ tab for answers to our most popular questions! Or contact us if you need further help. Happy tracking!
                 </p>
             </div>
-            <div className={styles.parallax}></div>
+            {/* <div className={styles.parallax}></div> */}
         </Layout>
     );
 };

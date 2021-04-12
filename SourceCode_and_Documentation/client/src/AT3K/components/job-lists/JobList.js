@@ -17,6 +17,7 @@ import { ContentLoader } from "../loaders";
 import Slider from "@material-ui/core/Slider";
 import DetailedJobPost from "./DetailedJobPost";
 import style from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark";
+import FadeIn from 'react-fade-in';
 
 const JobList = ({
 	selectedBoardID,
@@ -164,17 +165,26 @@ const JobList = ({
                 md={6}
                 lg={4}
               > 
-              {detailLevel === 1 ? <JobPost
+              <FadeIn
+                delay={100}
+                transitionDuration={400}
+              >
+              {detailLevel === 1 ? (
+                <JobPost
                   {...eachJobPost}
                   fieldsToShow={fieldsToShow}
                   selectedBoardID={selectedBoardID}
                   detailLevel={detailLevel}
-                /> :                <DetailedJobPost
+                />  
+              ) : (
+                <DetailedJobPost
                   {...eachJobPost}
                   fieldsToShow={fieldsToShow}
                   selectedBoardID={selectedBoardID}
                   detailLevel={detailLevel}
-                /> }
+                /> 
+              )}
+              </FadeIn>
 
               </Grid>
             ))}

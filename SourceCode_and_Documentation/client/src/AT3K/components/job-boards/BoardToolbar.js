@@ -18,43 +18,17 @@ const BoardToolbar = ({ boardType, handleChangeBoard, trackedJobs, boardID, fetc
                 <Grid container>
                     <Grid item xs={6}>
                         <div className={styles.full}>
-                            <RecordSearchBar /> 
-                        </div>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <div className={styles.full}>
                             <BoardDropdown 
                                 boardType={boardType} 
                                 handleChangeBoard={handleChangeBoard}
                             />
                         </div>
                     </Grid>
-                </Grid>
-                <Grid container>
-                    <Grid item xs={3}>
+                    <Grid item xs={3} className={styles.fullButton}>
                         <AddNewJob boardID={boardID} fetchBoardInfo={fetchBoardInfo} />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={3} className={styles.fullButton}>
                         <CustomiseView boardType={boardType} fieldsToShow={fieldsToShow} setFields={setFields} />
-                    </Grid>
-                    <Grid item xs={3}>
-                        {/* <CSVLink data={{}}>Download me</CSVLink> */}
-                        <CsvDownload 
-                            data={trackedJobs} 
-                            filename="Tim.csv" 
-                            style={{
-                                // background:"linear-gradient(to bottom, #333333 5%, #222222 100%)",
-                                borderRadius:"6px",
-                                border:"1px solid #111111",
-                                display:"inline-block",
-                                // cursor:"pointer","color":"#ffffff",
-                                fontSize:"15px",
-                                padding:"6px 24px",
-                                textDecoration:"none",
-                            }}
-                        >
-                            Download as CSV
-                        </CsvDownload>
                     </Grid>
                 </Grid>
             </div>

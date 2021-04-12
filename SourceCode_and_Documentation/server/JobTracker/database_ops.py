@@ -35,6 +35,9 @@ def add_user(username: str, email: str, password: str) -> str:
         "username": username,
         "email": email,
         "password": password,
+        "experience": "",
+        "phone": "",
+        "skills": [],
         "resume": {},
         "favourited_companies": []
     })

@@ -11,7 +11,28 @@ import {
 import styles from './JobCard.module.scss';
 import LabelIcon from '@material-ui/icons/Label';
 
-const JobCard = ({ company, title, description }) => {
+// Given the current_status, returns a formatted string for displaying
+const mapStatusToStr = (currentStatus) => {
+    return currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1); 
+}
+
+const mapStatusToColour = (currentStatus) => {
+    switch (currentStatus) {
+        case "application":
+            return "#00b6e3";     // Yellow
+        case "resume":
+            return "#12db00";     // Green
+        case "interview":
+            return "#f0e407";     // Light blue
+        case "finalised":           
+            return "#cc0836";     // Red
+        default:
+            return "#333333"      // Gray
+    }
+}
+
+const JobCard = ({ company, title, description, current_status }) => {
+
     return (
         <Card className={styles.jobCard} variant="outlined">
             <CardContent>
@@ -24,9 +45,11 @@ const JobCard = ({ company, title, description }) => {
                 <CardActionArea>
                 <Chip
                     avatar={<Avatar><LabelIcon /></Avatar>}
-                    label="Awaiting Application"
+                    label={current_status}
                     clickable
-                    color="primary"
+                    style={{
+                        backgroundColor: mapStatusToColour(current_status)
+                    }}
                 />
                 </CardActionArea>
             </CardContent>
