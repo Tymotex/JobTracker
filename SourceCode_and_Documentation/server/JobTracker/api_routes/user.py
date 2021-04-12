@@ -22,7 +22,9 @@ from JobTracker.database_ops import (
     edit_board,
     get_favourite_company,
     save_favourite_company,
-    delete_favourite_company
+    delete_favourite_company,
+    get_user_profile,
+    set_user_profile
 )
 from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
@@ -46,7 +48,7 @@ user_fields = user_api.model("User", {
 })
 
 # RESTful route handlers:
-@user_api.route('/')
+@user_api.route('/profile')
 class UserJobProfile(Resource):
     # @user_api.doc(
     #     description="Get a user's profile information",
@@ -69,21 +71,17 @@ class UserJobProfile(Resource):
         """
         printColoured(" * Retrieving user's profile info", colour="yellow")
         user_id = request.args.get("user_id")
-        # INSERT GET INFO FUNCTION HERE 
-        return boards
-        pass
+        # INSERT GET INFO FUNCTION HERE
+        user = get_user_profile(user_id)
+        return jsonify(user)
 
     def post(self):
         """
             Create a user profile (should this be a request or should)
-            it be created automatically on register and initalised as empty?
         """
-        pass
-
-    def put(self):
-        """
-        Edit the user's profile
-        """
+        params = request.get_json()
+        return set_user_profile(params['user_id'],params['username'],params['email'],params['password'],params['experience'],params['phone'],params['skills'])
+ 
 
 
 @user_api.route('/boards')
