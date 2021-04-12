@@ -18,6 +18,49 @@ import Slider from "@material-ui/core/Slider";
 import DetailedJobPost from "./DetailedJobPost";
 import style from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark";
 import FadeIn from 'react-fade-in';
+import { Modal } from "../modals";
+
+const FieldsSelectionForm = ({fieldsToShow, handleFieldsToShow, detailLevel, resultsPerPage, handleSetResultsPerPage}) => {
+  return (
+    <div style={{marginTop: "20px"}}>
+      <h4 className={styles.fieldTitle}>Results per page</h4>
+      <Slider
+        defaultValue={resultsPerPage}
+        onChangeCommitted={(_, val) => handleSetResultsPerPage(val)}
+        aria-labelledby="discrete-slider"
+        valueLabelDisplay="auto"
+        step={1}
+        marks
+        min={1}
+        max={30}
+      />
+      <FormControl component="fieldset" style={{marginTop: "50px", textAlign: "center", width: "100%"}}>
+          <FormLabel component="legend">Select fields to display</FormLabel>
+          {/* TODO Can't override formgroup css without using style = {} */}
+          <FormGroup
+            style={{ flexDirection: "row" }}
+          >
+            {Object.keys(fieldsToShow).map((eachField) => {
+              const alwaysShowFields = ["title", "company", "locations"];
+              if (detailLevel === 2 || alwaysShowFields.indexOf(eachField) !== -1 ) {
+                return  <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={fieldsToShow[eachField]}
+                    onChange={handleFieldsToShow}
+                    name={eachField}
+                  />
+                }
+                label={eachField}
+              />
+              }
+              return null;
+            })}
+          </FormGroup>
+      </FormControl>
+    </div>
+  );
+};
 
 const JobList = ({
 	selectedBoardID,
@@ -104,46 +147,25 @@ const JobList = ({
           />
         </Grid>
         <Grid className={styles.dropdown} item sm={4}>
-          <h4 className={styles.fieldTitle}>Results per page</h4>
-          <Slider
-            defaultValue={resultsPerPage}
-            onChangeCommitted={(_, val) => handleSetResultsPerPage(val)}
-            aria-labelledby="discrete-slider"
-            valueLabelDisplay="auto"
-            step={1}
-            marks
-            min={1}
-            max={30}
-          />
+
+          <Modal Contents={
+              () => <FieldsSelectionForm 
+                fieldsToShow={fieldsToShow} 
+                detailLevel={detailLevel} 
+                handleFieldsToShow={handleFieldsToShow} 
+                resultsPerPage={resultsPerPage}
+                handleSetResultsPerPage={handleSetResultsPerPage}
+              />
+            }
+          >
+            <Button variant="contained" color="info">Customise Fields</Button>
+          </Modal>
         </Grid>
       </Grid>
       {/* TODO: Show search results summary - how many jobs were found */}
-      <p>{numResults} jobs were found</p>
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Select fields to display</FormLabel>
-        {/* TODO Can't override formgroup css without using style = {} */}
-        <FormGroup
-          classes={{ root: styles.fields }}
-          style={{ flexDirection: "row" }}
-        >
-          {Object.keys(fieldsToShow).map((eachField) => {
-            const alwaysShowFields = ["title", "company", "locations"];
-            if (detailLevel === 2 || alwaysShowFields.indexOf(eachField) !== -1 ) {
-              return  <FormControlLabel
-              control={
-                <Checkbox
-                  checked={fieldsToShow[eachField]}
-                  onChange={handleFieldsToShow}
-                  name={eachField}
-                />
-              }
-              label={eachField}
-            />
-            }
-            return null;
-          })}
-        </FormGroup>
-      </FormControl>
+      <div style={{textAlign: "center"}}>
+        {numResults} jobs were found
+      </div>
 
       <JobListPaginator
         currPage={pageNum}

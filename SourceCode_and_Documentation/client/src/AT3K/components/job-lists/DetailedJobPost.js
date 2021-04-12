@@ -91,8 +91,9 @@ const DetailedJobPost = ({
     company,
     locations,
     url,
+    description,     // FIXME: This may be too long. Alternatives to passing data to a route?
     salary,
-    date,
+    date
   };
 
   const searchParams = new URLSearchParams(data);

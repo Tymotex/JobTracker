@@ -239,14 +239,14 @@ class UserFavouriteCompany(Resource):
                 - ...more?
         """
         # Call save_favourite_company in database_ops.py
-        request_params = dict(request.args)
+        request_params = dict(request.get_json())
         user_id = request_params["user_id"]
         company_name = request_params["company_name"]
 
         # check duplicate
         companies = get_favourite_company(user_id)
         if company_name in companies:  
-            raise InvalidUserInput(description="You have saved company '{}'.".format(company_name))
+            raise InvalidUserInput(description="'{}' has already been favourited".format(company_name))
 
         return save_favourite_company(user_id, company_name)
         

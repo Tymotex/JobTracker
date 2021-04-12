@@ -122,6 +122,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         return (
             <>
                 <TextField 
+                    style={{width: "200px"}}
                     multiline
                     rowsMax={4}
                     onChange={(e) => setNewBoard(e, tableMeta.rowIndex, tableMeta.columnData.name)}
@@ -295,7 +296,6 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             } else {
                 col.options.customBodyRender = DropdownField;
             }
-
         }
     })
 

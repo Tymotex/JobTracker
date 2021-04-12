@@ -188,7 +188,7 @@ def save_favourite_company(user_id: str, company_name: str):  # TODO: more param
             }
         }
     )
-    return "Success"
+    return company_name
 
 def get_favourite_company(user_id: str):
     # Finding the user, then getting and return the favourited companies name array

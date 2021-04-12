@@ -107,6 +107,7 @@ class JobPostSearch(Resource):
             )
         except Exception as err:
             printColoured(" * CareerJet API Client failed to fetch jobs. Error: {}".format(err), colour="red")
+            raise InvalidUserInput(description="Couldn't find any jobs. Try a different query")
     
 
 def get_job_postings(location, query, results_per_page, page, sort_criteria):

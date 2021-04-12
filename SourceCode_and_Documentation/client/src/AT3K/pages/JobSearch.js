@@ -21,17 +21,20 @@ const JobSearch = () => {
     const [sortStrategy, setSortStrategy] = useState("relevance");
 
     const fetchJobPosts = (pageNum, resultsPerPage, sortCriteria="relevance") => {
-        setJobList([]);
-        axios.get(`
-            ${api.BASE_URL}/api/jobs?location=${locationQuery}&query=${searchQuery}&results_per_page=${resultsPerPage}&page=${pageNum}&sort_criteria=${sortCriteria}
-        `).then((response) => {
-            setPageNum(pageNum);
-            setJobList(response.data.jobs);
-            setNumResults(response.data.hits);
-            setPageCount(response.data.pages);
-        }).catch((err) => {
-            Notification.spawnError(err);
-        });
+        if (!searchQuery) Notification.spawnInvalid("Please enter a job query")
+        else {
+            setJobList([]);
+            axios.get(`
+                ${api.BASE_URL}/api/jobs?location=${locationQuery}&query=${searchQuery}&results_per_page=${resultsPerPage}&page=${pageNum}&sort_criteria=${sortCriteria}
+            `).then((response) => {
+                setPageNum(pageNum);
+                setJobList(response.data.jobs);
+                setNumResults(response.data.hits);
+                setPageCount(response.data.pages);
+            }).catch((err) => {
+                Notification.spawnError(err);
+            });
+        }
     }
 
     const handleSelectCategory = (category) => {
