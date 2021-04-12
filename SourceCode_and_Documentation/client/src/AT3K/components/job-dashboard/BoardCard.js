@@ -78,6 +78,7 @@ const BoardCard = ({ _id, name, description, selectBoard, fetchBoards }) => {
                 keywords={name.split(/\s+/).join(", ")}
                 height="150"
             />
+            ^Would be cool to be able to pick an image for your board :o. These are generated from unsplash
             
             <CardContent>
                 <Typography className={classes.title} gutterBottom>
