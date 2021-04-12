@@ -7,6 +7,7 @@ import axios from 'axios';
 import api from '../../constants/api';
 import styles from './JobSpreadsheet.module.scss';
 import DropdownEditor from '../dropdowns/DropdownEditor';
+import TextField from '@material-ui/core/TextField';
 
 import { Modal } from '../modals';
 import { PrimaryButton } from '../buttons';
@@ -31,9 +32,27 @@ const mapStatusToStr = (currentStatus) => {
 // Rows per page
 // Table size
 
+const EditableField = (currValue, tableMetadata, newValue) => {
+
+    const saveChanges = (row, col) => {
+        alert("Row: " + row + " col: " + col);
+    }
+
+    return (
+        <>
+            <TextField 
+                id="standard-basic" 
+                label="Standard" 
+                value={currValue}
+                onChange={() => saveChanges(tableMetadata.rowIndex, tableMetadata.columnIndex)}
+                defaultValue={currValue}
+            />
+        </>
+    );
+}
+
 const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) => {
-    const [responsive, setResponsive] = useState("vertical");
-    const [tableBodyHeight, setTableBodyHeight] = useState("400px");
+    const [tableBodyHeight, setTableBodyHeight] = useState("100%");
     const [tableBodyMaxHeight, setTableBodyMaxHeight] = useState("");
   
     const columns = [
@@ -43,6 +62,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 filter: true,
                 sort: true,
                 draggable: true,
+                customBodyRender: EditableField
             }
         },
         {
@@ -140,15 +160,14 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 filter: false,
                 sort: true,
                 draggable: true,
-                hint: "Hint here!"
+                hint: "This is for debugging. You shouldn't be able to see this!"
             }
         },
     ];
 
-    const options = {
-        // filter: true,
+    const datatableOptions = {
         filterType: "dropdown",
-        responsive,
+        responsive: "vertical",
         tableBodyHeight,
         tableBodyMaxHeight,
         rowsPerPageOptions: [5, 10, 20, 50],
@@ -160,7 +179,8 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         },
         elevation: 6,
         selectableRowsHeader: false,             // Removed selection checkboxes here!!!
-        selectableRowsHideCheckboxes: true
+        selectableRowsHideCheckboxes: true,
+        resizableColumns: true
     };
 
     const data = trackedJobs.map(eachJob => ([
@@ -181,40 +201,15 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
 
             <FullscreenMode>
                 <React.Fragment>
-                    <FormControl>
-                        <InputLabel 
-                            className={styles.dropdowns}
-                            id="demo-simple-select-label"
-                        >Table Body Height</InputLabel>
-                        <Select
-                            className={styles.dropdowns}
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={tableBodyHeight}
-                            style={{ width: "200px", marginBottom: "10px", marginRight: 10 }}
-                            onChange={(e) => setTableBodyHeight(e.target.value)}
-                        >
-                        <MenuItem value={""}></MenuItem>
-                        <MenuItem value={"400px"}>400px</MenuItem>
-                        <MenuItem value={"800px"}>800px</MenuItem>
-                        <MenuItem value={"1200px"}>1200px</MenuItem>
-                        <MenuItem value={"100%"}>100%</MenuItem>
-                        </Select>
-                    </FormControl>
                     <MUIDataTable
                         title={"Tracked Jobs"}
                         data={data}
                         columns={columns}
-                        options={options}
+                        options={datatableOptions}
                     />
                 </React.Fragment>
-
             </FullscreenMode>
     );
 }
-
-
-
-
 
 export default JobSpreadsheet;
