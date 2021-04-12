@@ -58,8 +58,33 @@ class UserJobProfile(Resource):
     # @user_api.marshal_with(user_fields)
     def get(self):
         """
-            TODO
+            Fetch the user's profile information
+            Parameters (TO BE FINALISED):
+                - username
+                - email
+                - LinkedIn link
+                - GitHub link
+                - Resume link
+                - Should we make it dynamic and have an list of URLs so user decides what to include (easy to incorporate into frontend?)
         """
+        printColoured(" * Retrieving user's profile info", colour="yellow")
+        user_id = request.args.get("user_id")
+        # INSERT GET INFO FUNCTION HERE 
+        return boards
+        pass
+
+    def post(self):
+        """
+            Create a user profile (should this be a request or should)
+            it be created automatically on register and initalised as empty?
+        """
+        pass
+
+    def put(self):
+        """
+        Edit the user's profile
+        """
+
 
 @user_api.route('/boards')
 class UserBoardManagement(Resource):
@@ -103,7 +128,7 @@ class UserBoard(Resource):
                 - board_id
         """
         printColoured(" * Retrieving specific board", colour="yellow")
-        request_params = dict(request.args)
+        request_params = dict(request.args) # OK to use this as we are only posting a single dict rather than a large json object?
         user_id = request_params["user_id"]
         board_id = request_params["board_id"]
         board = get_board(user_id, board_id)
@@ -121,7 +146,7 @@ class UserBoard(Resource):
                 - tracked_jobs
         """
         printColoured(" * Setting tracked jobs for board", colour="yellow")
-        request_params = dict(request.get_json())
+        request_params = dict(request.args)
         user_id = request_params["user_id"]
         board_id = request_params["board_id"]
         tracked_jobs = request_params["tracked_jobs"]
