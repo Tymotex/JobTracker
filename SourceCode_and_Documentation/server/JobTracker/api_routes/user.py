@@ -247,6 +247,7 @@ class UserFavouriteCompany(Resource):
         """
         request_params = dict(request.args)
         user_id = request_params["user_id"]
+        printColoured(" * Retrieving all favourite companies for a user", colour="yellow")
         return get_favourite_company(user_id)
 
     def post(self):
@@ -269,6 +270,7 @@ class UserFavouriteCompany(Resource):
         if company_name in companies:  
             raise InvalidUserInput(description="'{}' has already been favourited".format(company_name))
 
+        printColoured(" * Saving company {} for a user". format(company_name), colour="yellow")
         return save_favourite_company(user_id, company_name)
         
 
@@ -291,6 +293,7 @@ class UserFavouriteCompany(Resource):
         if company_name not in companies:  
             raise InvalidUserInput(description="Company '{}' is not in your favourited companies list.".format(company_name))
 
+        printColoured(" * Unsaving company {} for a user". format(company_name), colour="yellow")
         return delete_favourite_company(user_id, company_name)
 
 # ============================================ END KATRINA ============================================

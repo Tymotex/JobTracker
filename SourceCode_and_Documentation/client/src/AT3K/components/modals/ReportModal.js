@@ -1,13 +1,12 @@
 import {
-    Button
+    Button, IconButton
 } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
 import React from 'react';
 import styles from './Modal.module.scss';
-
-
 
 const Option = (props) => {
 	const style = {
@@ -37,7 +36,6 @@ const ReportModal = ({type}) => {
 	const closeBtnStyle = {
 		position: 'absolute',
 		right: '30px',
-		border: '1px solid black',
 	}
 
     const reportBtn = {
@@ -86,9 +84,9 @@ const ReportModal = ({type}) => {
             	
                 <Fade in={open}>
                     <div style={windowStyle}>
-                    	<Button style={closeBtnStyle} onClick={handleClose}>
-			                X
-			            </Button>
+                    <IconButton aria-label="close" style={closeBtnStyle} onClick={handleClose}>
+                        <CloseIcon />
+                    </IconButton>
                     	<h2 className={styles.title} id="transition-modal-title">Choose a Problem: </h2>
                     	<form>
                     		<Option text="It's offensive and/or discriminatory" />

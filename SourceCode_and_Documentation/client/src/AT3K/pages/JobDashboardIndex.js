@@ -1,12 +1,13 @@
 import {
+    Box,
     Button, Grid
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import {
     BoardCardGrid,
-    CardCarousel
 } from '../components/job-dashboard';
+import CompanyCard from '../components/job-dashboard/CompanyCard';
 import {
     Dropdown
 } from '../components/dropdowns';
@@ -93,9 +94,18 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                 delay={100}
                 transitionDuration={400}
             >
-                <CardCarousel 
+                {/* <CardCarousel 
                     companies={companies}
-                />
+                /> */}
+                <Box display='flex'>
+                    {companies && companies.map((eachCompany) => (
+                        <Box m={1}>
+                            <CompanyCard
+                                {...eachCompany}
+                            />
+                        </Box>
+                    ))}
+                </Box>
                 <BoardCreateModal 
                     updateBoardList={updateBoardList}
                     handleClose={handleModalClose} 
