@@ -89,30 +89,34 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                     )} 
                 </Grid>
             </Grid>
-            <hr />
-            <h2>Favourited Companies</h2>
-            <FadeIn
-                delay={100}
-                transitionDuration={400}
-            >
-                {/* <CardCarousel 
-                    companies={companies}
-                /> */}
-                <Box display='flex'>
-                    {companies && companies.map((eachCompany) => (
-                        <Box m={1}>
-                            <CompanyCard
-                                {...eachCompany}
-                            />
+            {companies && companies.length !== 0 && (
+                <>
+                    <hr />
+                    <h2>Favourited Companies</h2>
+                    <FadeIn
+                        delay={100}
+                        transitionDuration={400}
+                    >
+                        {/* <CardCarousel 
+                            companies={companies}
+                        /> */}
+                        <Box display='flex'>
+                            {companies && companies.map((eachCompany) => (
+                                <Box m={1}>
+                                    <CompanyCard
+                                        {...eachCompany}
+                                    />
+                                </Box>
+                            ))}
                         </Box>
-                    ))}
-                </Box>
-                <BoardCreateModal 
-                    updateBoardList={updateBoardList}
-                    handleClose={handleModalClose} 
-                    open={modalOpen} 
-                />
-            </FadeIn>
+                        <BoardCreateModal 
+                            updateBoardList={updateBoardList}
+                            handleClose={handleModalClose} 
+                            open={modalOpen} 
+                        />
+                    </FadeIn>
+                </>
+            )}
         </div>
     )
 }

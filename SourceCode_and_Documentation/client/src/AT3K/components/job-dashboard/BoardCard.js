@@ -34,6 +34,7 @@ const BoardCard = ({ _id, name, description, image_url, selectBoard, fetchBoards
     const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
     const [boardName, setBoardName] = React.useState(name); 
     const [boardDescription, setBoardDescription] = React.useState(description); 
+    const [boardImageURL, setBoardImageURL] = React.useState(image_url); 
     
     const handleEditModelOpen = () => {
         setEditModalOpen(true);
@@ -96,8 +97,12 @@ const BoardCard = ({ _id, name, description, image_url, selectBoard, fetchBoards
                 handleClose={handleCloseEditModal} 
                 open={editModalOpen} 
                 boardID={_id}
+                boardName={boardName}
                 setBoardName={setBoardName}
+                boardDescription={boardDescription}
                 setBoardDescription={setBoardDescription}
+                boardImageURL={boardImageURL}
+                setBoardImageURL={setBoardImageURL}
             />
             <BoardDeleteModal 
                 handleClose={handleCloseDeleteModal} 

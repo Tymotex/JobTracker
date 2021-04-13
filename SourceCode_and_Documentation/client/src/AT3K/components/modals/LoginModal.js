@@ -37,7 +37,6 @@ export default function TransitionsModal() {
 
     const login = (event) => {
 		event.preventDefault();
-        alert("ASS");
 		const formData = new FormData(event.target);
 		const postData = {
 			method: "post",

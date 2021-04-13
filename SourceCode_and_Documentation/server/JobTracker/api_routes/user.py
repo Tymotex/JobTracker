@@ -181,7 +181,8 @@ class UserBoard(Resource):
         board_id = request_params["board_id"]
         new_names = request_params["new_name"]
         new_description = request_params["new_description"]
-        return edit_board(user_id, board_id, new_names, new_description)
+        new_image_url = request_params["new_image_url"]
+        return edit_board(user_id, board_id, new_names, new_description, new_image_url)
 
         # Call edit_board in database_ops.py
 
