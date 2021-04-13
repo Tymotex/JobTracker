@@ -8,9 +8,7 @@ import {
   Settings as SettingsIcon,
   HelpOutline as FAQIcon,
 } from "@material-ui/icons";
-import {
-    Button
-} from "@material-ui/core";
+import Button from '../components/buttons/Button';
 import Cookie from 'js-cookie';
 
 // Top nav components:
