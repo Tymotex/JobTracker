@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 import api from '../constants/api';
 import Cookie from 'js-cookie';
+import styles from './JobDashboardWorkspace.module.scss';
 import { LoadingSpinner } from '../components/loaders';
 import { Notification } from '../components/notification';
 
@@ -65,12 +66,15 @@ const JobDashboardWorkspace = ({
     return (
         <div>
             <BreadCrumbs deselectBoard={handleDeselectBoard} name={selectedBoardID} />
-            {board && (
-                <h1>{board.name}</h1>
-            )}
-            {board && (
-                <p>{board.description}</p>
-            )}
+            <div className={styles.boardInfo}>
+                {board && (
+                    <h1>{board.name}</h1>
+                )}
+                <hr className={styles.divider} />
+                {board && (
+                    <p>{board.description}</p>
+                )}
+            </div>
             <BoardToolbar 
                 boardType={boardType}
                 handleChangeBoard={handleChangeBoard}

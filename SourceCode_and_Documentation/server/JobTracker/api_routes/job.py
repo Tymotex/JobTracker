@@ -9,6 +9,10 @@ from flask import (
 )
 from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, fields
+import requests
+from bs4 import BeautifulSoup
+from functools import lru_cache
+from re import findall, sub
 
 job_router = Blueprint("job", __name__)
 job_api = Api(
@@ -43,7 +47,8 @@ response_fields = job_api.model("JobPostings", {
 
 
 # RESTful route handlers:
-@job_api.route('/api/job', strict_slashes=False)
+# @job_api.route('/api/job', strict_slashes=False)
+@job_api.route('/', strict_slashes=False)
 class JobPostDetail(Resource):
     @job_api.param('id', 'the id of the job post to fetch')
     @job_api.doc(description='''
@@ -69,5 +74,32 @@ class JobPostDetail(Resource):
                     fields: {}
                 }
         """
+        request_params = dict(request.args)
+
+        url = request_params["url"]
+
+        return get_content(url)
 
 
+# @lru_cache(maxsize=100)
+def get_content(url):
+    web_page = requests.get(url)
+    soup = BeautifulSoup(web_page.content, "html.parser")
+    content = str(soup.section)
+    print(type(soup))
+    # for ul in soup.find_all('ul', attrs={"class": "details"}):
+    #     print(type(ul))
+    # print(fields)
+    for field in soup.find('ul', attrs={"class": "details"}).children:
+        field_str = str(field)
+        field_str = field_str.replace("\n", "")
+        print(field_str)
+        if "#icon-contract" in field_str:
+            
+            m = findall(r"svg>(\w|\s)+<\/li>", field_str)
+            print(m)
+        print("===")
+        print("\"",str(field), "\"")
+        print("===")
+        # print(field.string)
+    return {"post_details" : content, "fields": {}}

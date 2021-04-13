@@ -12,11 +12,16 @@
         justify-content:space-evenly;
         padding: 15px;
 
-        .full {
-            width: 100%;
-            margin-bottom: 5px;
+        .fullButton {
+            text-align: center;
+            height: 100%;
+            & button {
+                width: 80%;
+                padding: 15px;
+            }
         }
         .full > div {
+            height: 100%;
             width: 100%;
             margin-bottom: 5px;
         }

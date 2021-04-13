@@ -73,14 +73,14 @@ const JobDashboard = () => {
                 .then(res => {
                     // clear the favourite company array
                     tempCompanies.splice(0,tempCompanies.length);
-                    res.data.map(company => {
+                    res.data.map(company => 
                         tempCompanies.push({
                             name: company,
                             link: "/search/company",
                             // FIXME
                             description: "Canva is a graphic design platform, used to create social media graphics, presentations, posters, documents and other visual content. The app includes templates for users to use. The platform is free to use and offers paid subscriptions like Canva Pro and Canva for Enterprise for additional functionality."
-                        });
-                    })
+                        })
+                    )
                     setCompanies(tempCompanies);
                 })
         } else {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Link, useLocation
+	useLocation
 } from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
 import DescriptionSection from '../components/job-details/DescriptionSection';
@@ -82,7 +82,6 @@ const recentJobs = [
 	
 const Header = ({name}) => {
 	const [save, setSave] = React.useState(); //TODO
-	
 	const userID = Cookies.get("user_id");
 	
 	useEffect(() => {
@@ -107,6 +106,8 @@ const Header = ({name}) => {
         padding: '5px'
     };
 
+	const handleBack = () => window.history.back();
+
 	const handleSave = () => {
 		const url = `${api.BASE_URL}/api/user/company?user_id=${userID}&company_name=${name}`;
 		
@@ -127,10 +128,10 @@ const Header = ({name}) => {
 	return (
 		<Grid container direction="column">
             <Grid item>
-                <Link className={styles.iconLabelSet}>
+                <Button onClick={handleBack} className={styles.iconLabelSet}>
                     <ArrowBackIcon id="back" fontSize="large"/> 
                     <label for="back">Back</label>
-                </Link>
+                </Button> 
             </Grid>
 
             <Grid item>

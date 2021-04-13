@@ -9,9 +9,9 @@ import {
     EventBusy as EventBusyIcon,
     Label as LabelIcon, Link as LinkIcon, List as ListIcon, Schedule as ScheduleIcon
 } from '@material-ui/icons';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-    Link
+    Link, useLocation
 } from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
 import { JobDetailField } from '../components/job-details';
@@ -19,41 +19,11 @@ import DescriptionSection from '../components/job-details/DescriptionSection';
 import Footer from '../components/job-details/Footer';
 import { JobMap } from '../components/job-map';
 import styles from './JobDetails.module.scss';
+import api from "../constants/api";
+import axios from "axios";
+import MapIcon from '@material-ui/icons/Map';
 
 
-const jobDetailFields = [
-    {
-        label: "Posted on",
-        value: "9th March, 2021",
-        icon: CalendarTodayIcon
-    }, 
-    {
-        label: "Deadline",
-        value: "Tomorrow",
-        icon: EventBusyIcon
-    },
-    {
-        label: "Salary",
-        value: "$12000",
-        icon: AttachMoneyIcon
-    },
-    {
-        label: "Type",
-        value: "Full time",
-        icon: ScheduleIcon
-    },
-    {
-        label: "Category",
-        value: "Computer Science",
-        icon: ListIcon,
-        link: "https://www.google.com",
-    },
-    {
-        value: "Official Website",
-        icon: LinkIcon,
-        link: "https://www.google.com"
-    }
-];
 
 const tags = [
     "Tag 1",
@@ -65,7 +35,53 @@ const tags = [
     "Tag hsdfdsjfsdfdsfweufndnfndsi"
 ]
 
-const Header = () => {
+const Header = ({ title,
+    company,
+    locations,
+    salary,
+    date,
+    url
+}) => {
+    const jobDetailFields = [
+        {
+            label: "Posted on",
+            value: date,
+            icon: CalendarTodayIcon
+        },
+        {
+            label: "Deadline",
+            value: "Tomorrow",
+            icon: EventBusyIcon
+        },
+        {
+            label: "Salary",
+            value: salary,
+            icon: AttachMoneyIcon
+        },
+        {
+            label: "Type",
+            value: "Full time",
+            icon: ScheduleIcon
+        },
+        {
+            label: "Location",
+            value: locations,
+            icon: MapIcon,
+        },
+        {
+            label: "Category",
+            value: "Computer Science",
+            icon: ListIcon,
+            link: "https://www.google.com",
+        },
+ 
+        {
+            value: "Official Website",
+            icon: LinkIcon,
+            link: "https://www.google.com"
+        }
+        
+    ];
     const iconSize = "small";
     const btnStyle = {
         margin: '20px 5px'
@@ -89,27 +105,33 @@ const Header = () => {
                 <Grid container direction="column">
                     <Grid item>
                         <Link className={styles.iconLabelSet}>
-                            <ArrowBackIcon id="back" fontSize="large"/> 
+                            <ArrowBackIcon id="back" fontSize="large" />
                             <label for="back">Back </label>
                         </Link>
                     </Grid>
 
                     <Grid item>
                         <div className={styles.iconLabelSet}>
-                            <img 
-                                src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7" 
+                            <img
+                                src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7"
                                 style={companyIconStyle}
                                 alt="company icon"
                             />
-                            <a href="/search/company">Whatever company</a>
+                                 <Link
+                                    className={styles.field}
+                                    to={`/search/company?company=${company}`}
+                                >
+                                    {company}
+                                </Link>
+                            {/* <a href="/search/company">{company}</a> */}
                         </div>
                         <div className={styles.mainTitle}>
-                            Nulla sit amet ante a tellus elementum vulputate ut ac ante donec eu nunc aliquet arcu cursus posuere
+                            {title}
                         </div>
                     </Grid>
 
                     <Grid item direction="row">
-                        <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
+                        <Button  style={btnStyle} variant="outlined" color="secondary" size="small" component="a" href={url}>
                             View official post
                         </Button>
                         <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
@@ -131,7 +153,7 @@ const Header = () => {
             </Grid>
 
             <Grid item xs={3}>
-                <Grid container direction="column" style={{paddingTop: '60px'}}>
+                <Grid container direction="column" style={{ paddingTop: '60px' }}>
 
                     {jobDetailFields.map((eachField) => (
                         <Grid item>
@@ -157,21 +179,39 @@ const Header = () => {
 
 
 const JobDetails = () => {
+    const [jobDescription, setJobDescription] = useState()
+    // get data from 
+    const search = useLocation().search;
+    const params = new URLSearchParams(search);
+    const title = params.get('title');
+    const company = params.get('company');
+    const locations = params.get('locations');
+    const url = params.get('url');
+    const salary = params.get('salary');
+    const date = params.get('date');
+    //
+
+    useEffect(() => {
+        axios.get(`${api.BASE_URL}/api/job?url=${url}`)
+            .then(response => setJobDescription(response.data))
+    }, [])
+
     return (
         <Layout>
-            <Header />
+            <Header url={url} company={company} title={title} salary={salary} locations={locations} date={date}/>
 
             <hr />
-            
+
             <DescriptionSection title="Description">
-                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                {/* NOTE this is probably not safe, but it works */}
+                <div dangerouslySetInnerHTML={{ __html: jobDescription && jobDescription.post_details }} />
             </DescriptionSection>
 
             <DescriptionSection title="Location">
-                <JobMap locationQuery={"UNSW"} />  {/* Substitute this for actual location query */}
+                <JobMap locationQuery={locations} />  {/* Substitute this for actual location query */}
             </DescriptionSection>
 
-            <DescriptionSection title="Requirements">
+            {/* <DescriptionSection title="Requirements">
                 There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. 
                 <ul>
                     <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
@@ -214,12 +254,12 @@ const JobDetails = () => {
                     <li>Phasellus nec erat nec nibh elementum bibendum.</li>
                     <li>Fusce in arcu eget nibh eleifend egestas non nec enim.</li>
                 </ul>
-            </DescriptionSection>
+            </DescriptionSection> */}
 
             <hr />
 
-            <Footer type="job"/>
-            
+            <Footer type="job" />
+
         </Layout>
     );
 };

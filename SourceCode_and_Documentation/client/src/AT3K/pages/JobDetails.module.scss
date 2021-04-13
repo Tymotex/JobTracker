@@ -32,6 +32,10 @@ main {
 	padding-bottom: 20px;
 }
 
+.iconLabelSet :hover {
+	cursor: pointer;
+}
+
 .iconSet svg {
 	margin: 3px;
 }

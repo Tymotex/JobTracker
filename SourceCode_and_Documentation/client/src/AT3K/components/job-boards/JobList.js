@@ -4,6 +4,7 @@ import {
 } from '@material-ui/core';
 import JobCard from './JobCard';
 import FullscreenMode from './FullscreenMode';
+import JobListPaginator from '../job-lists/JobListPaginator';
 
 const JobList = ({ trackedJobs, fieldsToShow }) => {
     return (
@@ -17,6 +18,7 @@ const JobList = ({ trackedJobs, fieldsToShow }) => {
                     </Grid>
                 ))}
             </Grid>
+            <JobListPaginator />
         </FullscreenMode>
     );
 };

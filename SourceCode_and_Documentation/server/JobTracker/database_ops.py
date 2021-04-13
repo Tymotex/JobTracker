@@ -35,6 +35,9 @@ def add_user(username: str, email: str, password: str) -> str:
         "username": username,
         "email": email,
         "password": password,
+        "experience": "",
+        "phone": "",
+        "skills": [],
         "resume": {},
         "favourited_companies": []
     })
@@ -75,6 +78,38 @@ def set_user_resume_fields(user_id: str, resume_data: dict):
             }
         }
     )
+def get_user_profile(user_id: str):
+    """
+        Get the user's profile fields.
+    """
+    user = db.users.find_one(
+        {
+            "_id": ObjectId(user_id)
+        }
+    )
+    user["_id"] = str(user["_id"])
+    return user
+
+def set_user_profile(user_id: str, username: str, email:str, password: str, experience: str, phone: str, skills: list):
+
+    db.users.update_one(
+        {
+            "_id": ObjectId(user_id)
+        },
+        {
+            "$set": {
+            "username": username,
+            "email": email,
+            "password": password,
+            "experience": experience,
+            "phone": phone,
+            "skills": skills,
+            }
+        }
+    )
+    return user_id
+
+
 
 # ===== Board Management =====
 

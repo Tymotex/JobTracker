@@ -1,12 +1,13 @@
 import {
+    Box,
     Button, Grid
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import {
     BoardCardGrid,
-    CardCarousel
 } from '../components/job-dashboard';
+import CompanyCard from '../components/job-dashboard/CompanyCard';
 import {
     Dropdown
 } from '../components/dropdowns';
@@ -16,6 +17,7 @@ import {
 import {
     ContentLoader
 } from '../components/loaders';
+import FadeIn from 'react-fade-in';
 
 
 // Force update hook
@@ -41,10 +43,11 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Grid container spacing={3}>
-                        <Grid item xs={6}>
-                            <h2>Personal Boards</h2>
+                        <Grid item xs={12} style={{ textAlign: "center" }}>
+                            <h2>Your Job Boards</h2>
+                            <hr />
                         </Grid>
-                        <Grid item xs={6}>
+                        {/* <Grid item xs={6}>
                             <Dropdown 
                                 label="Sort by"
                                 value={boardSortStrategy}
@@ -58,12 +61,15 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                                     { value: "reversepriority", text: "Lowest priority" }
                                 ]}
                             />
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                     {isLoading ? (
                         <ContentLoader />
                     ) : (
-                        <>
+                        <FadeIn
+                            delay={100}
+                            transitionDuration={400}
+                        >
                             <BoardCardGrid
                                 selectBoard={handleSelectBoard}
                                 boards={boards}
@@ -78,20 +84,34 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                                     Create New Board
                                 </Button>
                             </div>
-                        </>
+                        </FadeIn>
                     )} 
                 </Grid>
             </Grid>
             <hr />
             <h2>Favourited Companies</h2>
-            <CardCarousel 
-                companies={companies}
-            />
-            <BoardCreateModal 
-                updateBoardList={updateBoardList}
-                handleClose={handleModalClose} 
-                open={modalOpen} 
-            />
+            <FadeIn
+                delay={100}
+                transitionDuration={400}
+            >
+                {/* <CardCarousel 
+                    companies={companies}
+                /> */}
+                <Box display='flex'>
+                    {companies && companies.map((eachCompany) => (
+                        <Box m={1}>
+                            <CompanyCard
+                                {...eachCompany}
+                            />
+                        </Box>
+                    ))}
+                </Box>
+                <BoardCreateModal 
+                    updateBoardList={updateBoardList}
+                    handleClose={handleModalClose} 
+                    open={modalOpen} 
+                />
+            </FadeIn>
         </div>
     )
 }

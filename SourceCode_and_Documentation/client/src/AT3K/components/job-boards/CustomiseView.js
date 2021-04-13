@@ -91,7 +91,7 @@ const CustomiseView = ({ boardType, fieldsToShow, setFields }) => {
 		<div className={classes.root}>
 			<Modal title={`Customise '${boardType}' view`} Contents={FieldsForm}>
 				<Button className={styles.button} variant="contained">
-					Customise View
+					Customise
 				</Button>
 			</Modal>
 		</div>

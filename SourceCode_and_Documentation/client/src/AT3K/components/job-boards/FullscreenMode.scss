@@ -1,0 +1,13 @@
+.fullscreen-enabled {
+    background-color: white;
+}
+
+.fullscreen-button-group {
+    margin: 10px;
+    width: 100%;
+    text-align: center;
+    & button {
+        margin: 10px;
+    }
+}
+
