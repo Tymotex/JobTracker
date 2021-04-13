@@ -22,7 +22,9 @@ from JobTracker.database_ops import (
     edit_board,
     get_favourite_company,
     save_favourite_company,
-    delete_favourite_company
+    delete_favourite_company,
+    get_user_profile,
+    set_user_profile
 )
 from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
@@ -46,7 +48,7 @@ user_fields = user_api.model("User", {
 })
 
 # RESTful route handlers:
-@user_api.route('/')
+@user_api.route('/profile')
 class UserJobProfile(Resource):
     # @user_api.doc(
     #     description="Get a user's profile information",
@@ -58,9 +60,28 @@ class UserJobProfile(Resource):
     # @user_api.marshal_with(user_fields)
     def get(self):
         """
-            TODO
+            Fetch the user's profile information
+            Parameters (TO BE FINALISED):
+                - username
+                - email
+                - LinkedIn link
+                - GitHub link
+                - Resume link
+                - Should we make it dynamic and have an list of URLs so user decides what to include (easy to incorporate into frontend?)
         """
+        printColoured(" * Retrieving user's profile info", colour="yellow")
+        user_id = request.args.get("user_id")
+        # INSERT GET INFO FUNCTION HERE
+        user = get_user_profile(user_id)
+        return jsonify(user)
 
+    def post(self):
+        """
+            Create a user profile (should this be a request or should)
+        """
+        params = request.get_json()
+        return set_user_profile(params['user_id'],params['username'],params['email'],params['password'],params['experience'],params['phone'],params['skills'])
+ 
 @user_api.route('/boards')
 class UserBoardManagement(Resource):
     def get(self):
@@ -103,7 +124,7 @@ class UserBoard(Resource):
                 - board_id
         """
         printColoured(" * Retrieving specific board", colour="yellow")
-        request_params = dict(request.args)
+        request_params = dict(request.args) # OK to use this as we are only posting a single dict rather than a large json object?
         user_id = request_params["user_id"]
         board_id = request_params["board_id"]
         board = get_board(user_id, board_id)
@@ -121,7 +142,7 @@ class UserBoard(Resource):
                 - tracked_jobs
         """
         printColoured(" * Setting tracked jobs for board", colour="yellow")
-        request_params = dict(request.get_json())
+        request_params = dict(request.args)
         user_id = request_params["user_id"]
         board_id = request_params["board_id"]
         tracked_jobs = request_params["tracked_jobs"]
