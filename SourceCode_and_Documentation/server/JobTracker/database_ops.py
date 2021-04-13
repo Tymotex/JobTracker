@@ -167,14 +167,24 @@ def delete_board(user_id: str, board_id: str):
 
 # use the pymongo docs if lost: https://pymongo.readthedocs.io/en/stable/
 
+def get_favourite_company(user_id: str):
+    # Find the user, then get and return the favourited companies name array
+    user = db.users.find_one({ 
+        "_id":  ObjectId(user_id)
+    })
+    if not user:
+        raise InvalidUserInput(description="Couldn't find the user with id: {}".format(user_id))
+
+    return user["favourited_companies"]
+
 def save_favourite_company(user_id: str, company_name: str):  # TODO: more params needed?
 
-    user = db.users.find_one({ "_id": ObjectId(user_id) })
-    fav_companies = user["favourited_companies"]
+    # check quantity
+    fav_companies = get_favourite_company(user_id);
     if len(fav_companies) > 10:
         raise InvalidUserInput(description="You can't have more than 10 favourite companies")
     
-    # Finding the user, then pushing an object into the favourited_companies field
+    # Find the user, then push the company_name into the favourited_companies field
     db.users.update_one(
         {
             "_id": ObjectId(user_id),
@@ -187,17 +197,8 @@ def save_favourite_company(user_id: str, company_name: str):  # TODO: more param
     )
     return "Success"
 
-def get_favourite_company(user_id: str):
-    # Finding the user, then getting and return the favourited companies name array
-    user = db.users.find_one({ 
-        "_id":  ObjectId(user_id)
-    })
-    if not user:
-        raise InvalidUserInput(description="Couldn't find the user with id: {}".format(user_id))
-
-    return user["favourited_companies"]
-
 def delete_favourite_company(user_id: str, company_name: str):
+    # remove the comapny name from favourited_companies array
     res = db.users.update_one(
         {
             "_id": ObjectId(user_id),
