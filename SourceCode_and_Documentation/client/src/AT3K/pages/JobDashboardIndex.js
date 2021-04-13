@@ -1,7 +1,8 @@
 import {
     Box,
-    Button, Grid
+    Grid
 } from '@material-ui/core';
+import { Button } from '../components/buttons';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import {

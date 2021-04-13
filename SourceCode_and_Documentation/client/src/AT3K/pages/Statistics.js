@@ -37,6 +37,9 @@ export default function Charts(props) {
     const [activityType, setActivityType] = useState("application");
     const [activityStats, setActivityStats] = useState(null);
 
+    const currentTimestamp = parseInt(new Date().getTime() / 1000);
+    const [startTimePeriod, setStartTimePeriod] = useState(currentTimestamp - (7 * 24 * 60 * 60));
+
     const handleSelectBoard = (event) => {
         event.preventDefault();
         setSelectedBoardID(event.target.value);
@@ -45,6 +48,28 @@ export default function Charts(props) {
     const handleSelectActivity = (event) => {
         event.preventDefault();
         setActivityType(event.target.value);
+    }
+
+    const handleSelectTimePeriod = (event) => {
+        event.preventDefault();
+        const currentTimestamp = parseInt(new Date().getTime() / 1000);
+        switch (event.target.value) {
+            case "last 3 days":
+                setStartTimePeriod(currentTimestamp - (3 * 24 * 60 * 60));
+                break;
+            case "last 7 days":
+                setStartTimePeriod(currentTimestamp - (7 * 24 * 60 * 60));
+                break;
+            case "last 30 days":
+                setStartTimePeriod(currentTimestamp - (30 * 24 * 60 * 60));
+                break;
+            case "last 60 days":
+                setStartTimePeriod(currentTimestamp - (60 * 24 * 60 * 60));
+                break;
+            default:
+                setStartTimePeriod(null);
+                break;
+        }
     }
 
     var theme = useTheme();
@@ -77,10 +102,9 @@ export default function Charts(props) {
         // Current timestamp in seconds and last week's timestamp
         const userID = Cookie.get("user_id");
         if (userID) {
-            if (selectedBoardID) {
+            if (selectedBoardID && startTimePeriod) {
                 const currentTimestamp = parseInt(new Date().getTime() / 1000);
-                const lastWeekTimestamp = currentTimestamp - (7 * 24 * 60 * 60);
-                axios.get(`${api.BASE_URL}/api/stats/activity?user_id=${userID}&board_id=${selectedBoardID}&start_time=${lastWeekTimestamp}&end_time=${currentTimestamp}`)
+                axios.get(`${api.BASE_URL}/api/stats/activity?user_id=${userID}&board_id=${selectedBoardID}&start_time=${startTimePeriod}&end_time=${currentTimestamp}`)
                     .then((res) => {
                         setActivityStats(res.data);
                     })
@@ -100,7 +124,7 @@ export default function Charts(props) {
 
     useEffect(() => {
         fetchUserActivity();
-    }, [selectedBoardID]);
+    }, [selectedBoardID, startTimePeriod]);
 
 
     const timeRangeOptions = [ 
@@ -108,17 +132,21 @@ export default function Charts(props) {
             label: "Intervals", 
             options: [
                 {
+                    name: "Last 3 days", 
+                    value: "last 3 days"
+                },
+                {
                     name: "Last 7 days", 
-                    value: 1
+                    value: "last 7 days"
                 },
                 {
                     name: "Last 30 days",
-                    value: 2
+                    value: "last 30 days"
                 },
                 {
-                    name: "Last 365 days",
-                    value: 3
-                }
+                    name: "Last 60 days",
+                    value: "last 60 days"
+                },
             ] 
         }
     ];
@@ -129,7 +157,7 @@ export default function Charts(props) {
             options: [
                 {
                     name: "Resume Hits vs. Misses",
-                    value: 1
+                    value: "resume"
                 }
             ]
         },
@@ -138,7 +166,16 @@ export default function Charts(props) {
             options: [
                 {
                     name: "Interview: Success vs. Failure",
-                    value: 2
+                    value: "interview"
+                }
+            ]
+        },
+        {
+            label: "Final",
+            options: [
+                {
+                    name: "Final: Offer vs. No Offer",
+                    value: "final"
                 }
             ]
         },
@@ -150,7 +187,11 @@ export default function Charts(props) {
                 <h1>Your Statistics</h1>
                 <Grid container>
                     <Grid item xs={12}>
-                        <DropdownHierarchical options={timeRangeOptions}/>
+                        <DropdownHierarchical 
+                            onChange={handleSelectTimePeriod}
+                            options={timeRangeOptions}
+                            value={"last 7 days"}
+                        />
                     </Grid>
                     <Grid item xs={6}>
                         <Dropdown
@@ -193,7 +234,7 @@ export default function Charts(props) {
                     <Grid item xs={12} md={12}>
                         <Widget title="Your activity the past week" upperTitle noBodyPadding>
                             <ResponsiveContainer width="100%" height={400}>
-                                <StatsLineChartFilled theme={theme} activityType={activityType} activityStats={activityStats} />
+                                <StatsLineChartFilled startTimePeriod={startTimePeriod} theme={theme} activityType={activityType} activityStats={activityStats} />
                             </ResponsiveContainer>
                         </Widget>
                     </Grid>

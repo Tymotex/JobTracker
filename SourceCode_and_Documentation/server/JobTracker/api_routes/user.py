@@ -154,7 +154,7 @@ class UserBoard(Resource):
                 - tracked_jobs
         """
         printColoured(" * Setting tracked jobs for board", colour="yellow")
-        request_params = dict(request.args)
+        request_params = dict(request.get_json())
         user_id = request_params["user_id"]
         board_id = request_params["board_id"]
         tracked_jobs = request_params["tracked_jobs"]

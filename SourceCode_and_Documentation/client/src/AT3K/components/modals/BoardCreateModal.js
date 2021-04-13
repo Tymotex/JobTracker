@@ -1,6 +1,7 @@
 import {
-    Grid, TextField, Button
+    Grid, TextField
 } from '@material-ui/core';
+import { Button } from '../../components/buttons';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
@@ -92,6 +93,13 @@ export default function TransitionsModal({ open, handleClose, updateBoardList })
                                     multiline
                                     id="outlined-required"
                                     label="Description"
+                                    variant="outlined"
+                                />
+                                <TextField className={styles.emailBox}
+                                    name="image_url"
+                                    id="outlined-required"
+                                    value="https://images.unsplash.com/photo-1529400971008-f566de0e6dfc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                                    label="Image URL"
                                     variant="outlined"
                                 />
                             </div>

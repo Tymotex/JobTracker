@@ -1,8 +1,6 @@
+import moment from 'moment';
 import React from "react";
 import ApexCharts from "react-apexcharts";
-import timeRangeOptions from "../../pages/Statistics";
-import moment from 'moment';
-import { LoadingSpinner } from "../loaders";
 
 
 const StatsLineChartFilled = ({ theme, activityType, activityStats }) => {
@@ -175,7 +173,6 @@ const StatsLineChartFilled = ({ theme, activityType, activityStats }) => {
             <div style={{height: "350px", position: "relative"}}>
                 <div style={{margin: "0 auto", top: "50%", position: "absolute", width: "100%"}}>
                     <h2 style={{textAlign: "center"}}>Please select a board!</h2>
-                    <LoadingSpinner />
                 </div>
             </div>
         )

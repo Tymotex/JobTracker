@@ -3,10 +3,10 @@ import DataGrid, { SelectColumn, TextEditor } from 'react-data-grid';
 import FullscreenMode from './FullscreenMode';
 import Cookie from 'js-cookie';
 import {
-    Button,
     InputLabel,
     MenuItem
 } from '@material-ui/core';
+import { Button } from '../buttons';
 
 import axios from 'axios';
 import api from '../../constants/api';
@@ -74,11 +74,11 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 tracked_jobs: newTrackedJobs
             }, {
                 headers: {
-                "Content-Type": "application/json"
+                    "Content-Type": "application/json"
                 }
             })
                 .then(() => {
-                    Notification.spawnSuccess("Successfully edited");
+                    Notification.spawnSuccess("Saved changes");
                     setTrackedJobs(newTrackedJobs);
                 })
                 .catch((err) => {
@@ -105,8 +105,8 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             }
         };
         axios(putData)
-            .then((res) => {
-                alert(res.data);
+            .then(() => {
+                Notification.spawnSuccess(`Set a new status for '${updatedJob.title}'`);
             })
             .catch((err) => {
                 Notification.spawnError(err);
@@ -135,7 +135,14 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
     const DropdownField = (currValue, tableMeta) => {
         const setNewBoard = (event, row, fieldName) => {
             event.preventDefault();
-            trackedJobs[row][fieldName] = event.target.value;
+            const userID = Cookie.get("user_id");
+            if (userID) {
+                trackedJobs[row][fieldName] = event.target.value;
+                console.log(trackedJobs[row].job_id);
+                updateTrackedJobStatus(userID, boardID, trackedJobs[row].job_id, trackedJobs[row], event.target.value)
+            } else {
+                Notification.spawnRegisterError();
+            }
         }
         const options = [
             { label: "Awaiting Application", name: "application" },
@@ -333,12 +340,14 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                     if (datatableOptions.filter === false) setOptions({...datatableOptions, filter: true, print: true, viewColumns: true, rowsPerPageOptions: [5, 10, 20, 50] })}
                 }
             >
-                <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)}>
-                    Save board!!!
-                </Button>
-                <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
-                    TOGGLE EDIT MODE
-                </Button>
+                <div style={{textAlign: "center"}}>
+                    <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)} style={{marginRight: "20px"}}>
+                        Save board
+                    </Button>
+                    <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
+                        {(!editingEnabled) ? ("Enter Edit Mode") : ("Exit Edit Mode")}
+                    </Button>
+                </div>
                 <React.Fragment>
                     <MUIDataTable
                         title={"Tracked Jobs"}

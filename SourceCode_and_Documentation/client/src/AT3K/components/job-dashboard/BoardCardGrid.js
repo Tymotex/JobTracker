@@ -23,7 +23,7 @@ const BoardCardGrid = ({ boards, selectBoard, fetchBoards }) => {
         <div className={classes.root}>
             <Grid className={styles.boardCardGrid} container spacing={3}>
                 {boards && boards.map((eachBoard) => (
-                   <Grid item xs={12} sm={12} md={12} lg={6}>
+                   <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
                         <BoardCard 
                             className={styles.boardCard}
                             selectBoard={selectBoard}
