@@ -5,6 +5,75 @@ import {
     Sector
 } from "recharts";
 
+/*
+
+After making a call to GET /api/user/boards, you'll get something like this
+
+[
+    {
+        "_id":{
+            "$oid":"60752005b8ee7734839b55f4"
+        },
+        "user_id":"60751ff9b8ee7734839b55f3",
+        "name":"fff",
+        "description":"ff",
+        "tracked_jobs":[
+            {
+                "title":"Software Support Specialist",
+                "company":"AMDOCS LTD",
+                "locations":"Sydney, NSW",
+                "url":"http://jobviewtrack.com/en-au/job-1919417e42021b19460645433b141e170a52006a3a065a5b525f59443c1e4217490204081d1367731b0e1d044b59580d7e140a0d4e154c0a1b156c340a46001f08014f296e585d14001c537513505a5759/d349683cc44736c739530ec22c37e336.html?affid=213e213hd12344552",
+                "description":"B>software engineering tools and various innovative techniques, and reusing existing solutions. By means of automation... Leading-edge software solutions, using best in class delivery practices and tooling via a devops model for faster to market...",
+                "salary":"",
+                "date":"Fri, 26 Mar 2021 06:30:11 GMT",
+                "current_status":"application",
+                "notes":"",
+                "priority":{
+                    "$numberInt":"5"
+                },
+                "job_id":"60752005b8ee7734839b55f4-b8d8ed55-022d-45c2-91e8-ff881c60fdcf"
+            }
+        ],
+        "statistics":[
+            {
+                "timestamp":{
+                    "$numberDouble":"1618292032.1451018"
+                },
+                "activity":"application",
+                "job_id":"60752005b8ee7734839b55f4-b8d8ed55-022d-45c2-91e8-ff881c60fdcf"
+            }
+        ]
+    }
+]
+
+
+*/
+
+const stats = [
+    {
+        "timestamp":{
+            "$numberDouble":"1618292032.1451018"
+        },
+        "activity":"application",
+        "job_id":"60752005b8ee7734839b55f4-b8d8ed55-022d-45c2-91e8-ff881c60fdcf"
+    },
+    {
+        "timestamp":{
+            "$numberDouble":"1618292032.1451018"
+        },
+        "activity":"resume",
+        "job_id":"60752005b8ee7734839b55f4-b8d8ed55-022d-45c2-91e8-ff881c60fdcf"
+    }
+]
+
+
+
+const currentProgress = [
+    { name: "Awaiting Application", value: 50 },
+    { name: "Resume Sent", value: 10 },
+    { name: "Interview Stage", value: 4 },
+    { name: "Finalised", value: 2 },
+];
 
 function renderActiveShape(props) {
     var RADIAN = Math.PI / 180;
@@ -87,7 +156,8 @@ const StatsPieChart = ({ theme, pieChartData }) => {
             <Pie
                 activeIndex={activeIndex}
                 activeShape={renderActiveShape}
-                data={pieChartData}
+                // data={pieChartData}
+                data={currentProgress}
                 innerRadius={60}
                 outerRadius={80}
                 fill={theme.palette.primary.main}

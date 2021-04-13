@@ -12,6 +12,7 @@ import {
 import Layout from '../../components/Layout/Layout';
 import Widget from "../../components/Widget/Widget";
 import { DropdownHierarchical } from "../components/dropdowns";
+import pageStyles from './Page.module.scss';
 
 const currentProgress = [
     { name: "No Application", value: 20 },
@@ -81,54 +82,56 @@ export default function Charts(props) {
 
     return (
         <Layout>
-            <h1>Job Statistics</h1>
-            <DropdownHierarchical options={timeRangeOptions}/>
-            <Grid container spacing={4}>
-                <Grid item xs={12} md={12}>
-                    <Widget title="Your activity the past week" upperTitle noBodyPadding>
-                        <ResponsiveContainer width="100%" height={400}>
-                            <StatsLineChartFilled theme={theme} />
-                        </ResponsiveContainer>
-                    </Widget>
+            <div className={pageStyles.container}>
+                <h1>Job Statistics</h1>
+                <DropdownHierarchical options={timeRangeOptions}/>
+                <Grid container spacing={4}>
+                    <Grid item xs={12} md={12}>
+                        <Widget title="Your activity the past week" upperTitle noBodyPadding>
+                            <ResponsiveContainer width="100%" height={400}>
+                                <StatsLineChartFilled theme={theme} />
+                            </ResponsiveContainer>
+                        </Widget>
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                        <Widget title="Number of applications made" upperTitle noBodyPadding>
+                            <ResponsiveContainer width="100%" height={400}>
+                                <StatsHeatMap />
+                            </ResponsiveContainer>
+                        </Widget>
+                    </Grid>
+                    {/* <Grid item xs={12} md={8}>
+                        <Widget title="" noBodyPadding upperTitle>
+                            <ResponsiveContainer width="100%" height={350}>
+                                <StatsLineChart theme={theme} />
+                            </ResponsiveContainer>
+                        </Widget>
+                    </Grid> */}
+                    <Grid item xs={12} md={6}>
+                        <Widget title="Visualising where you are" noBodyPadding upperTitle>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <StatsPieChart 
+                                    theme={theme} 
+                                    pieChartData={currentProgress}
+                                />
+                            </ResponsiveContainer>
+                        </Widget>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <DropdownHierarchical 
+                            options={outcomeOptions}
+                        />
+                        <Widget title="Visualising your overall outcomes" noBodyPadding upperTitle>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <StatsPieChart 
+                                    theme={theme} 
+                                    pieChartData={overallStats}
+                                />
+                            </ResponsiveContainer>
+                        </Widget>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} md={12}>
-                    <Widget title="Number of applications made" upperTitle noBodyPadding>
-                        <ResponsiveContainer width="100%" height={400}>
-                            <StatsHeatMap />
-                        </ResponsiveContainer>
-                    </Widget>
-                </Grid>
-                {/* <Grid item xs={12} md={8}>
-                    <Widget title="" noBodyPadding upperTitle>
-                        <ResponsiveContainer width="100%" height={350}>
-							<StatsLineChart theme={theme} />
-                        </ResponsiveContainer>
-                    </Widget>
-                </Grid> */}
-                <Grid item xs={12} md={6}>
-                    <Widget title="Visualising where you are" noBodyPadding upperTitle>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <StatsPieChart 
-                                theme={theme} 
-                                pieChartData={currentProgress}
-                            />
-                        </ResponsiveContainer>
-                    </Widget>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <DropdownHierarchical 
-                        options={outcomeOptions}
-                    />
-                    <Widget title="Visualising your overall outcomes" noBodyPadding upperTitle>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <StatsPieChart 
-                                theme={theme} 
-                                pieChartData={overallStats}
-                            />
-                        </ResponsiveContainer>
-                    </Widget>
-                </Grid>
-            </Grid>
+            </div>
         </Layout>
     );
 }

@@ -7,24 +7,27 @@ import {
     SettingsMenu,
     SettingsPanel
 } from '../components/settings';
+import pageStyles from "./Page.module.scss";
 
 // TODO: Dark mode: https://www.npmjs.com/package/darkreader
 
 const Settings = ({ replaceTheme, currTheme, settingsCategory }) => {
     return (
         <Layout>
-            <Grid container spacing={3}>
-                <Grid item xs={3}>
-                    <SettingsMenu currCategory={settingsCategory} />
+            <div className={pageStyles.container}>
+                <Grid container spacing={3}>
+                    <Grid item xs={3}>
+                        <SettingsMenu currCategory={settingsCategory} />
+                    </Grid>
+                    <Grid item xs={9}>
+                        <SettingsPanel 
+                            currCategory={settingsCategory}
+                            replaceTheme={replaceTheme}
+                            currTheme={currTheme}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item xs={9}>
-                    <SettingsPanel 
-                        currCategory={settingsCategory}
-                        replaceTheme={replaceTheme}
-                        currTheme={currTheme}
-                    />
-                </Grid>
-            </Grid>
+            </div>
         </Layout>
     );
 };

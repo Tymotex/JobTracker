@@ -6,8 +6,8 @@ import Fade from '@material-ui/core/Fade';
 import {
 	TextField,
 	Grid,
-	Button
 } from '@material-ui/core';
+import { Button } from '../buttons';
 import GoogleButton from 'react-google-button';
 import styles from './Modal.module.scss';
 import axios from 'axios';

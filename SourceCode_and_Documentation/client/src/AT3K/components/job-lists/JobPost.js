@@ -97,7 +97,7 @@ const JobPost = ({
             Track 
           </Button>
         </div>
-        <CardContent className={styles.content}>
+        <CardContent className={styles.content} >
           <Typography variant="body2" component="p">
             <div>
               <hr style={{ width: "10%" }} />

@@ -24,9 +24,11 @@ const Restricted = ({unknownPath}) => {
                     )}
                     <h1>This page doesn't exist</h1>
                     <h3>Or you don't have access.</h3>
-                    <Link to="/">
-                        Take me home
-                    </Link>
+                    <h3>
+                        <Link to="/">
+                            Take me home 🌎
+                        </Link>
+                    </h3>
                 </div>
 
                 <svg aria-labelledby="Starry sky" alt="Starry sky" class="starry-sky">

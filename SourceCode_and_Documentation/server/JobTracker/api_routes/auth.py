@@ -61,8 +61,9 @@ class AuthenticationLogin(Resource):
         request_params = dict(request.form)
         email = request_params["email"]
         password = request_params["password"]
-        user_id = login_user(email, password)
+        (user_id, username) = login_user(email, password)
         return {
             "user_id": user_id,
-            "token": "EMPTY"
+            "token": "EMPTY",
+            "username": username
         }   

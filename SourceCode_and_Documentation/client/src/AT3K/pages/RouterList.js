@@ -16,6 +16,8 @@ import Error404 from './404';
 import JobDetails from './JobDetails';
 import CompanyProfile from './CompanyProfile';
 import Restricted from "./Restricted";
+import Profile from './Profile';
+import ProfileEdit from './ProfileEdit';
 import Cookie from 'js-cookie';
 
 /**
@@ -86,6 +88,16 @@ let routes = [
     {
         path: "/search/company",
         page: CompanyProfile,
+        requiresAuth: true
+    },
+    {
+        path: "/user/edit/:id",   // TODO: FIX ROUTE
+        page: ProfileEdit,
+        requiresAuth: true
+    },
+    {
+        path: "/user/:id",
+        page: Profile,
         requiresAuth: true
     },
     {

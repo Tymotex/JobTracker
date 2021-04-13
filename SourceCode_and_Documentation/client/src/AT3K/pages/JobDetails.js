@@ -26,6 +26,7 @@ import Cookie from 'js-cookie';
 import BoardSelectionDropdown from '../components/job-lists/BoardSelectionDropdown';
 import { Notification } from '../components/notification';
 import { ContentLoader } from '../components/loaders';
+import pageStyles from './Page.module.scss';
 
 const iconSize = "small";
 const btnStyle = {
@@ -289,26 +290,27 @@ const JobDetails = () => {
 
     return (
         <Layout>
-            <Header url={url} company={company} title={title} salary={salary} locations={locations} date={date} />
+            <div className={pageStyles.container}>
+                <Header url={url} company={company} title={title} salary={salary} locations={locations} date={date} />
 
-            <hr />
+                <hr />
 
-            <DescriptionSection title="Description">
-                {/* NOTE this is probably not safe, but it works */}
-                {(isLoading) ? (
-                    <ContentLoader />
-                ) : (
-                    <div dangerouslySetInnerHTML={{ __html: jobDescription && jobDescription.post_details }} />
-                )}
-            </DescriptionSection>
+                <DescriptionSection title="Description">
+                    {/* NOTE this is probably not safe, but it works */}
+                    {(isLoading) ? (
+                        <ContentLoader />
+                    ) : (
+                        <div dangerouslySetInnerHTML={{ __html: jobDescription && jobDescription.post_details }} />
+                    )}
+                </DescriptionSection>
 
-            <DescriptionSection title="Location">
-                <JobMap locationQuery={locations} />  {/* Substitute this for actual location query */}
-            </DescriptionSection>
-            <hr />
+                <DescriptionSection title="Location">
+                    <JobMap locationQuery={locations} />  {/* Substitute this for actual location query */}
+                </DescriptionSection>
+                <hr />
 
-            <Footer type="job" />
-
+                <Footer type="job" />
+            </div>
         </Layout>
     );
 };

@@ -5,9 +5,9 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import {
     TextField,
-    Button,
     Grid
 } from '@material-ui/core';
+import { Button } from '../buttons';
 import GoogleButton from 'react-google-button'
 import styles from './Modal.module.scss';
 import Cookie from 'js-cookie';
@@ -56,7 +56,7 @@ export default function TransitionsModal() {
 			// TODO: Do something other than force reload the window
 			Cookie.set("user_id", newUserData.data.user_id);
 			Cookie.set("token", newUserData.data.token);
-			Cookie.set("username", formData.get("username"));
+			Cookie.set("username", newUserData.data.username);
 			window.location.reload();
 		})
 		.catch((err) => {

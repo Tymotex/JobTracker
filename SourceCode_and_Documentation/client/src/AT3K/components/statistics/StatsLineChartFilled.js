@@ -162,18 +162,18 @@ const series = [
         name: "applications",
         data: app_list,
     },
-    // {
-    //     name: "resumes",
-    //     data: res_list,
-    // },
-    // {
-    //     name: "interviews",
-    //     data: int_list,
-    // },
-    // {
-    //     name: "finals",
-    //     data: fin_list,
-    // },
+    {
+        name: "resumes",
+        data: res_list,
+    },
+    {
+        name: "interviews",
+        data: int_list,
+    },
+    {
+        name: "finals",
+        data: fin_list,
+    },
 ];
 
 function themeOptions(theme) {

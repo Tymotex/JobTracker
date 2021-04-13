@@ -80,7 +80,16 @@ class UserJobProfile(Resource):
             Create a user profile (should this be a request or should)
         """
         params = request.get_json()
-        return set_user_profile(params['user_id'],params['username'],params['email'],params['password'],params['experience'],params['phone'],params['skills'])
+        return set_user_profile(
+            params['user_id'],
+            params['username'],
+            params['email'],
+            params['password'],
+            params['experience'],
+            params['phone'],
+            params['skills']
+        )
+
  
 @user_api.route('/boards')
 class UserBoardManagement(Resource):
@@ -101,13 +110,15 @@ class UserBoardManagement(Resource):
                 - user_id
                 - name
                 - description
+                - image_url
         """
         printColoured(" * Creating a new board", colour="yellow")
         request_params = dict(request.form)
         user_id = request_params["user_id"]
         name = request_params["name"]
         description = request_params["description"]
-        board_id = create_board(user_id, name, description)
+        image_url = request_params["image_url"] if "image_url" in request_params else ""
+        board_id = create_board(user_id, name, description, image_url)
         return {
             "board_id": board_id
         }
@@ -122,6 +133,7 @@ class UserBoard(Resource):
             Parameters: 
                 - user_id
                 - board_id
+                - image_url
         """
         printColoured(" * Retrieving specific board", colour="yellow")
         request_params = dict(request.args) # OK to use this as we are only posting a single dict rather than a large json object?

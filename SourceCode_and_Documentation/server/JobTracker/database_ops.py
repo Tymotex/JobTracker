@@ -60,7 +60,7 @@ def login_user(email: str, password: str) -> str:
         raise InvalidUserInput(description="An account with that email doesn't exist")
     if not target_user["password"] == password:
         raise InvalidUserInput(description="Password incorrect")
-    return str(target_user["_id"])
+    return (str(target_user["_id"]), target_user["username"])
 
 # ===== User Profile Management =====
 
@@ -100,7 +100,7 @@ def set_user_profile(user_id: str, username: str, email:str, password: str, expe
             "$set": {
             "username": username,
             "email": email,
-            "password": password,
+            # "password": password,
             "experience": experience,
             "phone": phone,
             "skills": skills,
@@ -113,7 +113,7 @@ def set_user_profile(user_id: str, username: str, email:str, password: str, expe
 
 # ===== Board Management =====
 
-def create_board(user_id: str, name: str, description: str) -> str: 
+def create_board(user_id: str, name: str, description: str, image_url="") -> str: 
     """
         Creates a new document for the 'boards' collection.
         Returns the ID of the new document
@@ -124,6 +124,7 @@ def create_board(user_id: str, name: str, description: str) -> str:
         "name": name,
         "description": description,
         "tracked_jobs": [],
+        "image_url": image_url,
         "statistics": []
     })
     return str(inserted_document.inserted_id) 
@@ -152,20 +153,19 @@ def get_board(user_id: str, board_id: str):
 # use the pymongo docs if lost: https://pymongo.readthedocs.io/en/stable/
 
 # TODO: LOOK INTO ANY POTENTIAL ERROR CASES
-def edit_board(user_id: str, board_id: str, name: str, description: str):
+def edit_board(user_id: str, board_id: str, name: str, description: str, image_url=""):
     """
         Updates an existing board's details
     """
-
     db.boards.update_one(
         {'user_id' : user_id, '_id': ObjectId(board_id)}, 
-        {'$set' : {"name" : name, 'description' : description}}
+        {'$set' : {"name" : name, 'description' : description, "image_url": image_url}}
     )
     return {
         "new_name": name,
-        "new_description": description
+        "new_description": description,
+        "new_image_url": image_url
     }
-    # Use db.boards.update_one() to update an existing board
 
 # Note: Tim did this. Needed to set the tracked jobs
 def set_tracked_jobs(user_id: str, board_id: str, tracked_jobs):
@@ -244,7 +244,7 @@ def delete_favourite_company(user_id: str, company_name: str):
             }
         }
     )
-    return "Success"
+    return company_name
 
 # ============================================ END KATRINA ============================================
 

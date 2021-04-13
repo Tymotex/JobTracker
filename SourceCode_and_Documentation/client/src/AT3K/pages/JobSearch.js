@@ -6,7 +6,7 @@ import api from '../constants/api';
 import Cookie from 'js-cookie';
 import { useEffect } from 'react';
 import { Notification } from '../components/notification';
-
+import pageStyles from './Page.module.scss';
 
 const JobSearch = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -80,41 +80,43 @@ const JobSearch = () => {
 
     return (
         <Layout>
-            <h1>Job Search</h1>
-            <JobSearchToolbar 
-                searchQuery={searchQuery}
-                handleSearch={handleSearch}
-                locationQuery={locationQuery}
-                handleLocationSearch={handleLocationSearch}
-                boards={boards}
-                selectedBoardID={selectedBoardID}
-                handleSelectBoard={handleSelectBoard}
-                fetchJobPosts={fetchJobPosts}
-                resultsPerPage={resultsPerPage}
-                pageNum={pageNum}
-            />
-            {(searchQuery === "") ? (
-                <JobSelectionMenu
-                    searchValue={searchQuery}
-                    onSearch={handleSearch}
-                    handleSelectCategory={handleSelectCategory}
-                />
-            ) : (
-                <JobList
+			<div className={pageStyles.container}>
+                <h1>Job Search</h1>
+                <JobSearchToolbar 
+                    searchQuery={searchQuery}
+                    handleSearch={handleSearch}
+                    locationQuery={locationQuery}
+                    handleLocationSearch={handleLocationSearch}
+                    boards={boards}
                     selectedBoardID={selectedBoardID}
-                    pageNum={pageNum}
+                    handleSelectBoard={handleSelectBoard}
                     fetchJobPosts={fetchJobPosts}
-                    searchValue={searchQuery}
-                    onSearch={handleSearch}
-                    numResults={numResults}
-                    pageCount={pageCount}
-                    jobList={jobList}
                     resultsPerPage={resultsPerPage}
-                    setResultsPerPage={setResultsPerPage}
-                    sortStrategy={sortStrategy}
-                    handleSetSortStrategy={handleSetSortStrategy}
+                    pageNum={pageNum}
                 />
-            )}
+                {(searchQuery === "") ? (
+                    <JobSelectionMenu
+                        searchValue={searchQuery}
+                        onSearch={handleSearch}
+                        handleSelectCategory={handleSelectCategory}
+                    />
+                ) : (
+                    <JobList
+                        selectedBoardID={selectedBoardID}
+                        pageNum={pageNum}
+                        fetchJobPosts={fetchJobPosts}
+                        searchValue={searchQuery}
+                        onSearch={handleSearch}
+                        numResults={numResults}
+                        pageCount={pageCount}
+                        jobList={jobList}
+                        resultsPerPage={resultsPerPage}
+                        setResultsPerPage={setResultsPerPage}
+                        sortStrategy={sortStrategy}
+                        handleSetSortStrategy={handleSetSortStrategy}
+                    />
+                )}
+            </div>
         </Layout>
     );
 };
