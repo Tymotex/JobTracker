@@ -5,6 +5,8 @@ The user story describing this says the statistic to show will be selected from 
 drop down menu which i think is a good idea as this will be quite expensive to produce.
 We might have to pre-load and store this data rather than fetching it each time.
 """
+
+from datetime import *
 from flask import (
     Blueprint,
     render_template,
@@ -15,6 +17,8 @@ from JobTracker.database_ops import (
     fetch_stats
 )
 from JobTracker.utils.colourisation import printColoured
+from JobTracker.utils.debug import pretty_print_dict
+from JobTracker.exceptions import InvalidUserInput
 from flask_restx import Resource, Api, Namespace, fields
 
 stats_router = Blueprint("stats", __name__)
@@ -47,8 +51,8 @@ response_fields = stats_api.model("Statistics", {
 
 @stats_api.route('/activity')
 class Stats(Resource):
-    @stats_api.marshal_list_with(response_fields)
-    @stats_api.expect(search_fields)
+    # @stats_api.marshal_list_with(response_fields)
+    # @stats_api.expect(search_fields)
     def get(self):
         """
             To hit this route - call GET http://localhost:5000/api/user/stats/activity
@@ -70,14 +74,12 @@ class Stats(Resource):
             Some additional info:
                 - the stats array should contain objects sorted in ascending order of timestamp (sort again just in case)
         """
-        printColoured(" * Getting user stats", colour="yellow")
+        printColoured(" * Getting user activity stats", colour="yellow")
         request_params = dict(request.args)
         user_id = request_params["user_id"]
         board_id = request_params["board_id"]
-        start_time = request_params["start_time"]
-        end_time = request_params["end_time"]
 
-        stats = fetch_stats(board_id)
+        stats = fetch_stats(user_id, board_id)
 
         # Sort timestamps into ascending order
         stats.sort(key=lambda x: x["timestamp"])
@@ -98,29 +100,36 @@ class Stats(Resource):
             ]
         """
 
-        start_date = datetime.fromtimestamp(stats[0]['timestamp'])
-        end_date = datetime.fromtimestamp(stats[-1]['timestamp'])
+        # start_date = datetime.fromtimestamp(stats[0]['timestamp'])
+        # end_date = datetime.fromtimestamp(stats[-1]['timestamp'])
+        start_date = datetime.fromtimestamp(int(request_params["start_time"]))
+        end_date = datetime.fromtimestamp(int(request_params["end_time"]))
 
         delta = end_date - start_date
+        if (delta.days < 0):
+            raise InvalidUserInput(description="Invalid time range. Check that the start time is after end time")
 
         date_list = {}
 
         # METHOD 1 - iterating through the entire stats array for each day
         #            takes longer but more confident that it is more accurate
         for i in range(delta.days + 2):
-            day = start_date + time(delta(days = i))
+            day = start_date + timedelta(days=i)
             day = day.strftime('%d/%m/%Y')
+            date_list[day] = []
+            print(day)
             for j in range(len(stats)):
                 curr_day = datetime.fromtimestamp(stats[j]['timestamp']).strftime('%d/%m/%Y')
                 if curr_day != day:
                     continue
 
-                if day not in date_list.keys():
-                    activity_list = []
+                # if day not in date_list.keys():
+                # activity_list = []
 
-                activity_list.append((stats[j]['activity']))
-                activity_list.sort()
-                date_list[day] = activity_list
+                date_list[day].append((stats[j]['activity']))
+                date_list[day].sort()
+                # activity_list.sort()
+                # date_list[day] = activity_list
         
         # METHOD 2 - stop iterating through the stats array when dates no longer match
         #            keeps track of last position in stats array so no need to iterate through days that have already been matched
@@ -164,7 +173,8 @@ class Stats(Resource):
         }
 
         """
-
+        printColoured("Returning!")
+        pretty_print_dict(date_list)
         return date_list
 # ============================================ END KELLY ============================================
 

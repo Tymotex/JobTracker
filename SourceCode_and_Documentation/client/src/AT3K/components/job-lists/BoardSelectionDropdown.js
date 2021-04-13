@@ -3,15 +3,22 @@ import PropTypes from 'prop-types';
 import { Dropdown } from '../dropdowns';
 
 const BoardSelectionDropdown = ({ selectedBoardID, handleSelectBoard, boards }) => {
+    const items = boards && boards.map((eachBoard) => ({
+        text: eachBoard.name,
+        value: eachBoard._id
+    }))
+    if (items) {
+        items.push({
+            text: "None",
+            value: null
+        });
+    }
     return (
         <Dropdown 
-            label="SelectedBoard"
+            label="Selected Board"
             value={selectedBoardID}
             onChange={handleSelectBoard}
-            items={boards && boards.map((eachBoard) => ({
-                text: eachBoard.name,
-                value: eachBoard._id
-            }))}
+            items={items}
         />
     )
 };

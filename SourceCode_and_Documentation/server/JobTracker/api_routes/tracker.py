@@ -71,7 +71,7 @@ class Tracker(Resource):
 
         # TODO: push stat for new application
         push_stat(board_id, {
-            "timestamp": time.time(),
+            "timestamp": int(time.time()),
             "activity": "application",
             "job_id": job_id
         })

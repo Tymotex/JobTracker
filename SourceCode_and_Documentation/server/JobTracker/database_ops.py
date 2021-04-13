@@ -404,7 +404,7 @@ def eliminate_stat_duplicates(board_id: str, job_id: str, new_status: str):
     )
     return new_stats
 
-def fetch_stats(board_id: str):
+def fetch_stats(user_id: str, board_id: str):
     """
         Fetches all stats associated with the given board
     """
@@ -413,6 +413,8 @@ def fetch_stats(board_id: str):
             "_id": ObjectId(board_id)
         }
     )
+    if target_board["user_id"] != user_id:
+        raise InvalidUserInput(description="That board doesn't belong to you")
     if not target_board:
         raise InvalidUserInput(description="Board {} wasn't found".format(board_id))
     return target_board["statistics"]
