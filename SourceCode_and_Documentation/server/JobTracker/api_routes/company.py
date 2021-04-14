@@ -14,6 +14,9 @@ from flask_restx import Resource, Api, fields
 from wikipediaapi import Wikipedia
 from JobTracker.api_routes.jobs import get_job_postings
 
+from functools import lru_cache
+
+@lru_cache(maxsize=100)
 def get_company_details(company):
     """
         Params: 
@@ -21,6 +24,7 @@ def get_company_details(company):
         Returns:
             - company_description (str)
     """
+    print("Func get_company_details is called")
     wiki_wiki = Wikipedia('en')
 
     # try different methods for searching  for the company until something good is returned
@@ -78,7 +82,8 @@ class CompanyFetch(Resource):
             Getting company info [using opencorporates or wikipedia]
 
             Parameters:
-                - company_name
+                - company
+                - disable_jobs (optional param)
         """
 
         # Get company info through Wikipedia (or opencorporates)
@@ -90,9 +95,16 @@ class CompanyFetch(Resource):
 
         # Filter for the jobs that actually belong to company_name
         request_params = dict(request.args)
-        # print(request_params)
+        print(request_params)
         company_name = request_params["company"]
         company_details = get_company_details(company_name)
+
+        if "disable_jobs" in request_params and request_params["disable_jobs"] == 'true':    
+            return  {
+                "company_info": {
+                    "company_details": company_details
+                },
+            }
 
         job_resp = get_job_postings("Sydney", company_name, 10, 1, "relevance")
 
@@ -108,5 +120,3 @@ class CompanyFetch(Resource):
                 *job_list
             ]
         }  
-
-
