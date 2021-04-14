@@ -62,26 +62,23 @@ const ProfileSettings = () => {
         <Avatar />
       </Box>
       <Box style={boxStyle}>
-        <label>
+        
           First Name
           <input style={inputStyle} type="text" />
-        </label>
       </Box>
       <Box style={boxStyle}>
-        <label>
+        
           Last Name
           <input  style={inputStyle} type="text" />
-        </label>
       </Box>
       <Box style={boxStyle}>
-        <label>
+        
           Password
           <Button style={inputStyle} variant="contained">Change Password</Button>
-        </label>
       </Box>
       <hr />
       <Box style={boxStyle}>
-        <label>
+        
           <h3>Upload your resume</h3>
           {/* <Button variant="contained">Upload Resume</Button> */}
           <ResumeDropZone setResume={setResume} setResumeBinaryFile={setResumeBinaryFile} />
@@ -93,7 +90,6 @@ const ProfileSettings = () => {
               </div>
               )}
             </Dropzone> */}
-        </label>
       </Box>
       <Box style={boxStyle}>
         <ResumeRenderer file={resume} setFile={setResume} resumeBinaryFile={resumeBinaryFile} />
