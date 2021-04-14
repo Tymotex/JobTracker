@@ -16,7 +16,7 @@ from JobTracker.api_routes.jobs import get_job_postings
 
 from functools import lru_cache
 
-@lru_cache(maxsize=100)
+@lru_cache(maxsize=1000)
 def get_company_details(company):
     """
         Params: 
@@ -119,4 +119,4 @@ class CompanyFetch(Resource):
             "jobs" : [
                 *job_list
             ]
-        }  
+        } 
