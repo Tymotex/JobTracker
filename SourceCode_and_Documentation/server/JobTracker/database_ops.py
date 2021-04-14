@@ -43,7 +43,7 @@ def add_user(username: str, email: str, password: str, image_url="") -> str:
         "resume": {},
         "favourited_companies": []
     })
-    return (str(inserted_user.inserted_id), image_url)
+    return str(inserted_user.inserted_id)
 
 
 def login_user(email: str, password: str) -> str:
@@ -62,11 +62,7 @@ def login_user(email: str, password: str) -> str:
         raise InvalidUserInput(description="An account with that email doesn't exist")
     if not target_user["password"] == password:
         raise InvalidUserInput(description="Password incorrect")
-    return (
-        str(target_user["_id"]), 
-        target_user["username"], 
-        target_user["image_url"]
-    )
+    return str(target_user["_id"])
 
 # ===== User Profile Management =====
 

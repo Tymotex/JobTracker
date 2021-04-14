@@ -47,7 +47,7 @@ export default function BoardEditModal({ boardID, open, handleClose, boardName, 
                     setBoardImageURL(res.data.new_image_url);
                     Notification.spawnSuccess(`Successfully edited board '${res.data.new_name}'`);
                 })
-                .catch((err) => alert(err));
+                .catch((err) => Notification.spawnError(err));
         } else {
             Notification.spawnRegisterError();
         }

@@ -49,7 +49,6 @@ export default function TransitionsModal({ open, handleClose, updateBoardList })
                     handleClose();
                 })
                 .catch((err) => {
-                    alert(err);
                     Notification.spawnError(err);
                 });
         } else {
@@ -58,6 +57,10 @@ export default function TransitionsModal({ open, handleClose, updateBoardList })
     }
 
     // ============================
+
+    const uploadCSV = () => {
+        alert("Unimplemented")
+    }
 
     return (
         <div>
@@ -115,7 +118,7 @@ export default function TransitionsModal({ open, handleClose, updateBoardList })
 
                             <div className={styles.textGroup} style={{"textAlign": "center", "marginBottom": "20px" }}>
                                 <h2>Or create a board from CSV</h2>
-                                <Button variant="contained" onClick={() => alert("Unimplemented")}>
+                                <Button variant="contained" onClick={uploadCSV}>
                                     Upload CSV 
                                 </Button>
                             </div>

@@ -22,7 +22,7 @@ const updateTrackedJobStatus = (user_id, board_id, job_id, updated_job, newStatu
     };
     axios(putData)
         .then((res) => {
-            alert(res.data);
+            Notification.spawnSuccess("Updated job status!");
         })
         .catch((err) => {
             Notification.spawnError(err);

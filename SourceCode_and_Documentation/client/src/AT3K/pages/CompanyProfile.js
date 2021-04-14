@@ -120,14 +120,10 @@ const Header = ({name}) => {
 					Notification.spawnSuccess(`Unsaved '${res.data}'`);
 					setSave(false)
 				})
-				.catch(() => alert('Fail to unsave company'))
+				.catch((err) => Notification.spawnError(err))
 
 		// if current state is 'not saved', save the company
 		} else {
-			// axios.post(url)
-			// 	.then(() => setSave(true))
-			// 	.catch(() => alert('Fail to save company'))
-
 			const userID = Cookie.get("user_id");
 			if (userID) {
 				const postData = {

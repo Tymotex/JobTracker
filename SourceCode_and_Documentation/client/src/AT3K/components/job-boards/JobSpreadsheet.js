@@ -237,12 +237,11 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         const createNewEvent = (_, name, time) => {
             if (!time) Notification.spawnInvalid("Please select a time");
             else {
-                alert("Created a new event: " + name + ", " + time);
+                Notification.spawnSuccess(`Created a new event: '${name}' at ${time}`);
                 trackedJobs[rowIndex].events.push({
                     name: name,
                     time: time.unix()
                 });
-                console.log([...trackedJobs]);
                 saveCurrBoardState([...trackedJobs]);
             }
         }
@@ -284,9 +283,10 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             moment.locale("en");
 
             return (
-                <div>
+                <div style={{ maxHeight: "250px", overflow: "auto" }}>
                     {events.map(event => (
                         <div style={{textAlign: "center"}}>
+                            <br />
                             <DateSelector 
                                 time={moment.unix(event.time)}
                                 name={event.name}
@@ -564,14 +564,6 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                     if (datatableOptions.filter === false) setOptions({...datatableOptions, filter: true, print: true, viewColumns: true, rowsPerPageOptions: [5, 10, 20, 50] })}
                 }
             >
-                <div style={{textAlign: "center"}}>
-                    <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)} style={{marginRight: "20px"}}>
-                        Save board
-                    </Button>
-                    <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
-                        {(!editingEnabled) ? ("Enter Edit Mode") : ("Exit Edit Mode")}
-                    </Button>
-                </div>
                 <React.Fragment>
                     <MUIDataTable
                         title={"Tracked Jobs"}
@@ -579,6 +571,14 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                         columns={columns}
                         options={datatableOptions}
                     />
+                    <div style={{textAlign: "center"}}>
+                        <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)} style={{marginRight: "20px"}}>
+                            Save board
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
+                            {(!editingEnabled) ? ("Enter Edit Mode") : ("Exit Edit Mode")}
+                        </Button>
+                    </div>
                 </React.Fragment>
             </FullscreenMode>
     );

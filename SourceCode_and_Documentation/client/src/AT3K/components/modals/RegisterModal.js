@@ -72,6 +72,13 @@ export default function TransitionsModal() {
 		});
 	}
 
+    // Google Login
+    const signinRedirect = () => {
+        Notification.spawnSuccess("Signing in via Google");
+        window.location.assign("https://localhost:5000/api/auth/googlelogin")
+    }
+
+
 	// ===================================
 
 	return (
@@ -139,7 +146,7 @@ export default function TransitionsModal() {
 						</form>
 						<p className={styles.register}>Or register with your Google account</p>
 						<GoogleButton className={styles.googleButton}
-							onClick={() => { console.log('Google button clicked') }}
+							onClick={signinRedirect}
 						/>
 					</div>
 				</Fade>

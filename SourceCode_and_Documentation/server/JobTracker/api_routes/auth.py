@@ -50,12 +50,10 @@ class AuthenticationRegister(Resource):
             username = request_params["username"]
             email = request_params["email"]
             password = request_params["password"]
-            user_id, image_url = add_user(username, email, password, "https://www.pngarts.com/files/11/Avatar-Transparent-Background-PNG.png")  # FIXME: Default avatar
+            user_id = add_user(username, email, password, "https://www.pngarts.com/files/11/Avatar-Transparent-Background-PNG.png")  # FIXME: Default avatar
             return {
                 "user_id": user_id,
                 "token": "EMPTY",
-                "username": username,
-                "image_url": image_url 
             }
         except Exception as err:
             printColoured(err, colour="red")
@@ -69,12 +67,10 @@ class AuthenticationLogin(Resource):
         request_params = dict(request.form)
         email = request_params["email"]
         password = request_params["password"]
-        (user_id, username, image_url) = login_user(email, password)
+        user_id = login_user(email, password)
         return {
             "user_id": user_id,
             "token": "EMPTY",
-            "username": username,
-            "image_url": image_url
         }
 
 
@@ -171,7 +167,7 @@ def login_callback_handler():
         printColoured(err, color="red")
         printColoured("FAILED. ARE THEY EXISTING? {}".format(
             users_email), colour="yellow")
-        existing_user_id, username, image_url = login_user(users_email, "asdfasdf")
+        existing_user_id = login_user(users_email, "asdfasdf")
         printColoured(picture)
         # FIXME: No token
         return redirect("http://localhost:3000/home/{}/{}".format(existing_user_id, "EMPTY TOKEN"))
