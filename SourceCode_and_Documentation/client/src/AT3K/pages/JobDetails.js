@@ -275,32 +275,51 @@ const JobDetails = () => {
     const params = new URLSearchParams(search);
     const title = params.get('title');
     const company = params.get('company');
+    const basicDescription = params.get("description");
     const locations = params.get('locations');
     const url = params.get('url');
     const salary = params.get('salary');
     const date = params.get('date');
-    //
-
+    
     useEffect(() => {
         axios.get(`${api.BASE_URL}/api/job?url=${url}`)
-            .then(response => setJobDescription(response.data))
+        .then(response => setJobDescription(response.data))
+        .catch(err => {
+            Notification.spawnError(err);
+            setJobDescription(basicDescription);
+        });
     }, [])
-
+        
     const isLoading = (jobDescription === null);
 
     return (
         <Layout>
             <div className={pageStyles.container}>
                 <Header url={url} company={company} title={title} salary={salary} locations={locations} date={date} />
-
                 <hr />
-
                 <DescriptionSection title="Description">
                     {/* NOTE this is probably not safe, but it works */}
                     {(isLoading) ? (
                         <ContentLoader />
                     ) : (
-                        <div dangerouslySetInnerHTML={{ __html: jobDescription && jobDescription.post_details }} />
+                        <div>
+                            {basicDescription && (
+                                <div>
+                                    <h3>Basic Details</h3>
+                                    <div>
+                                        {basicDescription}
+                                    </div>
+                                </div>
+                            )}
+                            {jobDescription && jobDescription.post_details && (
+                                <div>
+                                    <h3>
+                                        More Details
+                                    </h3>
+                                    <div dangerouslySetInnerHTML={{ __html: jobDescription && jobDescription.post_details }} />
+                                </div>                          
+                            )}  
+                        </div>
                     )}
                 </DescriptionSection>
 

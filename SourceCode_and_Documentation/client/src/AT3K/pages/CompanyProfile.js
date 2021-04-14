@@ -186,9 +186,9 @@ const Header = ({name}) => {
             </Grid>
 
             <Grid item direction="row">
-                <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
+                {/* <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
                     View official Website
-                </Button>
+                </Button> */}
                 <Button style={btnStyle} variant="outlined" color="secondary" size="small" onClick={handleSave}>
                     { save ? "Saved" : "Save" }
                 </Button>

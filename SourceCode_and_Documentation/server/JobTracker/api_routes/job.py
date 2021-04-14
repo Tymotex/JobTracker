@@ -8,6 +8,7 @@ from flask import (
     jsonify
 )
 from JobTracker.utils.colourisation import printColoured
+from JobTracker.exceptions import InvalidUserInput
 from flask_restx import Resource, Api, fields
 import requests
 from bs4 import BeautifulSoup
@@ -90,16 +91,19 @@ def get_content(url):
     # for ul in soup.find_all('ul', attrs={"class": "details"}):
     #     print(type(ul))
     # print(fields)
-    for field in soup.find('ul', attrs={"class": "details"}).children:
-        field_str = str(field)
-        field_str = field_str.replace("\n", "")
-        print(field_str)
-        if "#icon-contract" in field_str:
-            
-            m = findall(r"svg>(\w|\s)+<\/li>", field_str)
-            print(m)
-        print("===")
-        print("\"",str(field), "\"")
-        print("===")
-        # print(field.string)
-    return {"post_details" : content, "fields": {}}
+    try:
+        for field in soup.find('ul', attrs={"class": "details"}).children:
+            field_str = str(field)
+            field_str = field_str.replace("\n", "")
+            print(field_str)
+            if "#icon-contract" in field_str:
+                
+                m = findall(r"svg>(\w|\s)+<\/li>", field_str)
+                print(m)
+            print("===")
+            print("\"",str(field), "\"")
+            print("===")
+            # print(field.string)
+        return {"post_details" : content, "fields": {}}
+    except:
+        raise InvalidUserInput(description="Couldn't find details for that job")

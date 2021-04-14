@@ -35,6 +35,7 @@
     "react-dark-mode-toggle": "^0.2.0",
     "react-data-grid": "^7.0.0-canary.36",
     "react-data-grid-addons": "^7.0.0-alpha.24",
+    "react-datepicker2": "^3.3.13",
     "react-dom": "^16.14.0",
     "react-dropzone": "^11.3.1",
     "react-fade-in": "^2.0.1",

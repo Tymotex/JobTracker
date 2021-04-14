@@ -2,6 +2,7 @@
 A suite of database operations that abstract over the specific DBMS used and the driver
 library or ODM used to interface with that DBMS.
 """
+import time
 from JobTracker import db
 from JobTracker.utils.colourisation import printColoured
 from typing import (
@@ -251,6 +252,19 @@ def delete_favourite_company(user_id: str, company_name: str):
 
 # ===== Job Tracking =====
 
+def job_already_tracked(user_id: str, board_id: str, job: dict):
+    """
+        Checks if the job is already being tracked
+    """
+    board = db.boards.find_one(
+        { 
+            "_id": ObjectId(board_id), 
+            "user_id": user_id 
+        }
+    )
+    # TODO: Checking for same title. Not robust
+    return any(each_job["title"] == job["title"] for each_job in board["tracked_jobs"])
+
 def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
     """
         Adds a job to be tracked
@@ -265,8 +279,21 @@ def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
     job_to_track["current_status"] = "application"
     job_to_track["notes"] = ""
     job_to_track["priority"] = 5
+    job_to_track["events"] = [
+        {
+            "name": "Application Deadline",
+            "time": time.time()
+        },
+        {
+            "name": "Interview Date",
+            "time": time.time() + 24 * 60 * 60
+        }
+    ]
     # Assign a random ID. TODO: not robust
     job_to_track["job_id"] = "{}-{}".format(board_id, str(uuid.uuid4()))
+
+    if job_already_tracked(user_id, board_id, job_to_track):
+        raise InvalidUserInput(description="You're already tracking that job")
 
     # Push the new job into the board's tracked_jobs list
     db.boards.update_one(
@@ -310,6 +337,21 @@ def update_job(user_id, board_id, job_id, updated_job):
         }
     )
     return updated_job
+
+def delete_job(user_id, board_id, job_id):
+    """
+        Deletes a given job
+    """
+    target_board = db.boards.update_one({ 
+        "_id": ObjectId(board_id), 
+        "user_id": user_id 
+    }, {
+        "$pull": {
+            "tracked_jobs": { "job_id": job_id }
+        }
+    })
+    return job_id
+
 
 # ===== User Analytics =====
 
