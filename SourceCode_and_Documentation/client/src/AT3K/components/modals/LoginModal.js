@@ -55,13 +55,29 @@ export default function TransitionsModal() {
 			// TODO: Do something other than force reload the window
 			Cookie.set("user_id", newUserData.data.user_id);
 			Cookie.set("token", newUserData.data.token);
-			Cookie.set("username", newUserData.data.username);
+            alert("GOT: " + Cookie.get("user_id"))
 			window.location.reload();
 		})
 		.catch((err) => {
 			Notification.spawnError(err);
 		});
 	};
+
+    // Google Login
+    const signinRedirect = () => {
+        alert("Signing in via Google");
+        alert(`${api.BASE_URL}/api/auth/googlelogin`)
+        window.location.assign("https://localhost:5000/api/auth/googlelogin")
+        // axios.get(`https://localhost:5000/api/auth/googlelogin`)
+        //     .then((res) => {
+        //         alert("HERE");
+        //         window.location.assign(res.data.google_uri);
+        //     })
+        //     .catch((err) => {
+        //         Notification.spawnError(err);
+        //     });
+    }
+
 
     return (
         <div>
@@ -103,7 +119,7 @@ export default function TransitionsModal() {
                                 />
                             </div>
                             <GoogleButton className={styles.googleButton}
-                                onClick={() => { console.log('Google button clicked') }}
+                                onClick={signinRedirect}
                             />
                             <Grid container className={styles.buttonGroup}>
                                 <Grid item xs={6}>

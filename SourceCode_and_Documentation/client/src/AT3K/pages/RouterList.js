@@ -25,6 +25,14 @@ import Cookie from 'js-cookie';
   */
 let routes = [
     {
+        path: "/home/:id/:token", // FIXME: Extremely hacky way of getting google auth data
+        page: Home
+    },
+    {
+        path: "/home",
+        page: Home
+    },
+    {
         path: "/",
         page: Home
     },

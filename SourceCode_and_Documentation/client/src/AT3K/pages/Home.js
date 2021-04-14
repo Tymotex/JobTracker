@@ -6,10 +6,16 @@ import {
     Container
 } from '@material-ui/core';
 import Button from '../components/buttons/Button';
+import {
+    useParams,
+    withRouter
+} from 'react-router-dom';
+import Cookie from 'js-cookie';
 
 import Unsplash from "react-unsplash-wrapper";
 
 import { ParallaxBanner, Parallax, Image } from 'react-scroll-parallax';
+import Cookies from 'js-cookie';
 
 const ParallaxWallpaper = ({ image }) => {
     return (
@@ -34,7 +40,17 @@ const ParallaxWallpaper = ({ image }) => {
     )
 }
 
-const Home = ({ unknownPath }) => {
+const Home = withRouter(({ unknownPath, history }) => {
+
+    const { id: userID, token } = useParams();
+    if (userID) {
+        Cookie.set("user_id", userID);
+        Cookie.set("token", token);
+        history.push("/");
+        window.location.reload();
+    }
+    
+
     return (
         <Layout>
             <img 
@@ -78,6 +94,6 @@ const Home = ({ unknownPath }) => {
 
         </Layout>
     );
-};
+});
 
 export default Home;

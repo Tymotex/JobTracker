@@ -69,6 +69,9 @@ const Profile = () => {
                                 <br />
                                 Skills: {profile.skills}
                                 <br />
+                                Image: 
+                                <img src={profile.image_url} />
+                                <br />
                                 Find some ideas: https://www.google.com/search?q=user+profile+page+ideas&sxsrf=ALeKk0153cUe1fHXBrfroMjKSWMyiMqZPQ:1618297123586&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjsucTJ0vrvAhU_zjgGHW8zDYIQ_AUoAXoECAEQAw
                             </div>
                         )}

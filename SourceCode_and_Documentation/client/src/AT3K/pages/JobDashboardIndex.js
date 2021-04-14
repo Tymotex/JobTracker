@@ -89,6 +89,11 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                     )} 
                 </Grid>
             </Grid>
+            <BoardCreateModal 
+                updateBoardList={updateBoardList}
+                handleClose={handleModalClose} 
+                open={modalOpen} 
+            />
             {companies && companies.length !== 0 && (
                 <>
                     <hr />
@@ -109,11 +114,7 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                                 </Box>
                             ))}
                         </Box>
-                        <BoardCreateModal 
-                            updateBoardList={updateBoardList}
-                            handleClose={handleModalClose} 
-                            open={modalOpen} 
-                        />
+                        
                     </FadeIn>
                 </>
             )}

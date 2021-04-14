@@ -17,7 +17,7 @@ import uuid
 
 # ===== User Management =====
 
-def add_user(username: str, email: str, password: str) -> str:
+def add_user(username: str, email: str, password: str, image_url="") -> str:
     """
         Registers a new user and commits them to the database.
         Parameters:
@@ -36,13 +36,14 @@ def add_user(username: str, email: str, password: str) -> str:
         "username": username,
         "email": email,
         "password": password,
+        "image_url": image_url,
         "experience": "",
         "phone": "",
         "skills": [],
         "resume": {},
         "favourited_companies": []
     })
-    return str(inserted_user.inserted_id)
+    return (str(inserted_user.inserted_id), image_url)
 
 
 def login_user(email: str, password: str) -> str:
@@ -61,7 +62,11 @@ def login_user(email: str, password: str) -> str:
         raise InvalidUserInput(description="An account with that email doesn't exist")
     if not target_user["password"] == password:
         raise InvalidUserInput(description="Password incorrect")
-    return (str(target_user["_id"]), target_user["username"])
+    return (
+        str(target_user["_id"]), 
+        target_user["username"], 
+        target_user["image_url"]
+    )
 
 # ===== User Profile Management =====
 
@@ -88,6 +93,8 @@ def get_user_profile(user_id: str):
             "_id": ObjectId(user_id)
         }
     )
+    if not user:
+        raise InvalidUserInput(description="Couldn't find user of ID: {}".format(user_id))
     user["_id"] = str(user["_id"])
     return user
 

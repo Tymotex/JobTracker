@@ -65,7 +65,6 @@ export default function TransitionsModal() {
 			// TODO: Do something other than force reload the window
 			Cookie.set("user_id", newUserData.data.user_id);
 			Cookie.set("token", newUserData.data.token);
-			Cookie.set("username", formData.get("username"));
 			window.location.reload();
 		})
 		.catch((err) => {
