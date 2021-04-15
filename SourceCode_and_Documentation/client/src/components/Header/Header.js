@@ -9,6 +9,7 @@ import {
   ArrowBack as ArrowBackIcon,
 } from "@material-ui/icons";
 import classNames from "classnames";
+import AssistantIcon from '@material-ui/icons/Assistant';
 
 // styles
 import useStyles from "./styles";
@@ -62,7 +63,7 @@ export default function Header(props) {
           )}
         </IconButton>
         <Typography variant="h6" weight="medium" className={classes.logotype}>
-          {props.title}
+          <strong>employ</strong>.me <AssistantIcon style={{fontSize: "85%"}} />
         </Typography>
         <div className={classes.grow} />
         {props.children}

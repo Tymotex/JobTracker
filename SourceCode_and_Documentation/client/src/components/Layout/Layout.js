@@ -30,7 +30,7 @@ function Layout(props) {
 
   return (
     <div className={classes.root}>
-      <Header history={props.history} title={"Job Tracker"}>
+      <Header history={props.history} title={"employ.me"}>
         <TopNavItems />
       </Header>
       <Sidebar />

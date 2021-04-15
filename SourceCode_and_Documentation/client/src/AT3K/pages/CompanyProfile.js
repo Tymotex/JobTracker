@@ -46,9 +46,9 @@ const Header = ({name}) => {
     };
 
     const companyIconStyle = {
-        borderRadius: '50%',
-        width: '50px',
-        height: '50px',
+        // borderRadius: '50%',
+        // width: '50px',
+        // height: '50px',
         padding: '5px'
     };
 
@@ -118,7 +118,7 @@ const Header = ({name}) => {
 						style={companyIconStyle}
 						alt={name}
 					/>
-                    <div>{name}</div>
+                    {/* <div>{name}</div> */}
                 </div>
                 <div className={styles.mainTitle}>
                     {name}

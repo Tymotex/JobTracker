@@ -8,20 +8,20 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = {
     root: {
         background: "#232526",  /* fallback for old browsers */
-        background: "-webkit-linear-gradient(to right, #414345, #232526)",  /* Chrome 10-25, Safari 5.1-6 */
-        background: "linear-gradient(to right, #414345, #232526)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: "-webkit-linear-gradient(to right, #212325, #232526)",  /* Chrome 10-25, Safari 5.1-6 */
+        background: "linear-gradient(to right, #313335, #232526)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         
         // background: "#16222A",  /* fallback for old browsers */
         // background: "-webkit-linear-gradient(to right, #3A6073, #16222A)",  /* Chrome 10-25, Safari 5.1-6 */
         // background: "linear-gradient(to right, #3A6073, #16222A)", /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         
     "text-transform": "none",
-    borderRadius: 3,
+    borderRadius: "15px",
     border: 0,
     color: 'white',
     height: 48,
     padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
   },
 };
 

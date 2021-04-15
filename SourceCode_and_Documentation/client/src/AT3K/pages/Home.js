@@ -65,7 +65,7 @@ const Home = withRouter(({ unknownPath, history }) => {
                 <div className={styles.parallax}></div>
                 ^cool parallax effect */}
                 <h1 className={styles.title}>Home</h1>
-                <h2 className={styles.welcome}>Welcome to <strong>Job Tracker!</strong></h2>
+                <h2 className={styles.welcome}>Welcome to <strong style={{color: "blueviolet"}}>employ</strong>.me</h2>
                 <div className={styles.container}>
                     <img 
                         className={styles.image} 
@@ -88,7 +88,6 @@ const Home = withRouter(({ unknownPath, history }) => {
                         Have more questions? Head to our FAQ tab for answers to our most popular questions! Or contact us if you need further help. Happy tracking!
                     </p>
                 </div>
-                <Button>Button</Button>
                 {/* <div className={styles.parallax}></div> */}
             </Container>
 
