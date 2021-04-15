@@ -80,7 +80,16 @@ class UserJobProfile(Resource):
             Create a user profile (should this be a request or should)
         """
         params = request.get_json()
-        return set_user_profile(params['user_id'],params['username'],params['email'],params['password'],params['experience'],params['phone'],params['skills'])
+        return set_user_profile(
+            params['user_id'],
+            params['username'],
+            params['email'],
+            params['password'],
+            params['experience'],
+            params['phone'],
+            params['skills']
+        )
+
  
 @user_api.route('/boards')
 class UserBoardManagement(Resource):
@@ -101,13 +110,15 @@ class UserBoardManagement(Resource):
                 - user_id
                 - name
                 - description
+                - image_url
         """
         printColoured(" * Creating a new board", colour="yellow")
         request_params = dict(request.form)
         user_id = request_params["user_id"]
         name = request_params["name"]
         description = request_params["description"]
-        board_id = create_board(user_id, name, description)
+        image_url = request_params["image_url"] if "image_url" in request_params else ""
+        board_id = create_board(user_id, name, description, image_url)
         return {
             "board_id": board_id
         }
@@ -122,6 +133,7 @@ class UserBoard(Resource):
             Parameters: 
                 - user_id
                 - board_id
+                - image_url
         """
         printColoured(" * Retrieving specific board", colour="yellow")
         request_params = dict(request.args) # OK to use this as we are only posting a single dict rather than a large json object?
@@ -142,7 +154,7 @@ class UserBoard(Resource):
                 - tracked_jobs
         """
         printColoured(" * Setting tracked jobs for board", colour="yellow")
-        request_params = dict(request.args)
+        request_params = dict(request.get_json())
         user_id = request_params["user_id"]
         board_id = request_params["board_id"]
         tracked_jobs = request_params["tracked_jobs"]
@@ -169,7 +181,8 @@ class UserBoard(Resource):
         board_id = request_params["board_id"]
         new_names = request_params["new_name"]
         new_description = request_params["new_description"]
-        return edit_board(user_id, board_id, new_names, new_description)
+        new_image_url = request_params["new_image_url"]
+        return edit_board(user_id, board_id, new_names, new_description, new_image_url)
 
         # Call edit_board in database_ops.py
 
@@ -261,14 +274,14 @@ class UserFavouriteCompany(Resource):
                 - ...more?
         """
         # Call save_favourite_company in database_ops.py
-        request_params = dict(request.args)
+        request_params = dict(request.get_json())
         user_id = request_params["user_id"]
         company_name = request_params["company_name"]
 
         # check duplicate
         companies = get_favourite_company(user_id)
         if company_name in companies:  
-            raise InvalidUserInput(description="You have saved company '{}'.".format(company_name))
+            raise InvalidUserInput(description="'{}' has already been favourited".format(company_name))
 
         printColoured(" * Saving company {} for a user". format(company_name), colour="yellow")
         return save_favourite_company(user_id, company_name)

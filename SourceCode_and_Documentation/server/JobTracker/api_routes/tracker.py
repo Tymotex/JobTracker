@@ -12,7 +12,8 @@ from JobTracker.database_ops import (
     add_job,
     update_job,
     push_stat,
-    eliminate_stat_duplicates
+    eliminate_stat_duplicates,
+    delete_job
 )
 from JobTracker.exceptions import (
     InvalidUserInput
@@ -42,10 +43,6 @@ authorisation_fields = tracker_api.model("Auth", {
     "board_id": fields.String
 }) 
 
-
-
-
-
 # RESTful route handlers:
 @tracker_api.route("/")
 class Tracker(Resource):
@@ -71,7 +68,7 @@ class Tracker(Resource):
 
         # TODO: push stat for new application
         push_stat(board_id, {
-            "timestamp": time.time(),
+            "timestamp": int(time.time()),
             "activity": "application",
             "job_id": job_id
         })
@@ -109,4 +106,9 @@ class Tracker(Resource):
             Removes a tracked job and all its associated data
         """
         printColoured(" * Removing a tracked job")
+        request_params = dict(request.form)
+        user_id = request_params["user_id"]
+        board_id = request_params["board_id"]
+        job_id = request_params["job_id"]
+        return delete_job(user_id, board_id, job_id)
         

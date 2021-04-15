@@ -7,6 +7,7 @@ import axios from 'axios';
 import api from '../constants/api';
 import { useEffect } from 'react';
 import { Notification } from '../components/notification';
+import pageStyles from './Page.module.scss';
 
 const tempCompanies = [
     // {
@@ -97,24 +98,26 @@ const JobDashboard = () => {
     
     return (
         <Layout>
-            {selectedBoard === null ? (
-                <JobDashboardIndex 
-                    boards={boards}
-                    companies={tempCompanies}
-                    handleSelectBoard={handleSelectBoard}
-                    updateBoardList={fetchBoards}
-                    boardSortStrategy={boardSortStrategy}
-                    handleSetBoardSorter={handleSetBoardSorter}
-                    fetchBoards={fetchBoards}
-                />
-            ) : (
-                <JobDashboardWorkspace
-                    boardType={boardType}
-                    selectedBoardID={selectedBoard}
-                    handleChangeBoard={handleChangeBoard}
-                    handleDeselectBoard={handleDeselectBoard}
-                />
-            )}
+			<div className={pageStyles.container}>
+                {selectedBoard === null ? (
+                    <JobDashboardIndex 
+                        boards={boards}
+                        companies={tempCompanies}
+                        handleSelectBoard={handleSelectBoard}
+                        updateBoardList={fetchBoards}
+                        boardSortStrategy={boardSortStrategy}
+                        handleSetBoardSorter={handleSetBoardSorter}
+                        fetchBoards={fetchBoards}
+                    />
+                ) : (
+                    <JobDashboardWorkspace
+                        boardType={boardType}
+                        selectedBoardID={selectedBoard}
+                        handleChangeBoard={handleChangeBoard}
+                        handleDeselectBoard={handleDeselectBoard}
+                    />
+                )}
+            </div>
         </Layout>
     );
 };

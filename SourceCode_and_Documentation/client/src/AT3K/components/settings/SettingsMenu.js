@@ -18,7 +18,12 @@ const useStyles = makeStyles((theme) => ({
         width: "100%"
     },
     menuItem: {
-        textDecoration: "none!important"
+        textDecoration: "none!important",
+        color: "black",
+    },
+    activeMenuItem: {
+        backgroundColor: "rgba(153, 153, 255, 0.5)",
+        color: "black"
     }
 })); 
 
@@ -29,35 +34,23 @@ export default function MenuListComposition({ currCategory }) {
             <Paper className={classes.paper}>
                 <MenuList>
                     <Link to="/settings/profile" className={classes.menuItem}>
-                        <MenuItem>
+                        <MenuItem className={(currCategory === "profile") && classes.activeMenuItem}>
                             Profile
-                            {(currCategory === "profile") && 
-                                <span>✓</span>
-                            }
                         </MenuItem>
                     </Link>
                     <Link to="/settings/theme" className={classes.menuItem}>
-                        <MenuItem>
+                        <MenuItem className={(currCategory === "theme") && classes.activeMenuItem}>
                             Themes
-                            {(currCategory === "theme") && 
-                                <span>✓</span>
-                            }
                         </MenuItem>
                     </Link>
                     <Link to="/settings/notifications" className={classes.menuItem}>
-                        <MenuItem>
+                        <MenuItem className={(currCategory === "notifications") && classes.activeMenuItem}>
                             Notifications
-                            {(currCategory === "notifications") && 
-                                <span>✓</span>
-                            }
                         </MenuItem>
                     </Link>
                     <Link to="/settings/preferences" className={classes.menuItem}>
-                        <MenuItem>
+                        <MenuItem className={(currCategory === "preferences") && classes.activeMenuItem}>
                             Preferences
-                            {(currCategory === "preferences") && 
-                                <span>✓</span>
-                            }
                         </MenuItem>
                     </Link>
                 </MenuList>

@@ -2,6 +2,7 @@
 A suite of database operations that abstract over the specific DBMS used and the driver
 library or ODM used to interface with that DBMS.
 """
+import time
 from JobTracker import db
 from JobTracker.utils.colourisation import printColoured
 from typing import (
@@ -16,7 +17,7 @@ import uuid
 
 # ===== User Management =====
 
-def add_user(username: str, email: str, password: str) -> str:
+def add_user(username: str, email: str, password: str, image_url="") -> str:
     """
         Registers a new user and commits them to the database.
         Parameters:
@@ -35,6 +36,7 @@ def add_user(username: str, email: str, password: str) -> str:
         "username": username,
         "email": email,
         "password": password,
+        "image_url": image_url,
         "experience": "",
         "phone": "",
         "skills": [],
@@ -87,6 +89,8 @@ def get_user_profile(user_id: str):
             "_id": ObjectId(user_id)
         }
     )
+    if not user:
+        raise InvalidUserInput(description="Couldn't find user of ID: {}".format(user_id))
     user["_id"] = str(user["_id"])
     return user
 
@@ -100,7 +104,7 @@ def set_user_profile(user_id: str, username: str, email:str, password: str, expe
             "$set": {
             "username": username,
             "email": email,
-            "password": password,
+            # "password": password,
             "experience": experience,
             "phone": phone,
             "skills": skills,
@@ -113,7 +117,7 @@ def set_user_profile(user_id: str, username: str, email:str, password: str, expe
 
 # ===== Board Management =====
 
-def create_board(user_id: str, name: str, description: str) -> str: 
+def create_board(user_id: str, name: str, description: str, image_url="") -> str: 
     """
         Creates a new document for the 'boards' collection.
         Returns the ID of the new document
@@ -124,6 +128,7 @@ def create_board(user_id: str, name: str, description: str) -> str:
         "name": name,
         "description": description,
         "tracked_jobs": [],
+        "image_url": image_url,
         "statistics": []
     })
     return str(inserted_document.inserted_id) 
@@ -152,20 +157,19 @@ def get_board(user_id: str, board_id: str):
 # use the pymongo docs if lost: https://pymongo.readthedocs.io/en/stable/
 
 # TODO: LOOK INTO ANY POTENTIAL ERROR CASES
-def edit_board(user_id: str, board_id: str, name: str, description: str):
+def edit_board(user_id: str, board_id: str, name: str, description: str, image_url=""):
     """
         Updates an existing board's details
     """
-
     db.boards.update_one(
         {'user_id' : user_id, '_id': ObjectId(board_id)}, 
-        {'$set' : {"name" : name, 'description' : description}}
+        {'$set' : {"name" : name, 'description' : description, "image_url": image_url}}
     )
     return {
         "new_name": name,
-        "new_description": description
+        "new_description": description,
+        "new_image_url": image_url
     }
-    # Use db.boards.update_one() to update an existing board
 
 # Note: Tim did this. Needed to set the tracked jobs
 def set_tracked_jobs(user_id: str, board_id: str, tracked_jobs):
@@ -230,7 +234,7 @@ def save_favourite_company(user_id: str, company_name: str):  # TODO: more param
             }
         }
     )
-    return "Success"
+    return company_name
 
 def delete_favourite_company(user_id: str, company_name: str):
     # remove the comapny name from favourited_companies array
@@ -244,12 +248,25 @@ def delete_favourite_company(user_id: str, company_name: str):
             }
         }
     )
-    return "Success"
+    return company_name
 
 # ============================================ END KATRINA ============================================
 
 
 # ===== Job Tracking =====
+
+def job_already_tracked(user_id: str, board_id: str, job: dict):
+    """
+        Checks if the job is already being tracked
+    """
+    board = db.boards.find_one(
+        { 
+            "_id": ObjectId(board_id), 
+            "user_id": user_id 
+        }
+    )
+    # TODO: Checking for same title. Not robust
+    return any(each_job["title"] == job["title"] for each_job in board["tracked_jobs"])
 
 def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
     """
@@ -265,8 +282,21 @@ def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
     job_to_track["current_status"] = "application"
     job_to_track["notes"] = ""
     job_to_track["priority"] = 5
+    job_to_track["events"] = [
+        {
+            "name": "Application Deadline",
+            "time": time.time()
+        },
+        {
+            "name": "Interview Date",
+            "time": time.time() + 24 * 60 * 60
+        }
+    ]
     # Assign a random ID. TODO: not robust
     job_to_track["job_id"] = "{}-{}".format(board_id, str(uuid.uuid4()))
+
+    if job_already_tracked(user_id, board_id, job_to_track):
+        raise InvalidUserInput(description="You're already tracking that job")
 
     # Push the new job into the board's tracked_jobs list
     db.boards.update_one(
@@ -310,6 +340,21 @@ def update_job(user_id, board_id, job_id, updated_job):
         }
     )
     return updated_job
+
+def delete_job(user_id, board_id, job_id):
+    """
+        Deletes a given job
+    """
+    target_board = db.boards.update_one({ 
+        "_id": ObjectId(board_id), 
+        "user_id": user_id 
+    }, {
+        "$pull": {
+            "tracked_jobs": { "job_id": job_id }
+        }
+    })
+    return job_id
+
 
 # ===== User Analytics =====
 
@@ -404,7 +449,7 @@ def eliminate_stat_duplicates(board_id: str, job_id: str, new_status: str):
     )
     return new_stats
 
-def fetch_stats(board_id: str):
+def fetch_stats(user_id: str, board_id: str):
     """
         Fetches all stats associated with the given board
     """
@@ -413,6 +458,8 @@ def fetch_stats(board_id: str):
             "_id": ObjectId(board_id)
         }
     )
+    if target_board["user_id"] != user_id:
+        raise InvalidUserInput(description="That board doesn't belong to you")
     if not target_board:
         raise InvalidUserInput(description="Board {} wasn't found".format(board_id))
     return target_board["statistics"]

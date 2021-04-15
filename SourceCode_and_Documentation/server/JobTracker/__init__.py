@@ -5,13 +5,14 @@ This is the root package where:
 - The environment variables are loaded from either .env.development or .env.production
   in the same directory
 """
-from flask import Flask, Blueprint
+import requests
+import json
+from flask import Flask, Blueprint, request, redirect
 from dotenv import load_dotenv
-from pathlib import Path 
+from pathlib import Path
 from JobTracker.utils.colourisation import printColoured
 from flask_pymongo import PyMongo
 from JobTracker.exceptions import error_handler
-from oauthlib.oauth2 import WebApplicationClient
 from flask_restx import Api, Resource
 from flask_cors import CORS
 import pymongo
@@ -37,11 +38,13 @@ CORS(app)
 app.config["SWAGGER_UI_JSONEDITOR"] = True
 app.config["RESUME_UPLOAD_PATH"] = 'resumes'
 
+
 @app.route("/")
 def index_route():
-        return "Hello, looks like this works"
+    return "Hello, looks like this works"
 
 # ===== App Configuration =====
+
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 app.secret_key = SECRET_KEY
@@ -53,10 +56,12 @@ app.register_error_handler(Exception, error_handler)
 # client = pymongo.MongoClient("")
 
 # Creating the database handler:
-client = pymongo.MongoClient("mongodb+srv://tim:1984@jobtrackercluster.vznsj.mongodb.net/jobtracker?retryWrites=true&w=majority")
+client = pymongo.MongoClient(
+    "mongodb+srv://tim:1984@jobtrackercluster.vznsj.mongodb.net/jobtracker?retryWrites=true&w=majority")
 
 # Creating the database handler:
 db = client["jobtracker"]
 
 # The routes must be imported after the Flask application object is created. See https://flask.palletsprojects.com/en/1.1.x/patterns/packages/
+
 import JobTracker.routes

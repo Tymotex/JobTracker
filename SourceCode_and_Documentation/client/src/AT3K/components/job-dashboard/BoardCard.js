@@ -1,4 +1,4 @@
-import Button from '@material-ui/core/Button';
+import { Button } from '../buttons';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -29,13 +29,13 @@ const useStyles = makeStyles({
 });
 
 
-const BoardCard = ({ _id, name, description, selectBoard, fetchBoards }) => {
+const BoardCard = ({ _id, name, description, image_url, selectBoard, fetchBoards }) => {
     const [editModalOpen, setEditModalOpen] = React.useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
     const [boardName, setBoardName] = React.useState(name); 
     const [boardDescription, setBoardDescription] = React.useState(description); 
+    const [boardImageURL, setBoardImageURL] = React.useState(image_url); 
     
-
     const handleEditModelOpen = () => {
         setEditModalOpen(true);
     };
@@ -68,17 +68,10 @@ const BoardCard = ({ _id, name, description, selectBoard, fetchBoards }) => {
                 ]}
                 onItemClick={option => openBoardControlModal(option)}
             />
-            {/* <CardMedia
-                className={classes.media}
-                image=""
-                title="Contemplative Reptile"
-            /> */}
-            <Unsplash 
-                img
-                keywords={name.split(/\s+/).join(", ")}
-                height="150"
+            <CardMedia
+                style={{height: "200px"}}
+                 image={image_url}
             />
-            ^Would be cool to be able to pick an image for your board :o. These are generated from unsplash
             
             <CardContent>
                 <Typography className={classes.title} gutterBottom>
@@ -104,8 +97,12 @@ const BoardCard = ({ _id, name, description, selectBoard, fetchBoards }) => {
                 handleClose={handleCloseEditModal} 
                 open={editModalOpen} 
                 boardID={_id}
+                boardName={boardName}
                 setBoardName={setBoardName}
+                boardDescription={boardDescription}
                 setBoardDescription={setBoardDescription}
+                boardImageURL={boardImageURL}
+                setBoardImageURL={setBoardImageURL}
             />
             <BoardDeleteModal 
                 handleClose={handleCloseDeleteModal} 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-    Button,
     FormControl,
     FormGroup,
     FormLabel,
@@ -9,6 +8,7 @@ import {
     Checkbox,
     Grid
 } from '@material-ui/core';
+import { Button } from '../buttons';
 import styles from "./FunctionsMenu.module.scss";
 import {
 	Modal

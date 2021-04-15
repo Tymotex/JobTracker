@@ -6,8 +6,8 @@ import Fade from '@material-ui/core/Fade';
 import {
 	TextField,
 	Grid,
-	Button
 } from '@material-ui/core';
+import { Button } from '../buttons';
 import GoogleButton from 'react-google-button';
 import styles from './Modal.module.scss';
 import axios from 'axios';
@@ -65,13 +65,19 @@ export default function TransitionsModal() {
 			// TODO: Do something other than force reload the window
 			Cookie.set("user_id", newUserData.data.user_id);
 			Cookie.set("token", newUserData.data.token);
-			Cookie.set("username", formData.get("username"));
 			window.location.reload();
 		})
 		.catch((err) => {
 			Notification.spawnError(err);
 		});
 	}
+
+    // Google Login
+    const signinRedirect = () => {
+        Notification.spawnSuccess("Signing in via Google");
+        window.location.assign("https://localhost:5000/api/auth/googlelogin")
+    }
+
 
 	// ===================================
 
@@ -140,7 +146,7 @@ export default function TransitionsModal() {
 						</form>
 						<p className={styles.register}>Or register with your Google account</p>
 						<GoogleButton className={styles.googleButton}
-							onClick={() => { console.log('Google button clicked') }}
+							onClick={signinRedirect}
 						/>
 					</div>
 				</Fade>

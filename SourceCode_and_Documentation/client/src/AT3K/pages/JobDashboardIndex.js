@@ -1,7 +1,8 @@
 import {
     Box,
-    Button, Grid
+    Grid
 } from '@material-ui/core';
+import { Button } from '../components/buttons';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import {
@@ -88,30 +89,35 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                     )} 
                 </Grid>
             </Grid>
-            <hr />
-            <h2>Favourited Companies</h2>
-            <FadeIn
-                delay={100}
-                transitionDuration={400}
-            >
-                {/* <CardCarousel 
-                    companies={companies}
-                /> */}
-                <Box display='flex'>
-                    {companies && companies.map((eachCompany) => (
-                        <Box m={1}>
-                            <CompanyCard
-                                {...eachCompany}
-                            />
+            <BoardCreateModal 
+                updateBoardList={updateBoardList}
+                handleClose={handleModalClose} 
+                open={modalOpen} 
+            />
+            {companies && companies.length !== 0 && (
+                <>
+                    <hr />
+                    <h2>Favourited Companies</h2>
+                    <FadeIn
+                        delay={100}
+                        transitionDuration={400}
+                    >
+                        {/* <CardCarousel 
+                            companies={companies}
+                        /> */}
+                        <Box display='flex'>
+                            {companies && companies.map((eachCompany) => (
+                                <Box m={1}>
+                                    <CompanyCard
+                                        {...eachCompany}
+                                    />
+                                </Box>
+                            ))}
                         </Box>
-                    ))}
-                </Box>
-                <BoardCreateModal 
-                    updateBoardList={updateBoardList}
-                    handleClose={handleModalClose} 
-                    open={modalOpen} 
-                />
-            </FadeIn>
+                        
+                    </FadeIn>
+                </>
+            )}
         </div>
     )
 }

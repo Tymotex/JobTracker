@@ -3,10 +3,15 @@ import DataGrid, { SelectColumn, TextEditor } from 'react-data-grid';
 import FullscreenMode from './FullscreenMode';
 import Cookie from 'js-cookie';
 import {
-    Button,
     InputLabel,
     MenuItem
 } from '@material-ui/core';
+import {
+    Link
+} from 'react-router-dom';
+import moment from 'moment';
+import DatePicker from 'react-datepicker2';
+import { Button } from '../buttons';
 
 import axios from 'axios';
 import api from '../../constants/api';
@@ -40,29 +45,34 @@ const mapStatusToStr = (currentStatus) => {
 
 // Given the array of trackedJobs, reshapes it to be compatible with mui-datatable's rendering format
 const fitToDataFormat = (trackedJobs) => {
-    return trackedJobs.map(eachJob => ([
-        eachJob.company,
-        eachJob.title,
-        eachJob.date,
-        eachJob.description,
-        eachJob.current_status,
-        eachJob.url,
-        eachJob.locations,
-        eachJob.priority,
-        eachJob.salary,
-        eachJob.notes,
-        eachJob.job_id
-    ]));
+    // Note: the order of this is very important. It must match up exactly with the ordering of columns to be rendered in the right cell
+    // The events for each job casted from object to string. When rendering it, make sure to run JSON.parse()
+    if (trackedJobs) {
+        return trackedJobs.map(eachJob => ([
+            eachJob.company,
+            eachJob.title,
+            eachJob.date,
+            eachJob.description,
+            eachJob.current_status,
+            eachJob.url,
+            eachJob.locations,
+            eachJob.priority,
+            eachJob.salary,
+            JSON.stringify(eachJob.events),
+            eachJob.notes,
+            eachJob.job_id,
+        ]));
+    } else {
+        return [];
+    }
 }
-
-
-
 
 const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) => {
     const [tableBodyHeight, setTableBodyHeight] = useState("100%");
     const [tableBodyMaxHeight, setTableBodyMaxHeight] = useState("");
     const [editingEnabled, setEditingEnabled] = useState(false);
 
+    console.log(trackedJobs);
 
     // Called whenever a text field cell is edited
     const saveCurrBoardState = (newTrackedJobs) => {
@@ -74,11 +84,11 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 tracked_jobs: newTrackedJobs
             }, {
                 headers: {
-                "Content-Type": "application/json"
+                    "Content-Type": "application/json"
                 }
             })
                 .then(() => {
-                    Notification.spawnSuccess("Successfully edited");
+                    Notification.spawnSuccess("Saved changes");
                     setTrackedJobs(newTrackedJobs);
                 })
                 .catch((err) => {
@@ -105,13 +115,29 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             }
         };
         axios(putData)
-            .then((res) => {
-                alert(res.data);
+            .then(() => {
+                Notification.spawnSuccess(`Set a new status for '${updatedJob.title}'`);
             })
             .catch((err) => {
                 Notification.spawnError(err);
             });
     };
+
+    const deleteJob = (rowsDeleted, newTableData) => {
+        console.log(rowsDeleted);
+        const userID = Cookie.get("user_id");
+        if (userID) {
+            // It isn't actually necessary to delete the job, simply remove it from the array
+            // and then setTrackedJobs
+            // setTrackedJobs();
+            const deletedIndices = rowsDeleted.data.map(eachDeletedJob => eachDeletedJob.dataIndex);
+            const newTrackedJobs = [...trackedJobs];
+            deletedIndices.forEach(i => {
+                newTrackedJobs.splice(i, 1);
+            });
+            saveCurrBoardState(newTrackedJobs);
+        }
+    }
 
     // Table cell components
     const EditableField = (currValue, tableMeta) => {
@@ -122,6 +148,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         return (
             <>
                 <TextField 
+                    style={{width: "200px"}}
                     multiline
                     rowsMax={4}
                     onChange={(e) => setNewBoard(e, tableMeta.rowIndex, tableMeta.columnData.name)}
@@ -134,7 +161,14 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
     const DropdownField = (currValue, tableMeta) => {
         const setNewBoard = (event, row, fieldName) => {
             event.preventDefault();
-            trackedJobs[row][fieldName] = event.target.value;
+            const userID = Cookie.get("user_id");
+            if (userID) {
+                trackedJobs[row][fieldName] = event.target.value;
+                console.log(trackedJobs[row].job_id);
+                updateTrackedJobStatus(userID, boardID, trackedJobs[row].job_id, trackedJobs[row], event.target.value)
+            } else {
+                Notification.spawnRegisterError();
+            }
         }
         const options = [
             { label: "Awaiting Application", name: "application" },
@@ -161,6 +195,149 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             </>
         );
     }
+    
+    function DateSelector({ time, name, onConfirm, onDelete }) {
+        const [selectedTime, setSelectedTime] = useState(time);
+        
+        const handleSelectTime = (newTime) => {
+            setSelectedTime(newTime);
+        }
+
+        const submit = (e, name, selectedtime) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            onConfirm(name, formData.get("name"), selectedtime);
+        }
+        
+        return (
+            <>
+                <form onSubmit={(e) => submit(e, name, selectedTime)}>
+                    <TextField 
+                        name="name"
+                        defaultValue={name}
+                        label="Event Name"
+                        autoComplete="off"
+                        variant="outlined"
+                    />
+                    <DatePicker 
+                        value={selectedTime} 
+                        onChange={handleSelectTime} 
+                        showTodayButton={false}
+                    />
+                    <button type="submit">Confirm</button>
+                    {onDelete && (
+                        <button onClick={() => onDelete(name)}>Delete</button>
+                    )}
+                </form>
+            </>
+        );
+    }
+
+    const AddEvent = ({ rowIndex }) => {
+        const createNewEvent = (_, name, time) => {
+            if (!time) Notification.spawnInvalid("Please select a time");
+            else {
+                Notification.spawnSuccess(`Created a new event: '${name}' at ${time}`);
+                trackedJobs[rowIndex].events.push({
+                    name: name,
+                    time: time.unix()
+                });
+                saveCurrBoardState([...trackedJobs]);
+            }
+        }
+
+        return (
+            <div style={{textAlign: "center"}}>
+                <h4>Add New Event {rowIndex}</h4>
+                <DateSelector 
+                    time={0}
+                    name={"Test"}
+                    onConfirm={createNewEvent}
+                />
+            </div>
+        )
+    }
+
+    const EventsSetter = (eventsJSON, tableMeta) => {
+        
+        const row = tableMeta.rowIndex;
+        const editDeadline = (oldName, newName, newTime) => {
+            // FIXME: Find the event with the given name and set the new time. Not robust. Should use ID
+            trackedJobs[row].events.forEach(event => {
+                if (event.name === oldName) {
+                    event.time = newTime.unix();
+                    event.name = newName;
+                    saveCurrBoardState([...trackedJobs]);
+                }
+            });
+        };
+
+        const deleteDeadline = (oldName) => {
+            trackedJobs[row].events = trackedJobs[row].events.filter(e => e.name !== oldName);
+            saveCurrBoardState([...trackedJobs]);
+        }
+        
+        if (eventsJSON) {
+            const events = JSON.parse(eventsJSON);
+            events.sort((a, b) => a.time - b.time);
+            moment.locale("en");
+
+            return (
+                <div style={{ maxHeight: "250px", overflow: "auto" }}>
+                    {events.map(event => (
+                        <div style={{textAlign: "center"}}>
+                            <br />
+                            <DateSelector 
+                                time={moment.unix(event.time)}
+                                name={event.name}
+                                onConfirm={editDeadline}
+                                onDelete={deleteDeadline}
+                            />
+                        </div>
+                    ))}     
+                    <AddEvent 
+                        rowIndex={row}
+                    />
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <AddEvent 
+                        rowIndex={row}
+                    />
+                </div>
+            )
+        }
+        
+    }
+
+    const EventsDisplay = (eventsJSON) => {
+        if (eventsJSON) {
+            const currTime = parseInt(new Date() / 1000);
+            const events = JSON.parse(eventsJSON);
+            events.sort((a, b) => a.time - b.time);
+            moment.locale("en");
+            return (
+                <div>
+                    {events.map(e => (
+                        <div>
+                            <h4>
+                                {e.name}:
+                            </h4> 
+                            <span style={{
+                                textDecoration: (currTime > e.time) ? "line-through" : "none"
+                            }}>
+                                {moment.unix(e.time).format("MM/DD/YYYY (HH:mm A)")}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            )
+        } else {
+            return "";
+        }
+    }
 
     const columns = [
         {
@@ -169,8 +346,15 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             options: {
                 filter: true,
                 sort: true,
-                draggable: true
-            }
+                draggable: true,
+                customBodyRender(companyName) {
+                    return (
+                        <Link to={`/search/company?company=${companyName}`}>
+                            {companyName}
+                        </Link>
+                    );
+                }                
+            },
         },
         {
             name: "title", 
@@ -196,7 +380,8 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             label: "Description", 
             options: {
                 filter: false,
-                draggable: true
+                draggable: true,
+                display: false
             }
         },
         {
@@ -220,17 +405,44 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 draggable: true,
                 sort: false,
                 customBodyRender(value, tableMeta, updateValue) {
-                    return (
-                        <>
-                            <div>
-                                <a href={value} className={styles.link}>Original post</a>
-                            </div>
-                            <br />
-                            <div>
-                                <a href={value} className={styles.link}>Details page</a>
-                            </div>
-                        </>
-                    );
+                    if (value) {
+                        // Take a subset of an object's properties. See: https://stackoverflow.com/questions/17781472/how-to-get-a-subset-of-a-javascript-objects-properties
+                        const data = (({
+                            title,
+                            company,
+                            locations,
+                            url,
+                            description,     // FIXME: This may be too long. Alternatives to passing data to a route?
+                            salary,
+                            date
+                        }) => ({
+                            title,
+                            company,
+                            locations,
+                            url,
+                            description,     // FIXME: This may be too long. Alternatives to passing data to a route?
+                            salary,
+                            date
+                        }))(trackedJobs[tableMeta.rowIndex]);
+                        const searchParams = new URLSearchParams(data);
+                        const moreInfoURL = `/search/details?${searchParams.toString()}`;
+    
+                        return (
+                            <>
+                                <div>
+                                    <a href={value} className={styles.link}>Original post</a>
+                                </div>
+                                <br />
+                                <div>
+                                    <Link to={moreInfoURL}>
+                                        Job details page
+                                    </Link>
+                                </div>
+                            </>
+                        );
+                    } else {
+                        return value;
+                    }
                 }
             }
         },
@@ -259,7 +471,18 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             options: {
                 filter: false,
                 sort: true,
+                display: false,
                 draggable: true,
+            }
+        },
+        {
+            name: "events", 
+            label: "Events", 
+            options: {
+                filter: false,
+                sort: true,
+                draggable: true,
+                customBodyRender: EventsDisplay
             }
         },
         {
@@ -270,6 +493,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 sort: true,
                 draggable: true,
                 hint: "This is a field for jotting down any thoughts you have about this job post",
+                display: false
             }
         },
         {
@@ -279,7 +503,8 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 filter: false,
                 sort: true,
                 draggable: true,
-                hint: "This is for debugging. You shouldn't be able to see this!"
+                hint: "This is for debugging. You shouldn't be able to see this!",
+                display: false
             }
         },
     ];
@@ -290,12 +515,13 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         else col.options.sort = true;
 
         if (editingEnabled) {
-            if (col.name !== "current_status") {
-                col.options.customBodyRender = EditableField;
-            } else {
+            if (col.name === "current_status") {
                 col.options.customBodyRender = DropdownField;
+            } else if (col.name === "events") {
+                col.options.customBodyRender = EventsSetter;
+            } else {
+                col.options.customBodyRender = EditableField;
             }
-
         }
     })
 
@@ -315,12 +541,17 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             filename: {boardID}
         },
         elevation: 6,
-        selectableRowsHeader: false,             // Removed selection checkboxes here!!!
-        selectableRowsHideCheckboxes: true,
-        resizableColumns: true
+        selectableRowsHeader: true,              // Removed selection checkboxes here!!!
+        selectableRowsHideCheckboxes: false,
+        resizableColumns: true,
+        fixedSelectColumn: true,
+        selectableRows: "multiple",
+        onRowsDelete: deleteJob
     });
 
     const data = fitToDataFormat(trackedJobs);
+
+    
 
     return (
 
@@ -333,12 +564,6 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                     if (datatableOptions.filter === false) setOptions({...datatableOptions, filter: true, print: true, viewColumns: true, rowsPerPageOptions: [5, 10, 20, 50] })}
                 }
             >
-                <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)}>
-                    Save board!!!
-                </Button>
-                <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
-                    TOGGLE EDIT MODE
-                </Button>
                 <React.Fragment>
                     <MUIDataTable
                         title={"Tracked Jobs"}
@@ -346,6 +571,14 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                         columns={columns}
                         options={datatableOptions}
                     />
+                    <div style={{textAlign: "center"}}>
+                        <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)} style={{marginRight: "20px"}}>
+                            Save board
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
+                            {(!editingEnabled) ? ("Enter Edit Mode") : ("Exit Edit Mode")}
+                        </Button>
+                    </div>
                 </React.Fragment>
             </FullscreenMode>
     );

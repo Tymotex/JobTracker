@@ -21,10 +21,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function BoardEditModal({ boardID, open, handleClose, boardName, setBoardName, boardDescription, setBoardDescription }) {
+export default function BoardEditModal({ boardID, open, handleClose, boardName, setBoardName, boardDescription, setBoardDescription, boardImageURL, setBoardImageURL }) {
     const classes = useStyles();
-    const [name, setNameField] = useState("");
-    const [description, setDescriptionField] = useState("");
+    const [name, setNameField] = useState(boardName);
+    const [description, setDescriptionField] = useState(boardDescription);
+    const [imageURL, setImageURL] = useState(boardImageURL);
+
 
     const editBoard = (event) => {
         event.preventDefault();
@@ -42,9 +44,10 @@ export default function BoardEditModal({ boardID, open, handleClose, boardName, 
                 .then((res) => {
                     setBoardName(res.data.new_name);
                     setBoardDescription(res.data.new_description);
+                    setBoardImageURL(res.data.new_image_url);
                     Notification.spawnSuccess(`Successfully edited board '${res.data.new_name}'`);
                 })
-                .catch((err) => alert(err));
+                .catch((err) => Notification.spawnError(err));
         } else {
             Notification.spawnRegisterError();
         }
@@ -57,6 +60,10 @@ export default function BoardEditModal({ boardID, open, handleClose, boardName, 
 
     const handleDescriptionType = (event) => {
         setDescriptionField(event.target.value);
+    }
+
+    const handleImageURLType = (event) => {
+        setImageURL(event.target.value);
     }
 
     return (
@@ -99,6 +106,17 @@ export default function BoardEditModal({ boardID, open, handleClose, boardName, 
                                     label="Description"
                                     value={description}
                                     defaultValue={boardDescription}
+                                    variant="outlined"
+                                />
+                                <TextField className={styles.emailBox}
+                                    required
+                                    name="new_image_url"
+                                    multiline
+                                    id="outlined-required"
+                                    onChange={handleImageURLType}
+                                    label="Image URL"
+                                    value={imageURL}
+                                    defaultValue={boardImageURL}
                                     variant="outlined"
                                 />
                             </div>

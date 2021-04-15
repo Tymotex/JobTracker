@@ -22,35 +22,143 @@ import styles from './JobDetails.module.scss';
 import api from "../constants/api";
 import axios from "axios";
 import MapIcon from '@material-ui/icons/Map';
+import Cookie from 'js-cookie';
+import BoardSelectionDropdown from '../components/job-lists/BoardSelectionDropdown';
+import { Notification } from '../components/notification';
+import { ContentLoader } from '../components/loaders';
+import pageStyles from './Page.module.scss';
+
+const iconSize = "small";
+const btnStyle = {
+    margin: '20px 5px'
+};
 
 
-const tags = [
-    "Tag 1",
-    "Tag 2",
-    "Tag 3",
-    "Tag 4",
-    "Tag short",
-    "Tag long long one",
-    "Tag hsdfdsjfsdfdsfweufndnfndsi"
-]
+const companyIconStyle = {
+    borderRadius: '50%',
+    width: '50px',
+    height: '50px',
+    padding: '5px'
+};
 
-const Header = ({ title,
+const Header = ({
+    title,
     company,
     locations,
+    url,
+    description,
     salary,
     date,
-    url
 }) => {
+    const [boards, setBoards] = useState(null);
+    const [selectedBoardID, setSelectedBoardID] = useState(null);
+
+    const handleSelectBoard = (event) => {
+        event.preventDefault();
+        setSelectedBoardID(event.target.value);
+    }
+
+    // ===== GET /api/user/boards =====
+    // If the user is logged in, fetch their boards
+
+    const fetchUserBoards = () => {
+        const userID = Cookie.get("user_id");
+        if (userID) {
+            axios.get(`${api.BASE_URL}/api/user/boards?user_id=${userID}`)
+                .then((response) => {
+                    setBoards(response.data);
+                })
+                .catch((err) => {
+                    Notification.spawnError(err);
+                });
+        } else {
+            Notification.spawnRegisterError();
+        }
+    }
+
+    useEffect(() => {
+        fetchUserBoards();
+    }, []);
+
+    // =========================
+
+    // ===== POST /api/tracker ======
+
+    const trackNewJob = () => {
+        const userID = Cookie.get("user_id");
+        if (userID) {
+            if (!selectedBoardID) {
+                Notification.spawnInvalid("Please select a board first");
+            } else {
+                const jobToTrack = {
+                    title,
+                    company,
+                    locations,
+                    url,
+                    description,
+                    salary,
+                    date,
+                };
+                axios
+                    .post(
+                        `${api.BASE_URL}/api/tracker/`,
+                        {
+                            user_id: userID,
+                            board_id: selectedBoardID,
+                            job_to_track: jobToTrack,
+                        },
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    )
+                    .then((response) => {
+                        Notification.spawnSuccess(`Tracking '${response.data.title}'`);
+                    })
+                    .catch((err) => {
+                        Notification.spawnError(err);
+                    });
+            }
+        } else {
+            Notification.spawnRegisterError();
+        }
+    };
+
+    // ============================
+
+    // ===== POST /api/user/company =====
+
+    const favouriteThisCompany = (companyName) => {
+        const userID = Cookie.get("user_id");
+        if (userID) {
+            const postData = {
+                method: "post",
+                url: `${api.BASE_URL}/api/user/company`,
+                data: {
+                    user_id: userID,
+                    company_name: companyName
+                },
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            };
+            axios(postData)
+                .then((res) => Notification.spawnSuccess(`Saved '${res.data}'`))
+                .catch((err) => Notification.spawnError(err));
+        } else {
+            Notification.spawnRegisterError();
+        }
+    }
+
+    // ============================
+
+
     const jobDetailFields = [
         {
             label: "Posted on",
             value: date,
             icon: CalendarTodayIcon
-        },
-        {
-            label: "Deadline",
-            value: "Tomorrow",
-            icon: EventBusyIcon
         },
         {
             label: "Salary",
@@ -66,37 +174,8 @@ const Header = ({ title,
             label: "Location",
             value: locations,
             icon: MapIcon,
-        },
-        {
-            label: "Category",
-            value: "Computer Science",
-            icon: ListIcon,
-            link: "https://www.google.com",
-        },
- 
-        {
-            value: "Official Website",
-            icon: LinkIcon,
-            link: "https://www.google.com"
         }
-        
     ];
-    const iconSize = "small";
-    const btnStyle = {
-        margin: '20px 5px'
-    };
-
-    const companyIconStyle = {
-        borderRadius: '50%',
-        width: '50px',
-        height: '50px',
-        padding: '5px'
-    };
-
-    const tagStyle = {
-        height: '30px',
-        margin: '5px'
-    };
 
     const handleBack = () => window.history.back();
 
@@ -118,37 +197,31 @@ const Header = ({ title,
                                 style={companyIconStyle}
                                 alt="company icon"
                             />
-                                 <Link
-                                    className={styles.field}
-                                    to={`/search/company?company=${company}`}
-                                >
-                                    {company}
-                                </Link>
+                            <Link
+                                className={styles.field}
+                                to={`/search/company?company=${company}`}
+                            >
+                                {company}
+                            </Link>
                             {/* <a href="/search/company">{company}</a> */}
                         </div>
                         <div className={styles.mainTitle}>
                             {title}
                         </div>
                     </Grid>
-
                     <Grid item direction="row">
-                        <Button  style={btnStyle} variant="outlined" color="secondary" size="small" component="a" href={url}>
-                            View official post
+                        <Button style={btnStyle} variant="outlined" color="secondary" size="small" component="a" href={url}>
+                            View original post
                         </Button>
-                        <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
-                            Save
+                        <Button 
+                            style={btnStyle} 
+                            variant="contained" 
+                            color="primary" 
+                            size="small" 
+                            onClick={() => favouriteThisCompany(company)}
+                        >
+                            Favourite Company ❤️
                         </Button>
-                    </Grid>
-                    <Grid item direction="row">
-                        {tags.map(tag => (
-                            <Chip
-                                avatar={<Avatar><LabelIcon /></Avatar>}
-                                label={tag}
-                                clickable
-                                color="primary"
-                                style={tagStyle}
-                            />
-                        ))}
                     </Grid>
                 </Grid>
             </Grid>
@@ -165,9 +238,21 @@ const Header = ({ title,
                     ))}
 
                     <Grid item>
-                        <Button style={btnStyle} variant="outlined" color="primary" size="large">
-                            Apply for this job
+                        <Button
+                            style={btnStyle}
+                            variant="outlined"
+                            size="large"
+                            color="info"
+                            onClick={trackNewJob}
+                        >
+                            Track This Job
                         </Button>
+
+                        <BoardSelectionDropdown
+                            selectedBoardID={selectedBoardID}
+                            handleSelectBoard={handleSelectBoard}
+                            boards={boards}
+                        />
                     </Grid>
 
                 </Grid>
@@ -180,87 +265,67 @@ const Header = ({ title,
 
 
 const JobDetails = () => {
-    const [jobDescription, setJobDescription] = useState()
+    const [jobDescription, setJobDescription] = useState(null);
     // get data from 
     const search = useLocation().search;
     const params = new URLSearchParams(search);
     const title = params.get('title');
     const company = params.get('company');
+    const basicDescription = params.get("description");
     const locations = params.get('locations');
     const url = params.get('url');
     const salary = params.get('salary');
     const date = params.get('date');
-    //
-
+    
     useEffect(() => {
         axios.get(`${api.BASE_URL}/api/job?url=${url}`)
-            .then(response => setJobDescription(response.data))
+        .then(response => setJobDescription(response.data))
+        .catch(err => {
+            Notification.spawnError(err);
+            setJobDescription(basicDescription);
+        });
     }, [])
+        
+    const isLoading = (jobDescription === null);
 
     return (
         <Layout>
-            <Header url={url} company={company} title={title} salary={salary} locations={locations} date={date}/>
+            <div className={pageStyles.container}>
+                <Header url={url} company={company} title={title} salary={salary} locations={locations} date={date} />
+                <hr />
+                <DescriptionSection title="Description">
+                    {/* NOTE this is probably not safe, but it works */}
+                    {(isLoading) ? (
+                        <ContentLoader />
+                    ) : (
+                        <div>
+                            {basicDescription && (
+                                <div>
+                                    <h3>Basic Details</h3>
+                                    <div>
+                                        {basicDescription}
+                                    </div>
+                                </div>
+                            )}
+                            {jobDescription && jobDescription.post_details && (
+                                <div>
+                                    <h3>
+                                        More Details
+                                    </h3>
+                                    <div dangerouslySetInnerHTML={{ __html: jobDescription && jobDescription.post_details }} />
+                                </div>                          
+                            )}  
+                        </div>
+                    )}
+                </DescriptionSection>
 
-            <hr />
+                <DescriptionSection title="Location">
+                    <JobMap locationQuery={locations} />  {/* Substitute this for actual location query */}
+                </DescriptionSection>
+                <hr />
 
-            <DescriptionSection title="Description">
-                {/* NOTE this is probably not safe, but it works */}
-                <div dangerouslySetInnerHTML={{ __html: jobDescription && jobDescription.post_details }} />
-            </DescriptionSection>
-
-            <DescriptionSection title="Location">
-                <JobMap locationQuery={locations} />  {/* Substitute this for actual location query */}
-            </DescriptionSection>
-
-            {/* <DescriptionSection title="Requirements">
-                There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. 
-                <ul>
-                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-                    <li>Nullam fringilla velit vitae odio pulvinar ultricies.</li>
-                    <li>Fusce rhoncus nunc non ante posuere, eu laoreet ipsum ultricies.</li>
-                </ul>
-
-                <ul>
-                    <li>Sed ac est a elit mattis sagittis et quis orci.</li>
-                    <li>Donec eu nunc aliquet arcu cursus posuere.</li>
-                </ul>
-                <ul>
-                    <li>Integer id velit egestas, blandit felis vel, porttitor mi.</li>
-                    <li>Nulla sit amet ante a tellus elementum vulputate ut ac ante.</li>
-                    <li>Nunc ut nulla vel urna molestie facilisis iaculis ac odio.</li>
-                    <li>Phasellus nec erat nec nibh elementum bibendum.</li>
-                    <li>Fusce in arcu eget nibh eleifend egestas non nec enim.</li>
-                </ul>
-            </DescriptionSection>
-
-            <DescriptionSection title="Missing Skills">
-                    <ul>
-                        <li>Integer id velit egestas, blandit felis vel, porttitor mi.</li>
-                        <li>Nulla sit amet ante a tellus elementum vulputate ut ac ante.</li>
-                        <li>Nunc ut nulla vel urna molestie facilisis iaculis ac odio.</li>
-                        <li>Phasellus nec erat nec nibh elementum bibendum.</li>
-                        <li>Fusce in arcu eget nibh eleifend egestas non nec enim.</li>
-                    </ul>
-            </DescriptionSection>
-
-            <DescriptionSection title="Resource Recommendations">
-                <ul>
-                    <li>Sed ac est a elit mattis sagittis et quis orci.</li>
-                    <li>Donec eu nunc aliquet arcu cursus posuere.</li>
-                </ul>
-                <ul>
-                    <li>Integer id velit egestas, blandit felis vel, porttitor mi.</li>
-                    <li>Nulla sit amet ante a tellus elementum vulputate ut ac ante.</li>
-                    <li>Nunc ut nulla vel urna molestie facilisis iaculis ac odio.</li>
-                    <li>Phasellus nec erat nec nibh elementum bibendum.</li>
-                    <li>Fusce in arcu eget nibh eleifend egestas non nec enim.</li>
-                </ul>
-            </DescriptionSection> */}
-
-            <hr />
-
-            <Footer type="job" />
-
+                <Footer type="job" />
+            </div>
         </Layout>
     );
 };

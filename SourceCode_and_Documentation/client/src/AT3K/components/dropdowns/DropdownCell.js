@@ -23,7 +23,6 @@ class DropdownCell extends React.Component {
   }
 
   onChange(_, value) {
-    alert(value);
     this.props.onRowChange();
     // This will close the dropdown as soon as an option is selected
     // this.props.onCommit()

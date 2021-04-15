@@ -7,6 +7,7 @@ import DescriptionSection from '../components/job-details/DescriptionSection';
 import Footer from '../components/job-details/Footer'; 
 import JobItem from '../components/company-profile/JobItem';
 import { ContentLoader } from '../components/loaders';
+import pageStyles from './Page.module.scss';
 
 import {
     Grid,
@@ -21,12 +22,13 @@ import api from '../constants/api';
 
 import styles from './JobDetails.module.scss';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import Cookie from 'js-cookie';
+import { Notification } from '../components/notification';
 
 	
 const Header = ({name}) => {
 	const [save, setSave] = React.useState(); //TODO
-	const userID = Cookies.get("user_id");
+	const userID = Cookie.get("user_id");
 	
 	useEffect(() => {
 		// load initial state of this company
@@ -58,14 +60,36 @@ const Header = ({name}) => {
 		// if current state is 'already saved', unsave the company
 		if (save) {
 			axios.delete(url)
-				.then(() => setSave(false))
-				.catch(() => alert('Fail to unsave company'))
+				.then((res) => {
+					Notification.spawnSuccess(`Unsaved '${res.data}'`);
+					setSave(false)
+				})
+				.catch((err) => Notification.spawnError(err))
 
 		// if current state is 'not saved', save the company
 		} else {
-			axios.post(url)
-				.then(() => setSave(true))
-				.catch(() => alert('Fail to save company'))
+			const userID = Cookie.get("user_id");
+			if (userID) {
+				const postData = {
+					method: "post",
+					url: `${api.BASE_URL}/api/user/company`,
+					data: {
+						user_id: userID,
+						company_name: name
+					},
+					headers: {
+						"Content-Type": "application/json"
+					}
+				};
+				axios(postData)
+					.then((res) => {
+						Notification.spawnSuccess(`Saved '${res.data}'`);
+						setSave(true);
+					})
+					.catch((err) => Notification.spawnError(err));
+			} else {
+				Notification.spawnRegisterError();
+			}
 		}
 	};
 
@@ -102,9 +126,9 @@ const Header = ({name}) => {
             </Grid>
 
             <Grid item direction="row">
-                <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
+                {/* <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
                     View official Website
-                </Button>
+                </Button> */}
                 <Button style={btnStyle} variant="outlined" color="secondary" size="small" onClick={handleSave}>
                     { save ? "Saved" : "Save" }
                 </Button>
@@ -128,38 +152,40 @@ const CompanyProfile = () => {
 	const isLoading = companyDetails === null;
 	return (
 		<Layout>
-			{(company && company !== "") ? (
-				<>
-					<Header name={company}/>
-					<hr />
-					<DescriptionSection title="About">
-						{isLoading ? (
-							<ContentLoader />
-						) : (
-							<>{companyDetails && companyDetails.company_info.company_details}</>
-						)}
-					</DescriptionSection>
+			<div className={pageStyles.container}>
+				{(company && company !== "") ? (
+					<>
+						<Header name={company}/>
+						<hr />
+						<DescriptionSection title="About">
+							{isLoading ? (
+								<ContentLoader />
+							) : (
+								<>{companyDetails && companyDetails.company_info.company_details}</>
+							)}
+						</DescriptionSection>
 
-					<DescriptionSection title="Recent Jobs">
-						{isLoading ? (
-							<ContentLoader />
-						) : (
-							<>{	companyDetails &&
-								companyDetails.jobs.map((job) => (
-									<JobItem {...job} />
-								))
-							}</>
-						)}
-					</DescriptionSection>
-					<hr />
-		
-					<Footer type="company"/>
-				</>
-			) : (
-				<>
-					No company
-				</>
-			)}
+						<DescriptionSection title="Recent Jobs">
+							{isLoading ? (
+								<ContentLoader />
+							) : (
+								<>{	companyDetails &&
+									companyDetails.jobs.map((job) => (
+										<JobItem {...job} />
+									))
+								}</>
+							)}
+						</DescriptionSection>
+						<hr />
+			
+						<Footer type="company"/>
+					</>
+				) : (
+					<>
+						No company
+					</>
+				)}
+			</div>
 		</Layout>
 
 	);

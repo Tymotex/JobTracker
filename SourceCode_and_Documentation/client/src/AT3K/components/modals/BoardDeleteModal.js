@@ -43,7 +43,7 @@ export default function TransitionsModal({ open, handleClose, boardID, fetchBoar
                     fetchBoards();
                     handleClose();
                 })
-                .catch((err) => alert(err));
+                .catch((err) => Notification.spawnError(err));
         } else {
             Notification.spawnRegisterError();
         }

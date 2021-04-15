@@ -28,9 +28,10 @@ const EllipsesMenu = ({ options, onItemClick }) => {
                 aria-haspopup="true"
                 onClick={handleClick}
             >
-                <MoreVertIcon />
+                <MoreVertIcon style={{background: "white", borderRadius: "50%"}} />
             </IconButton>
             <Menu
+            
                 id="long-menu"
                 anchorEl={anchorEl}
                 keepMounted

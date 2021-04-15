@@ -1,22 +1,19 @@
-import React from 'react';
-import Paper from '@material-ui/core/Paper';
-import styles from './BoardToolbar.module.scss';
-import { BoardDropdown } from '.';
 import {
-    Grid,
-    Button
+    Grid
 } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import React from 'react';
+import { BoardDropdown } from '.';
 import AddNewJob from './AddNewJob';
+import styles from './BoardToolbar.module.scss';
 import CustomiseView from './CustomiseView';
-import RecordSearchBar from './RecordSearchBar';
-import CsvDownload from 'react-json-to-csv';
 
 const BoardToolbar = ({ boardType, handleChangeBoard, trackedJobs, boardID, fetchBoardInfo, fieldsToShow, setFields }) => {
     return (
         <Paper className={styles.toolbar} elevation={3}>
             <div className={styles.content}>
                 <Grid container>
-                    <Grid item xs={6}>
+                    <Grid item xs={8}>
                         <div className={styles.full}>
                             <BoardDropdown 
                                 boardType={boardType} 
@@ -24,12 +21,12 @@ const BoardToolbar = ({ boardType, handleChangeBoard, trackedJobs, boardID, fetc
                             />
                         </div>
                     </Grid>
-                    <Grid item xs={3} className={styles.fullButton}>
+                    <Grid item xs={4} className={styles.fullButton}>
                         <AddNewJob boardID={boardID} fetchBoardInfo={fetchBoardInfo} />
                     </Grid>
-                    <Grid item xs={3} className={styles.fullButton}>
+                    {/* <Grid item xs={3} className={styles.fullButton}>
                         <CustomiseView boardType={boardType} fieldsToShow={fieldsToShow} setFields={setFields} />
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </div>
         </Paper>

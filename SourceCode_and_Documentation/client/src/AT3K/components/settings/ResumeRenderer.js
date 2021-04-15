@@ -43,7 +43,7 @@ const ResumeRenderer = ({ file, setFile, resumeBinaryFile }) => {
             //     }
             // })
                 .then((response) => {
-                    alert("SAVED SUCCESSFULLY")
+                    Notification.spawnSuccess("Saved your resume!")
                 })
                 .catch((err) => {
                     Notification.spawnError(err);
