@@ -35,7 +35,7 @@ const Header = ({name}) => {
 		if (userID) {
 			axios.get(`${api.BASE_URL}/api/user/company?user_id=${userID}`)
 				.then(res => setSave(res.data.indexOf(name) > -1))
-				.catch(err => console.log(err))
+				.catch(err => Notification.spawnError(err))
 		} else {
 			Notification.spawnRegisterError();
 		}

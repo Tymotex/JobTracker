@@ -25,6 +25,7 @@ import axios from 'axios';
 import api from '../constants/api';
 import { Notification } from '../components/notification';
 import { LoadingSpinner } from '../components/loaders';
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 
 // Top nav components:
 import { LoginModal, RegisterModal } from '../components/modals';
@@ -55,6 +56,13 @@ const sideNavItems = [
                 link: `/user/edit/${userID}`
             }
         ]
+    },
+    { id: 35, type: "divider" },
+    {
+        id: 36,
+        label: "Community",
+        link: "/community",
+        icon: <EmojiPeopleIcon />
     },
     { id: 40, type: "divider" },
     { 

@@ -251,7 +251,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 <h4>Add New Event {rowIndex}</h4>
                 <DateSelector 
                     time={0}
-                    name={"Test"}
+                    name={""}
                     onConfirm={createNewEvent}
                 />
             </div>
@@ -538,7 +538,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         download: !editingEnabled,               // Disable some functions if in edit mode
         print: !editingEnabled,
         downloadOptions: {
-            filename: {boardID}
+            filename: `${boardID}.csv`
         },
         elevation: 6,
         selectableRowsHeader: true,              // Removed selection checkboxes here!!!
@@ -554,33 +554,32 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
     
 
     return (
-
-            <FullscreenMode
-                // Switching off filtering, column selection, printing, rows per page selection when in fullscreen mode. This is a workaround for the UI not showing up in fullscreen mode
-                onFullScreenEnter={() => {
-                    if (datatableOptions.filter === true) setOptions({...datatableOptions, filter: false, print: false, viewColumns: false, rowsPerPageOptions: [] })}
-                }
-                onFullScreenExit={() => {
-                    if (datatableOptions.filter === false) setOptions({...datatableOptions, filter: true, print: true, viewColumns: true, rowsPerPageOptions: [5, 10, 20, 50] })}
-                }
-            >
-                <React.Fragment>
-                    <MUIDataTable
-                        title={"Tracked Jobs"}
-                        data={data}
-                        columns={columns}
-                        options={datatableOptions}
-                    />
-                    <div style={{textAlign: "center"}}>
-                        <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)} style={{marginRight: "20px"}}>
-                            Save board
-                        </Button>
-                        <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
-                            {(!editingEnabled) ? ("Enter Edit Mode") : ("Exit Edit Mode")}
-                        </Button>
-                    </div>
-                </React.Fragment>
-            </FullscreenMode>
+        <FullscreenMode
+            // Switching off filtering, column selection, printing, rows per page selection when in fullscreen mode. This is a workaround for the UI not showing up in fullscreen mode
+            onFullScreenEnter={() => {
+                if (datatableOptions.filter === true) setOptions({...datatableOptions, filter: false, print: false, viewColumns: false, rowsPerPageOptions: [] })}
+            }
+            onFullScreenExit={() => {
+                if (datatableOptions.filter === false) setOptions({...datatableOptions, filter: true, print: true, viewColumns: true, rowsPerPageOptions: [5, 10, 20, 50] })}
+            }
+        >
+            <React.Fragment>
+                <MUIDataTable
+                    title={"Tracked Jobs"}
+                    data={data}
+                    columns={columns}
+                    options={datatableOptions}
+                />
+                <div style={{textAlign: "center"}}>
+                    <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)} style={{marginRight: "20px"}}>
+                        Save board
+                    </Button>
+                    <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
+                        {(!editingEnabled) ? ("Enter Edit Mode") : ("Exit Edit Mode")}
+                    </Button>
+                </div>
+            </React.Fragment>
+        </FullscreenMode>
     );
 }
 

@@ -282,16 +282,7 @@ def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
     job_to_track["current_status"] = "application"
     job_to_track["notes"] = ""
     job_to_track["priority"] = 5
-    job_to_track["events"] = [
-        {
-            "name": "Application Deadline",
-            "time": time.time()
-        },
-        {
-            "name": "Interview Date",
-            "time": time.time() + 24 * 60 * 60
-        }
-    ]
+    job_to_track["events"] = []
     # Assign a random ID. TODO: not robust
     job_to_track["job_id"] = "{}-{}".format(board_id, str(uuid.uuid4()))
 

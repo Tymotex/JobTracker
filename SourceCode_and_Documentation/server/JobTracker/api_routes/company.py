@@ -9,11 +9,14 @@ from flask import (
 )
 from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, fields
-
+from JobTracker.exceptions import InvalidUserInput
 
 from wikipediaapi import Wikipedia
 from JobTracker.api_routes.jobs import get_job_postings
 
+from functools import lru_cache
+
+@lru_cache(maxsize=1000)
 def get_company_details(company):
     """
         Params: 
@@ -21,14 +24,18 @@ def get_company_details(company):
         Returns:
             - company_description (str)
     """
+    print("Func get_company_details is called")
     wiki_wiki = Wikipedia('en')
 
-    # try different methods for searching  for the company until something good is returned
-    page = wiki_wiki.page(company + " (company)")
+    try:
+        # try different methods for searching  for the company until something good is returned
+        page = wiki_wiki.page(company + " (company)")
 
-    if not page.exists():
-        page = wiki_wiki.page(company)
-
+        if not page.exists():
+            page = wiki_wiki.page(company)
+    except Exception as err:
+        printColoured(err, colour="red")
+        raise InvalidUserInput(description="Connection timed out. Please try again later")
 
     company_data = page.text
     company_description = company_data.split("\n")[0]
@@ -78,7 +85,8 @@ class CompanyFetch(Resource):
             Getting company info [using opencorporates or wikipedia]
 
             Parameters:
-                - company_name
+                - company
+                - disable_jobs (optional param)
         """
 
         # Get company info through Wikipedia (or opencorporates)
@@ -90,9 +98,24 @@ class CompanyFetch(Resource):
 
         # Filter for the jobs that actually belong to company_name
         request_params = dict(request.args)
-        # print(request_params)
+        print(request_params)
         company_name = request_params["company"]
+        if company_name == "":
+            # Returns nothing if given nothing
+            return  {
+                "company_info": {
+                    "company_details": ""
+                },
+            }
+
         company_details = get_company_details(company_name)
+
+        if "disable_jobs" in request_params and request_params["disable_jobs"] == 'true':    
+            return  {
+                "company_info": {
+                    "company_details": company_details
+                },
+            }
 
         job_resp = get_job_postings("Sydney", company_name, 10, 1, "relevance")
 
@@ -107,6 +130,4 @@ class CompanyFetch(Resource):
             "jobs" : [
                 *job_list
             ]
-        }  
-
-
+        } 

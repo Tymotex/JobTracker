@@ -19,6 +19,7 @@ import Restricted from "./Restricted";
 import Profile from './Profile';
 import ProfileEdit from './ProfileEdit';
 import Cookie from 'js-cookie';
+import Community from "./Community";
 
 /**
   * Routes are created here!
@@ -27,6 +28,10 @@ let routes = [
     {
         path: "/home/:id/:token", // FIXME: Extremely hacky way of getting google auth data
         page: Home
+    },
+    {
+        path: "/community",
+        page: Community
     },
     {
         path: "/home",
@@ -111,7 +116,7 @@ let routes = [
     {
         path: "/faq",
         page: FAQ
-    }
+    },
 ];
 
 const userID = Cookie.get("user_id");
