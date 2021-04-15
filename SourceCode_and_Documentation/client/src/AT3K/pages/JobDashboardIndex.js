@@ -1,5 +1,4 @@
 import {
-    Box,
     Grid
 } from '@material-ui/core';
 import { Button } from '../components/buttons';
@@ -105,15 +104,15 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                         {/* <CardCarousel 
                             companies={companies}
                         /> */}
-                        <Box display='flex'>
+                        <Grid container display='flex'>
                             {companies && companies.map((eachCompany) => (
-                                <Box m={1}>
+                                <Grid item xs={12} sm={6} md={4} lg={3}>
                                     <CompanyCard
                                         {...eachCompany}
                                     />
-                                </Box>
+                                </Grid>
                             ))}
-                        </Box>
+                        </Grid>
                         
                     </FadeIn>
                 </>

@@ -91,25 +91,6 @@ const ProfileEdit = () => {
   return (
     <Layout>
       <div className={pageStyles.container}>
-        Profile {id}
-        {profile && (
-          <div>
-            Username: {profile.username}
-            <br />
-            Email: {profile.email}
-            <br />
-            Education: {profile.education}
-            <br />
-            Experience: {profile.experience}
-            <br />
-            Name: {profile.name}
-            <br />
-            Phone: {profile.phone}
-            <br />
-            Skills: {profile.skills}
-            <br />
-          </div>
-        )}
         <h3>Edit your details here</h3>
         <form>
           Form here for submitting: username, email, experience, phone, skills.

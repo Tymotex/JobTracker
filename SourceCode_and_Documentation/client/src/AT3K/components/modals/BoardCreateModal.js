@@ -58,9 +58,6 @@ export default function TransitionsModal({ open, handleClose, updateBoardList })
 
     // ============================
 
-    const uploadCSV = () => {
-        alert("Unimplemented")
-    }
 
     return (
         <div>
@@ -114,14 +111,6 @@ export default function TransitionsModal({ open, handleClose, updateBoardList })
                                     <Button type="submit" className={styles.registerButton} variant="contained" color="primary">Create</Button>
                                 </Grid>
                             </Grid>
-                            <hr />
-
-                            <div className={styles.textGroup} style={{"textAlign": "center", "marginBottom": "20px" }}>
-                                <h2>Or create a board from CSV</h2>
-                                <Button variant="contained" onClick={uploadCSV}>
-                                    Upload CSV 
-                                </Button>
-                            </div>
                         </form>
                     </div>
                 </Fade>

@@ -20,6 +20,7 @@ import {
 import pageStyles from './Page.module.scss';
 import { ContentLoader } from '../components/loaders';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import ResumeRenderer from "../components/settings/ResumeRenderer";
 
 const theme = createMuiTheme({
     typography: {
@@ -177,22 +178,19 @@ const Profile = () => {
                                         <Box p={3}>
                                             <AttributeContent>
                                             {
-                                                profile.skills.length === 0 
+                                                profile.skills === ""
                                                     ? '[Empty]'
                                                     : (
-                                                        <ul style={{ textAlign: 'left' }}>
-                                                            {
-                                                                profile.skills.map(s => (
-                                                                    <li>{s}</li>
-                                                                ))
-                                                            }
-                                                            
-                                                        </ul>
+                                                        <div>
+                                                            {profile.skills}
+                                                        </div>
                                                     )
                                             }
                                             </AttributeContent>
                                         </Box>
                                     </Box>
+                                    {console.log(profile.resume)}
+                                    <ResumeRenderer file={profile.resume} />
                                     <br />
                                     Find some ideas: https://www.google.com/search?q=user+profile+page+ideas&sxsrf=ALeKk0153cUe1fHXBrfroMjKSWMyiMqZPQ:1618297123586&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjsucTJ0vrvAhU_zjgGHW8zDYIQ_AUoAXoECAEQAw
                                 </Box>

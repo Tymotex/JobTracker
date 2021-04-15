@@ -7,7 +7,8 @@ import {
 import {
 	StatsHeatMap, StatsLineChart,
 	StatsLineChartFilled,
-	StatsPieChart
+	StatsPieChartOutcomes,
+    StatsPieChartStatuses
 } from '../../AT3K/components/statistics';
 import Layout from '../../components/Layout/Layout';
 import Widget from "../../components/Widget/Widget";
@@ -255,7 +256,7 @@ export default function Charts(props) {
                     <Grid item xs={12} md={6}>
                         <Widget title="Visualising where you are" noBodyPadding upperTitle>
                             <ResponsiveContainer width="100%" height={300}>
-                                <StatsPieChart 
+                                <StatsPieChartStatuses 
                                     theme={theme} 
                                     pieChartData={currentProgress}
                                     boards={boards}
@@ -270,7 +271,7 @@ export default function Charts(props) {
                         />
                         <Widget title="Visualising your overall outcomes" noBodyPadding upperTitle>
                             <ResponsiveContainer width="100%" height={300}>
-                                <StatsPieChart 
+                                <StatsPieChartOutcomes 
                                     theme={theme} 
                                     pieChartData={overallStats}
                                     boards={boards}

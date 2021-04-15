@@ -31,7 +31,7 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
-    maxWidth: 300,
+    maxWidth: 300
   },
   bullet: {
     display: 'inline-block',
@@ -56,7 +56,7 @@ const CompanyCard = ({ name, description, link }) => {
           {name}
         </Typography>
         <Typography variant="body2" component="p">
-          {description}
+          {description.substring(0, 200) + "..."}
         </Typography>
       </CardContent>
       <CardActions>

@@ -176,11 +176,6 @@ const StatsPieChart = ({ theme, pieChartData, boards, selectedBoardID }) => {
             );
         }
 
-            
-        
-        
-        
-        
         return (
             <PieChart width={500} height={300}>
                 <Pie
