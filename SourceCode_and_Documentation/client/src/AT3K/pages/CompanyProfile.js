@@ -23,62 +23,6 @@ import styles from './JobDetails.module.scss';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-
-const recentJobs = [
-	{
-		title: "title 1",
-		location: "Sydney, Australia",
-		postTime: "10th Mar 2021"
-	},
-	{
-		title: "title 2",
-		location: "Sydney, Australia",
-		postTime: "10th Mar 2021"
-	},
-	{
-		title: "title 3",
-		location: "Sydney, Australia",
-		postTime: "10th Mar 2021"
-	},
-	{
-		title: "title 4",
-		location: "Sydney, Australia",
-		postTime: "10th Mar 2021"
-	},
-	{
-		title: "title 5",
-		location: "Sydney, Australia",
-		postTime: "10th Mar 2021"
-	},
-	{
-		title: "title 6",
-		location: "Sydney, Australia",
-		postTime: "10th Mar 2021"
-	},
-	{
-		title: "title 7",
-		location: "Sydney, Australia",
-		postTime: "10th Mar 2021"
-	},
-	{
-		title: "title 8",
-		location: "Sydney, Australia",
-		postTime: "10th Mar 2021"
-	},
-	{
-		title: "title 9",
-		location: "Sydney, Australia",
-		postTime: "10th Mar 2021"
-	},
-	{
-		title: "title 10",
-		location: "Sydney, Australia",
-		postTime: "10th Mar 2021"
-	}
-
-]
-
-
 	
 const Header = ({name}) => {
 	const [save, setSave] = React.useState(); //TODO

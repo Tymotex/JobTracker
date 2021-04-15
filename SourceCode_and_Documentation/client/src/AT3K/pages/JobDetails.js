@@ -24,7 +24,6 @@ import axios from "axios";
 import MapIcon from '@material-ui/icons/Map';
 
 
-
 const tags = [
     "Tag 1",
     "Tag 2",
@@ -99,15 +98,17 @@ const Header = ({ title,
         margin: '5px'
     };
 
+    const handleBack = () => window.history.back();
+
     return (
         <Grid container justify="space-between">
             <Grid item xs={7}>
                 <Grid container direction="column">
                     <Grid item>
-                        <Link className={styles.iconLabelSet}>
-                            <ArrowBackIcon id="back" fontSize="large" />
-                            <label for="back">Back </label>
-                        </Link>
+                        <Button onClick={handleBack} className={styles.iconLabelSet}>
+                            <ArrowBackIcon id="back" fontSize="large"/> 
+                            <label for="back">Back</label>
+                        </Button>
                     </Grid>
 
                     <Grid item>
