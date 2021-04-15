@@ -134,6 +134,7 @@ const Header = ({
     // ===== POST /api/user/company =====
 
     const favouriteThisCompany = (companyName) => {
+        console.log(companyName);
         const userID = Cookie.get("user_id");
         if (userID) {
             const postData = {

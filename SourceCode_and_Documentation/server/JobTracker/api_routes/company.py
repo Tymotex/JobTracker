@@ -97,6 +97,14 @@ class CompanyFetch(Resource):
         request_params = dict(request.args)
         print(request_params)
         company_name = request_params["company"]
+        if company_name == "":
+            # Returns nothing if given nothing
+            return  {
+                "company_info": {
+                    "company_details": ""
+                },
+            }
+
         company_details = get_company_details(company_name)
 
         if "disable_jobs" in request_params and request_params["disable_jobs"] == 'true':    

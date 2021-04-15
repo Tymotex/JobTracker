@@ -5,19 +5,19 @@ import { Grid, Button } from "@material-ui/core";
 import styles from "./JobItem.module.scss";
 
 const JobItem = (props) => {
-	const {title, company, date, url, locations, salary} = props;
+  const { title, company, date, url, locations, salary } = props;
 
-	const data = {
-		title,
-		company,
-		locations,
-		url,
-		salary,
-		date,
-	  };
-	
-	  const searchParams = new URLSearchParams(data);
-	  const moreInfoURL = `/search/details?${searchParams.toString()}`;
+  const data = {
+    title,
+    company,
+    locations,
+    url,
+    salary,
+    date,
+  };
+
+  const searchParams = new URLSearchParams(data);
+  const moreInfoURL = `/search/details?${searchParams.toString()}`;
 
   return (
     <Button
