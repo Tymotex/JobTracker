@@ -11,6 +11,7 @@ import { Avatar, Box, Button, Container, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "./ProfileEdit.module.scss";
+import FadeIn from "react-fade-in";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,83 +91,85 @@ const ProfileEdit = () => {
 
   return (
     <Layout>
-      <div className={pageStyles.container}>
-        <h3>Edit your details here</h3>
-        <form>
-          Form here for submitting: username, email, experience, phone, skills.
-          Use Material ui forms: https://material-ui.com/components/text-fields/
-        </form>
-        <form className={styles.form} onSubmit={setUserProfile}>
-          <Avatar />
+      <FadeIn>
+        <div className={pageStyles.container}>
+          <h3>Edit your details here</h3>
+          <form>
+            Form here for submitting: username, email, experience, phone, skills.
+            Use Material ui forms: https://material-ui.com/components/text-fields/
+          </form>
+          <form className={styles.form} onSubmit={setUserProfile}>
+            <Avatar />
 
-          <TextField
-            id="outlined-basic"
-            label="Username"
-            variant="outlined"
-            onChange={(e) => handleChangeText(e, "username")}
-            value={profile ? profile.username : ""}
-          />
+            <TextField
+              id="outlined-basic"
+              label="Username"
+              variant="outlined"
+              onChange={(e) => handleChangeText(e, "username")}
+              value={profile ? profile.username : ""}
+            />
 
-          <TextField
-            id="outlined-basic"
-            label="Email"
-            variant="outlined"
-            onChange={(e) => handleChangeText(e, "email")}
-            value={profile ? profile.email : ""}
-          />
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              variant="outlined"
+              onChange={(e) => handleChangeText(e, "email")}
+              value={profile ? profile.email : ""}
+            />
 
-          <TextField
-            id="outlined-basic"
-            label="Education"
-            variant="outlined"
-            onChange={(e) => handleChangeText(e, "education")}
-            value={profile ? profile.education : ""}
-          />
+            <TextField
+              id="outlined-basic"
+              label="Education"
+              variant="outlined"
+              onChange={(e) => handleChangeText(e, "education")}
+              value={profile ? profile.education : ""}
+            />
 
-          <TextField
-            id="outlined-basic"
-            label="Experience"
-            variant="outlined"
-            onChange={(e) => handleChangeText(e, "experience")}
-            value={profile ? profile.experience : ""}
-          />
+            <TextField
+              id="outlined-basic"
+              label="Experience"
+              variant="outlined"
+              onChange={(e) => handleChangeText(e, "experience")}
+              value={profile ? profile.experience : ""}
+            />
 
-          <TextField
-            id="outlined-basic"
-            label="Name"
-            variant="outlined"
-            onChange={(e) => handleChangeText(e, "name")}
-            value={profile ? profile.name : ""}
-          />
+            <TextField
+              id="outlined-basic"
+              label="Name"
+              variant="outlined"
+              onChange={(e) => handleChangeText(e, "name")}
+              value={profile ? profile.name : ""}
+            />
 
-          <TextField
-            id="outlined-basic"
-            label="Phone"
-            variant="outlined"
-            onChange={(e) => handleChangeText(e, "phone")}
-            value={profile ? profile.phone : ""}
-          />
+            <TextField
+              id="outlined-basic"
+              label="Phone"
+              variant="outlined"
+              onChange={(e) => handleChangeText(e, "phone")}
+              value={profile ? profile.phone : ""}
+            />
 
-          <TextField
-            id="outlined-basic"
-            label="Skills"
-            variant="outlined"
-            onChange={(e) => handleChangeText(e, "skills")}
-            value={profile ? profile.skills : ""}
-          />
-          <hr />
-          <div>
-            <Button
-              type="submit"
-              value="Submit"
-              variant="contained"
-              style={{ marginLeft: "20px" }}
-            >
-              Save changes
-            </Button>
-          </div>
-        </form>
-      </div>
+            <TextField
+              id="outlined-basic"
+              label="Skills"
+              variant="outlined"
+              onChange={(e) => handleChangeText(e, "skills")}
+              value={profile ? profile.skills : ""}
+            />
+            <hr />
+            <div>
+              <Button
+                type="submit"
+                value="Submit"
+                variant="contained"
+                style={{ marginLeft: "20px" }}
+              >
+                Save changes
+              </Button>
+            </div>
+          </form>
+        </div>
+      </FadeIn>
     </Layout>
   );
 };

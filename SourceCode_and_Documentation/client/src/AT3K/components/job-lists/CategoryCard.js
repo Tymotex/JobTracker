@@ -16,7 +16,7 @@ export default function ImgMediaCard({ image, title }) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} variant="outlined">
       <CardActionArea>
         <CardMedia
           component="img"
@@ -26,7 +26,7 @@ export default function ImgMediaCard({ image, title }) {
           title={title}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h5" component="h2" style={{textAlign: "center"}}>
             {title}
           </Typography>
         </CardContent>

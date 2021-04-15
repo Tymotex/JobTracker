@@ -7,6 +7,7 @@ import Cookie from 'js-cookie';
 import { useEffect } from 'react';
 import { Notification } from '../components/notification';
 import pageStyles from './Page.module.scss';
+import FadeIn from 'react-fade-in';
 
 const JobSearch = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -80,43 +81,47 @@ const JobSearch = () => {
 
     return (
         <Layout>
-			<div className={pageStyles.container}>
-                <h1>Job Search</h1>
-                <JobSearchToolbar 
-                    searchQuery={searchQuery}
-                    handleSearch={handleSearch}
-                    locationQuery={locationQuery}
-                    handleLocationSearch={handleLocationSearch}
-                    boards={boards}
-                    selectedBoardID={selectedBoardID}
-                    handleSelectBoard={handleSelectBoard}
-                    fetchJobPosts={fetchJobPosts}
-                    resultsPerPage={resultsPerPage}
-                    pageNum={pageNum}
-                />
-                {(searchQuery === "") ? (
-                    <JobSelectionMenu
-                        searchValue={searchQuery}
-                        onSearch={handleSearch}
-                        handleSelectCategory={handleSelectCategory}
-                    />
-                ) : (
-                    <JobList
+            <FadeIn>
+                <div className={pageStyles.container}>
+                    {(searchQuery === "") && (
+                        <h1>Job Search</h1>
+                    )}
+                    <JobSearchToolbar 
+                        searchQuery={searchQuery}
+                        handleSearch={handleSearch}
+                        locationQuery={locationQuery}
+                        handleLocationSearch={handleLocationSearch}
+                        boards={boards}
                         selectedBoardID={selectedBoardID}
-                        pageNum={pageNum}
+                        handleSelectBoard={handleSelectBoard}
                         fetchJobPosts={fetchJobPosts}
-                        searchValue={searchQuery}
-                        onSearch={handleSearch}
-                        numResults={numResults}
-                        pageCount={pageCount}
-                        jobList={jobList}
                         resultsPerPage={resultsPerPage}
-                        setResultsPerPage={setResultsPerPage}
-                        sortStrategy={sortStrategy}
-                        handleSetSortStrategy={handleSetSortStrategy}
+                        pageNum={pageNum}
                     />
-                )}
-            </div>
+                    {(searchQuery === "") ? (
+                        <JobSelectionMenu
+                            searchValue={searchQuery}
+                            onSearch={handleSearch}
+                            handleSelectCategory={handleSelectCategory}
+                        />
+                    ) : (
+                        <JobList
+                            selectedBoardID={selectedBoardID}
+                            pageNum={pageNum}
+                            fetchJobPosts={fetchJobPosts}
+                            searchValue={searchQuery}
+                            onSearch={handleSearch}
+                            numResults={numResults}
+                            pageCount={pageCount}
+                            jobList={jobList}
+                            resultsPerPage={resultsPerPage}
+                            setResultsPerPage={setResultsPerPage}
+                            sortStrategy={sortStrategy}
+                            handleSetSortStrategy={handleSetSortStrategy}
+                        />
+                    )}
+                </div>
+            </FadeIn>
         </Layout>
     );
 };

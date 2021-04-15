@@ -23,6 +23,7 @@ import {
   useLayoutDispatch,
   toggleSidebar,
 } from "../../context/LayoutContext";
+import { Link } from "react-router-dom";
 
 export default function Header(props) {
   var classes = useStyles();
@@ -63,7 +64,9 @@ export default function Header(props) {
           )}
         </IconButton>
         <Typography variant="h6" weight="medium" className={classes.logotype}>
-          <strong>employ</strong>.me <AssistantIcon style={{fontSize: "85%"}} />
+          <Link to="/" style={{textDecoration: "none", color: "white"}}>
+            <strong style={{color: "blueviolet"}}>employ</strong>.me <AssistantIcon style={{fontSize: "85%"}} />
+          </Link>
         </Typography>
         <div className={classes.grow} />
         {props.children}

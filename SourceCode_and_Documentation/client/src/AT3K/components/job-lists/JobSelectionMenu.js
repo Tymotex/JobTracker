@@ -33,7 +33,7 @@ const categories = [
     title: "Environmental Engineering",
   },
   {
-    image: "https://images.unsplash.com/photo-1579364965676-a11fbf2810dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1776&q=80",
+    image: "https://images.unsplash.com/photo-1516849677043-ef67c9557e16?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
     title: "Aerospace Engineering",
   },
   {
@@ -61,7 +61,7 @@ const categories = [
 const JobSelectionMenu = ({ onSearch, searchQuery, handleSelectCategory }) => {
   return (
     <Paper elevation={5} style={{padding: "20px"}}>
-      <h2 style={{textAlign: "center"}}>Quick select category of job</h2>
+      <h1 style={{textAlign: "center"}}>Quick Selection of Job Category</h1>
       <hr />
       <div>
         <Grid container>

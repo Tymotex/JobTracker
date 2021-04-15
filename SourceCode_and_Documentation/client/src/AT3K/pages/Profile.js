@@ -24,6 +24,7 @@ import { ContentLoader } from '../components/loaders';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import ResumeRenderer from "../components/settings/ResumeRenderer";
 import { CommentsList } from "../components/profile";
+import FadeIn from 'react-fade-in';
 
 const theme = createMuiTheme({
     typography: {
@@ -90,129 +91,131 @@ const Profile = () => {
     const isLoading = false && (profile === null);
     return (
         <Layout>
-            <div className={pageStyles.container}>
-                {isLoading ? (
-                    <ContentLoader />
-                ) : (
-                    <>
-                        {profile && (
-                            <ThemeProvider theme={theme}>
-                                <Box 
-                                    display='flex' 
-                                    alignItems='center'
-                                    flexDirection='column'
-                                    p={3}
-                                >
-                                    <Box p={3} alignItem="center">
-                                        <Box textAlign="center">
-                                            <img width="200px" alt="profile_img" src={profile.image_url} />
-                                        </Box>
-                                        <Box p={2}>
-                                            <Typography 
-                                                align="center" 
-                                                variant="h3" 
-                                                component="h3" 
-                                                color='textPrimary'
+            <FadeIn>
+                <div className={pageStyles.container}>
+                    {isLoading ? (
+                        <ContentLoader />
+                    ) : (
+                        <>
+                            {profile && (
+                                <ThemeProvider theme={theme}>
+                                    <Box 
+                                        display='flex' 
+                                        alignItems='center'
+                                        flexDirection='column'
+                                        p={3}
+                                    >
+                                        <Box p={3} alignItem="center">
+                                            <Box textAlign="center">
+                                                <img width="200px" alt="profile_img" src={profile.image_url} />
+                                            </Box>
+                                            <Box p={2}>
+                                                <Typography 
+                                                    align="center" 
+                                                    variant="h3" 
+                                                    component="h3" 
+                                                    color='textPrimary'
+                                                >
+                                                    {profile.username}
+                                                </Typography>
+                                                <Typography width="100%" align="center" variant="caption" color="textSecondary">
+                                                    User ID: {profileUserID}
+                                                </Typography>
+
+                                            </Box>
+                                            <Button 
+                                                component={Link} 
+                                                to={`/user/edit/${profileUserID}`} 
+                                                variant="outlined"
+                                                style={{ width: '100%' }}
                                             >
-                                                {profile.username}
-                                            </Typography>
-                                            <Typography width="100%" align="center" variant="caption" color="textSecondary">
-                                                User ID: {profileUserID}
-                                            </Typography>
-
+                                                Edit Your Profile
+                                            </Button>
                                         </Box>
-                                        <Button 
-                                            component={Link} 
-                                            to={`/user/edit/${profileUserID}`} 
-                                            variant="outlined"
-                                            style={{ width: '100%' }}
-                                        >
-                                            Edit Your Profile
-                                        </Button>
-                                    </Box>
-                                    <Divider width="400px" />
-                                    <Box p={3}>
-                                        <AttributeTitle>Email</AttributeTitle>
+                                        <Divider width="400px" />
                                         <Box p={3}>
-                                            <AttributeContent>{profile.email}</AttributeContent>
+                                            <AttributeTitle>Email</AttributeTitle>
+                                            <Box p={3}>
+                                                <AttributeContent>{profile.email}</AttributeContent>
+                                            </Box>
                                         </Box>
-                                    </Box>
-                                    <Box p={3}>
-                                        <AttributeTitle>Education</AttributeTitle>
                                         <Box p={3}>
-                                            <AttributeContent>
-                                                {profile.education ?? '[Empty]'}
-                                            </AttributeContent>
+                                            <AttributeTitle>Education</AttributeTitle>
+                                            <Box p={3}>
+                                                <AttributeContent>
+                                                    {profile.education ?? '[Empty]'}
+                                                </AttributeContent>
+                                            </Box>
                                         </Box>
-                                    </Box>
-                                    <Box p={3}>
-                                        <AttributeTitle>Experience</AttributeTitle>
                                         <Box p={3}>
-                                            <AttributeContent>
-                                            {
-                                                profile.experience  === ''
-                                                    ? '[Empty]'
-                                                    : profile.experience
-                                            }
-                                            </AttributeContent>
-                                        </Box>
-                                    </Box>
-                                    <Box p={3}>
-                                        <AttributeTitle>Name</AttributeTitle>
-                                        <Box p={3}>
-                                            <AttributeContent>
-                                                {profile.name ?? '[Empty]'}
-                                            </AttributeContent>
-                                        </Box>
-                                    </Box>
-                                    <Box p={3}>
-                                        <AttributeTitle> Phone</AttributeTitle>
-                                        <Box p={3}>
-                                            <AttributeContent>
+                                            <AttributeTitle>Experience</AttributeTitle>
+                                            <Box p={3}>
+                                                <AttributeContent>
                                                 {
-                                                    profile.phone === ''
+                                                    profile.experience  === ''
                                                         ? '[Empty]'
-                                                        : profile.phone
+                                                        : profile.experience
                                                 }
-                                            </AttributeContent>
+                                                </AttributeContent>
+                                            </Box>
                                         </Box>
-                                    </Box>
-                                    <Box p={3}>
-                                        <AttributeTitle>Skills</AttributeTitle>
                                         <Box p={3}>
-                                            <AttributeContent>
-                                            {
-                                                profile.skills === ""
-                                                    ? '[Empty]'
-                                                    : (
-                                                        <div>
-                                                            {profile.skills}
-                                                        </div>
-                                                    )
-                                            }
-                                            </AttributeContent>
+                                            <AttributeTitle>Name</AttributeTitle>
+                                            <Box p={3}>
+                                                <AttributeContent>
+                                                    {profile.name ?? '[Empty]'}
+                                                </AttributeContent>
+                                            </Box>
                                         </Box>
-                                    </Box>
-                                    <Paper>
-                                        <Container>
-                                            <h2 style={{textAlign: "center"}}>{profile.username}'s Resume</h2>
-                                            <hr />
+                                        <Box p={3}>
+                                            <AttributeTitle> Phone</AttributeTitle>
+                                            <Box p={3}>
+                                                <AttributeContent>
+                                                    {
+                                                        profile.phone === ''
+                                                            ? '[Empty]'
+                                                            : profile.phone
+                                                    }
+                                                </AttributeContent>
+                                            </Box>
+                                        </Box>
+                                        <Box p={3}>
+                                            <AttributeTitle>Skills</AttributeTitle>
+                                            <Box p={3}>
+                                                <AttributeContent>
+                                                {
+                                                    profile.skills === ""
+                                                        ? '[Empty]'
+                                                        : (
+                                                            <div>
+                                                                {profile.skills}
+                                                            </div>
+                                                        )
+                                                }
+                                                </AttributeContent>
+                                            </Box>
+                                        </Box>
+                                        <Paper>
+                                            <Container>
+                                                <h2 style={{textAlign: "center"}}>{profile.username}'s Resume</h2>
+                                                <hr />
 
-                                            <ResumeRenderer 
-                                                file={`${api.BASE_URL}/api/user/resume?user_id=${profileUserID}&dummy=${parseInt(Math.random() * 1000000)}`}   // Note: the dummy arg is used to work around caching https://stackoverflow.com/questions/728616/disable-cache-for-some-images
-                                                showUploadButton={false} 
-                                                showPages={false} 
-                                            />
-                                        </Container>
-                                    </Paper>
-                                    <CommentsList />
-                                </Box>
-                            </ThemeProvider>
-                        )}
-                        
-                    </>
-                )}
-            </div>
+                                                <ResumeRenderer 
+                                                    file={`${api.BASE_URL}/api/user/resume?user_id=${profileUserID}&dummy=${parseInt(Math.random() * 1000000)}`}   // Note: the dummy arg is used to work around caching https://stackoverflow.com/questions/728616/disable-cache-for-some-images
+                                                    showUploadButton={false} 
+                                                    showPages={false} 
+                                                />
+                                            </Container>
+                                        </Paper>
+                                        <CommentsList />
+                                    </Box>
+                                </ThemeProvider>
+                            )}
+                            
+                        </>
+                    )}
+                </div>
+            </FadeIn>
         </Layout>
     );
 };

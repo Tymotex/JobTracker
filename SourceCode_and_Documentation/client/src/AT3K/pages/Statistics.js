@@ -19,6 +19,7 @@ import api from "../constants/api";
 import axios from "axios";
 import Cookie from 'js-cookie';
 import { Notification } from "../components/notification";
+import FadeIn from "react-fade-in";
 
 const currentProgress = [
     { name: "No Application", value: 20 },
@@ -184,104 +185,106 @@ export default function Charts(props) {
 
     return (
         <Layout>
-            <div className={pageStyles.container}>
-                <h1>Your Statistics</h1>
-                <Grid container>
-                    <Grid item xs={12}>
-                        <DropdownHierarchical 
-                            onChange={handleSelectTimePeriod}
-                            options={timeRangeOptions}
-                            value={"last 7 days"}
-                        />
+            <FadeIn>
+                <div className={pageStyles.container}>
+                    <h1>Your Statistics</h1>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <DropdownHierarchical 
+                                onChange={handleSelectTimePeriod}
+                                options={timeRangeOptions}
+                                value={"last 7 days"}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Dropdown
+                                label="Activity Type"
+                                value={activityType}
+                                onChange={handleSelectActivity}
+                                items={[
+                                    {
+                                        text: "All activities",
+                                        value: "all"
+                                    },
+                                    {
+                                        text: "Awaiting Application",
+                                        value: "application"
+                                    },
+                                    {
+                                        text: "Resume Sent",
+                                        value: "resume"
+                                    },
+                                    {
+                                        text: "Interview Stage",
+                                        value: "interview"
+                                    },
+                                    {
+                                        text: "Finalised",
+                                        value: "final"
+                                    }
+                                ]}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <BoardSelectionDropdown
+                                selectedBoardID={selectedBoardID}
+                                handleSelectBoard={handleSelectBoard}
+                                boards={boards}
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                        <Dropdown
-                            label="Activity Type"
-                            value={activityType}
-                            onChange={handleSelectActivity}
-                            items={[
-                                {
-                                    text: "All activities",
-                                    value: "all"
-                                },
-                                {
-                                    text: "Awaiting Application",
-                                    value: "application"
-                                },
-                                {
-                                    text: "Resume Sent",
-                                    value: "resume"
-                                },
-                                {
-                                    text: "Interview Stage",
-                                    value: "interview"
-                                },
-                                {
-                                    text: "Finalised",
-                                    value: "final"
-                                }
-                            ]}
-                        />
+                    <Grid container spacing={4}>
+                        <Grid item xs={12} md={12}>
+                            <Widget title="Your activity the past week" upperTitle noBodyPadding>
+                                <ResponsiveContainer width="100%" height={400}>
+                                    <StatsLineChartFilled startTimePeriod={startTimePeriod} theme={theme} activityType={activityType} activityStats={activityStats} />
+                                </ResponsiveContainer>
+                            </Widget>
+                        </Grid>
+                        <Grid item xs={12} md={12}>
+                            <Widget title="Number of applications made" upperTitle noBodyPadding>
+                                <ResponsiveContainer width="100%" height={400}>
+                                    <StatsHeatMap />
+                                </ResponsiveContainer>
+                            </Widget>
+                        </Grid>
+                        {/* <Grid item xs={12} md={8}>
+                            <Widget title="" noBodyPadding upperTitle>
+                                <ResponsiveContainer width="100%" height={350}>
+                                    <StatsLineChart theme={theme} />
+                                </ResponsiveContainer>
+                            </Widget>
+                        </Grid> */}
+                        <Grid item xs={12} md={6}>
+                            <Widget title="Visualising where you are" noBodyPadding upperTitle>
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <StatsPieChartStatuses 
+                                        theme={theme} 
+                                        pieChartData={currentProgress}
+                                        boards={boards}
+                                        selectedBoardID={selectedBoardID}
+                                    />
+                                </ResponsiveContainer>
+                            </Widget>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <DropdownHierarchical 
+                                options={outcomeOptions}
+                            />
+                            <Widget title="Visualising your overall outcomes" noBodyPadding upperTitle>
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <StatsPieChartOutcomes 
+                                        theme={theme} 
+                                        pieChartData={overallStats}
+                                        boards={boards}
+                                        selectedBoardID={selectedBoardID}
+                                    />
+                                </ResponsiveContainer>
+                            </Widget>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                        <BoardSelectionDropdown
-                            selectedBoardID={selectedBoardID}
-                            handleSelectBoard={handleSelectBoard}
-                            boards={boards}
-                        />
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4}>
-                    <Grid item xs={12} md={12}>
-                        <Widget title="Your activity the past week" upperTitle noBodyPadding>
-                            <ResponsiveContainer width="100%" height={400}>
-                                <StatsLineChartFilled startTimePeriod={startTimePeriod} theme={theme} activityType={activityType} activityStats={activityStats} />
-                            </ResponsiveContainer>
-                        </Widget>
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                        <Widget title="Number of applications made" upperTitle noBodyPadding>
-                            <ResponsiveContainer width="100%" height={400}>
-                                <StatsHeatMap />
-                            </ResponsiveContainer>
-                        </Widget>
-                    </Grid>
-                    {/* <Grid item xs={12} md={8}>
-                        <Widget title="" noBodyPadding upperTitle>
-                            <ResponsiveContainer width="100%" height={350}>
-                                <StatsLineChart theme={theme} />
-                            </ResponsiveContainer>
-                        </Widget>
-                    </Grid> */}
-                    <Grid item xs={12} md={6}>
-                        <Widget title="Visualising where you are" noBodyPadding upperTitle>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <StatsPieChartStatuses 
-                                    theme={theme} 
-                                    pieChartData={currentProgress}
-                                    boards={boards}
-                                    selectedBoardID={selectedBoardID}
-                                />
-                            </ResponsiveContainer>
-                        </Widget>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <DropdownHierarchical 
-                            options={outcomeOptions}
-                        />
-                        <Widget title="Visualising your overall outcomes" noBodyPadding upperTitle>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <StatsPieChartOutcomes 
-                                    theme={theme} 
-                                    pieChartData={overallStats}
-                                    boards={boards}
-                                    selectedBoardID={selectedBoardID}
-                                />
-                            </ResponsiveContainer>
-                        </Widget>
-                    </Grid>
-                </Grid>
-            </div>
+                </div>
+            </FadeIn>
         </Layout>
     );
 }
