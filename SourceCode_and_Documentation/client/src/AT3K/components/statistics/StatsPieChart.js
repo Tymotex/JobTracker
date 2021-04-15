@@ -75,11 +75,31 @@ const StatsPieChart = ({ theme, pieChartData, boards, selectedBoardID }) => {
 
         // TODO: This array is dummy data. Fill it out with the real data:
         // Activities to filter for (exact strings): "application", "resume", "interview", "final"
+        var appCount = 0, resumeCount = 0, interviewCount = 0, finalCount = 0;
+        if (selectedBoardID == null) {
+            for (var i = 0; i < globalStats.length; i++) {
+                const activity = globalStats[i]["activity"];
+                if (activity === "application") appCount++;
+                if (activity === "resume") resumeCount++;
+                if (activity === "interview") interviewCount++;
+                if (activity === "final") finalCount++;
+            };
+        } else {
+            const stats = specificBoardStats["statistics"];
+            for (var i = 0; i < stats.length; i++) {
+                const activity = stats[i]["activity"];
+                if (activity === "application") appCount++;
+                if (activity === "resume") resumeCount++;
+                if (activity === "interview") interviewCount++;
+                if (activity === "final") finalCount++;
+            };
+        };
+
         const currentProgress = [
-            { name: "Awaiting Application", value: 50 },
-            { name: "Resume Sent", value: 10 },
-            { name: "Interview Stage", value: 4 },
-            { name: "Finalised", value: 2 },
+            { name: "Awaiting Application", value: appCount },
+            { name: "Resume Sent", value: resumeCount },
+            { name: "Interview Stage", value: interviewCount },
+            { name: "Finalised", value: finalCount },
         ];
 
         function renderActiveShape(props) {
