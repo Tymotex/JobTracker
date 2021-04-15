@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import {
     Box,
     Button,
+    Container,
     Divider,
     Grid,
+    Paper,
     Typography
 } from '@material-ui/core';
 import Layout from '../../components/Layout/Layout';
@@ -21,6 +23,7 @@ import pageStyles from './Page.module.scss';
 import { ContentLoader } from '../components/loaders';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import ResumeRenderer from "../components/settings/ResumeRenderer";
+import { CommentsList } from "../components/profile";
 
 const theme = createMuiTheme({
     typography: {
@@ -82,6 +85,7 @@ const Profile = () => {
         getUserProfile();
     }, [])
 
+    console.log(profile);
 
     const isLoading = false && (profile === null);
     return (
@@ -189,10 +193,19 @@ const Profile = () => {
                                             </AttributeContent>
                                         </Box>
                                     </Box>
-                                    {console.log(profile.resume)}
-                                    <ResumeRenderer file={profile.resume} />
-                                    <br />
-                                    Find some ideas: https://www.google.com/search?q=user+profile+page+ideas&sxsrf=ALeKk0153cUe1fHXBrfroMjKSWMyiMqZPQ:1618297123586&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjsucTJ0vrvAhU_zjgGHW8zDYIQ_AUoAXoECAEQAw
+                                    <Paper>
+                                        <Container>
+                                            <h2 style={{textAlign: "center"}}>{profile.username}'s Resume</h2>
+                                            <hr />
+
+                                            <ResumeRenderer 
+                                                file={`${api.BASE_URL}/api/user/resume?user_id=${profileUserID}&dummy=${parseInt(Math.random() * 1000000)}`}   // Note: the dummy arg is used to work around caching https://stackoverflow.com/questions/728616/disable-cache-for-some-images
+                                                showUploadButton={false} 
+                                                showPages={false} 
+                                            />
+                                        </Container>
+                                    </Paper>
+                                    <CommentsList />
                                 </Box>
                             </ThemeProvider>
                         )}

@@ -46,6 +46,7 @@ const sideNavItems = [
         id: 32, 
         label: "Profile", 
         icon: <FaceIcon />,
+        link: `/user/${userID}`,
         children: [
             {
                 label: "View profile",

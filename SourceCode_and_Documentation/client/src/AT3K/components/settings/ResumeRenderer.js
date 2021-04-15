@@ -9,7 +9,7 @@ import Cookie from 'js-cookie';
 // Note: Implementing pxFIN's fix: https://github.com/wojtekmaj/react-pdf/issues/321
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const ResumeRenderer = ({ file, setFile, resumeBinaryFile }) => {
+const ResumeRenderer = ({ file, setFile, resumeBinaryFile, showUploadButton=true, showPages=true }) => {
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
 
@@ -71,8 +71,12 @@ const ResumeRenderer = ({ file, setFile, resumeBinaryFile }) => {
                     )
                 }
             </Document>
-            <p>Page {pageNumber} of {numPages}</p>
-            <Button variant="outlined" onClick={uploadResume}>Upload Resume</Button>
+            {showPages && (
+                <p>Page {pageNumber} of {numPages}</p>
+            )}
+            {showUploadButton && (
+                <Button variant="outlined" onClick={uploadResume}>Upload Resume</Button>
+            )}
         </div>
     );
 };
