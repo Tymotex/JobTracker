@@ -7,6 +7,7 @@ from flask import (
     request,
     jsonify
 )
+
 from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, fields
 from JobTracker.exceptions import InvalidUserInput
@@ -104,7 +105,8 @@ class CompanyFetch(Resource):
             # Returns nothing if given nothing
             return  {
                 "company_info": {
-                    "company_details": ""
+                    "company_details": "",
+                    "company_name": company_name
                 },
             }
 
@@ -113,7 +115,8 @@ class CompanyFetch(Resource):
         if "disable_jobs" in request_params and request_params["disable_jobs"] == 'true':    
             return  {
                 "company_info": {
-                    "company_details": company_details
+                    "company_details": company_details,
+                    "company_name": company_name
                 },
             }
 
@@ -125,7 +128,8 @@ class CompanyFetch(Resource):
         print(len(job_list))
         return {
             "company_info": {
-                "company_details": company_details
+                "company_details": company_details,
+                "company_name": company_name
             },
             "jobs" : [
                 *job_list
