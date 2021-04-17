@@ -41,9 +41,7 @@ const JobSearch = () => {
 
 
     useEffect(()=> {
-        console.log("Effect called");
         if (categorySelected) {
-            console.log("Updating results");
             fetchJobPosts(pageNum, resultsPerPage);
             setCategorySelected(false);
         }
