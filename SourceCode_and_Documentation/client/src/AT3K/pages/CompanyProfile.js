@@ -146,6 +146,7 @@ const CompanyProfile = () => {
 		if (company && company !== "") {
 			axios.get(`${api.BASE_URL}/api/company?company=${company}`)
 			.then(response => setCompanyDetails(response.data))
+			.catch(err => Notification.spawnError(err))
 		}
 	}, [company])
 

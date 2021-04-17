@@ -207,7 +207,7 @@ export default function Charts(props) {
                                         value: "all"
                                     },
                                     {
-                                        text: "Awaiting Application",
+                                        text: "No Application",
                                         value: "application"
                                     },
                                     {
@@ -268,9 +268,6 @@ export default function Charts(props) {
                             </Widget>
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <DropdownHierarchical 
-                                options={outcomeOptions}
-                            />
                             <Widget title="Visualising your overall outcomes" noBodyPadding upperTitle>
                                 <ResponsiveContainer width="100%" height={300}>
                                     <StatsPieChartOutcomes 
@@ -280,6 +277,9 @@ export default function Charts(props) {
                                         selectedBoardID={selectedBoardID}
                                     />
                                 </ResponsiveContainer>
+                                <DropdownHierarchical 
+                                    options={outcomeOptions}
+                                />
                             </Widget>
                         </Grid>
                     </Grid>
