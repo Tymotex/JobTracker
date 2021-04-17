@@ -61,8 +61,7 @@ export default function SidebarLink({
             [classes.linkActive]: isLinkActive && !nested,
             [classes.linkNested]: nested,
           }),
-        }}
-        disableRipple
+        }}        
       >
         <ListItemIcon
           className={classnames(classes.linkIcon, {

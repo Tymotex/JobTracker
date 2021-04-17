@@ -65,7 +65,7 @@ export default function Header(props) {
         </IconButton>
         <Typography variant="h6" weight="medium" className={classes.logotype}>
           <Link to="/" style={{textDecoration: "none", color: "white"}}>
-            <strong style={{color: "blueviolet"}}>employ</strong>.me <AssistantIcon style={{fontSize: "85%"}} />
+            <strong style={{color: "blueviolet"}}>employ</strong>.me  <img src="favicon.ico" style={{width: "18px"}} />
           </Link>
         </Typography>
         <div className={classes.grow} />

@@ -30,7 +30,17 @@ import Select from "@material-ui/core/Select";
 
 // Given the current_status, returns a formatted string for displaying
 const mapStatusToStr = (currentStatus) => {
-    return currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1); 
+    switch (currentStatus) {
+        case "application":
+            return "Awaiting application";
+        case "resume":
+            return "Resume sent";
+        case "interview":
+            return "Interviewing";
+        case "final":
+            return "Finalised";
+    }
+    // return currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1); 
     // return currentStatus;
 }
 
@@ -349,9 +359,11 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 draggable: true,
                 customBodyRender(companyName) {
                     return (
-                        <Link to={`/search/company?company=${companyName}`}>
-                            {companyName}
-                        </Link>
+                        <div style={{maxWidth: "125px"}}>
+                            <Link to={`/search/company?company=${companyName}`}>
+                                {companyName}
+                            </Link>
+                        </div>
                     );
                 }                
             },
@@ -363,6 +375,13 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 filter: false,
                 sort: true,
                 draggable: true,
+                customBodyRender(title) {
+                    return (
+                        <div style={{maxWidth: "150px"}}>
+                            {title}
+                        </div>
+                    );                    
+                }
             }
         },
         {
@@ -372,7 +391,14 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 filter: false,
                 sort: true,
                 draggable: true,
-                hint: "When the job was posted"
+                hint: "When the job was posted",
+                customBodyRender(date) {
+                    return (
+                        <div style={{maxWidth: "125px"}}>
+                            {date}
+                        </div>
+                    )
+                }
             }
         },
         {
@@ -543,8 +569,8 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         elevation: 6,
         selectableRowsHeader: true,              // Removed selection checkboxes here!!!
         selectableRowsHideCheckboxes: false,
-        resizableColumns: true,
-        fixedSelectColumn: true,
+        // resizableColumns: true,
+        // fixedSelectColumn: true,
         selectableRows: "multiple",
         onRowsDelete: deleteJob
     });
@@ -570,6 +596,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                     columns={columns}
                     options={datatableOptions}
                 />
+                <br />
                 <div style={{textAlign: "center"}}>
                     <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)} style={{marginRight: "20px"}}>
                         Save board

@@ -19,11 +19,11 @@ const mapStatusToStr = (currentStatus) => {
 const mapStatusToColour = (currentStatus) => {
     switch (currentStatus) {
         case "application":
-            return "#00b6e3";     // Yellow
+            return "#00b6e3";     // Light blue
         case "resume":
-            return "#12db00";     // Green
+            return "#05a105";     // Green
         case "interview":
-            return "#f0e407";     // Light blue
+            return "#bd5e00";     // Orange
         case "finalised":           
             return "#cc0836";     // Red
         default:
@@ -48,6 +48,7 @@ const JobCard = ({ company, title, description, current_status }) => {
                     label={current_status}
                     clickable
                     style={{
+                        color: "white",
                         backgroundColor: mapStatusToColour(current_status)
                     }}
                 />

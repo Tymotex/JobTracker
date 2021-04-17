@@ -59,13 +59,13 @@ const sideNavItems = [
         ]
     },
     { id: 35, type: "divider" },
-    {
-        id: 36,
-        label: "Community",
-        link: "/community",
-        icon: <EmojiPeopleIcon />
-    },
-    { id: 40, type: "divider" },
+    // {
+    //     id: 36,
+    //     label: "Community",
+    //     link: "/community",
+    //     icon: <EmojiPeopleIcon />
+    // },
+    // { id: 40, type: "divider" },
     { 
         id: 50, 
         label: "Settings", 

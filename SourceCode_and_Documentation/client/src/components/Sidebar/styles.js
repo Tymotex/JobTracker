@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/styles";
 
 const drawerWidth = 240;
+const drawerColour = "#222222";
 
 export default makeStyles(theme => ({
   menuButton: {
@@ -14,7 +15,7 @@ export default makeStyles(theme => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: "nowrap",
-    zIndex: "0"   // Keeping the side nav below the bottom nav
+    zIndex: "0",   // Keeping the side nav below the bottom nav
   },
   drawerOpen: {
     width: drawerWidth,
@@ -22,6 +23,7 @@ export default makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    backgroundColor: drawerColour,
   },
   drawerClose: {
     transition: theme.transitions.create("width", {
@@ -33,6 +35,7 @@ export default makeStyles(theme => ({
     [theme.breakpoints.down("sm")]: {
       width: drawerWidth,
     },
+    backgroundColor: drawerColour
   },
   toolbar: {
     ...theme.mixins.toolbar,

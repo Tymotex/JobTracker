@@ -164,18 +164,21 @@ const CompanyProfile = () => {
 								<>{companyDetails && companyDetails.company_info.company_details}</>
 							)}
 						</DescriptionSection>
-
-						<DescriptionSection title="Recent Jobs">
-							{isLoading ? (
-								<ContentLoader />
-							) : (
-								<>{	companyDetails &&
-									companyDetails.jobs.map((job) => (
-										<JobItem {...job} />
-									))
-								}</>
-							)}
-						</DescriptionSection>
+						{isLoading ? (
+							<ContentLoader />
+						) : (
+							<>
+								{companyDetails && companyDetails.jobs && companyDetails.jobs.length !== 0 && (
+									<DescriptionSection title="Recent Jobs">
+										{	companyDetails &&
+											companyDetails.jobs.map((job) => (
+												<JobItem {...job} />
+											))
+										}
+									</DescriptionSection>
+								)}
+							</>
+						)}
 						<hr />
 			
 						<Footer type="company"/>

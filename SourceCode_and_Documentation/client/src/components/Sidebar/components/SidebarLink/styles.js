@@ -5,15 +5,18 @@ export default makeStyles(theme => ({
     textDecoration: "none",
     "&:hover, &:focus": {
       backgroundColor: theme.palette.background.light,
+      backgroundColor: "#444444"
     },
   },
   linkActive: {
     backgroundColor: theme.palette.background.light,
+    backgroundColor: "#444444",
   },
   linkNested: {
     paddingLeft: 0,
     "&:hover, &:focus": {
-      backgroundColor: "#FFFFFF",
+      backgroundColor: "#444444",
+      borderRadius: "10px"
     },
   },
   linkIcon: {
@@ -23,18 +26,22 @@ export default makeStyles(theme => ({
     width: 24,
     display: "flex",
     justifyContent: "center",
+    color: "white"
   },
   linkIconActive: {
-    color: theme.palette.primary.main,
+    // color: theme.palette.primary.main,
+    color: "white"
   },
   linkText: {
     padding: 0,
     color: theme.palette.text.secondary + "CC",
     transition: theme.transitions.create(["opacity", "color"]),
     fontSize: 16,
+    color: "white"
   },
   linkTextActive: {
-    color: theme.palette.text.primary,
+    // color: theme.palette.text.primary,
+    color: "white"
   },
   linkTextHidden: {
     opacity: 0,
