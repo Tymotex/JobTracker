@@ -194,7 +194,7 @@ const Header = ({
                     <Grid item>
                         <div className={styles.iconLabelSet}>
                             <img
-                                src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7"
+                                src={`//logo.clearbit.com/${company}.com`}
                                 style={companyIconStyle}
                                 alt="company icon"
                             />
