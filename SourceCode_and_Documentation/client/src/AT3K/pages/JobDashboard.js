@@ -86,17 +86,32 @@ const JobDashboard = () => {
           // description: "Canva is a graphic design platform, used to create social media graphics, presentations, posters, documents and other visual content. The app includes templates for users to use. The platform is free to use and offers paid subscriptions like Canva Pro and Canva for Enterprise for additional functionality."
         });
       });
-      // setCompanies(tempCompanies);
-
-      for (let i = 0; i < tempCompanies.length; i++) {
-        const comp_res = await axios.get(
-          `${api.BASE_URL}/api/company?company=${tempCompanies[i].name}&disable_jobs=true`
-        );
-        const company_dets = comp_res.data.company_info.company_details;
-        tempCompanies[i].description = company_dets;
-      }
       setCompanies(tempCompanies);
-
+      Promise.all(
+        tempCompanies.map((company) => {
+          return axios.get(
+            `${api.BASE_URL}/api/company?company=${company.name}&disable_jobs=true`
+          );
+        })
+      )
+        .then((res) => {
+          const final_companies = res.map((company) => {
+            return {
+              name : company.data.company_info.company_name,
+              link: "/search/company",
+              description: company.data.company_info.company_details
+            }
+          })
+          setCompanies(final_companies);
+        })
+        .catch((err) => console.log(err));
+      // for (let i = 0; i < tempCompanies.length; i++) {
+      //   const comp_res = await axios.get(
+      //     `${api.BASE_URL}/api/company?company=${tempCompanies[i].name}&disable_jobs=true`
+      //   );
+      //   const company_dets = comp_res.data.company_info.company_details;
+      //   tempCompanies[i].description = company_dets;
+      // }
     } else {
       Notification.spawnRegisterError();
     }

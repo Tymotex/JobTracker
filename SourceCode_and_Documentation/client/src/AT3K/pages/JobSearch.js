@@ -20,6 +20,7 @@ const JobSearch = () => {
 	const [jobList, setJobList] = useState(null);
     const [resultsPerPage, setResultsPerPage] = useState(9);
     const [sortStrategy, setSortStrategy] = useState("relevance");
+    const [categorySelected, setCategorySelected] = useState(false);
 
     const fetchJobPosts = (pageNum, resultsPerPage, sortCriteria="relevance") => {
         if (!searchQuery) Notification.spawnInvalid("Please enter a job query")
@@ -38,8 +39,17 @@ const JobSearch = () => {
         }
     }
 
+
+    useEffect(()=> {
+        if (categorySelected) {
+            fetchJobPosts(pageNum, resultsPerPage);
+            setCategorySelected(false);
+        }
+    }, [searchQuery, categorySelected, pageNum, resultsPerPage])
+
     const handleSelectCategory = (category) => {
         setSearchQuery(category);
+        setCategorySelected(true);
     }
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);

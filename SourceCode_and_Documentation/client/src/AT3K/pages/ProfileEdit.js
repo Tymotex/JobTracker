@@ -94,16 +94,13 @@ const ProfileEdit = () => {
       <FadeIn>
         <div className={pageStyles.container}>
           <h3>Edit your details here</h3>
-          <form>
-            Form here for submitting: username, email, experience, phone, skills.
-            Use Material ui forms: https://material-ui.com/components/text-fields/
-          </form>
           <form className={styles.form} onSubmit={setUserProfile}>
-            <Avatar />
+            <Avatar className={styles.field}/>
 
             <TextField
               id="outlined-basic"
               label="Username"
+              className={styles.field}
               variant="outlined"
               onChange={(e) => handleChangeText(e, "username")}
               value={profile ? profile.username : ""}
@@ -111,6 +108,7 @@ const ProfileEdit = () => {
 
             <TextField
               id="outlined-basic"
+              className={styles.field}
               label="Email"
               variant="outlined"
               onChange={(e) => handleChangeText(e, "email")}
@@ -119,6 +117,7 @@ const ProfileEdit = () => {
 
             <TextField
               id="outlined-basic"
+              className={styles.field}
               label="Education"
               variant="outlined"
               onChange={(e) => handleChangeText(e, "education")}
@@ -127,6 +126,7 @@ const ProfileEdit = () => {
 
             <TextField
               id="outlined-basic"
+              className={styles.field}
               label="Experience"
               variant="outlined"
               onChange={(e) => handleChangeText(e, "experience")}
@@ -135,6 +135,7 @@ const ProfileEdit = () => {
 
             <TextField
               id="outlined-basic"
+              className={styles.field}
               label="Name"
               variant="outlined"
               onChange={(e) => handleChangeText(e, "name")}
@@ -143,6 +144,7 @@ const ProfileEdit = () => {
 
             <TextField
               id="outlined-basic"
+              className={styles.field}
               label="Phone"
               variant="outlined"
               onChange={(e) => handleChangeText(e, "phone")}
@@ -151,6 +153,7 @@ const ProfileEdit = () => {
 
             <TextField
               id="outlined-basic"
+              className={styles.field}
               label="Skills"
               variant="outlined"
               onChange={(e) => handleChangeText(e, "skills")}

@@ -73,33 +73,31 @@ const StatsPieChart = ({ theme, pieChartData, boards, selectedBoardID }) => {
         console.log("Selected board's stats");
         console.log(specificBoardStats);
 
-        // TODO: This array is dummy data. Fill it out with the real data:
-        // Activities to filter for (exact strings): "application", "resume", "interview", "final"
-        var appCount = 0, resumeCount = 0, interviewCount = 0, finalCount = 0;
+        /*
+        if activity === "interview":
+            this job has gotten past the resume stage and should increment "resume hit"
+        else if activity === "resume":
+            the user has sent out the resume but it hasn't produced a response yet
+        */
+        var hitCount = 0, missCount = 0;
         if (selectedBoardID == null) {
             for (var i = 0; i < globalStats.length; i++) {
                 const activity = globalStats[i]["activity"];
-                if (activity === "application") appCount++;
-                if (activity === "resume") resumeCount++;
-                if (activity === "interview") interviewCount++;
-                if (activity === "final") finalCount++;
+                if (activity === "resume") missCount++;
+                if (activity === "interview") hitCount++;
             };
         } else {
             const stats = specificBoardStats["statistics"];
             for (var i = 0; i < stats.length; i++) {
                 const activity = stats[i]["activity"];
-                if (activity === "application") appCount++;
-                if (activity === "resume") resumeCount++;
-                if (activity === "interview") interviewCount++;
-                if (activity === "final") finalCount++;
+                if (activity === "resume") missCount++;
+                if (activity === "interview") hitCount++;
             };
         };
 
         const currentProgress = [
-            { name: "Awaiting Application", value: appCount },
-            { name: "Resume Sent", value: resumeCount },
-            { name: "Interview Stage", value: interviewCount },
-            { name: "Finalised", value: finalCount },
+            { name: "Resume Hits", value: hitCount },
+            { name: "Resume Misses", value: missCount },
         ];
 
         function renderActiveShape(props) {
