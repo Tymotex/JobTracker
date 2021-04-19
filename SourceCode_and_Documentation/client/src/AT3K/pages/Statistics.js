@@ -198,7 +198,7 @@ export default function Charts(props) {
                         </Grid>
                         <Grid item xs={6}>
                             <Dropdown
-                                label="Activity Type"
+                                label="Status Type"
                                 value={activityType}
                                 onChange={handleSelectActivity}
                                 items={[
@@ -207,7 +207,7 @@ export default function Charts(props) {
                                         value: "all"
                                     },
                                     {
-                                        text: "No Application",
+                                        text: "Tracked",
                                         value: "application"
                                     },
                                     {
@@ -241,13 +241,13 @@ export default function Charts(props) {
                                 </ResponsiveContainer>
                             </Widget>
                         </Grid>
-                        <Grid item xs={12} md={12}>
+                        {/* <Grid item xs={12} md={12}>
                             <Widget title="Number of applications made" upperTitle noBodyPadding>
                                 <ResponsiveContainer width="100%" height={400}>
                                     <StatsHeatMap />
                                 </ResponsiveContainer>
                             </Widget>
-                        </Grid>
+                        </Grid> */}
                         {/* <Grid item xs={12} md={8}>
                             <Widget title="" noBodyPadding upperTitle>
                                 <ResponsiveContainer width="100%" height={350}>

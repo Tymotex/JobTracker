@@ -80,19 +80,19 @@ const sideNavItems = [
                 label: "Theme", 
                 link: "/settings/theme",
             },
-            {
-                label: "Notifications", 
-                link: "/settings/notifications",
-            },
-            {
-                label: "Preferences", 
-                link: "/settings/preferences",
-            },
+            // {
+            //     label: "Notifications", 
+            //     link: "/settings/notifications",
+            // },
+            // {
+            //     label: "Preferences", 
+            //     link: "/settings/preferences",
+            // },
         ]
     },
     { id: 60, type: "divider" },
-    { id: 70, type: "title", label: "Resources" },
-    { id: 80, label: "FAQ", link: "/faq", icon: <FAQIcon /> }
+    // { id: 70, type: "title", label: "Resources" },
+    // { id: 80, label: "FAQ", link: "/faq", icon: <FAQIcon /> }
 ]
 
 /**

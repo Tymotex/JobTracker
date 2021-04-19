@@ -43,7 +43,7 @@ export default function MenuListComposition({ currCategory }) {
                             Themes
                         </MenuItem>
                     </Link>
-                    <Link to="/settings/notifications" className={classes.menuItem}>
+                    {/* <Link to="/settings/notifications" className={classes.menuItem}>
                         <MenuItem className={(currCategory === "notifications") && classes.activeMenuItem}>
                             Notifications
                         </MenuItem>
@@ -52,7 +52,7 @@ export default function MenuListComposition({ currCategory }) {
                         <MenuItem className={(currCategory === "preferences") && classes.activeMenuItem}>
                             Preferences
                         </MenuItem>
-                    </Link>
+                    </Link> */}
                 </MenuList>
             </Paper>
         </div>

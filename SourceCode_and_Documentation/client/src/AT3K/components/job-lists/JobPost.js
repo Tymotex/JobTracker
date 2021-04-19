@@ -92,11 +92,6 @@ const JobPost = ({
   return (
     <>
       <Card className={`${styles.card}`}>
-        <div>
-          <Button variant="contained" color="info" onClick={trackNewJob}>
-            Track 
-          </Button>
-        </div>
         <CardContent className={styles.content} >
           <Typography variant="body2" component="p">
             <div>
@@ -144,6 +139,11 @@ const JobPost = ({
               <br />
             </div>
           </Typography>
+          <div style={{textAlign: "center", marginTop: "10px"}}>
+            <Button variant="contained" color="info" onClick={trackNewJob}>
+              Track 
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </>

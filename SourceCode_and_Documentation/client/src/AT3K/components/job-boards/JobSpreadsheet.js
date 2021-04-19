@@ -572,7 +572,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         // resizableColumns: true,
         // fixedSelectColumn: true,
         selectableRows: "multiple",
-        onRowsDelete: deleteJob
+        // onRowsDelete: deleteJob
     });
 
     const data = fitToDataFormat(trackedJobs);
