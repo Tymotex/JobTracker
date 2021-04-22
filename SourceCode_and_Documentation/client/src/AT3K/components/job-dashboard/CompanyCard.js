@@ -1,24 +1,3 @@
-// import React from 'react';
-// import { Link } from 'react-router-dom';
-// import styles from './CardCarousel.module.scss';
-
-// const CompanyCard = ({ name, description, link }) => {
-//     return (
-//         <div className={styles.companyCard}>
-//             <h3 className={styles.title}>
-//                 <Link to={`${link}?company=${name}`}>
-//                     {name}
-//                 </Link>
-//                 {/* <a href={link}></a> */}
-//             </h3>
-//             <p className={styles.description}>
-//                 {description}
-//             </p>
-//         </div>
-//     )
-// }
-
-// export default CompanyCard;
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -30,8 +9,10 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
-    maxWidth: 300
+    maxWidth: 300,
+    height: "100%",
+    margin: 15,
+    position: "relative"
   },
   bullet: {
     display: 'inline-block',
@@ -44,6 +25,10 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  bottomButton: {
+    position: "absolute",
+    bottom: "3%"
+  }
 });
 
 const CompanyCard = ({ name, description, link }) => {
@@ -61,6 +46,7 @@ const CompanyCard = ({ name, description, link }) => {
       </CardContent>
       <CardActions>
         <Button 
+            className={classes.bottomButton}
             component={Link} 
             variant="outlined"
             to={`${link}?company=${name}`} 

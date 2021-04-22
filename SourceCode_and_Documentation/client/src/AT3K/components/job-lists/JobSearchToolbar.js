@@ -60,7 +60,6 @@ const JobSearchToolbar = ({
                             >
                                 Search
                             </Button>
-                            
                         </div>
                     </Grid>
                 </Grid>

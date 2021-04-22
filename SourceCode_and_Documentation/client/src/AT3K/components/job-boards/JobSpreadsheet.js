@@ -1,32 +1,23 @@
-import React, { useState } from 'react';
-import DataGrid, { SelectColumn, TextEditor } from 'react-data-grid';
-import FullscreenMode from './FullscreenMode';
-import Cookie from 'js-cookie';
 import {
     InputLabel,
     MenuItem
 } from '@material-ui/core';
+import Select from "@material-ui/core/Select";
+import TextField from '@material-ui/core/TextField';
+import axios from 'axios';
+import Cookie from 'js-cookie';
+import moment from 'moment';
+import MUIDataTable from "mui-datatables";
+import React, { useState } from 'react';
+import DatePicker from 'react-datepicker2';
 import {
     Link
 } from 'react-router-dom';
-import moment from 'moment';
-import DatePicker from 'react-datepicker2';
-import { Button } from '../buttons';
-
-import axios from 'axios';
 import api from '../../constants/api';
-import styles from './JobSpreadsheet.module.scss';
-import DropdownEditor from '../dropdowns/DropdownEditor';
-import TextField from '@material-ui/core/TextField';
-
-import { Modal } from '../modals';
-import { PrimaryButton } from '../buttons';
-import ReactTooltip from 'react-tooltip';
+import { Button } from '../buttons';
 import { Notification } from '../notification';
-import MUIDataTable from "mui-datatables";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+import FullscreenMode from '../fullscreen/FullscreenMode';
+import styles from './JobSpreadsheet.module.scss';
 
 // Given the current_status, returns a formatted string for displaying
 const mapStatusToStr = (currentStatus) => {
@@ -39,6 +30,8 @@ const mapStatusToStr = (currentStatus) => {
             return "Interviewing";
         case "final":
             return "Finalised";
+        default:
+            return "";
     }
     // return currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1); 
     // return currentStatus;
@@ -49,9 +42,6 @@ const mapStatusToStr = (currentStatus) => {
 // Shown fields
 // Rows per page
 // Table size
-
-// TODO: Clean up this clusterfuck of a file
-
 
 // Given the array of trackedJobs, reshapes it to be compatible with mui-datatable's rendering format
 const fitToDataFormat = (trackedJobs) => {
@@ -78,8 +68,8 @@ const fitToDataFormat = (trackedJobs) => {
 }
 
 const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) => {
-    const [tableBodyHeight, setTableBodyHeight] = useState("100%");
-    const [tableBodyMaxHeight, setTableBodyMaxHeight] = useState("");
+    const tableBodyHeight = "100%";
+    const tableBodyMaxHeight = "";
     const [editingEnabled, setEditingEnabled] = useState(false);
 
     console.log(trackedJobs);
@@ -133,21 +123,21 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             });
     };
 
-    const deleteJob = (rowsDeleted, newTableData) => {
-        console.log(rowsDeleted);
-        const userID = Cookie.get("user_id");
-        if (userID) {
-            // It isn't actually necessary to delete the job, simply remove it from the array
-            // and then setTrackedJobs
-            // setTrackedJobs();
-            const deletedIndices = rowsDeleted.data.map(eachDeletedJob => eachDeletedJob.dataIndex);
-            const newTrackedJobs = [...trackedJobs];
-            deletedIndices.forEach(i => {
-                newTrackedJobs.splice(i, 1);
-            });
-            saveCurrBoardState(newTrackedJobs);
-        }
-    }
+    // const deleteJob = (rowsDeleted, newTableData) => {
+    //     console.log(rowsDeleted);
+    //     const userID = Cookie.get("user_id");
+    //     if (userID) {
+    //         // It isn't actually necessary to delete the job, simply remove it from the array
+    //         // and then setTrackedJobs
+    //         // setTrackedJobs();
+    //         const deletedIndices = rowsDeleted.data.map(eachDeletedJob => eachDeletedJob.dataIndex);
+    //         const newTrackedJobs = [...trackedJobs];
+    //         deletedIndices.forEach(i => {
+    //             newTrackedJobs.splice(i, 1);
+    //         });
+    //         saveCurrBoardState(newTrackedJobs);
+    //     }
+    // }
 
     // Table cell components
     const EditableField = (currValue, tableMeta) => {

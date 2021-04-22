@@ -33,4 +33,4 @@ export default function ImgMediaCard({ image, title }) {
       </CardActionArea>
     </Card>
   );
-}
+};

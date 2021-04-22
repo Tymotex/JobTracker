@@ -6,58 +6,8 @@ import {
 } from "recharts";
 import { LoadingSpinner } from '../loaders';
 
-const StatsPieChart = ({ theme, pieChartData, boards, selectedBoardID,  }) => {
+const StatsPieChart = ({ theme, boards, selectedBoardID,  }) => {
     const [activeIndex, setActiveIndexId] = useState(0);
-    
-    /*
-    IMPORTANT NOTE:
-        You have access to the 'boards' variable ^^^ 
-
-        This contains something like this: [
-            {
-                "_id":{
-                    "$oid":"60752005b8ee7734839b55f4"
-                },
-                "user_id":"60751ff9b8ee7734839b55f3",
-                "name":"fff",
-                "description":"ff",
-                "tracked_jobs":[
-                    {
-                        "title":"Software Support Specialist",
-                        "company":"AMDOCS LTD",
-                        "locations":"Sydney, NSW",
-                        "url":"http://jobviewtrack.com/en-au/job-1919417e42021b19460645433b141e170a52006a3a065a5b525f59443c1e4217490204081d1367731b0e1d044b59580d7e140a0d4e154c0a1b156c340a46001f08014f296e585d14001c537513505a5759/d349683cc44736c739530ec22c37e336.html?affid=213e213hd12344552",
-                        "description":"B>software engineering tools and various innovative techniques, and reusing existing solutions. By means of automation... Leading-edge software solutions, using best in class delivery practices and tooling via a devops model for faster to market...",
-                        "salary":"",
-                        "date":"Fri, 26 Mar 2021 06:30:11 GMT",
-                        "current_status":"application",
-                        "notes":"",
-                        "priority":{
-                            "$numberInt":"5"
-                        },
-                        "job_id":"60752005b8ee7734839b55f4-b8d8ed55-022d-45c2-91e8-ff881c60fdcf"
-                    }
-                ],
-                "statistics":[
-                    {
-                        "timestamp":{
-                            "$numberDouble":"1618292032.1451018"
-                        },
-                        "activity":"application",
-                        "job_id":"60752005b8ee7734839b55f4-b8d8ed55-022d-45c2-91e8-ff881c60fdcf"
-                    }
-                ]
-            }
-        ]
-    */
-
-    /*
-        if activity === "interview":
-            this job has gotten past the resume stage and should increment "resume hit"
-        else if activity === "resume":
-            the user has sent out the resume but it hasn't produced a response yet
-    */
-
     if (boards) {
         const boardStats = boards.map(eachBoard => {
             return eachBoard.statistics
@@ -70,21 +20,11 @@ const StatsPieChart = ({ theme, pieChartData, boards, selectedBoardID,  }) => {
 
         const specificBoardStats = boards.filter(eachBoard => eachBoard._id === selectedBoardID)[0];
 
-        // Global stats is ready for you to work with
-        // See the chrome inspector console to check what gets outputted:
-        // selectedBoardID will be null if no board is selected. Use this to 
-        // determine whether to render the global data or specific board data
-        // The selected board dropdown should be working.
-        console.log("Global stats");
-        console.log(globalStats);
-        console.log("Selected board's stats");
-        console.log(specificBoardStats);
-
-        // TODO: This array is dummy data. Fill it out with the real data:
         // Activities to filter for (exact strings): "application", "resume", "interview", "final"
+        // Collecting totals for each activities
         var appCount = 0, resumeCount = 0, interviewCount = 0, finalCount = 0;
         if (selectedBoardID == null) {
-            for (var i = 0; i < globalStats.length; i++) {
+            for (let i = 0; i < globalStats.length; i++) {
                 const activity = globalStats[i]["activity"];
                 if (activity === "application") appCount++;
                 if (activity === "resume") resumeCount++;
@@ -93,7 +33,7 @@ const StatsPieChart = ({ theme, pieChartData, boards, selectedBoardID,  }) => {
             };
         } else {
             const stats = specificBoardStats["statistics"];
-            for (var i = 0; i < stats.length; i++) {
+            for (let i = 0; i < stats.length; i++) {
                 const activity = stats[i]["activity"];
                 if (activity === "application") appCount++;
                 if (activity === "resume") resumeCount++;
@@ -102,6 +42,7 @@ const StatsPieChart = ({ theme, pieChartData, boards, selectedBoardID,  }) => {
             };
         };
 
+        // Getting the size of each sector of the pie chart
         const currentProgress = [
             { name: "Awaiting Application", value: appCount },
             { name: "Resume Sent", value: resumeCount },
@@ -183,17 +124,11 @@ const StatsPieChart = ({ theme, pieChartData, boards, selectedBoardID,  }) => {
             );
         }
 
-            
-        
-        
-        
-        
         return (
             <PieChart width={500} height={300}>
                 <Pie
                     activeIndex={activeIndex}
                     activeShape={renderActiveShape}
-                    // data={pieChartData}
                     data={currentProgress}
                     innerRadius={60}
                     outerRadius={80}
@@ -203,7 +138,6 @@ const StatsPieChart = ({ theme, pieChartData, boards, selectedBoardID,  }) => {
                 />
             </PieChart>
         );
-    
     } else {
         return (
             <LoadingSpinner />

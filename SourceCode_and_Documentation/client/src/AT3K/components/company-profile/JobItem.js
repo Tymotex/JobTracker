@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Grid, Button } from "@material-ui/core";
-
 import styles from "./JobItem.module.scss";
 
 const JobItem = (props) => {

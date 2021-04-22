@@ -2,16 +2,23 @@ import React from 'react';
 import SkyLight from 'react-skylight';
 
 class Modal extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
-        const { title, children, Contents } = this.props;
+        const { title, children, Contents, Button } = this.props;
+
+        // Depending on whether the Button prop was passed, render Contents of children
         return (
             <>
                 <section onClick={() => this.simpleDialog.show()}>
-                    {children}
+                    <Button />
                 </section>
                 <div 
                     style={{
-                        position: "absolute",    // Force render on top of all elements 
+                        // Force render on top of all elements 
+                        position: "absolute",    
                         zIndex: "10000"
                     }}
                 >
@@ -24,13 +31,13 @@ class Modal extends React.Component {
                             zIndex: "100000"
                         }}
                     >
-                        <Contents />
+                        {children}
                     </SkyLight>
                 </div>
             </>
         )
     }
-}
+};
 
 Modal.displayName = 'Modal';
 

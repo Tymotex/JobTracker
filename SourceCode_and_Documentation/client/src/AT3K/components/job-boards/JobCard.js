@@ -11,11 +11,6 @@ import {
 import styles from './JobCard.module.scss';
 import LabelIcon from '@material-ui/icons/Label';
 
-// Given the current_status, returns a formatted string for displaying
-const mapStatusToStr = (currentStatus) => {
-    return currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1); 
-}
-
 const mapStatusToColour = (currentStatus) => {
     switch (currentStatus) {
         case "application":
@@ -29,7 +24,7 @@ const mapStatusToColour = (currentStatus) => {
         default:
             return "#333333"      // Gray
     }
-}
+};
 
 const JobCard = ({ company, title, description, current_status }) => {
 

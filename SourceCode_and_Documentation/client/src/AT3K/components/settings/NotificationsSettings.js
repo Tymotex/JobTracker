@@ -4,22 +4,23 @@ import React from "react";
 
 import styles from "./settings.module.scss";
 
-const NotificationsSettings = () => {
-  const notiSettings = [
-    {
-      name: "Enable",
-    },
-    {
-      name: "Job application deadline",
-    },
-    {
-      name: "Custom deadlines",
-    },
-    {
-      name: "New Job postings",
-    },
-  ];
+const notiSettings = [
+  {
+    name: "Enable",
+  },
+  {
+    name: "Job application deadline",
+  },
+  {
+    name: "Custom deadlines",
+  },
+  {
+    name: "New Job postings",
+  },
+];
 
+const NotificationsSettings = () => {
+ 
   return (
     <>
       <h2>Email notifications</h2>
@@ -62,7 +63,6 @@ const NotificationsSettings = () => {
                     onChange={() => { }}
                     name="checkedB"
                     color="primary"
-                  // style={{color: "blue"}}
                   />
                 }
                 label={item.name}
@@ -71,8 +71,6 @@ const NotificationsSettings = () => {
           );
         })}
       </div>
-
-
     </>
   );
 };

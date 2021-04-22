@@ -23,7 +23,7 @@ const Dropdown = ({ label, value, onChange, items }) => {
             </Select>
         </FormControl>
     )
-}
+};
 
 Dropdown.propTypes = {
     label: PropTypes.string, 

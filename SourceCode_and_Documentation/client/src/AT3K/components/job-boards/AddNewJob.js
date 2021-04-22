@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AddNewJob = ({ boardID, fetchBoardInfo }) => {
 	const classes = useStyles();
-
+	
 	const NewJobForm = () => {
 		const addNewJob = (event) => {
 			event.preventDefault();
@@ -49,8 +49,8 @@ const AddNewJob = ({ boardID, fetchBoardInfo }) => {
 			} else {
 				Notification.spawnRegisterError();
 			}
-		}
-	
+		};
+
 		return (
 			<form onSubmit={addNewJob} className={styles.newJobForm} noValidate autoComplete="off">
 				<div>
@@ -121,7 +121,7 @@ const AddNewJob = ({ boardID, fetchBoardInfo }) => {
 					<Button type="submit" variant="contained" color="primary">Add</Button>
 				</div>
 			</form>
-		)
+		);
 	};
 
 	return (
@@ -133,6 +133,6 @@ const AddNewJob = ({ boardID, fetchBoardInfo }) => {
 			</Modal>
 		</div>
 	);
-}
+};
 
 export default AddNewJob;

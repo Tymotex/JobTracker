@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
 export default function TransitionsModal({ open, handleClose, boardID, fetchBoards }) {
     const classes = useStyles();
 

@@ -39,13 +39,12 @@ const JobSearch = () => {
         }
     }
 
-
     useEffect(()=> {
         if (categorySelected) {
             fetchJobPosts(pageNum, resultsPerPage);
             setCategorySelected(false);
         }
-    }, [searchQuery, categorySelected, pageNum, resultsPerPage])
+    }, [searchQuery, categorySelected, pageNum, resultsPerPage]);  // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleSelectCategory = (category) => {
         setSearchQuery(category);
@@ -66,7 +65,6 @@ const JobSearch = () => {
     }
 
     // ===== GET /api/user/boards =====
-
     // If the user is logged in, fetch their boards
     const fetchUserBoards = () => {
         const userID = Cookie.get("user_id");
@@ -86,8 +84,6 @@ const JobSearch = () => {
     useEffect(() => {
         fetchUserBoards();
     }, []);
-
-    // =========================
 
     return (
         <Layout>

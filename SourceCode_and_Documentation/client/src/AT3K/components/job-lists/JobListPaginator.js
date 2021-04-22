@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 import React from 'react';
 import ReactPaginate from "react-paginate";
+import "./JobListPaginator.css";
 import {
     BottomNav
 } from '../menus';

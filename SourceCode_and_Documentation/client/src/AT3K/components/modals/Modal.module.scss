@@ -1,12 +1,12 @@
 .fullWidth {
-    width: 50%;
+    max-width: 500px;
     margin: 0 auto;
     display: block;
     padding-bottom: 20px;
 }
 
 .window {
-    width: 25%;
+    max-width: 500px;
     background-color: #fafafa;
     border: 2px solid black;
     box-shadow: 2px 2px 2px;

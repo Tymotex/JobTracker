@@ -1,5 +1,7 @@
+import axios from 'axios';
+import Cookie from 'js-cookie';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     BreadCrumbs
 } from '../components/breadcrumbs';
@@ -8,12 +10,10 @@ import {
     JobCalendar,
     JobList, JobSpreadsheet
 } from '../components/job-boards';
-import axios from 'axios';
-import api from '../constants/api';
-import Cookie from 'js-cookie';
-import styles from './JobDashboardWorkspace.module.scss';
 import { LoadingSpinner } from '../components/loaders';
 import { Notification } from '../components/notification';
+import api from '../constants/api';
+import styles from './JobDashboardWorkspace.module.scss';
 
 
 const JobDashboardWorkspace = ({ 
@@ -55,13 +55,11 @@ const JobDashboardWorkspace = ({
         } else {
             Notification.spawnRegisterError();
         }
-    }
-
-    // ===============================
+    };
 
     useEffect(() => {
         fetchBoardInfo();
-    }, []);
+    }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div>

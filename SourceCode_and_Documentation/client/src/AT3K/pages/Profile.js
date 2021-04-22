@@ -1,46 +1,40 @@
-import React, { useState, useEffect } from 'react';
 import {
     Box,
     Button,
     Container,
     Divider,
-    Grid,
     Paper,
     Typography
 } from '@material-ui/core';
-import Layout from '../../components/Layout/Layout';
-import {
-    useParams
-} from 'react-router-dom';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import axios from 'axios';
 import Cookie from 'js-cookie';
-import api from '../constants/api';
-import { Notification } from '../components/notification';
-import {
-    Link
-} from 'react-router-dom';
-import pageStyles from './Page.module.scss';
-import { ContentLoader } from '../components/loaders';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import ResumeRenderer from "../components/settings/ResumeRenderer";
-import { CommentsList } from "../components/profile";
+import React, { useEffect, useState } from 'react';
 import FadeIn from 'react-fade-in';
+import { Link, useParams } from 'react-router-dom';
+import Layout from '../../components/Layout/Layout';
+import { ContentLoader } from '../components/loaders';
+import { Notification } from '../components/notification';
+import { CommentsList } from "../components/profile";
+import ResumeRenderer from "../components/settings/ResumeRenderer";
+import api from '../constants/api';
+import pageStyles from './Page.module.scss';
 
 const theme = createMuiTheme({
     typography: {
-      h4: {
-        fontFamily: 'Arialight',
-        fontWeight: 'lighter',
-      },
+        h4: {
+            fontFamily: 'Arialight',
+            fontWeight: 'lighter',
+        },
     },
-  });
+});
 
 const AttributeTitle = ({ children }) => {
     return (
-        <Typography 
-            align="center" 
-            variant="h4" 
-            component="h3" 
+        <Typography
+            align="center"
+            variant="h4"
+            component="h3"
             color='textPrimary'
         >
             {children}
@@ -50,9 +44,9 @@ const AttributeTitle = ({ children }) => {
 
 const AttributeContent = ({ children }) => {
     return (
-        <Typography 
-            align="center" 
-            variant="subtitle1" 
+        <Typography
+            align="center"
+            variant="subtitle1"
             component="h3">
             {children}
         </Typography>
@@ -69,7 +63,7 @@ const Profile = () => {
         if (userID) {
             if (!profileUserID) Notification.spawnInvalid("No user ID specified");
             else {
-                axios.get(`${api.BASE_URL}/api/user/profile?user_id=${profileUserID}`) 
+                axios.get(`${api.BASE_URL}/api/user/profile?user_id=${profileUserID}`)
                     .then(res => {
                         setProfile(res.data);
                     })
@@ -84,7 +78,7 @@ const Profile = () => {
 
     useEffect(() => {
         getUserProfile();
-    }, [])
+    }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
     console.log(profile);
 
@@ -99,8 +93,8 @@ const Profile = () => {
                         <>
                             {profile && (
                                 <ThemeProvider theme={theme}>
-                                    <Box 
-                                        display='flex' 
+                                    <Box
+                                        display='flex'
                                         alignItems='center'
                                         flexDirection='column'
                                         p={3}
@@ -110,10 +104,10 @@ const Profile = () => {
                                                 <img width="200px" alt="profile_img" src={profile.image_url} />
                                             </Box>
                                             <Box p={2}>
-                                                <Typography 
-                                                    align="center" 
-                                                    variant="h3" 
-                                                    component="h3" 
+                                                <Typography
+                                                    align="center"
+                                                    variant="h3"
+                                                    component="h3"
                                                     color='textPrimary'
                                                 >
                                                     {profile.username}
@@ -123,9 +117,9 @@ const Profile = () => {
                                                 </Typography>
 
                                             </Box>
-                                            <Button 
-                                                component={Link} 
-                                                to={`/user/edit/${profileUserID}`} 
+                                            <Button
+                                                component={Link}
+                                                to={`/user/edit/${profileUserID}`}
                                                 variant="outlined"
                                                 style={{ width: '100%' }}
                                             >
@@ -151,11 +145,11 @@ const Profile = () => {
                                             <AttributeTitle>Experience</AttributeTitle>
                                             <Box p={3}>
                                                 <AttributeContent>
-                                                {
-                                                    profile.experience  === ''
-                                                        ? '[Empty]'
-                                                        : profile.experience
-                                                }
+                                                    {
+                                                        profile.experience === ''
+                                                            ? '[Empty]'
+                                                            : profile.experience
+                                                    }
                                                 </AttributeContent>
                                             </Box>
                                         </Box>
@@ -183,27 +177,27 @@ const Profile = () => {
                                             <AttributeTitle>Skills</AttributeTitle>
                                             <Box p={3}>
                                                 <AttributeContent>
-                                                {
-                                                    profile.skills === ""
-                                                        ? '[Empty]'
-                                                        : (
-                                                            <div>
-                                                                {profile.skills}
-                                                            </div>
-                                                        )
-                                                }
+                                                    {
+                                                        profile.skills === ""
+                                                            ? '[Empty]'
+                                                            : (
+                                                                <div>
+                                                                    {profile.skills}
+                                                                </div>
+                                                            )
+                                                    }
                                                 </AttributeContent>
                                             </Box>
                                         </Box>
                                         <Paper>
                                             <Container>
-                                                <h2 style={{textAlign: "center"}}>{profile.username}'s Resume</h2>
+                                                <h2 style={{ textAlign: "center" }}>{profile.username}'s Resume</h2>
                                                 <hr />
 
-                                                <ResumeRenderer 
+                                                <ResumeRenderer
                                                     file={`${api.BASE_URL}/api/user/resume?user_id=${profileUserID}&dummy=${parseInt(Math.random() * 1000000)}`}   // Note: the dummy arg is used to work around caching https://stackoverflow.com/questions/728616/disable-cache-for-some-images
-                                                    showUploadButton={false} 
-                                                    showPages={false} 
+                                                    showUploadButton={false}
+                                                    showPages={false}
                                                 />
                                             </Container>
                                         </Paper>
@@ -211,7 +205,6 @@ const Profile = () => {
                                     </Box>
                                 </ThemeProvider>
                             )}
-                            
                         </>
                     )}
                 </div>

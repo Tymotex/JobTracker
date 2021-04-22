@@ -6,7 +6,6 @@ import React from 'react';
 import { BoardDropdown } from '.';
 import AddNewJob from './AddNewJob';
 import styles from './BoardToolbar.module.scss';
-import CustomiseView from './CustomiseView';
 
 const BoardToolbar = ({ boardType, handleChangeBoard, trackedJobs, boardID, fetchBoardInfo, fieldsToShow, setFields }) => {
     return (
@@ -24,9 +23,6 @@ const BoardToolbar = ({ boardType, handleChangeBoard, trackedJobs, boardID, fetc
                     <Grid item xs={4} className={styles.fullButton}>
                         <AddNewJob boardID={boardID} fetchBoardInfo={fetchBoardInfo} />
                     </Grid>
-                    {/* <Grid item xs={3} className={styles.fullButton}>
-                        <CustomiseView boardType={boardType} fieldsToShow={fieldsToShow} setFields={setFields} />
-                    </Grid> */}
                 </Grid>
             </div>
         </Paper>

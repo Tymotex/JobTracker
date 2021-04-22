@@ -2,19 +2,17 @@ import { Button } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import React from "react";
-import { Link } from "react-router-dom";
-import styles from "./jobPost.module.scss";
 import axios from "axios";
 import Cookie from "js-cookie";
-import api from "../../constants/api";
+import React from "react";
+import { Link } from "react-router-dom";
 import { Notification } from "../../components/notification";
-import AddIcon from '@material-ui/icons/Add';
+import api from "../../constants/api";
+import styles from "./jobPost.module.scss";
 
 const JobPost = ({
   fieldsToShow,
   selectedBoardID,
-  // detailLevel,
   title,
   company,
   locations,
@@ -39,16 +37,6 @@ const JobPost = ({
           description,
           salary,
           date,
-        };
-        const postData = {
-          method: "post",
-          url: `${api.BASE_URL}/api/tracker/`,
-          data: {
-            user_id: userID,
-            board_id: selectedBoardID,
-            job_to_track: jobToTrack,
-          },
-          headers: { "Content-Type": "text/plain" },
         };
         axios
           .post(
@@ -121,21 +109,7 @@ const JobPost = ({
                   <a href={url}>Original post link</a>
                 </div>
               )}
-              {/* {fieldsToShow.salary && (
-									<div>
-										Salary: {salary}
-									</div>
-								)} */}
-              {/* {fieldsToShow.date && (
-									<div>
-										Posted date: {date}
-									</div>
-								)} */}
-              {/* {fieldsToShow.description && (
-									<div>
-										Description: {description}
-									</div>
-								)} */}
+
               <br />
             </div>
           </Typography>

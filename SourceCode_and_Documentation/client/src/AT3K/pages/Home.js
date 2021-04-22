@@ -1,48 +1,17 @@
-import React from 'react';
-import Layout from '../../components/Layout/Layout';
-import styles from './Home.module.scss';
-import { Notification } from '../components/notification';
 import {
     Container
 } from '@material-ui/core';
-import Button from '../components/buttons/Button';
+import Cookie from 'js-cookie';
+import React from 'react';
+import FadeIn from 'react-fade-in';
 import {
     useParams,
     withRouter
 } from 'react-router-dom';
-import Cookie from 'js-cookie';
-
-import Unsplash from "react-unsplash-wrapper";
-
-import { ParallaxBanner, Parallax, Image } from 'react-scroll-parallax';
-import Cookies from 'js-cookie';
-import FadeIn from 'react-fade-in';
-
-const ParallaxWallpaper = ({ image }) => {
-    return (
-        <ParallaxBanner
-            className="your-class"
-            layers={[
-                {
-                    image: image,
-                    amount: -0.5,
-                },
-                {
-                    image: image,
-                    amount: 0.5,
-                },
-            ]}
-            style={{
-                height: '300px',
-            }}
-        >
-            <h1>Banner Children</h1>
-        </ParallaxBanner>
-    )
-}
+import Layout from '../../components/Layout/Layout';
+import styles from './Home.module.scss';
 
 const Home = withRouter(({ unknownPath, history }) => {
-
     const { id: userID, token } = useParams();
     if (userID) {
         Cookie.set("user_id", userID);
@@ -51,7 +20,6 @@ const Home = withRouter(({ unknownPath, history }) => {
         window.location.reload();
     }
     
-
     return (
         <Layout>
             <FadeIn>
@@ -61,10 +29,6 @@ const Home = withRouter(({ unknownPath, history }) => {
                     alt="banner"
                 />
                 <Container>
-                    {/* <ParallaxWallpaper image="https://images.unsplash.com/photo-1462206092226-f46025ffe607?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1506&q=80"/>
-                    ^cool parallax effect
-                    <div className={styles.parallax}></div>
-                    ^cool parallax effect */}
                     <h1 className={styles.title}>Home</h1>
                     <h2 className={styles.welcome}>Welcome to <strong style={{color: "blueviolet"}}>employ</strong>.me!</h2>
                     <div className={styles.container}>
@@ -89,7 +53,6 @@ const Home = withRouter(({ unknownPath, history }) => {
                             Have more questions? Head to our FAQ tab for answers to our most popular questions! Or contact us if you need further help. Happy tracking!
                         </p>
                     </div>
-                    {/* <div className={styles.parallax}></div> */}
                 </Container>
             </FadeIn>
         </Layout>

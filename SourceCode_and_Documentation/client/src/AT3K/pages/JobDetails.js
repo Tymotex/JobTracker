@@ -1,14 +1,15 @@
 import {
     Button, Grid
 } from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip';
 import {
     ArrowBack as ArrowBackIcon,
-    AttachMoney as AttachMoneyIcon, CalendarToday as CalendarTodayIcon,
-    EventBusy as EventBusyIcon,
-    Label as LabelIcon, Link as LinkIcon, List as ListIcon, Schedule as ScheduleIcon
+    AttachMoney as AttachMoneyIcon, 
+    CalendarToday as CalendarTodayIcon,
+    Schedule as ScheduleIcon
 } from '@material-ui/icons';
+import MapIcon from '@material-ui/icons/Map';
+import axios from "axios";
+import Cookie from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import {
     Link, useLocation
@@ -17,22 +18,18 @@ import Layout from '../../components/Layout/Layout';
 import { JobDetailField } from '../components/job-details';
 import DescriptionSection from '../components/job-details/DescriptionSection';
 import Footer from '../components/job-details/Footer';
-import { JobMap } from '../components/job-map';
-import styles from './JobDetails.module.scss';
-import api from "../constants/api";
-import axios from "axios";
-import MapIcon from '@material-ui/icons/Map';
-import Cookie from 'js-cookie';
 import BoardSelectionDropdown from '../components/job-lists/BoardSelectionDropdown';
-import { Notification } from '../components/notification';
+import { JobMap } from '../components/job-map';
 import { ContentLoader } from '../components/loaders';
+import { Notification } from '../components/notification';
+import api from "../constants/api";
+import styles from './JobDetails.module.scss';
 import pageStyles from './Page.module.scss';
 
 const iconSize = "small";
 const btnStyle = {
     margin: '20px 5px'
 };
-
 
 const companyIconStyle = {
     borderRadius: '50%',
@@ -60,7 +57,6 @@ const Header = ({
 
     // ===== GET /api/user/boards =====
     // If the user is logged in, fetch their boards
-
     const fetchUserBoards = () => {
         const userID = Cookie.get("user_id");
         if (userID) {
@@ -80,10 +76,7 @@ const Header = ({
         fetchUserBoards();
     }, []);
 
-    // =========================
-
     // ===== POST /api/tracker ======
-
     const trackNewJob = () => {
         const userID = Cookie.get("user_id");
         if (userID) {
@@ -125,8 +118,6 @@ const Header = ({
         }
     };
 
-    // ============================
-
     // ===== POST /api/user/company =====
 
     const favouriteThisCompany = (companyName) => {
@@ -150,10 +141,7 @@ const Header = ({
         } else {
             Notification.spawnRegisterError();
         }
-    }
-
-    // ============================
-
+    };
 
     const jobDetailFields = [
         {
@@ -190,7 +178,6 @@ const Header = ({
                             <label for="back">Back</label>
                         </Button>
                     </Grid>
-
                     <Grid item>
                         <div className={styles.iconLabelSet}>
                             <img
@@ -204,7 +191,6 @@ const Header = ({
                             >
                                 {company}
                             </Link>
-                            {/* <a href="/search/company">{company}</a> */}
                         </div>
                         <div className={styles.mainTitle}>
                             {title}
@@ -261,13 +247,10 @@ const Header = ({
         </Grid>
 
     );
-}
-
-
+};
 
 const JobDetails = () => {
     const [jobDescription, setJobDescription] = useState(null);
-    // get data from 
     const search = useLocation().search;
     const params = new URLSearchParams(search);
     const title = params.get('title');
@@ -285,7 +268,7 @@ const JobDetails = () => {
             Notification.spawnError(err);
             setJobDescription(basicDescription);
         });
-    }, [])
+    }, []);  // eslint-disable-line react-hooks/exhaustive-deps
         
     const isLoading = (jobDescription === null);
 
@@ -295,7 +278,6 @@ const JobDetails = () => {
                 <Header url={url} company={company} title={title} salary={salary} locations={locations} date={date} />
                 <hr />
                 <DescriptionSection title="Description">
-                    {/* NOTE this is probably not safe, but it works */}
                     {(isLoading) ? (
                         <ContentLoader />
                     ) : (
@@ -319,13 +301,12 @@ const JobDetails = () => {
                         </div>
                     )}
                 </DescriptionSection>
-
                 <DescriptionSection title="Location">
-                    <JobMap locationQuery={locations} />  {/* Substitute this for actual location query */}
+                    <JobMap locationQuery={locations} /> 
                 </DescriptionSection>
                 <hr />
-
                 <Footer type="job" />
+
             </div>
         </Layout>
     );

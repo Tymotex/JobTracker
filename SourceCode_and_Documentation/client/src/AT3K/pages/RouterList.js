@@ -5,7 +5,7 @@ import {
     useLocation
 } from "react-router-dom";
 
-// Pages:
+// Page components:
 import Home from './Home';
 import JobDashboard from './JobDashboard';
 import Statistics from './Statistics';
@@ -22,11 +22,12 @@ import Cookie from 'js-cookie';
 import Community from "./Community";
 
 /**
-  * Routes are created here!
+  * Routes are created here.
   */
 let routes = [
     {
-        path: "/home/:id/:token", // FIXME: Extremely hacky way of getting google auth data
+        // FIXME: Extremely hacky way of getting google auth data.
+        path: "/home/:id/:token",
         page: Home
     },
     {
@@ -104,7 +105,7 @@ let routes = [
         requiresAuth: true
     },
     {
-        path: "/user/edit/:id",   // TODO: FIX ROUTE
+        path: "/user/edit/:id",  
         page: ProfileEdit,
         requiresAuth: true
     },
@@ -120,6 +121,7 @@ let routes = [
 ];
 
 const userID = Cookie.get("user_id");
+
 routes = routes.map((route) => {
     return (route.requiresAuth) ? ({
         ...route,
@@ -148,4 +150,5 @@ const RouterList = ({ replaceTheme, currTheme }) => {
         </Switch>
     );
 }
+
 export default RouterList;

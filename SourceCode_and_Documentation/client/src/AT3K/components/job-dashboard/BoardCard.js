@@ -1,10 +1,10 @@
-import { Button } from '../buttons';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
+import { Button } from '../buttons';
 import {
     EllipsesMenu
 } from '../menus';
@@ -12,7 +12,6 @@ import {
     BoardDeleteModal, BoardEditModal
 } from '../modals';
 import styles from './BoardCard.module.scss';
-import Unsplash from "react-unsplash-wrapper";
 
 const useStyles = makeStyles({
     bullet: {
@@ -27,7 +26,6 @@ const useStyles = makeStyles({
         marginBottom: 12,
     },
 });
-
 
 const BoardCard = ({ _id, name, description, image_url, selectBoard, fetchBoards }) => {
     const [editModalOpen, setEditModalOpen] = React.useState(false);
@@ -50,7 +48,7 @@ const BoardCard = ({ _id, name, description, image_url, selectBoard, fetchBoards
     }
     
     const openBoardControlModal = (option) => {
-        if (option === "Edit this board") {    // TODO: Hardcoded string is bad :(
+        if (option === "Edit this board") {  
             handleEditModelOpen();
         } else if (option === "Delete this board") {
             handleDeleteModelOpen();

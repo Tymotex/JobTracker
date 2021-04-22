@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';

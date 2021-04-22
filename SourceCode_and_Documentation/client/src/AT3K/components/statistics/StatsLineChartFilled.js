@@ -1,12 +1,9 @@
-import moment from 'moment';
 import React from "react";
 import ApexCharts from "react-apexcharts";
-
 
 const StatsLineChartFilled = ({ theme, activityType, activityStats }) => {
 
     const returnedData = activityStats;
-    
     
     // Ideas:
     // Toggleability to show number of "applications", "resumes", etc.
@@ -44,62 +41,6 @@ const StatsLineChartFilled = ({ theme, activityType, activityStats }) => {
             fin_list.push(finalCount);
         }) 
 
-        const xAxisDays = statDays.map(eachDay => {
-            var momentDate = moment(eachDay, "DD/MM/YYYY");
-            return momentDate.toDate();
-        });
-        
-        // var tokens;
-        // var day;
-        // var date_string;
-
-        // for (var date in statDays) {
-        //     date_string = "" + statDays[date];
-        //     tokens = date_string.split("-");
-        //     // Changes string from "yyyy-mm-dd" to "dd/mm/yyyy" and removing leading zeroes
-        //     for (var token = 0; token < tokens.length; token++) {
-        //         var format = "" + tokens[2 - token];
-        //         if (format.startsWith("0", 0)) {
-        //             format = format.substring(1);
-        //         };
-        //         if (token == 0) {
-        //             day = format;
-        //             continue;
-        //         };
-        //         day = day + "/" + format;
-        //     };
-        
-        //     // Count number of each type of activity and push to each activity type list
-        //     if (day in returnedData) {
-        //         var activity_list = returnedData[day];
-        //         var app_count = 0;
-        //         var res_count = 0;
-        //         var int_count = 0;
-        //         var fin_count = 0;
-        //         for (var activity in activity_list) {
-        //             if (activity_list[activity].match("application")) {
-        //                 app_count++;
-        //             } else if (activity_list[activity].match("resume")) {
-        //                 res_count++;
-        //             } else if (activity_list[activity].match("interview")) {
-        //                 int_count++;
-        //             } else {
-        //                 fin_count++;
-        //             };
-        //         };
-        //         app_list.push(app_count);
-        //         res_list.push(res_count);
-        //         int_list.push(int_count);
-        //         fin_list.push(fin_count);
-        //     } else {
-        //         // Push zero to the each list of activity if there was no activity of any type on that day
-        //         app_list.push(0);
-        //         res_list.push(0);
-        //         int_list.push(0);
-        //         fin_list.push(0);
-        //     };
-        // };
-        
         // All possible series
         let series = [
             {
@@ -177,8 +118,6 @@ const StatsLineChartFilled = ({ theme, activityType, activityStats }) => {
             </div>
         )
     }
-
-
+};
     
-}    
 export default StatsLineChartFilled;

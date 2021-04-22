@@ -1,30 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Grid } from "@material-ui/core";
-import Layout from "../../components/Layout/Layout";
-import { useParams } from "react-router-dom";
+import { Avatar, Button, TextField } from "@material-ui/core";
 import axios from "axios";
 import Cookie from "js-cookie";
-import api from "../constants/api";
-import { Notification } from "../components/notification";
-import pageStyles from "./Page.module.scss";
-import { Avatar, Box, Button, Container, TextField } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-
-import styles from "./ProfileEdit.module.scss";
+import React, { useEffect, useState } from "react";
 import FadeIn from "react-fade-in";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-      width: "25ch",
-    },
-  },
-}));
+// import { useParams } from "react-router-dom";
+import Layout from "../../components/Layout/Layout";
+import { Notification } from "../components/notification";
+import api from "../constants/api";
+import pageStyles from "./Page.module.scss";
+import styles from "./ProfileEdit.module.scss";
 
 const ProfileEdit = () => {
-  const classes = useStyles();
-  let { id } = useParams();
+  // let { id } = useParams();
   const [profile, setProfile] = useState(null);
 
   const getUserProfile = () => {
@@ -43,10 +30,7 @@ const ProfileEdit = () => {
 
   // TODO: Call this function to set the new fields. Should be ready to go
   const setUserProfile = (event) => {
-    console.log("Sending deatils");
-    console.log("==>", profile);
     event.preventDefault();
-    const formData = new FormData(event.target);
     const userID = Cookie.get("user_id");
     if (userID) {
       axios
@@ -81,7 +65,6 @@ const ProfileEdit = () => {
     let newProfile = { ...profile };
     // profileprev[key] = event.target.value
     newProfile[key] = event.target.value;
-    console.log(newProfile);
     setProfile(newProfile);
   };
 

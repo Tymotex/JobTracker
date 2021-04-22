@@ -10,8 +10,6 @@ import {
 import pageStyles from "./Page.module.scss";
 import FadeIn from 'react-fade-in';
 
-// TODO: Dark mode: https://www.npmjs.com/package/darkreader
-
 const Settings = ({ replaceTheme, currTheme, settingsCategory }) => {
     return (
         <Layout>

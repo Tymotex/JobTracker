@@ -1,30 +1,20 @@
 import {
     Grid
 } from '@material-ui/core';
-import { Button } from '../components/buttons';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
+import FadeIn from 'react-fade-in';
+import { Button } from '../components/buttons';
 import {
-    BoardCardGrid,
+    BoardCardGrid
 } from '../components/job-dashboard';
 import CompanyCard from '../components/job-dashboard/CompanyCard';
 import {
-    Dropdown
-} from '../components/dropdowns';
+    ContentLoader
+} from '../components/loaders';
 import {
     BoardCreateModal
 } from '../components/modals';
-import {
-    ContentLoader
-} from '../components/loaders';
-import FadeIn from 'react-fade-in';
-
-
-// Force update hook
-const useForceUpdate = () => {
-    const [value, setValue] = useState(0);             
-    return () => setValue(value => value + 1); 
-}
 
 const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardList, boardSortStrategy, handleSetBoardSorter, fetchBoards }) => {
     const [modalOpen, setModalOpen] = React.useState(false);
@@ -47,21 +37,6 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                             <h2>Your Job Boards</h2>
                             <hr />
                         </Grid>
-                        {/* <Grid item xs={6}>
-                            <Dropdown 
-                                label="Sort by"
-                                value={boardSortStrategy}
-                                onChange={handleSetBoardSorter}
-                                items={[
-                                    { value: "alphabetical", text: "Alphabetical A-Z" },
-                                    { value: "reverse-alphabetical", text: "Alphabetical Z-A" },
-                                    { value: "recency", text: "Most recently interacted" },
-                                    { value: "reverse-recency", text: "Least recently interacted" },
-                                    { value: "priority", text: "Highest priority" },
-                                    { value: "reversepriority", text: "Lowest priority" }
-                                ]}
-                            />
-                        </Grid> */}
                     </Grid>
                     {isLoading ? (
                         <ContentLoader />
@@ -101,19 +76,15 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                         delay={100}
                         transitionDuration={400}
                     >
-                        {/* <CardCarousel 
-                            companies={companies}
-                        /> */}
                         <Grid container display='flex'>
                             {companies && companies.map((eachCompany) => (
-                                <Grid item xs={12} sm={6} md={4} lg={3}>
+                                <Grid item xs={12} sm={6} md={4} lg={3} style={{"margin-bottom": "10px"}}>
                                     <CompanyCard
                                         {...eachCompany}
                                     />
                                 </Grid>
                             ))}
                         </Grid>
-                        
                     </FadeIn>
                 </>
             )}

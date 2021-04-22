@@ -1,20 +1,15 @@
-import React, { useState } from "react";
 import { Button } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookie from "js-cookie";
+import React from "react";
+import { Link } from "react-router-dom";
 import api from "../../constants/api";
 import { Notification } from "../notification";
-
 import styles from "./DetailedJobPost.module.scss";
 
 const DetailedJobPost = ({
   fieldsToShow,
   selectedBoardID,
-  // detailLevel,
   title,
   company,
   locations,
@@ -24,7 +19,6 @@ const DetailedJobPost = ({
   date,
 }) => {
   // ===== POST /api/tracker ======
-
   const trackNewJob = () => {
     const userID = Cookie.get("user_id");
     if (userID) {
@@ -39,16 +33,6 @@ const DetailedJobPost = ({
           description,
           salary,
           date,
-        };
-        const postData = {
-          method: "post",
-          url: `${api.BASE_URL}/api/tracker/`,
-          data: {
-            user_id: userID,
-            board_id: selectedBoardID,
-            job_to_track: jobToTrack,
-          },
-          headers: { "Content-Type": "text/plain" },
         };
         axios
           .post(
@@ -76,22 +60,13 @@ const DetailedJobPost = ({
     }
   };
 
-  const [onHover, setOnHover] = useState(false);
-
-  const mouseEnterHanlder = () => {
-    setOnHover(true);
-  };
-
-  const mouseLeaveHanlder = () => {
-    setOnHover(false);
-  };
-
   const data = {
     title,
     company,
     locations,
     url,
-    description,     // FIXME: This may be too long. Alternatives to passing data to a route?
+    // FIXME: This may be too long. Alternatives to passing data to a route?
+    description,     
     salary,
     date
   };
@@ -102,18 +77,9 @@ const DetailedJobPost = ({
   return (
     <div
       className={styles.card}
-      // className="card card-1"
-      onMouseEnter={mouseEnterHanlder}
-      onMouseLeave={mouseLeaveHanlder}
     >
-      {/* <Link to={moreInfoURL}> */}
-      {/* <div className="card-img"></div> */}
-      {/* <Link to={moreInfoURL} className="card-link">
-        <div className="card-img-hovered"></div>
-      </Link> */}
       <div className={styles.cardInfo}>
         <div className={styles.cardAbout}>
-          {/* <a className="card-tag tag-news">NEWS</a> */}
           <Button
             className={`${styles.cardTag} ${styles.tagNews}`}
             variant="contained"
@@ -125,7 +91,6 @@ const DetailedJobPost = ({
           {fieldsToShow.date && date && date !== "" && (
             <div className={styles.cardTime}>Posted date: {date}</div>
           )}
-          {/* <div className="card-time">6/11/2018</div> */}
         </div>
         {fieldsToShow && fieldsToShow.title && (
           <>
@@ -169,21 +134,7 @@ const DetailedJobPost = ({
             )}
           </div>
         </div>
-        {/* {onHover && (
-          <div className={styles.spaced_container}>
-            <Link to={moreInfoURL}>
-              <strong style={{ "font-size": "150%" }}>View more here</strong>
-            </Link>
-            <Link
-              className={styles.field}
-              to={`/search/company?company=${company}`}
-            >
-              <strong style={{ "font-size": "150%" }}>{company}</strong>
-            </Link>
-          </div>
-        )} */}
       </div>
-      {/* </Link> */}
     </div>
   );
 };

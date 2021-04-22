@@ -1,7 +1,7 @@
+import Cookie from 'js-cookie';
 import React, { useCallback, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import api from "../../constants/api";
-import Cookie from 'js-cookie';
 
 const baseStyle = {
   flex: 1,
@@ -31,43 +31,9 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-// function ResumeDropZone(props) {
-//   const onDrop = useCallback((acceptedFiles) => {
-//     console.log(acceptedFiles);
-//     // TODO do something with the resume
-//   }, []);
-
-//   const {
-//     getRootProps,
-//     getInputProps,
-//     isDragActive,
-//     isDragAccept,
-//     isDragReject,
-//   } = useDropzone({ accept: "image/*", onDrop });
-
-//   const style = useMemo(
-//     () => ({
-//       ...baseStyle,
-//       ...(isDragActive ? activeStyle : {}),
-//       ...(isDragAccept ? acceptStyle : {}),
-//       ...(isDragReject ? rejectStyle : {}),
-//     }),
-//     [isDragActive, isDragReject, isDragAccept]
-//   );
-
-//   return (
-//     <div className="container">
-//       <div {...getRootProps({ style })}>
-//         <input {...getInputProps()} />
-//         <p>Drag 'n' drop or click to add your resume</p>
-//       </div>
-//     </div>
-//   );
-// }
-
 function ResumeDropZone({ setResume, setResumeBinaryFile }) {
   const onDrop = useCallback((acceptedFiles) => {
-    console.log(acceptedFiles);
+    // console.log(acceptedFiles);
     acceptedFiles.forEach((file) => {
       const reader = new FileReader()
       setResumeBinaryFile(file);
@@ -81,7 +47,7 @@ function ResumeDropZone({ setResume, setResumeBinaryFile }) {
       reader.readAsArrayBuffer(file)
     })
     
-  }, [])
+  }, [setResumeBinaryFile, setResume])
   // const {getRootProps, getInputProps} = useDropzone({onDrop})
 
   const {

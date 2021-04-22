@@ -1,21 +1,12 @@
 import React from 'react';
 import Board from 'react-trello';
 import boardStyles from './JobBoard.module.scss';
-import FullscreenMode from './FullscreenMode';
+import FullscreenMode from '../fullscreen/FullscreenMode';
 import { useState } from 'react';
 import axios from 'axios';
 import { Notification } from '../notification';
 import api from '../../constants/api';
 import Cookie from 'js-cookie';
-// import { Modal } from '../modals';
-// import { PrimaryButton } from '../buttons';
-// import ReactTooltip from 'react-tooltip';
-
-// Documentation:
-// https://github.com/rcdexta/react-trello
-
-// What is this: https://github.com/atlassian/react-beautiful-dnd
-// Could this be helpful?
 
 const getJobCardsOfStatus = ((trackedJobs, status) => (
     trackedJobs.filter(job => job.current_status === status).map((eachJob, i) => ({
@@ -93,17 +84,6 @@ const JobBoard = ({ trackedJobs, boardID, fieldsToShow }) => {
         });
     }
 
-    // console.log("==== UPDATED BOARD ====");
-    // console.log(trackedJobs);
-    // console.log(jobs);
-
-    // TODO: API call: PUT api/user/tracked_job - user_id, board_id, job_id, updated_job
-    //  toLaneId -> resumeSent
-    //  get the original job by using the index in the new lane's card array
-    //  update its status
-    //  make the API call
-    // Save board is unnecessary?
-
     return (
         <FullscreenMode>
             <div className={boardStyles.container}>
@@ -111,8 +91,6 @@ const JobBoard = ({ trackedJobs, boardID, fieldsToShow }) => {
                     className={boardStyles.board} 
                     data={jobs} 
                     editable={true}
-                    // canAddLanes={true}
-                    // collapsibleLanes={true}
                     onCardMoveAcrossLanes={updateJob}
                     onDataChange={getNewState}
                 />

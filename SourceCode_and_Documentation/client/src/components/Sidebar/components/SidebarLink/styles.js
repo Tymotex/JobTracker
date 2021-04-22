@@ -4,12 +4,10 @@ export default makeStyles(theme => ({
   link: {
     textDecoration: "none",
     "&:hover, &:focus": {
-      backgroundColor: theme.palette.background.light,
       backgroundColor: "#444444"
     },
   },
   linkActive: {
-    backgroundColor: theme.palette.background.light,
     backgroundColor: "#444444",
   },
   linkNested: {
@@ -21,7 +19,6 @@ export default makeStyles(theme => ({
   },
   linkIcon: {
     marginRight: theme.spacing(1),
-    color: theme.palette.text.secondary + "99",
     transition: theme.transitions.create("color"),
     width: 24,
     display: "flex",
@@ -29,12 +26,10 @@ export default makeStyles(theme => ({
     color: "white"
   },
   linkIconActive: {
-    // color: theme.palette.primary.main,
     color: "white"
   },
   linkText: {
     padding: 0,
-    color: theme.palette.text.secondary + "CC",
     transition: theme.transitions.create(["opacity", "color"]),
     fontSize: 16,
     color: "white"

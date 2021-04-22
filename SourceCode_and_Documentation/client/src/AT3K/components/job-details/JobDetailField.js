@@ -5,11 +5,9 @@ const JobDetailField = ({ label, value, link, children}) => {
     return (
         <div className={styles.iconListItem}>
             {children}
-
             <label>
-                {label}{label ? ":" : ""} <a href={link}>{value}</a>   {/* TODO: Change this to Link in react router */}
+                {label}{label ? ":" : ""} <a href={link}>{value}</a>  
             </label>
-         
         </div>
     )
 };

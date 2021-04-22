@@ -1,104 +1,98 @@
-
 // Material UI Icons: https://material-ui.com/components/material-icons/ 
-import React, { useState, useEffect } from 'react';
-import {
-  Home as HomeIcon,
-  Work as WorkIcon,
-  Search as SearchIcon,
-  BarChart as BarChartIcon,
-  Settings as SettingsIcon,
-  HelpOutline as FAQIcon,
-  ExitToApp as SignOutIcon
-} from "@material-ui/icons";
 import {
     Avatar,
     Menu,
     MenuItem
 } from '@material-ui/core';
 import {
-    Link, withRouter
-} from 'react-router-dom';
-import Button from '../components/buttons/Button';
-import Cookie from 'js-cookie';
+    BarChart as BarChartIcon,
+    ExitToApp as SignOutIcon, HelpOutline as FAQIcon, Home as HomeIcon,
+    Search as SearchIcon,
+    Settings as SettingsIcon, Work as WorkIcon
+} from "@material-ui/icons";
 import FaceIcon from '@material-ui/icons/Face';
 import axios from 'axios';
-import api from '../constants/api';
-import { Notification } from '../components/notification';
+import Cookie from 'js-cookie';
+import React, { useEffect, useState } from 'react';
+import {
+    Link, withRouter
+} from 'react-router-dom';
 import { LoadingSpinner } from '../components/loaders';
-import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
-
 // Top nav components:
 import { LoginModal, RegisterModal } from '../components/modals';
-
+import { Notification } from '../components/notification';
+import api from '../constants/api';
 
 const userID = Cookie.get("user_id");
 
 /**
  * Side nav items
  */
-const sideNavItems = [
-    { id: 0, label: "Home", link: "/", icon: <HomeIcon /> },
-    { id: 10, label: "Job Dashboard", link: "/dashboard", icon: <WorkIcon /> },
-    { id: 20, label: "Search For Jobs", link: "/search", icon: <SearchIcon /> },
-    { id: 30, label: "Statistics", link: "/statistics", icon: <BarChartIcon /> },
-    { id: 41, type: "divider" },
-    { 
-        id: 32, 
-        label: "Profile", 
-        icon: <FaceIcon />,
-        link: `/user/${userID}`,
-        children: [
-            {
-                label: "View profile",
-                link: `/user/${userID}`
-            },
-            {
-                label: "Edit profile",
-                link: `/user/edit/${userID}`
-            }
-        ]
-    },
-    { id: 35, type: "divider" },
-    // {
-    //     id: 36,
-    //     label: "Community",
-    //     link: "/community",
-    //     icon: <EmojiPeopleIcon />
-    // },
-    // { id: 40, type: "divider" },
-    { 
-        id: 50, 
-        label: "Settings", 
-        link: "/settings",
-        icon: <SettingsIcon />, 
-        children: [
-            {
-                label: "Profile", 
-                link: "/settings/profile",
-            },
-            {
-                label: "Theme", 
-                link: "/settings/theme",
-            },
-            // {
-            //     label: "Notifications", 
-            //     link: "/settings/notifications",
-            // },
-            // {
-            //     label: "Preferences", 
-            //     link: "/settings/preferences",
-            // },
-        ]
-    },
-    { id: 60, type: "divider" },
-    // { id: 70, type: "title", label: "Resources" },
-    // { id: 80, label: "FAQ", link: "/faq", icon: <FAQIcon /> }
-]
+let sideNavItems;
+if (userID) {
+    sideNavItems = [
+        { id: 0, label: "Home", link: "/", icon: <HomeIcon /> },
+        { id: 10, label: "Job Dashboard", link: "/dashboard", icon: <WorkIcon /> },
+        { id: 20, label: "Search For Jobs", link: "/search", icon: <SearchIcon /> },
+        { id: 30, label: "Statistics", link: "/statistics", icon: <BarChartIcon /> },
+        { id: 41, type: "divider" },
+        { 
+            id: 32, 
+            label: "Profile", 
+            icon: <FaceIcon />,
+            link: `/user/${userID}`,
+            children: [
+                {
+                    label: "View profile",
+                    link: `/user/${userID}`
+                },
+                {
+                    label: "Edit profile",
+                    link: `/user/edit/${userID}`
+                }
+            ]
+        },
+        { id: 35, type: "divider" },
+        { 
+            id: 50, 
+            label: "Settings", 
+            link: "/settings",
+            icon: <SettingsIcon />, 
+            children: [
+                {
+                    label: "Profile", 
+                    link: "/settings/profile",
+                },
+                {
+                    label: "Theme", 
+                    link: "/settings/theme",
+                },
+                {
+                    label: "Notifications", 
+                    link: "/settings/notifications",
+                },
+                {
+                    label: "Preferences", 
+                    link: "/settings/preferences",
+                },
+            ]
+        },
+        { id: 60, type: "divider" },
+        // { id: 70, type: "title", label: "Resources" },
+        // { id: 80, label: "FAQ", link: "/faq", icon: <FAQIcon /> }
+    ]
+} else {
+    // Only rendered if not logged in
+    sideNavItems = [
+        { id: 0, label: "Home", link: "/", icon: <HomeIcon /> },
+        { id: 60, type: "divider" },
+        { id: 80, label: "FAQ", link: "/faq", icon: <FAQIcon /> }
+    ]
+}
 
 /**
  * Top nav items
  */
-
 const AvatarDropdown = withRouter(({ history }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [profile, setProfile] = useState(null);

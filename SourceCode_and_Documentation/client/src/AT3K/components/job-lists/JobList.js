@@ -1,66 +1,17 @@
 import {
-	Grid,
-	Checkbox,
-	FormLabel,
-	FormControl,
-	FormGroup,
-	FormControlLabel,
-	FormHelperText,
-	Button,
+  Button,
+  Grid
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import FadeIn from 'react-fade-in';
 import { Dropdown } from "../dropdowns";
+import { ContentLoader } from "../loaders";
+import { Modal } from "../modals";
+import DetailedJobPost from "./DetailedJobPost";
+import FieldsSelectionForm from './FieldsSelectionForm';
 import styles from "./JobList.module.scss";
 import JobListPaginator from "./JobListPaginator";
 import JobPost from "./JobPost";
-import { ContentLoader } from "../loaders";
-import Slider from "@material-ui/core/Slider";
-import DetailedJobPost from "./DetailedJobPost";
-import style from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark";
-import FadeIn from 'react-fade-in';
-import { Modal } from "../modals";
-
-const FieldsSelectionForm = ({fieldsToShow, handleFieldsToShow, detailLevel, resultsPerPage, handleSetResultsPerPage}) => {
-  return (
-    <div style={{marginTop: "20px"}}>
-      <h4 className={styles.fieldTitle}>Results per page</h4>
-      <Slider
-        defaultValue={resultsPerPage}
-        onChangeCommitted={(_, val) => handleSetResultsPerPage(val)}
-        aria-labelledby="discrete-slider"
-        valueLabelDisplay="auto"
-        step={1}
-        marks
-        min={1}
-        max={30}
-      />
-      <FormControl component="fieldset" style={{marginTop: "50px", textAlign: "center", width: "100%"}}>
-          <FormLabel component="legend">Select fields to display</FormLabel>
-          {/* TODO Can't override formgroup css without using style = {} */}
-          <FormGroup
-            style={{ flexDirection: "row" }}
-          >
-            {Object.keys(fieldsToShow).map((eachField) => {
-              const alwaysShowFields = ["title", "company", "locations"];
-              if (detailLevel === 2 || alwaysShowFields.indexOf(eachField) !== -1 ) {
-                return  <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={fieldsToShow[eachField]}
-                    onChange={handleFieldsToShow}
-                    name={eachField}
-                  />
-                }
-                label={eachField}
-              />
-              }
-              return null;
-            })}
-          </FormGroup>
-      </FormControl>
-    </div>
-  );
-};
 
 const JobList = ({
 	selectedBoardID,
@@ -70,8 +21,6 @@ const JobList = ({
 	fetchJobPosts,
 	pageNum,
 	numResults,
-	searchValue,
-	onSearch,
 	pageCount,
 	sortStrategy,
 	handleSetSortStrategy
@@ -92,10 +41,6 @@ const JobList = ({
 		salary: true,
 		date: true,
 	});
-
-	// useEffect(() => {
-	//   fetchJobPosts(pageNumber, resultsPerPage);
-	// }, []);
 
 	// Handler for when the user clicks on a different page number
 	const handlePageClick = (d) => {
@@ -147,7 +92,6 @@ const JobList = ({
           />
         </Grid>
         <Grid className={styles.dropdown} item sm={4}>
-
           <Modal Contents={
               () => <FieldsSelectionForm 
                 fieldsToShow={fieldsToShow} 
@@ -162,7 +106,6 @@ const JobList = ({
           </Modal>
         </Grid>
       </Grid>
-      {/* TODO: Show search results summary - how many jobs were found */}
       <div style={{textAlign: "center"}}>
         {numResults} jobs were found
       </div>

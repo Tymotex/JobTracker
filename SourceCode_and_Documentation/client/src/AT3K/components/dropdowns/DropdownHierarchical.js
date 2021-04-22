@@ -29,4 +29,4 @@ export default function GroupedSelect({ label, options, onChange, value }) {
             </FormControl>
         </div>
     );
-}
+};

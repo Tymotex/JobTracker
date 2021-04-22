@@ -1,31 +1,25 @@
+import {
+	Button, Grid
+} from '@material-ui/core';
+import {
+	ArrowBack as ArrowBackIcon
+} from '@material-ui/icons';
+import axios from 'axios';
+import Cookie from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import {
 	useLocation
 } from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
-import DescriptionSection from '../components/job-details/DescriptionSection';
-import Footer from '../components/job-details/Footer'; 
 import JobItem from '../components/company-profile/JobItem';
+import DescriptionSection from '../components/job-details/DescriptionSection';
+import Footer from '../components/job-details/Footer';
 import { ContentLoader } from '../components/loaders';
+import { Notification } from '../components/notification';
+import api from '../constants/api';
+import styles from './JobDetails.module.scss';
 import pageStyles from './Page.module.scss';
 
-import {
-    Grid,
-    Button
-} from '@material-ui/core';
-
-import {
-	ArrowBack as ArrowBackIcon, StarSharp
-} from '@material-ui/icons';
-
-import api from '../constants/api';
-
-import styles from './JobDetails.module.scss';
-import axios from 'axios';
-import Cookie from 'js-cookie';
-import { Notification } from '../components/notification';
-
-	
 const Header = ({name}) => {
 	const [save, setSave] = React.useState(); //TODO
 	const userID = Cookie.get("user_id");
@@ -39,16 +33,13 @@ const Header = ({name}) => {
 		} else {
 			Notification.spawnRegisterError();
 		}
-	}, []);
+	}, [name, userID]);
 
     const btnStyle = {
         margin: '20px 5px'
     };
 
     const companyIconStyle = {
-        // borderRadius: '50%',
-        // width: '50px',
-        // height: '50px',
         padding: '5px'
     };
 
@@ -104,21 +95,11 @@ const Header = ({name}) => {
 
             <Grid item>
                 <div className={styles.iconLabelSet}>
-					{/*
-						Using Logo API
-						NOTE: 
-							has some conditions  
-							required to link 
-							<a href="https://clearbit.com">Logos provided by Clearbit</a>
-							on pages where this is used
-					*/}
                     <img 
 						src={`https://logo.clearbit.com/${name}.com` }
-						// src="https://th.bing.com/th/id/OIP.zJufwwvIsPoEYwp9lXhizgHaFi?w=158&h=129&c=7&o=5&dpr=2.5&pid=1.7"
 						style={companyIconStyle}
 						alt={name}
 					/>
-                    {/* <div>{name}</div> */}
                 </div>
                 <div className={styles.mainTitle}>
                     {name}
@@ -126,9 +107,6 @@ const Header = ({name}) => {
             </Grid>
 
             <Grid item direction="row">
-                {/* <Button style={btnStyle} variant="outlined" color="secondary" size="small" href="">
-                    View official Website
-                </Button> */}
                 <Button style={btnStyle} variant="outlined" color="secondary" size="small" onClick={handleSave}>
                     { save ? "Saved" : "Save" }
                 </Button>
@@ -181,8 +159,10 @@ const CompanyProfile = () => {
 							</>
 						)}
 						<hr />
-			
 						<Footer type="company"/>
+						<div>
+							<a href="https://clearbit.com">Logos provided by Clearbit</a>
+						</div>
 					</>
 				) : (
 					<>
@@ -191,7 +171,6 @@ const CompanyProfile = () => {
 				)}
 			</div>
 		</Layout>
-
 	);
 };
 

@@ -1,29 +1,23 @@
-import React from "react";
 import {
   AppBar,
-  Toolbar,
-  IconButton,
+
+  IconButton, Toolbar
 } from "@material-ui/core";
 import {
-  Menu as MenuIcon,
-  ArrowBack as ArrowBackIcon,
+  ArrowBack as ArrowBackIcon, Menu as MenuIcon
 } from "@material-ui/icons";
 import classNames from "classnames";
-import AssistantIcon from '@material-ui/icons/Assistant';
-
-// styles
-import useStyles from "./styles";
-
-// components
-import { Typography } from "../Wrappers";
-
+import React from "react";
+import { Link } from "react-router-dom";
 // context
 import {
-  useLayoutState,
-  useLayoutDispatch,
-  toggleSidebar,
+  toggleSidebar, useLayoutDispatch, useLayoutState
 } from "../../context/LayoutContext";
-import { Link } from "react-router-dom";
+// components
+import { Typography } from "../Wrappers";
+import logoIcon from './icon.png';
+// styles
+import useStyles from "./styles";
 
 export default function Header(props) {
   var classes = useStyles();
@@ -65,7 +59,7 @@ export default function Header(props) {
         </IconButton>
         <Typography variant="h6" weight="medium" className={classes.logotype}>
           <Link to="/" style={{textDecoration: "none", color: "white"}}>
-            <strong style={{color: "blueviolet"}}>employ</strong>.me  <img src="favicon.ico" style={{width: "18px"}} />
+            <strong style={{color: "blueviolet"}}>employ</strong>.me  <img src={logoIcon} alt="logo" style={{width: "18px"}} />
           </Link>
         </Typography>
         <div className={classes.grow} />

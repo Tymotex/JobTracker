@@ -1,11 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styles from './Arrow.module.scss';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import React from 'react';
 
-
-const VoteArrow = props => {
+const VoteArrow = () => {
     return (
         <div>
             <div>
@@ -19,10 +16,6 @@ const VoteArrow = props => {
             </div>
         </div>
     )
-}
+};
 
-VoteArrow.propTypes = {
-
-}
-
-export default VoteArrow
+export default VoteArrow;

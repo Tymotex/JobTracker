@@ -25,6 +25,6 @@ const BoardDropdown = ({ boardType, handleChangeBoard }) => {
             </Select>
         </FormControl>
     )
-}
+};
 
 export default BoardDropdown;

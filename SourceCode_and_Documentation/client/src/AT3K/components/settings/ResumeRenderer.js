@@ -11,11 +11,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 const ResumeRenderer = ({ file, setFile, resumeBinaryFile, showUploadButton=true, showPages=true }) => {
     const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
-
-    function onFileChange(event) {
-        setFile(event.target.files[0]);
-    }
+    const pageNumber = 1;
 
     function onDocumentLoadSuccess({ numPages: nextNumPages }) {
         setNumPages(nextNumPages);
@@ -37,11 +33,6 @@ const ResumeRenderer = ({ file, setFile, resumeBinaryFile, showUploadButton=true
             }
             console.log(postData);
             axios(postData)
-            // axios.post(`${api.BASE_URL}/api/user/resume`, formData, {
-            //     headers: {
-            //       'Content-Type': 'application/json'
-            //     }
-            // })
                 .then((response) => {
                     Notification.spawnSuccess("Saved your resume!")
                 })

@@ -28,11 +28,9 @@ export default function TransitionsModal() {
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 
-
 	const handleOpen = () => {
 		setOpen(true);
 	};
-
 
 	const handleClose = () => {
 		setOpen(false);
@@ -46,11 +44,6 @@ export default function TransitionsModal() {
 		const postData = {
 			method: "post",
 			url: `${api.BASE_URL}/api/auth/register`,
-			// data: {
-			// 	username: formData.get("username"),
-			// 	email:    formData.get("email"),
-			// 	password: formData.get("password") 
-			// },
 			data: formData,
 			headers: { "Content-Type": "multipart/form-data" }
 		};

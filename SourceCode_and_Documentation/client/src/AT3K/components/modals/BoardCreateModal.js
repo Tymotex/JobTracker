@@ -4,7 +4,7 @@ import {
 import { Button } from '../../components/buttons';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import Modal from '@material-ui/core/Modal';
+import { Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import styles from './Modal.module.scss';
@@ -20,10 +20,6 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
     }
 }));
-
-// TODO!!!!!!!
-// Modals are repetitive.
-// Maybe extract most of the html to a base component
 
 export default function TransitionsModal({ open, handleClose, updateBoardList }) {
     const classes = useStyles();
