@@ -51,23 +51,16 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
                                 fetchBoards={fetchBoards}
                             />
                             <div style={{"textAlign": "center", "margin": "20px"}}>
-                                <Button 
-                                    variant="contained" 
-                                    color="primary"
-                                    onClick={handleModalOpen}
-                                >
-                                    Create New Board
-                                </Button>
+                                <BoardCreateModal 
+                                    updateBoardList={updateBoardList}
+                                    handleClose={handleModalClose} 
+                                    open={modalOpen} 
+                                />
                             </div>
                         </FadeIn>
                     )} 
                 </Grid>
             </Grid>
-            <BoardCreateModal 
-                updateBoardList={updateBoardList}
-                handleClose={handleModalClose} 
-                open={modalOpen} 
-            />
             {companies && companies.length !== 0 && (
                 <>
                     <hr />

@@ -32,8 +32,7 @@ export default function Dot({ size, color }) {
         [classes.dotSmall]: size === "small",
       })}
       style={{
-        backgroundColor:
-          color && theme.palette[color] && theme.palette[color].main,
+        backgroundColor: color && theme.palette[color] && "blueviolet",
       }}
     />
   );

@@ -1,5 +1,8 @@
 import React from 'react';
 import SkyLight from 'react-skylight';
+import {
+    Button
+} from '../buttons';
 
 class Modal extends React.Component {
     constructor(props) {
@@ -7,13 +10,13 @@ class Modal extends React.Component {
     }
 
     render() {
-        const { title, children, Contents, Button } = this.props;
+        const { title="", children, buttonText="" } = this.props;
 
         // Depending on whether the Button prop was passed, render Contents of children
         return (
             <>
                 <section onClick={() => this.simpleDialog.show()}>
-                    <Button />
+                    <Button>{buttonText}</Button>
                 </section>
                 <div 
                     style={{
@@ -26,10 +29,8 @@ class Modal extends React.Component {
                         hideOnOverlayClicked 
                         ref={ref => this.simpleDialog = ref} 
                         title={title}
-                        style={{
-                            position: "absolute",
-                            zIndex: "100000"
-                        }}
+                        transitionDuration={250}
+                        showOverlay={true}
                     >
                         {children}
                     </SkyLight>

@@ -101,7 +101,7 @@ const Profile = () => {
                                     >
                                         <Box p={3} alignItem="center">
                                             <Box textAlign="center">
-                                                <img width="200px" alt="profile_img" src={profile.image_url} />
+                                                <img width="200px" alt="profile_img" style={{borderRadius: "50%", boxShadow: "0 2px 5px rgba(0, 0, 0, 0.6)"}} src={profile.image_url} />
                                             </Box>
                                             <Box p={2}>
                                                 <Typography

@@ -8,9 +8,9 @@
 .window {
     max-width: 500px;
     background-color: #fafafa;
-    border: 2px solid black;
-    box-shadow: 2px 2px 2px;
-
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0px 0px 40px 1px rgb(158, 159, 204);
     margin: 0 auto;
 
     .title {
@@ -70,4 +70,23 @@
 .register {
     text-align: center;
     font-size: larger;
+}
+
+.modalTitle {
+    width: 100%;
+    text-align: center;
+}
+
+.buttonGroup {
+    text-align: center;
+    input, button {
+        margin: 10px;
+    }
+}
+
+.inputGroup {
+    .blockFields {
+        width: 95%;
+        margin: 15px;
+    }
 }

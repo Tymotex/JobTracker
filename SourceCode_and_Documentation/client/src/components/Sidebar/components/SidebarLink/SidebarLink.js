@@ -90,7 +90,6 @@ export default function SidebarLink({
         onClick={toggleCollapse}
         className={classes.link}
         to={link}
-        disableRipple
       >
         <ListItemIcon
           className={classnames(classes.linkIcon, {

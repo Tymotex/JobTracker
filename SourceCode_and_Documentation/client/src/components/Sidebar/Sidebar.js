@@ -25,7 +25,7 @@ import { menuItems } from '../../AT3K/layouts'
 
 const structure = menuItems.sideNavItems;
 
-function Sidebar({ location }) {
+function Sidebar({ location, open=true }) {
   var classes = useStyles();
   var theme = useTheme();
 
@@ -57,12 +57,13 @@ function Sidebar({ location }) {
           [classes.drawerClose]: !isSidebarOpened,
         }),
       }}
-      open={isSidebarOpened}
+      open={isSidebarOpened && open}
     >
       <div className={classes.toolbar} />
       <div className={classes.mobileBackButton}>
         <IconButton onClick={() => toggleSidebar(layoutDispatch)}>
           <ArrowBackIcon
+            style={{color: "white"}}
             classes={{
               root: classNames(classes.headerIcon, classes.headerIconCollapse),
             }}

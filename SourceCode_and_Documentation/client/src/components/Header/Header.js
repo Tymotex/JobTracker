@@ -32,17 +32,17 @@ export default function Header(props) {
         <IconButton
           color="inherit"
           onClick={() => toggleSidebar(layoutDispatch)}
+          
           className={classNames(
             classes.headerMenuButtonSandwich,
             classes.headerMenuButtonCollapse,
-          )}
-        >
+            )}
+            >
           {layoutState.isSidebarOpened ? (
             <ArrowBackIcon
               classes={{
                 root: classNames(
                   classes.headerIcon,
-                  classes.headerIconCollapse,
                 ),
               }}
             />

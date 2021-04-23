@@ -15,7 +15,7 @@ export default makeStyles(theme => ({
     "&:hover, &:focus": {
       backgroundColor: "#444444",
       borderRadius: "10px"
-    },
+    }
   },
   linkIcon: {
     marginRight: theme.spacing(1),
@@ -35,7 +35,6 @@ export default makeStyles(theme => ({
     color: "white"
   },
   linkTextActive: {
-    // color: theme.palette.text.primary,
     color: "white"
   },
   linkTextHidden: {
