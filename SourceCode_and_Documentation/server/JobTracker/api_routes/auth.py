@@ -1,6 +1,11 @@
 """
-Routes for fetching job postings
+Routes for handling user authentication
+
+- login
+- register
+- googlelogin
 """
+import os
 import json
 import requests
 from oauthlib.oauth2 import WebApplicationClient
@@ -21,7 +26,7 @@ from JobTracker.exceptions import (
 from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, fields
 
-
+# Blueprint definition
 auth_router = Blueprint("auth", __name__)
 auth_api = Api(
     auth_router,
@@ -32,14 +37,15 @@ auth_api = Api(
     default_label="Authentication",
 )
 
-# Data model definitions
-session_fields = auth_api.model("User", {
-    "user_id": fields.String(description="User ID"),
-    "token": fields.String(description="JWT Token")
-})
+# Extracting environment variables
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+GOOGLE_DISCOVERY_URL = (
+    "https://accounts.google.com/.well-known/openid-configuration"
+)
 
-# RESTful route handlers:
-
+# OAuth 2 client setup
+client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 @auth_api.route('/register')
 class AuthenticationRegister(Resource):
@@ -50,7 +56,12 @@ class AuthenticationRegister(Resource):
             username = request_params["username"]
             email = request_params["email"]
             password = request_params["password"]
-            user_id = add_user(username, email, password, "https://www.pngarts.com/files/11/Avatar-Transparent-Background-PNG.png")  # FIXME: Default avatar
+            user_id = add_user(
+                username, 
+                email, 
+                password, 
+                "https://www.pngarts.com/files/11/Avatar-Transparent-Background-PNG.png"
+            ) 
             return {
                 "user_id": user_id,
                 "token": "EMPTY",
@@ -58,7 +69,6 @@ class AuthenticationRegister(Resource):
         except Exception as err:
             printColoured(err, colour="red")
             raise err
-
 
 @auth_api.route('/login')
 class AuthenticationLogin(Resource):
@@ -73,20 +83,10 @@ class AuthenticationLogin(Resource):
             "token": "EMPTY",
         }
 
-
-GOOGLE_CLIENT_ID = "738273414265-4o5frkngk1jhk6bvdcdoed2m9g75j2dp.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET = "hDWoHMP7OwawagzoOn_qNrCk"
-GOOGLE_DISCOVERY_URL = (
-    "https://accounts.google.com/.well-known/openid-configuration"
-)
-
-# OAuth 2 client setup
-client = WebApplicationClient(GOOGLE_CLIENT_ID)
-
+# ===== Google Authentication =====
 
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
-
 
 @auth_router.route("/googlelogin")
 def login_handler():

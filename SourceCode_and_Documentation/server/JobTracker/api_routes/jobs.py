@@ -14,7 +14,7 @@ from JobTracker.exceptions import InvalidUserInput
 from flask_restx import Resource, Api, fields
 from careerjet_api import CareerjetAPIClient
 
-
+# Blueprint definitions
 jobs_router = Blueprint("jobs", __name__)
 jobs_api = Api(
     jobs_router, 
@@ -25,25 +25,6 @@ jobs_api = Api(
     default_label="Job Post Search Namespace",
 )
 
-# Data model definitions
-user_fields = jobs_api.model("User", {
-    "skills": fields.String,
-    # TODO: Need more here!
-})
-
-search_fields = jobs_api.model("SearchFields", {
-    "sorting_strategy": fields.String,
-    "reverse": fields.Boolean,
-    "user_profile": fields.Nested(user_fields)
-    # TODO: Need more here!
-})
-
-response_fields = jobs_api.model("JobPostings", {
-    "position_name": fields.String,
-    # TODO: Need more here!
-})
-
-# RESTful route handlers:
 @jobs_api.route("/")
 class JobPostSearch(Resource):
     # @jobs_api.marshal_list_with(response_fields)
@@ -123,7 +104,7 @@ def get_job_postings(location, query, results_per_page, page, sort_criteria):
         "page"        : page,
         "sort"        : sort_criteria,                  
         "user_ip"     : "11.22.33.44",
-        "url"         : "http://www.example.com/jobsearch?q=electrical&l=sydney",   # TODO: Set this to be our url
+        "url"         : "http://www.example.com/jobsearch",  
         "user_agent"  : "Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0"
     })
     try:

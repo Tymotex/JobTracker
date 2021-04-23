@@ -42,22 +42,8 @@ user_api = Api(
     default_label="User job profile management",
 )
 
-# Data model definitions
-user_fields = user_api.model("User", {
-    "username": fields.String(description="Username"),
-})
-
-# RESTful route handlers:
 @user_api.route('/profile')
 class UserJobProfile(Resource):
-    # @user_api.doc(
-    #     description="Get a user's profile information",
-    #     params={
-    #         "id": "User's ID",
-    #         "token": "JWT token"
-    #     }
-    # )
-    # @user_api.marshal_with(user_fields)
     def get(self):
         """
             Fetch the user's profile information
@@ -67,11 +53,10 @@ class UserJobProfile(Resource):
                 - LinkedIn link
                 - GitHub link
                 - Resume link
-                - Should we make it dynamic and have an list of URLs so user decides what to include (easy to incorporate into frontend?)
         """
         printColoured(" * Retrieving user's profile info", colour="yellow")
         user_id = request.args.get("user_id")
-        # INSERT GET INFO FUNCTION HERE
+        # TODO: INSERT GET INFO FUNCTION HERE
         user = get_user_profile(user_id)
         return jsonify(user)
 
@@ -89,7 +74,6 @@ class UserJobProfile(Resource):
             params['phone'],
             params['skills']
         )
-
  
 @user_api.route('/boards')
 class UserBoardManagement(Resource):
@@ -123,8 +107,6 @@ class UserBoardManagement(Resource):
             "board_id": board_id
         }
 
-# ============================================ START KAI ============================================
-
 @user_api.route("/board")
 class UserBoard(Resource):
     def get(self):
@@ -136,7 +118,7 @@ class UserBoard(Resource):
                 - image_url
         """
         printColoured(" * Retrieving specific board", colour="yellow")
-        request_params = dict(request.args) # OK to use this as we are only posting a single dict rather than a large json object?
+        request_params = dict(request.args)
         user_id = request_params["user_id"]
         board_id = request_params["board_id"]
         board = get_board(user_id, board_id)
@@ -160,12 +142,9 @@ class UserBoard(Resource):
         tracked_jobs = request_params["tracked_jobs"]
         return set_tracked_jobs(user_id, board_id, tracked_jobs)
 
-    # TODO: Kai
-    # TODO: PUT /api/user/board
-
     def put(self):
         """
-            To hit this route - call PUT http://localhost:5000/api/user/board
+            Sets new fields for an existing user.
 
             Parameters:
                 - user_id
@@ -184,11 +163,9 @@ class UserBoard(Resource):
         new_image_url = request_params["new_image_url"]
         return edit_board(user_id, board_id, new_names, new_description, new_image_url)
 
-        # Call edit_board in database_ops.py
-
     def delete(self):
         """
-            To hit this route - call DELETE http://localhost:5000/api/user/board
+            Deletes user profile.
 
             Parameters:
                 - user_id
@@ -201,9 +178,6 @@ class UserBoard(Resource):
         user_id = request_params["user_id"]
         board_id = request_params["board_id"]
         return delete_board(user_id, board_id)
-        # Call delete_board in database_ops.py
-
-# ============================================ END KAI ============================================
 
 @user_api.route("/resume")
 class UserResume(Resource):
@@ -225,33 +199,17 @@ class UserResume(Resource):
             Receives the user's uploaded pdf and stores it locally on the file system
         """
         request_params = dict(request.form)
-        # return user_id
         printColoured(" * Uploading resume pdf", colour="yellow")
         pretty_print_dict(request_params)
-        # user_id = json.loads(request_params["data"])["user_id"]
         user_id = request_params["user_id"]
-        # printColoured(request_params["resume"], colour="yellow")
         printColoured(request.files["resume"], colour="yellow")
-        # path = "{}/{}.pdf".format(RESUME_DIR_PATH, user_id)
-        # file = open(path, "wb")
-        # file.write(bytearray(request_params["resume"], "utf-8"))
-        # file.close()
-        # request_params["resume"].save()
         request.files["resume"].save("{}/{}.pdf".format(RESUME_DIR_PATH, user_id))
         return "Saved"
 
-
-# ============================================ START KATRINA ============================================
-
-# TODO: KATRINA
-
 @user_api.route("/company")
 class UserFavouriteCompany(Resource):
-    
     def get(self):
         """
-            To hit this route - call GET http://localhost:5000/api/user/company
-
             Get the user's favourite companies
             Parameters:
                 - user_id
@@ -265,8 +223,6 @@ class UserFavouriteCompany(Resource):
 
     def post(self):
         """
-            To hit this route - call POST http://localhost:5000/api/user/company
-
             Save a new favourite company for a user
             Parameters:
                 - user_id
@@ -289,8 +245,6 @@ class UserFavouriteCompany(Resource):
 
     def delete(self):
         """
-            To hit this route - call POST http://localhost:5000/api/user/company
-
             Delete a saved favourite company for a user
             Parameters:
                 - user_id
@@ -308,9 +262,6 @@ class UserFavouriteCompany(Resource):
 
         printColoured(" * Unsaving company {} for a user". format(company_name), colour="yellow")
         return delete_favourite_company(user_id, company_name)
-
-# ============================================ END KATRINA ============================================
-
 
 @user_api.route("/parse_resume")
 class UserResumeParser(Resource):
@@ -350,31 +301,3 @@ def parse_resume(user_id: str, resume_url: str) -> dict:
     result = response.text
     set_user_resume_fields(user_id, result)
     return result
-
-
-"""
-TODO: Delete this. This is just for reference:
-Return value:
-{
-  "education": [
-    {
-      "name": "University of New South Wales"
-    },
-  ],
-  "email": "admin@timz.dev",
-  "experience": [
-    {
-      "organization": "Test company",
-      "title": "Junior Engineer"
-    }
-  ],
-  "name": "Tim Zhang",
-  "phone": "123-123-123",
-  "skills": [
-    "Shell",
-    ...
-  ]
-}
-
-"""
-

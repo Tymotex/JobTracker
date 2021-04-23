@@ -28,8 +28,6 @@ def add_user(username: str, email: str, password: str, image_url="") -> str:
             - token
             - user_id
     """
-    # TODO: What happens on failure?
-    # TODO: Need to check if user already exists
     if user_exists(email):
         raise InvalidUserInput(description="A user with that email already exists")
     inserted_user = db.users.insert_one({
@@ -56,7 +54,6 @@ def login_user(email: str, password: str) -> str:
             - token
             - user_id
     """
-    # TODO: What happens on failure?
     target_user = db.users.find_one({ "email": email })
     if not target_user:
         raise InvalidUserInput(description="An account with that email doesn't exist")
@@ -113,8 +110,6 @@ def set_user_profile(user_id: str, username: str, email:str, password: str, expe
     )
     return user_id
 
-
-
 # ===== Board Management =====
 
 def create_board(user_id: str, name: str, description: str, image_url="") -> str: 
@@ -122,7 +117,6 @@ def create_board(user_id: str, name: str, description: str, image_url="") -> str
         Creates a new document for the 'boards' collection.
         Returns the ID of the new document
     """
-    # TODO: What happens on failure?
     inserted_document = db.boards.insert_one({
         "user_id": user_id,
         "name": name,
@@ -137,7 +131,6 @@ def get_boards(user_id: str) -> list:
     """
         Fetches all the boards owned by the user with the given user_id.
     """
-    # TODO: What happens on failure?
     boards = [ board for board in db.boards.find({ "user_id": user_id }) ]
     for each_board in boards:
         each_board["_id"] = str(each_board["_id"])
@@ -150,13 +143,6 @@ def get_board(user_id: str, board_id: str):
     board["_id"] = str(board["_id"])
     return board
 
-
-# ============================================ START KAI ============================================
-# TODO: KAI
-
-# use the pymongo docs if lost: https://pymongo.readthedocs.io/en/stable/
-
-# TODO: LOOK INTO ANY POTENTIAL ERROR CASES
 def edit_board(user_id: str, board_id: str, name: str, description: str, image_url=""):
     """
         Updates an existing board's details
@@ -171,7 +157,6 @@ def edit_board(user_id: str, board_id: str, name: str, description: str, image_u
         "new_image_url": image_url
     }
 
-# Note: Tim did this. Needed to set the tracked jobs
 def set_tracked_jobs(user_id: str, board_id: str, tracked_jobs):
     """
         Updates the tracked jobs of the given board
@@ -198,14 +183,6 @@ def delete_board(user_id: str, board_id: str):
     )
     return board_id
 
-# ============================================ END KAI ============================================
-
-
-# ============================================ START KATRINA ============================================
-# TODO: KATRINA
-
-# use the pymongo docs if lost: https://pymongo.readthedocs.io/en/stable/
-
 def get_favourite_company(user_id: str):
     # Find the user, then get and return the favourited companies name array
     user = db.users.find_one({ 
@@ -216,7 +193,7 @@ def get_favourite_company(user_id: str):
 
     return user["favourited_companies"]
 
-def save_favourite_company(user_id: str, company_name: str):  # TODO: more params needed?
+def save_favourite_company(user_id: str, company_name: str):  
 
     # check quantity
     fav_companies = get_favourite_company(user_id);
@@ -237,8 +214,8 @@ def save_favourite_company(user_id: str, company_name: str):  # TODO: more param
     return company_name
 
 def delete_favourite_company(user_id: str, company_name: str):
-    # remove the comapny name from favourited_companies array
-    res = db.users.update_one(
+    # remove the company name from favourited_companies array
+    db.users.update_one(
         {
             "_id": ObjectId(user_id),
         },
@@ -249,9 +226,6 @@ def delete_favourite_company(user_id: str, company_name: str):
         }
     )
     return company_name
-
-# ============================================ END KATRINA ============================================
-
 
 # ===== Job Tracking =====
 
@@ -336,7 +310,7 @@ def delete_job(user_id, board_id, job_id):
     """
         Deletes a given job
     """
-    target_board = db.boards.update_one({ 
+    db.boards.update_one({ 
         "_id": ObjectId(board_id), 
         "user_id": user_id 
     }, {
@@ -395,8 +369,9 @@ def eliminate_stat_duplicates(board_id: str, job_id: str, new_status: str):
         ].
         This function eliminates duplicate stats for a tracked job
     """
-    # Activity orders:
-    # application -> resume -> interview -> final
+    # Activity orders: application -> resume -> interview -> final
+    # The numbers indicate stage values. A range of 10 is arbitraily chose in case we want to 
+    # introduce any new stages
     activities_stage = {
         "application": 0,
         "resume": 10,

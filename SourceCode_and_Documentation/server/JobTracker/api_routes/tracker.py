@@ -1,5 +1,5 @@
 """
-Routes for managing the user's tracked jobs 
+Routes for managing the user's tracked jobs and other job board automation logic.
 """
 import time
 from flask import (
@@ -21,6 +21,7 @@ from JobTracker.exceptions import (
 from JobTracker.utils.colourisation import printColoured
 from flask_restx import Resource, Api, fields
 
+# Blueprint definition
 tracker_router = Blueprint("tracker", __name__)
 tracker_api = Api(
     tracker_router, 
@@ -30,18 +31,6 @@ tracker_api = Api(
     default="/api/tracking",
     default_label="Job board automation",
 )
-
-# Data model definitions
-board_fields = tracker_api.model("Board", {
-    "position_name": fields.String,
-    "deadline": fields.String
-})
-
-authorisation_fields = tracker_api.model("Auth", {
-    "user_id": fields.String,
-    "token": fields.String,
-    "board_id": fields.String
-}) 
 
 # RESTful route handlers:
 @tracker_api.route("/")
@@ -54,7 +43,6 @@ class Tracker(Resource):
                 - board_id
                 - job_to_track
         """
-        # TODO: Error handling
         printColoured(" * Tracking a new job", colour="yellow")
         request_params = dict(request.get_json())
         try:
@@ -66,7 +54,6 @@ class Tracker(Resource):
         
         job_id = add_job(board_id, user_id, job_to_track)
 
-        # TODO: push stat for new application
         push_stat(board_id, {
             "timestamp": int(time.time()),
             "activity": "application",

@@ -1,3 +1,7 @@
+"""
+Package consisting of all the API endpoints.
+"""
+
 from JobTracker.api_routes.tests import landing_router
 from JobTracker.api_routes.jobs import jobs_api, jobs_router
 from JobTracker.api_routes.auth import auth_api, auth_router
