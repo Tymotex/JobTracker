@@ -15,7 +15,7 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import {
-    Link, withRouter
+    Link, withRouter, Redirect
 } from 'react-router-dom';
 import { LoadingSpinner } from '../components/loaders';
 
@@ -104,7 +104,7 @@ if (userID) {
 const AvatarDropdown = withRouter(({ history }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [profile, setProfile] = useState(null);
-
+  
     const getUserProfile = () => {
         const userID = Cookie.get("user_id");
         if (userID) {
@@ -135,7 +135,7 @@ const AvatarDropdown = withRouter(({ history }) => {
     const signOut = () => {
         Cookie.remove("user_id");
         Cookie.remove("token");
-        window.location.reload();
+        window.location.replace("/");
     };
 
     const userID = Cookie.get("user_id");
