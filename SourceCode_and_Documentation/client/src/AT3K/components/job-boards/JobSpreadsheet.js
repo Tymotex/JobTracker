@@ -72,8 +72,6 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
     const tableBodyMaxHeight = "";
     const [editingEnabled, setEditingEnabled] = useState(false);
 
-    console.log(trackedJobs);
-
     // Called whenever a text field cell is edited
     const saveCurrBoardState = (newTrackedJobs) => {
         const userID = Cookie.get("user_id");
@@ -551,13 +549,13 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         draggableColumns: {
             enabled: true
         },
-        download: !editingEnabled,               // Disable some functions if in edit mode
+        download: !editingEnabled,     // Disabling some functions if in edit mode
         print: !editingEnabled,
         downloadOptions: {
             filename: `${boardID}.csv`
         },
         elevation: 6,
-        selectableRowsHeader: true,              // Removed selection checkboxes here!!!
+        selectableRowsHeader: true,             
         selectableRowsHideCheckboxes: false,
         // resizableColumns: true,
         // fixedSelectColumn: true,
@@ -571,7 +569,8 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
 
     return (
         <FullscreenMode
-            // Switching off filtering, column selection, printing, rows per page selection when in fullscreen mode. This is a workaround for the UI not showing up in fullscreen mode
+            // Switching off filtering, column selection, printing, rows per page selection when in fullscreen mode. 
+            // This is a workaround for the UI not showing up in fullscreen mode
             onFullScreenEnter={() => {
                 if (datatableOptions.filter === true) setOptions({...datatableOptions, filter: false, print: false, viewColumns: false, rowsPerPageOptions: [] })}
             }

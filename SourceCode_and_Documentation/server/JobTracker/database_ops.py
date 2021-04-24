@@ -91,7 +91,7 @@ def get_user_profile(user_id: str):
     user["_id"] = str(user["_id"])
     return user
 
-def set_user_profile(user_id: str, username: str, email:str, password: str, experience: str, phone: str, skills: list):
+def set_user_profile(user_id: str, username: str, email:str, password: str, experience: str, education: str, name: str, phone: str, skills: list):
 
     db.users.update_one(
         {
@@ -99,12 +99,13 @@ def set_user_profile(user_id: str, username: str, email:str, password: str, expe
         },
         {
             "$set": {
-            "username": username,
-            "email": email,
-            # "password": password,
-            "experience": experience,
-            "phone": phone,
-            "skills": skills,
+                "username": username,
+                "email": email,
+                "experience": experience,
+                "education": education,
+                "name": name,
+                "phone": phone,
+                "skills": skills,
             }
         }
     )

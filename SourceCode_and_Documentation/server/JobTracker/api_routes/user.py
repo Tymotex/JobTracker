@@ -71,6 +71,8 @@ class UserJobProfile(Resource):
             params['email'],
             params['password'],
             params['experience'],
+            params['education'],
+            params['name'],
             params['phone'],
             params['skills']
         )

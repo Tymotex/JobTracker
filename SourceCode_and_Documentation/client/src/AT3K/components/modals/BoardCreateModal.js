@@ -1,7 +1,4 @@
-import {
-    Grid, TextField
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { TextField } from '@material-ui/core';
 import axios from 'axios';
 import Cookie from 'js-cookie';
 import React from 'react';
@@ -11,15 +8,7 @@ import { Notification } from '../notification';
 import styles from './Modal.module.scss';
 import ModalWindow from './ModalWindow';
 
-const useStyles = makeStyles((theme) => ({
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    }
-}));
-
-export default function TransitionsModal({ open, handleClose, updateBoardList }) {
+export default function BoardCreateModal({ handleClose, updateBoardList }) {
     // ===== POST /api/boards =====
 
     const createBoard = (event) => {

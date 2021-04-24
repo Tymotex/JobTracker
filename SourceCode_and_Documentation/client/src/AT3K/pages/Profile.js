@@ -3,7 +3,6 @@ import {
     Button,
     Container,
     Divider,
-    Paper,
     Typography
 } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -13,16 +12,16 @@ import React, { useEffect, useState } from 'react';
 import FadeIn from 'react-fade-in';
 import { Link, useParams } from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
-import { ContentLoader } from '../components/loaders';
-import { Notification } from '../components/notification';
-import { CommentsList } from "../components/profile";
-import ResumeRenderer from "../components/settings/ResumeRenderer";
-import api from '../constants/api';
-import pageStyles from './Page.module.scss';
-import RichTextEditor from '../components/richtext/RichTextEditor';
 import {
     Expandable
 } from '../components/expandable';
+import { ContentLoader } from '../components/loaders';
+import { Notification } from '../components/notification';
+import { CommentsList } from "../components/profile";
+import RichTextEditor from '../components/richtext/RichTextEditor';
+import ResumeRenderer from "../components/settings/ResumeRenderer";
+import api from '../constants/api';
+import pageStyles from './Page.module.scss';
  
 const theme = createMuiTheme({
     typography: {
@@ -105,7 +104,7 @@ const Profile = () => {
                                     >
                                         <Box p={3} alignItem="center">
                                             <Box textAlign="center">
-                                                <img width="200px" alt="profile_img" style={{borderRadius: "50%", boxShadow: "0 2px 5px rgba(0, 0, 0, 0.6)"}} src={profile.image_url} />
+                                                <img width="200px" alt="profile_img" src={profile.image_url} />
                                             </Box>
                                             <Box p={2}>
                                                 <Typography
@@ -141,7 +140,11 @@ const Profile = () => {
                                             <AttributeTitle>Education</AttributeTitle>
                                             <Box p={3}>
                                                 <AttributeContent>
-                                                    {profile.education ?? '[Empty]'}
+                                                    {profile.education ? (
+                                                        <div>{profile.education}</div>
+                                                    ) : (
+                                                        <div>Empty</div>
+                                                    )}
                                                 </AttributeContent>
                                             </Box>
                                         </Box>

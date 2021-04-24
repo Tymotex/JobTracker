@@ -5,10 +5,6 @@ import {
 } from '../buttons';
 
 class Modal extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { title="", children, buttonText="" } = this.props;
 

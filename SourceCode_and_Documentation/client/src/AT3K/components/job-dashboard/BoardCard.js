@@ -27,7 +27,14 @@ const useStyles = makeStyles({
     },
 });
 
-const BoardCard = ({ _id, name, description, image_url, selectBoard, fetchBoards }) => {
+const BoardCard = ({ 
+    _id, 
+    name, 
+    description, 
+    image_url, 
+    selectBoard, 
+    fetchBoards 
+}) => {
     const [editModalOpen, setEditModalOpen] = React.useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
     const [boardName, setBoardName] = React.useState(name); 

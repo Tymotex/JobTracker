@@ -6,9 +6,11 @@ import {
     BreadCrumbs
 } from '../components/breadcrumbs';
 import {
-    BoardToolbar, JobBoard,
+    BoardToolbar, 
+    JobKanban,
     JobCalendar,
-    JobList, JobSpreadsheet
+    JobList, 
+    JobSpreadsheet
 } from '../components/job-boards';
 import { LoadingSpinner } from '../components/loaders';
 import { Notification } from '../components/notification';
@@ -93,7 +95,7 @@ const JobDashboardWorkspace = ({
                         />
                     )}
                     {boardType === "board" && (
-                        <JobBoard 
+                        <JobKanban 
                             trackedJobs={trackedJobs} 
                             boardID={board._id} 
                             fieldsToShow={fieldsToShow} 

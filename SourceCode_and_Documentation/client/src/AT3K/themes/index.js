@@ -1,5 +1,7 @@
 import defaultTheme from "./default";
 
+import './global-styles.css';
+
 import { createMuiTheme } from "@material-ui/core";
 
 const overrides = {

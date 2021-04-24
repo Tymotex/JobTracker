@@ -42,6 +42,8 @@ const ProfileEdit = () => {
             email: profile.email,
             password: profile.password,
             experience: profile.experience,
+            education: profile.education,
+            name: profile.name,
             phone: profile.phone,
             skills: profile.skills,
           },
@@ -87,6 +89,7 @@ const ProfileEdit = () => {
               variant="outlined"
               onChange={(e) => handleChangeText(e, "username")}
               value={profile ? profile.username : ""}
+              defaultValue={profile ? profile.username : ""}
             />
 
             <TextField
@@ -96,6 +99,7 @@ const ProfileEdit = () => {
               variant="outlined"
               onChange={(e) => handleChangeText(e, "email")}
               value={profile ? profile.email : ""}
+              defaultValue={profile ? profile.email : ""}
             />
 
             <TextField
@@ -105,6 +109,7 @@ const ProfileEdit = () => {
               variant="outlined"
               onChange={(e) => handleChangeText(e, "education")}
               value={profile ? profile.education : ""}
+              defaultValue={profile ? profile.education : ""}
             />
 
             <TextField
@@ -114,6 +119,17 @@ const ProfileEdit = () => {
               variant="outlined"
               onChange={(e) => handleChangeText(e, "experience")}
               value={profile ? profile.experience : ""}
+              defaultValue={profile ? profile.experience : ""}
+            />
+
+            <TextField
+              id="outlined-basic"
+              className={styles.field}
+              label="Education"
+              variant="outlined"
+              onChange={(e) => handleChangeText(e, "education")}
+              value={profile ? profile.education : ""}
+              defaultValue={profile ? profile.education : ""}
             />
 
             <TextField
@@ -123,6 +139,7 @@ const ProfileEdit = () => {
               variant="outlined"
               onChange={(e) => handleChangeText(e, "name")}
               value={profile ? profile.name : ""}
+              defaultValue={profile ? profile.name : ""}
             />
 
             <TextField
@@ -132,6 +149,7 @@ const ProfileEdit = () => {
               variant="outlined"
               onChange={(e) => handleChangeText(e, "phone")}
               value={profile ? profile.phone : ""}
+              defaultValue={profile ? profile.phone : ""}
             />
 
             <TextField
@@ -141,6 +159,7 @@ const ProfileEdit = () => {
               variant="outlined"
               onChange={(e) => handleChangeText(e, "skills")}
               value={profile ? profile.skills : ""}
+              defaultValue={profile ? profile.skills : ""}
             />
             <hr />
             <div>

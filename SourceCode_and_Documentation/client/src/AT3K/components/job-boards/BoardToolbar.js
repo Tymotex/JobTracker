@@ -7,7 +7,12 @@ import { BoardDropdown } from '.';
 import AddNewJob from './AddNewJob';
 import styles from './BoardToolbar.module.scss';
 
-const BoardToolbar = ({ boardType, handleChangeBoard, trackedJobs, boardID, fetchBoardInfo, fieldsToShow, setFields }) => {
+const BoardToolbar = ({ 
+    boardType, 
+    handleChangeBoard, 
+    boardID, 
+    fetchBoardInfo, 
+}) => {
     return (
         <Paper className={styles.toolbar} elevation={3}>
             <div className={styles.content}>

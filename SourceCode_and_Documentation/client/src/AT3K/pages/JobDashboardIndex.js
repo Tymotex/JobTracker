@@ -4,7 +4,6 @@ import {
 import PropTypes from 'prop-types';
 import React from 'react';
 import FadeIn from 'react-fade-in';
-import { Button } from '../components/buttons';
 import {
     BoardCardGrid
 } from '../components/job-dashboard';
@@ -16,12 +15,15 @@ import {
     BoardCreateModal
 } from '../components/modals';
 
-const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardList, boardSortStrategy, handleSetBoardSorter, fetchBoards }) => {
+const JobDashboardIndex = ({ 
+    boards, 
+    companies, 
+    handleSelectBoard, 
+    updateBoardList, 
+    fetchBoards 
+}) => {
     const [modalOpen, setModalOpen] = React.useState(false);
 
-    const handleModalOpen = () => {
-        setModalOpen(true);
-    };
     const handleModalClose = () => {
         setModalOpen(false);
     };
@@ -88,7 +90,8 @@ const JobDashboardIndex = ({ boards, companies, handleSelectBoard, updateBoardLi
 JobDashboardIndex.propTypes = {
     boards: PropTypes.array,
     companies: PropTypes.array,
-    handleSelectBoard: PropTypes.func
+    handleSelectBoard: PropTypes.func,
+    fetchBoards: PropTypes.func
 };
 
 export default JobDashboardIndex;

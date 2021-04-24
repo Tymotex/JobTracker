@@ -31,7 +31,11 @@ const useStyles = makeStyles({
   }
 });
 
-const CompanyCard = ({ name, description, link }) => {
+const CompanyCard = ({ 
+  name, 
+  description,
+  link 
+}) => {
   const classes = useStyles();
 
   return (

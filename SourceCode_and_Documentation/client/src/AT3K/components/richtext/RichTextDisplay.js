@@ -18,6 +18,12 @@ const RichTextDisplay = ({ value, onChange, onKeyDown, plugins, readOnly=false }
               {props.children}
             </div>
           );
+        default:
+          return (
+            <div {...props}>
+              {props.children}
+            </div>
+          )
       }
     };
     
@@ -25,6 +31,8 @@ const RichTextDisplay = ({ value, onChange, onKeyDown, plugins, readOnly=false }
       switch (props.mark.type) {
         case "bold":
           return <BoldMark {...props} />;
+        default:
+          return null;
       }
     };
     return (
