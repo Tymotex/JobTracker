@@ -18,7 +18,7 @@ import {
 import { ContentLoader } from '../components/loaders';
 import { Notification } from '../components/notification';
 import { CommentsList } from "../components/profile";
-import RichTextEditor from '../components/richtext/RichTextEditor';
+import CommentEditor from '../components/richtext/CommentEditor';
 import ResumeRenderer from "../components/settings/ResumeRenderer";
 import api from '../constants/api';
 import pageStyles from './Page.module.scss';
@@ -60,6 +60,9 @@ const Profile = () => {
     const { id: profileUserID } = useParams();
     const [profile, setProfile] = useState(null);
 
+    const [comments, setComments] = useState(null);
+
+    // ==== GET /api/user/profile =====
     const getUserProfile = () => {
         const userID = Cookie.get("user_id");
         console.log(profileUserID);
@@ -77,10 +80,24 @@ const Profile = () => {
         } else {
             Notification.spawnRegisterError();
         }
+    };
+
+    // ===== GET /api/comment/ =====
+    const fetchComments = (receiverUserID) => {
+        const userID = Cookie.get("user_id");
+        if (userID) {
+            axios.get(`${api.BASE_URL}/api/comment?user_id=${receiverUserID}`)
+                .then((res) => {
+                    setComments(res.data);
+                })
+                .catch(err => Notification.spawnError(err));
+        }
     }
 
     useEffect(() => {
+        const receiverUserID = profileUserID
         getUserProfile();
+        fetchComments(receiverUserID);
     }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
     console.log(profile);
@@ -205,8 +222,10 @@ const Profile = () => {
                                                         />
                                                 </Container>
                                             </Expandable>
-                                        <CommentsList />
                                     </Box>
+                                    <CommentsList 
+                                        comments={comments}
+                                    />
                                     <hr />
                                     <div>
                                         <h1>Leave a Comment For {profile.username}</h1>
@@ -229,7 +248,9 @@ const Profile = () => {
                                                 </ul>
                                             </p>
                                         </div>
-                                        <RichTextEditor />
+                                        <CommentEditor 
+                                            receiverUserID={profileUserID}
+                                        />
                                     </div>
                                 </ThemeProvider>
                             )}

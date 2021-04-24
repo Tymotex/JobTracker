@@ -11,3 +11,4 @@ from JobTracker.api_routes.job import job_api, job_router
 from JobTracker.api_routes.stats import stats_api, stats_router
 from JobTracker.api_routes.tracker import tracker_api, tracker_router
 from JobTracker.api_routes.company import company_api, company_router
+from JobTracker.api_routes.comment import comment_api, comment_router

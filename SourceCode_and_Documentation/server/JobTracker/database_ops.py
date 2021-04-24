@@ -439,8 +439,30 @@ def get_users() -> List:
     users = list(db.users.find({}))
     for each_user in users:
         each_user["_id"] = str(each_user["_id"])
-    print(users)
     return users
+
+# ===== Comments =====
+
+def get_comments(user_id: str):
+    """
+        Fetches all comments sent to this user        
+    """
+    comments = list(db.comments.find({
+        "receiver_user_id": user_id
+    }))
+    for comment in comments:
+        comment["_id"] = str(comment["_id"])
+    return comments
+
+def post_comment(sender_user_id: str, receiver_user_id: str, comment: Dict):
+    comment_document = {
+        "date": int(time.time()),
+        "sender_user_id": sender_user_id,
+        "receiver_user_id": receiver_user_id,
+        "comment": comment,
+        "vote": 0
+    }
+    db.comments.insert_one(comment_document)
 
 # ===== Utilities =====
 

@@ -20,6 +20,7 @@ const ProfileEdit = () => {
       axios
         .get(`${api.BASE_URL}/api/user/profile?user_id=${userID}`)
         .then((res) => {
+          console.log(res.data);
           setProfile(res.data);
         })
         .catch((err) => {
@@ -37,15 +38,16 @@ const ProfileEdit = () => {
         .post(
           `${api.BASE_URL}/api/user/profile`,
           {
-            user_id: profile._id,
-            username: profile.username,
-            email: profile.email,
-            password: profile.password,
-            experience: profile.experience,
-            education: profile.education,
-            name: profile.name,
-            phone: profile.phone,
-            skills: profile.skills,
+            // FIXME: need default values
+            user_id: profile._id || "",
+            username: profile.username || "",
+            email: profile.email || "",
+            password: profile.password || "",
+            experience: profile.experience || "",
+            education: profile.education || "",
+            name: profile.name || "",
+            phone: profile.phone || "",
+            skills: profile.skills || "",
           },
           {
             headers: {
@@ -56,6 +58,7 @@ const ProfileEdit = () => {
         .then((res) => {
           console.log(res.data);
           setProfile(res.data);
+          Notification.spawnSuccess("Successfully updated profile");
         })
         .catch((err) => {
           Notification.spawnError(err);
@@ -100,16 +103,6 @@ const ProfileEdit = () => {
               onChange={(e) => handleChangeText(e, "email")}
               value={profile ? profile.email : ""}
               defaultValue={profile ? profile.email : ""}
-            />
-
-            <TextField
-              id="outlined-basic"
-              className={styles.field}
-              label="Education"
-              variant="outlined"
-              onChange={(e) => handleChangeText(e, "education")}
-              value={profile ? profile.education : ""}
-              defaultValue={profile ? profile.education : ""}
             />
 
             <TextField

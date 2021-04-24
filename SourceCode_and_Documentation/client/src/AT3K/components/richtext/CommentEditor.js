@@ -10,6 +10,10 @@ import {
   WrapInlineHotKey
 } from "./editor-plugins";
 import { Button } from "../buttons";
+import api from "../../constants/api";
+import axios from 'axios';
+import Cookie from 'js-cookie';
+import { Notification } from "../notification";
 
 const plugins = [
   InsertWordHotKey({ char: "&", word: "and" }),
@@ -20,6 +24,11 @@ const plugins = [
 ];
 
 class RichTextEditor extends React.Component {
+  constructor(props) {
+    super(props);
+    this.postComment = this.postComment.bind(this);
+  }
+
   // Set the initial value when the app is first constructed.
   state = {
     value: initialValue
@@ -33,6 +42,33 @@ class RichTextEditor extends React.Component {
   onKeyDown = (event, change) => {
     // This used to have stuff in it, but I moved it all to plugins.
   };
+
+  postComment(comment) {
+    const receiverUserID = this.props.receiverUserID;
+    
+    // ==== POST /api/comment/ =====
+    const userID = Cookie.get("user_id");
+    alert("POSTING to " + receiverUserID);
+    if (userID) {
+      const postData =  {
+        method: 'post',
+        url: `${api.BASE_URL}/api/comment/`,
+        data: {
+          sender_user_id: userID,
+          receiver_user_id: receiverUserID,
+          comment: comment
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      axios(postData)
+        .then(() => {
+          Notification.spawnSuccess("Your comment has been posted!")
+        })
+        .catch(err => Notification.spawnError(err))
+    }
+  }
 
   // Render the editor.
   render() {
@@ -52,7 +88,7 @@ class RichTextEditor extends React.Component {
             plugins={plugins}
           />
         </div>
-        <Button>Post</Button>
+        <Button onClick={() => this.postComment(this.state.value)}>Post</Button>
       </div>
     );
   }

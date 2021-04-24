@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Comment from './Comment';
 import { Value } from 'slate';
+import axios from "axios";
+import api from "../../constants/api";
+import Cookie from 'js-cookie';
+import { Notification } from '../notification';
 
 const initialValue = Value.fromJSON({
     document: {
@@ -41,12 +45,13 @@ const user3 = {
     date: "1 month ago",
 };
 
-const CommentsList = () => {
+const CommentsList = ({ comments=[] }) => {
     return (
         <div style={{ padding: 14 }} className="App">
             <h1>Comments</h1>
-            <Comment {...user2} />
-            <Comment {...user3} />
+            {comments && comments.map(eachComment => (
+                <Comment {...eachComment} />
+            ))}
         </div>
     );
 };

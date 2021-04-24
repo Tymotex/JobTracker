@@ -65,8 +65,8 @@ const Community = () => {
               {users &&
                 users.map((user) => {
                   return (
-                    <Grid item xs={12} sm={3}>
-                      <Paper  elevation={3}>
+                    <Grid item xs={12} sm={6} md={4} lg={3}>
+                      <Paper elevation={3} className={styles.card}>
                         <Link
                           to={`/user/${user._id}`}
                           className={styles.user_link}
@@ -78,7 +78,18 @@ const Community = () => {
                           />
                           <section className={styles.detail}>
                             <h4>{user.username}</h4>
+                            <p>Email: {user.email}</p>
                             <p>{user.experience}</p>
+                            {/* {user.favourited_companies && user.favourited_companies.length > 0 && (
+                              <>
+                                <strong>Favourite Companies</strong>
+                                <ul>
+                                  {user.favourited_companies.map(company => (
+                                    <li>{company}</li>
+                                  ))}
+                                </ul>
+                              </>
+                            )} */}
                           </section>
                         </Link>
                       </Paper>

@@ -8,7 +8,8 @@ from JobTracker.api_routes import (
     stats_router,
     tracker_router,
     company_router,
-    users_router
+    users_router,
+    comment_router
 )
 from flask_restx import Api, Resource
 from flask import Blueprint
@@ -23,3 +24,4 @@ app.register_blueprint(job_router, url_prefix="/api/job")
 app.register_blueprint(stats_router, url_prefix="/api/stats")
 app.register_blueprint(tracker_router, url_prefix="/api/tracker")
 app.register_blueprint(company_router, url_prefix="/api/company")
+app.register_blueprint(comment_router, url_prefix="/api/comment")

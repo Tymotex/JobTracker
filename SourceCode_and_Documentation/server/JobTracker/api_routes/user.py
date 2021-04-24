@@ -302,12 +302,3 @@ def parse_resume(user_id: str, resume_url: str) -> dict:
     result = response.text
     set_user_resume_fields(user_id, result)
     return result
-
-@user_api.route("/comment")
-class Comment(Resource):
-    def get(self):
-        """
-
-        """
-        pass
-
