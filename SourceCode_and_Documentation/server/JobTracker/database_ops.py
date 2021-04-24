@@ -43,7 +43,6 @@ def add_user(username: str, email: str, password: str, image_url="") -> str:
     })
     return str(inserted_user.inserted_id)
 
-
 def login_user(email: str, password: str) -> str:
     """
         Retrieves a user matching the supplied fields.
@@ -430,6 +429,18 @@ def fetch_stats(user_id: str, board_id: str):
     if not target_board:
         raise InvalidUserInput(description="Board {} wasn't found".format(board_id))
     return target_board["statistics"]
+
+# ===== Users =====
+
+def get_users() -> List:
+    """
+        Fetches a list of users in the database.
+    """
+    users = list(db.users.find({}))
+    for each_user in users:
+        each_user["_id"] = str(each_user["_id"])
+    print(users)
+    return users
 
 # ===== Utilities =====
 

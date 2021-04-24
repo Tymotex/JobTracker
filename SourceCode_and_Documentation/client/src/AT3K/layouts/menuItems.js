@@ -18,6 +18,7 @@ import {
     Link, withRouter
 } from 'react-router-dom';
 import { LoadingSpinner } from '../components/loaders';
+
 // Top nav components:
 import { LoginModal, RegisterModal } from '../components/modals';
 import { Notification } from '../components/notification';
@@ -37,7 +38,7 @@ if (userID) {
         { id: 20, label: "Search For Jobs", link: "/search", icon: <SearchIcon /> },
         { id: 30, label: "Statistics", link: "/statistics", icon: <BarChartIcon /> },
         { id: 41, type: "divider" },
-        { 
+        {
             id: 32, 
             label: "Profile", 
             icon: <FaceIcon />,
