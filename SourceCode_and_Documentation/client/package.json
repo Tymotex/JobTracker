@@ -9,6 +9,8 @@
     "node-fetch": "^2.6.1"
   },
   "dependencies": {
+    "@emotion/react": "^11.1.5",
+    "@emotion/styled": "^11.3.0",
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.21",
     "@material-ui/icons": "^4.11.2",
@@ -16,11 +18,15 @@
     "@material-ui/styles": "^4.11.3",
     "@mdi/js": "^5.9.55",
     "@mdi/react": "^1.4.0",
+    "@types/node": "^14.14.41",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
     "apexcharts": "^3.25.0",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "darkreader": "^4.9.27",
     "font-awesome": "^4.7.0",
+    "immutable": "^4.0.0-rc.12",
     "js-cookie": "^2.2.1",
     "moment": "^2.29.1",
     "mui-datatables": "^3.7.7",
@@ -58,8 +64,12 @@
     "react-trello": "^2.2.10",
     "recharts": "^2.0.4",
     "sass-loader": "^11.0.1",
+    "slate": "0.33.4",
+    "slate-history": "^0.62.0",
+    "slate-react": "0.12.4",
     "slick-carousel": "^1.8.1",
     "tinycolor2": "^1.4.2",
+    "typescript": "^4.2.4",
     "uninstall": "0.0.0"
   },
   "scripts": {

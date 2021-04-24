@@ -19,7 +19,11 @@ import { CommentsList } from "../components/profile";
 import ResumeRenderer from "../components/settings/ResumeRenderer";
 import api from '../constants/api';
 import pageStyles from './Page.module.scss';
-
+import RichTextEditor from '../components/richtext/RichTextEditor';
+import {
+    Expandable
+} from '../components/expandable';
+ 
 const theme = createMuiTheme({
     typography: {
         h4: {
@@ -189,20 +193,19 @@ const Profile = () => {
                                                 </AttributeContent>
                                             </Box>
                                         </Box>
-                                        <Paper>
-                                            <Container>
-                                                <h2 style={{ textAlign: "center" }}>{profile.username}'s Resume</h2>
-                                                <hr />
-
-                                                <ResumeRenderer
-                                                    file={`${api.BASE_URL}/api/user/resume?user_id=${profileUserID}&dummy=${parseInt(Math.random() * 1000000)}`}   // Note: the dummy arg is used to work around caching https://stackoverflow.com/questions/728616/disable-cache-for-some-images
-                                                    showUploadButton={false}
-                                                    showPages={false}
-                                                />
-                                            </Container>
-                                        </Paper>
+                                            <Expandable text={`${profile.username}'s Resume`}>
+                                                <Container>
+                                                        <ResumeRenderer
+                                                            file={`${api.BASE_URL}/api/user/resume?user_id=${profileUserID}&dummy=${parseInt(Math.random() * 1000000)}`}   // Note: the dummy arg is used to work around caching https://stackoverflow.com/questions/728616/disable-cache-for-some-images
+                                                            showUploadButton={false}
+                                                            showPages={false}
+                                                        />
+                                                </Container>
+                                            </Expandable>
                                         <CommentsList />
                                     </Box>
+                                    <hr />
+                                    <RichTextEditor profileName={profile.username} />
                                 </ThemeProvider>
                             )}
                         </>
