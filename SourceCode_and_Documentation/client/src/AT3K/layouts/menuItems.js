@@ -15,7 +15,7 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import {
-    Link, withRouter, Redirect
+    Link, withRouter
 } from 'react-router-dom';
 import { LoadingSpinner } from '../components/loaders';
 
