@@ -1,0 +1,39 @@
+.container {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+
+    .vote {
+        display: inline-block;
+        background-color: rgba(31, 31, 31, 0.856);
+        border-radius: 50%;
+        height: 30px;
+        width: 30px;
+        vertical-align: middle;
+        line-height: 30px;
+        font-weight: bold;
+        margin-bottom: 6px;
+    
+        .positive {
+            color: rgb(83, 195, 83);
+        }
+
+        .neutral {
+            color: whitesmoke;
+        }
+    
+        .negative {
+            color: #ff3434;
+        }
+    }
+
+    .arrow {
+        cursor: pointer;
+        transition: all 0.15s ease-in-out;
+
+        &:hover {
+            transform: scale(1.5);
+            transition-duration: 0.15s;
+        }
+    }
+}

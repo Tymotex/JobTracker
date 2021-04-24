@@ -1,18 +1,46 @@
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import React from 'react';
+import React, { useState } from 'react';
+import styles from './VoteArrow.module.scss';
 
-const VoteArrow = () => {
+const VoteArrow = ({ initialVote=0 }) => {
+    const [vote, setVote] = useState(initialVote);
+
+    const upvote = () => {
+        setVote(vote + 1);
+    }
+    const downvote = () => {
+        setVote(vote - 1);
+    }
+
+    // Applying a different class depending on the range that the vote falls under
+    let voteClass;
+    if (vote > 0) {
+        voteClass = styles.positive;
+    } else if (vote < 0) {
+        voteClass = styles.negative;
+    } else {
+        voteClass = styles.neutral;
+    }
+
     return (
-        <div>
+        <div className={styles.container}>
             <div>
-                <KeyboardArrowUpIcon /> 
+                <KeyboardArrowUpIcon 
+                    className={styles.arrow}
+                    onClick={upvote}
+                /> 
+            </div>
+            <div className={styles.vote}>
+                <span className={voteClass}>
+                    {vote}
+                </span>
             </div>
             <div>
-                <span style={{color: "green"}}>+3</span>
-            </div>
-            <div>
-                <KeyboardArrowDownIcon />
+                <KeyboardArrowDownIcon 
+                    className={styles.arrow}
+                    onClick={downvote}
+                />
             </div>
         </div>
     )

@@ -36,29 +36,8 @@ class RichTextEditor extends React.Component {
 
   // Render the editor.
   render() {
-    const { profileName } = this.props;
     return (
       <div>
-        <h1>Leave a Comment For {profileName}</h1>
-        <div>
-            <p>
-                Give some constructive criticism about this person's resume, career goals, skill development, job profile, etc.
-            </p>
-            <p>
-                If your comment is seen as helpful by the {profileName} and other members of the community, you will acquire
-                reputation points and gain access to certain privileges. If your comment is unhelpful, abusive or negative, 
-                you will lose reputation points and eventually your account will be suspended.
-            </p>
-            <p>
-                Currently supported commands: 
-                <ul>
-                    <li>Ctrl+b for bold</li>
-                    <li>Ctrl+` for code block syntax</li>
-                    <li>Ctrl+g for green colouring</li>
-                    <li>Ctrl+u for hyperlinking</li>
-                </ul>
-            </p>
-        </div>
         <div style={{ 
             border: "2px solid black", 
             borderRadius: "5px",

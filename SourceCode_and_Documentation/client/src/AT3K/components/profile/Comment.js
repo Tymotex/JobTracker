@@ -37,7 +37,9 @@ const Comment = () => {
             <Grid container wrap="nowrap" spacing={2}>
                 <Grid item>
                     <Avatar src={imgLink} />
-                    <VoteArrow />
+                    <VoteArrow 
+                        vote={3}
+                    />
                 </Grid>
                 <Grid justifyContent="left" item xs zeroMinWidth>
                     <h4 style={{ margin: 0, textAlign: "left" }}>Andrew Taylor</h4>

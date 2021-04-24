@@ -205,7 +205,29 @@ const Profile = () => {
                                         <CommentsList />
                                     </Box>
                                     <hr />
-                                    <RichTextEditor profileName={profile.username} />
+                                    <div>
+                                        <h1>Leave a Comment For {profile.username}</h1>
+                                        <div>
+                                            <p>
+                                                Give some constructive criticism about this person's resume, career goals, skill development, job profile, etc.
+                                            </p>
+                                            <p>
+                                                If your comment is seen as helpful by the {profile.username} and other members of the community, you will acquire
+                                                reputation points and gain access to certain privileges. If your comment is unhelpful, abusive or negative, 
+                                                you will lose reputation points and eventually your account will be suspended.
+                                            </p>
+                                            <p>
+                                                Currently supported commands: 
+                                                <ul>
+                                                    <li>Ctrl+b for bold</li>
+                                                    <li>Ctrl+` for code block syntax</li>
+                                                    <li>Ctrl+g for green colouring</li>
+                                                    <li>Ctrl+u for hyperlinking</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                        <RichTextEditor />
+                                    </div>
                                 </ThemeProvider>
                             )}
                         </>
