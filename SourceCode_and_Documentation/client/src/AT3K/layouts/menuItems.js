@@ -22,6 +22,7 @@ import { LoadingSpinner } from '../components/loaders';
 import { LoginModal, RegisterModal } from '../components/modals';
 import { Notification } from '../components/notification';
 import api from '../constants/api';
+import PeopleIcon from '@material-ui/icons/People';
 
 const userID = Cookie.get("user_id");
 
@@ -52,7 +53,13 @@ if (userID) {
                 }
             ]
         },
-        { id: 35, type: "divider" },
+        {
+            id: 40,
+            label: "Community",
+            link: "/community",
+            icon: <PeopleIcon />
+        },
+        { id: 45, type: "divider" },     
         { 
             id: 50, 
             label: "Settings", 
@@ -76,8 +83,8 @@ if (userID) {
                     link: "/settings/preferences",
                 },
             ]
-        },
-        { id: 60, type: "divider" },
+        },   
+        { id: 70, type: "divider" },
         // { id: 70, type: "title", label: "Resources" },
         // { id: 80, label: "FAQ", link: "/faq", icon: <FAQIcon /> }
     ]
@@ -127,7 +134,7 @@ const AvatarDropdown = withRouter(({ history }) => {
     const signOut = () => {
         Cookie.remove("user_id");
         Cookie.remove("token");
-        history.push("/");
+        window.location.reload();
     };
 
     const userID = Cookie.get("user_id");
