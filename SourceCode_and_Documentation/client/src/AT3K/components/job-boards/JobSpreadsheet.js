@@ -315,7 +315,6 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             const currTime = parseInt(new Date() / 1000);
             const events = JSON.parse(eventsJSON);
             events.sort((a, b) => a.time - b.time);
-            moment.locale("en");
             return (
                 <div>
                     {events.map(e => (

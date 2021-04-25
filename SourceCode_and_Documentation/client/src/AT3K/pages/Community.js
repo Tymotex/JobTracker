@@ -80,16 +80,6 @@ const Community = () => {
                             <h4>{user.username}</h4>
                             <p>Email: {user.email}</p>
                             <p>{user.experience}</p>
-                            {/* {user.favourited_companies && user.favourited_companies.length > 0 && (
-                              <>
-                                <strong>Favourite Companies</strong>
-                                <ul>
-                                  {user.favourited_companies.map(company => (
-                                    <li>{company}</li>
-                                  ))}
-                                </ul>
-                              </>
-                            )} */}
                           </section>
                         </Link>
                       </Paper>

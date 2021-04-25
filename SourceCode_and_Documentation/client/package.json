@@ -59,6 +59,7 @@
     "react-skylight": "^0.5.1",
     "react-slick": "^0.28.1",
     "react-syntax-highlighter": "^15.4.3",
+    "react-time-ago": "^6.2.2",
     "react-toastify": "^7.0.3",
     "react-tooltip": "^4.2.17",
     "react-trello": "^2.2.10",

@@ -45,7 +45,7 @@ const EllipsesMenu = ({ options, onItemClick }) => {
                 }}
             >
                 {options.map((option) => (
-                    <MenuItem key={option} selected={option === 'Pyxis'} onClick={() => handleClose(option)}>
+                    <MenuItem key={option} onClick={() => handleClose(option)}>
                         {option}
                     </MenuItem>
                 ))}

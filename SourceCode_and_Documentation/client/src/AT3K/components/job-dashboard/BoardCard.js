@@ -96,6 +96,9 @@ const BoardCard = ({
                 >
                     View
                 </Button>
+                <div className={styles.icon}>
+                    <i></i>
+                </div>
             </CardContent>
 
             <BoardEditModal 

@@ -5,7 +5,7 @@
 
     .vote {
         display: inline-block;
-        background-color: rgba(31, 31, 31, 0.856);
+        background-color: rgba(224, 224, 224, 0.856);
         border-radius: 50%;
         height: 30px;
         width: 30px;
@@ -15,15 +15,15 @@
         margin-bottom: 6px;
     
         .positive {
-            color: rgb(83, 195, 83);
+            color: rgb(0, 202, 0);
         }
 
         .neutral {
-            color: whitesmoke;
+            color: rgb(66, 66, 66);
         }
     
         .negative {
-            color: #ff3434;
+            color: #dd1a1a;
         }
     }
 

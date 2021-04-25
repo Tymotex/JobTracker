@@ -18,11 +18,12 @@ import {
 import { ContentLoader } from '../components/loaders';
 import { Notification } from '../components/notification';
 import { CommentsList } from "../components/profile";
-import CommentEditor from '../components/richtext/CommentEditor';
+import RichTextDisplay from '../components/richtext/RichTextDisplay';
 import ResumeRenderer from "../components/settings/ResumeRenderer";
 import api from '../constants/api';
 import pageStyles from './Page.module.scss';
- 
+import { Value } from 'slate';
+
 const theme = createMuiTheme({
     typography: {
         h4: {
@@ -56,6 +57,24 @@ const AttributeContent = ({ children }) => {
     )
 }
 
+const sampleInitialValue = Value.fromJSON({
+    document: {
+      nodes: [
+        {
+          object: "block",
+          type: "paragraph",
+          nodes: [
+            {
+              object: "text",
+              leaves: [{ text: "Start typing here!" }]
+            }
+          ]
+        }
+      ]
+    }
+});
+  
+
 const Profile = () => {
     const { id: profileUserID } = useParams();
     const [profile, setProfile] = useState(null);
@@ -65,7 +84,6 @@ const Profile = () => {
     // ==== GET /api/user/profile =====
     const getUserProfile = () => {
         const userID = Cookie.get("user_id");
-        console.log(profileUserID);
         if (userID) {
             if (!profileUserID) Notification.spawnInvalid("No user ID specified");
             else {
@@ -94,23 +112,48 @@ const Profile = () => {
         }
     }
 
+    // ==== POST /api/comment/ =====
+    const postComment = (comment) => {
+        const receiverUserID = profileUserID;
+        const userID = Cookie.get("user_id");
+        if (userID) {
+            const postData = {
+                method: 'post',
+                url: `${api.BASE_URL}/api/comment/`,
+                data: {
+                    sender_user_id: userID,
+                    receiver_user_id: receiverUserID,
+                    comment: comment
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            axios(postData)
+                .then((res) => {
+                    Notification.spawnSuccess("Your comment has been posted!");
+                    // FIXME: Inefficient solution: refetch comments. Ideally we should have web sockets for this
+                    fetchComments(profileUserID);
+                })
+                .catch(err => Notification.spawnError(err));
+        }
+    };
+
     useEffect(() => {
         const receiverUserID = profileUserID
         getUserProfile();
         fetchComments(receiverUserID);
     }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
-    console.log(profile);
-
     const isLoading = false && (profile === null);
     return (
         <Layout>
-            <FadeIn>
-                <div className={pageStyles.container}>
-                    {isLoading ? (
-                        <ContentLoader />
-                    ) : (
-                        <>
+            <div className={pageStyles.container}>
+                {isLoading ? (
+                    <ContentLoader />
+                ) : (
+                    <>
+                        <FadeIn>
                             {profile && (
                                 <ThemeProvider theme={theme}>
                                     <Box
@@ -213,17 +256,17 @@ const Profile = () => {
                                                 </AttributeContent>
                                             </Box>
                                         </Box>
-                                            <Expandable text={`${profile.username}'s Resume`}>
-                                                <Container>
-                                                        <ResumeRenderer
-                                                            file={`${api.BASE_URL}/api/user/resume?user_id=${profileUserID}&dummy=${parseInt(Math.random() * 1000000)}`}   // Note: the dummy arg is used to work around caching https://stackoverflow.com/questions/728616/disable-cache-for-some-images
-                                                            showUploadButton={false}
-                                                            showPages={false}
-                                                        />
-                                                </Container>
-                                            </Expandable>
+                                        <Expandable text={`${profile.username}'s Resume`}>
+                                            <Container>
+                                                <ResumeRenderer
+                                                    file={`${api.BASE_URL}/api/user/resume?user_id=${profileUserID}&dummy=${parseInt(Math.random() * 1000000)}`}   // Note: the dummy arg is used to work around caching https://stackoverflow.com/questions/728616/disable-cache-for-some-images
+                                                    showUploadButton={false}
+                                                    showPages={false}
+                                                />
+                                            </Container>
+                                        </Expandable>
                                     </Box>
-                                    <CommentsList 
+                                    <CommentsList
                                         comments={comments}
                                     />
                                     <hr />
@@ -235,11 +278,11 @@ const Profile = () => {
                                             </p>
                                             <p>
                                                 If your comment is seen as helpful by the {profile.username} and other members of the community, you will acquire
-                                                reputation points and gain access to certain privileges. If your comment is unhelpful, abusive or negative, 
+                                                reputation points and gain access to certain privileges. If your comment is unhelpful, abusive or negative,
                                                 you will lose reputation points and eventually your account will be suspended.
                                             </p>
                                             <p>
-                                                Currently supported commands: 
+                                                Currently supported commands:
                                                 <ul>
                                                     <li>Ctrl+b for bold</li>
                                                     <li>Ctrl+` for code block syntax</li>
@@ -248,16 +291,19 @@ const Profile = () => {
                                                 </ul>
                                             </p>
                                         </div>
-                                        <CommentEditor 
-                                            receiverUserID={profileUserID}
+                                        <RichTextDisplay
+                                            readOnly={false}
+                                            value={sampleInitialValue}
+                                            buttonText="Post comment"
+                                            onSubmit={postComment}
                                         />
                                     </div>
                                 </ThemeProvider>
                             )}
-                        </>
-                    )}
-                </div>
-            </FadeIn>
+                        </FadeIn>
+                    </>
+                )}
+            </div>
         </Layout>
     );
 };
