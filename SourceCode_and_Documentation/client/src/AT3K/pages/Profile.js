@@ -23,6 +23,7 @@ import ResumeRenderer from "../components/settings/ResumeRenderer";
 import api from '../constants/api';
 import pageStyles from './Page.module.scss';
 import { Value } from 'slate';
+import styles from './Profile.module.scss';
 
 const theme = createMuiTheme({
     typography: {
@@ -164,7 +165,7 @@ const Profile = () => {
                                     >
                                         <Box p={3} alignItem="center">
                                             <Box textAlign="center">
-                                                <img width="200px" alt="profile_img" src={profile.image_url} />
+                                                <img className={styles.avatar} alt="profile_img" src={profile.image_url} />
                                             </Box>
                                             <Box p={2}>
                                                 <Typography

@@ -48,6 +48,7 @@ const ProfileEdit = () => {
             name: profile.name || "",
             phone: profile.phone || "",
             skills: profile.skills || "",
+            image_url: profile.image_url || ""
           },
           {
             headers: {
@@ -154,6 +155,17 @@ const ProfileEdit = () => {
               value={profile ? profile.skills : ""}
               defaultValue={profile ? profile.skills : ""}
             />
+
+            <TextField
+              id="outlined-basic"
+              className={styles.field}
+              label="Image URL"
+              variant="outlined"
+              onChange={(e) => handleChangeText(e, "image_url")}
+              value={profile ? profile.image_url : ""}
+              defaultValue={profile ? profile.image_url : ""}
+            />
+
             <hr />
             <div>
               <Button

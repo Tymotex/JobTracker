@@ -14,7 +14,9 @@ from flask import (
 )
 from JobTracker.database_ops import (
     get_comments,
-    post_comment
+    post_comment,
+    edit_comment,
+    delete_comment
 )
 from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
@@ -62,3 +64,30 @@ class Comment(Resource):
         )
         return "TODO: successful request data"
 
+    def put(self):
+        """
+            Sets a new comment for an existing comment document
+
+            Parameters:
+                - comment_id
+                - new_comment
+        """
+        printColoured(" * Updating a comment", colour="yellow")
+        request_params = dict(request.get_json())
+        comment_id = request_params["comment_id"]
+        new_comment = request_params["new_comment"]
+        edit_comment(comment_id, new_comment)
+        return new_comment 
+
+    def delete(self):
+        """
+            Deletes a comment.
+
+            Parameters:
+                - comment_id
+        """
+        printColoured(" * Deleting a comment", colour="yellow")
+        request_params = dict(request.get_json())
+        comment_id = request_params["comment_id"]
+        delete_comment(comment_id)
+        return comment_id

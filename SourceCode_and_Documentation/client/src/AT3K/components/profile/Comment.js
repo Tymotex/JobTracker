@@ -17,9 +17,10 @@ import ReactTimeAgo from 'react-time-ago';
 import moment from 'moment';
 import { Notification } from '../notification';
 
-const Comment = ({ sender_user_id, comment, date, vote=3 }) => {
+const Comment = ({ sender_user_id, comment, _id: commentID, date, vote=3 }) => {
     const [profile, setProfile] = useState(null);
     const [editingEnabled, setEditingEnabled] = useState(false);
+    const [showComment, setShowComment] = useState(true);
     const postedDate = new Date(date * 1000);
     
     const options = [
@@ -31,14 +32,58 @@ const Comment = ({ sender_user_id, comment, date, vote=3 }) => {
         if (operation === "Edit comment") {
             setEditingEnabled(true);
         } else if (operation === "Delete comment") {
-            Notification.spawnInvalid("DELETE COMMENT NOT IMPLEMENTED.");
+            deleteComment();
         }
     };
 
-    const saveComment = () => {
-        Notification.spawnInvalid("SAVE COMMENT NOT IMPLEMENTED.");
-        setEditingEnabled(false);
+    // ===== PUT /api/comment/ =====
+    const saveComment = (newComment) => {
+        const userID = Cookie.get("user_id");
+        console.log(commentID);
+        if (userID) {
+            const putData = {
+                method: 'put',
+                url: `${api.BASE_URL}/api/comment/`,
+                data: {
+                    comment_id: commentID,
+                    new_comment: newComment
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            axios(putData)  
+                .then(res => {
+                    Notification.spawnSuccess("Successfully edited comment");
+                    setEditingEnabled(false);
+                })
+                .catch(err => Notification.spawnError(err))
+        }
     };
+
+    // ===== DELETE /api/comment/ =====
+    const deleteComment = () => {
+        const userID = Cookie.get("user_id");
+        if (userID) {
+            const putData = {
+                method: 'delete',
+                url: `${api.BASE_URL}/api/comment/`,
+                data: {
+                    comment_id: commentID
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            axios(putData)  
+                .then(() => {
+                    Notification.spawnSuccess("Deleted comment");
+                    setEditingEnabled(false);
+                    setShowComment(false);
+                })
+                .catch(err => Notification.spawnError(err));
+        }
+    }
 
     // ==== GET /api/user/profile =====
     const getUserProfile = (senderUserID) => {
@@ -65,49 +110,53 @@ const Comment = ({ sender_user_id, comment, date, vote=3 }) => {
 
 
     return (
-        <Paper className={styles.comment} elevation={3}>
-            <EllipsesMenu 
-                className={styles.optionsMenu}
-                options={options}
-                onItemClick={handleCommentOperation}
-            />
-            {profile && (
-                <Grid container wrap="nowrap" spacing={2}>
-                    <Grid item>
-                        <Link to={`/user/${sender_user_id}`}>
-                            <Avatar 
-                                className={styles.avatar}
-                                src={profile.image_url} 
-                            />
-                        </Link>
-                        <VoteArrow 
-                            initialVote={vote}
-                        />
-                    </Grid>
-                    <Grid justifyContent="left" item xs zeroMinWidth>
-                        <Link to={`/user/${sender_user_id}`}>
-                            <h3 className={styles.username}>
-                                {profile.username}
-                            </h3>
-                        </Link>
-                        <div className={styles.commentBox}>
-                            <RichTextDisplay
-                                readOnly={!editingEnabled}
-                                value={Value.fromJSON(comment)}
-                                buttonText="Save"
-                                onSubmit={saveComment}
-                            />
-                        </div>
-                        <p className={styles.postedTime}>
-                            Commented <ReactTimeAgo date={postedDate} locale="en-US"/>, on {moment(postedDate).format("dddd do MMM, YYYY, hh:mmA")}
-                        </p>
-                        <span className={styles.userID}>
-                            UserID: {sender_user_id}
-                        </span>
-                    </Grid>
-                </Grid>
+        <>
+            {showComment && (
+                <Paper className={styles.comment} elevation={3}>
+                    <EllipsesMenu 
+                        className={styles.optionsMenu}
+                        options={options}
+                        onItemClick={handleCommentOperation}
+                    />
+                    {profile && (
+                        <Grid container wrap="nowrap" spacing={2}>
+                            <Grid item>
+                                <Link to={`/user/${sender_user_id}`}>
+                                    <Avatar 
+                                        className={styles.avatar}
+                                        src={profile.image_url} 
+                                    />
+                                </Link>
+                                <VoteArrow 
+                                    initialVote={vote}
+                                />
+                            </Grid>
+                            <Grid justifyContent="left" item xs zeroMinWidth>
+                                <Link to={`/user/${sender_user_id}`}>
+                                    <h3 className={styles.username}>
+                                        {profile.username}
+                                    </h3>
+                                </Link>
+                                <div className={styles.commentBox}>
+                                    <RichTextDisplay
+                                        readOnly={!editingEnabled}
+                                        value={Value.fromJSON(comment)}
+                                        buttonText="Save"
+                                        onSubmit={saveComment}
+                                    />
+                                </div>
+                                <p className={styles.postedTime}>
+                                    Commented <ReactTimeAgo date={postedDate} locale="en-US"/>, on {moment(postedDate).format("dddd do MMM, YYYY, hh:mmA")}
+                                </p>
+                                <span className={styles.userID}>
+                                    UserID: {sender_user_id}
+                                </span>
+                            </Grid>
+                        </Grid>
+                    )}
+                </Paper>
             )}
-        </Paper>
+        </>
     );
 };
 

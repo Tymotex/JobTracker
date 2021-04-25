@@ -90,8 +90,18 @@ def get_user_profile(user_id: str):
     user["_id"] = str(user["_id"])
     return user
 
-def set_user_profile(user_id: str, username: str, email:str, password: str, experience: str, education: str, name: str, phone: str, skills: list):
-
+def set_user_profile(
+    user_id: str, 
+    username: str, 
+    email:str, 
+    password: str, 
+    experience: str, 
+    education: str, 
+    name: str, 
+    phone: str, 
+    skills: list, 
+    image_url: str
+):
     db.users.update_one(
         {
             "_id": ObjectId(user_id)
@@ -105,6 +115,7 @@ def set_user_profile(user_id: str, username: str, email:str, password: str, expe
                 "name": name,
                 "phone": phone,
                 "skills": skills,
+                "image_url": image_url
             }
         }
     )
@@ -463,6 +474,27 @@ def post_comment(sender_user_id: str, receiver_user_id: str, comment: Dict):
         "vote": 0
     }
     db.comments.insert_one(comment_document)
+
+def edit_comment(comment_id: str, new_comment):
+    """
+        Updates an existing comment document
+    """
+    db.comments.update_one(
+        {
+            "_id": ObjectId(comment_id)
+        }, 
+        {
+            "$set": {
+                "comment": new_comment
+            }
+        }
+    )
+
+def delete_comment(comment_id: str):
+    """
+        Removes a comment
+    """
+    db.comments.delete_one({ "_id": ObjectId(comment_id) })
 
 # ===== Utilities =====
 

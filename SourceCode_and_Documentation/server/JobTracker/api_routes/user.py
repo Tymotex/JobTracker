@@ -74,7 +74,8 @@ class UserJobProfile(Resource):
             params['education'],
             params['name'],
             params['phone'],
-            params['skills']
+            params['skills'],
+            params['image_url']
         )
  
 @user_api.route('/boards')
