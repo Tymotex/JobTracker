@@ -1,51 +1,17 @@
+import { Grid } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
+import { ProfileCard } from '../components/commmunity';
 import { ContentLoader } from "../components/loaders";
-import pageStyles from "./Page.module.scss";
 import api from "../constants/api";
-import { Link } from "react-router-dom";
-import { Avatar, Grid, Paper } from "@material-ui/core";
-import styles from "./Community.module.scss";
-
-import { makeStyles } from "@material-ui/core/styles";
-/*
-
-TODO: make a call to GET /api/users. No parameters necessary
-
-Get back a list of objects containing: 
-    { 
-        username, 
-        image, 
-        user_id
-    }
-
-Click on user card to go to /user/<id here>
-
-*/
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-  small: {
-    width: theme.spacing(3),
-    height: theme.spacing(3),
-  },
-  large: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
-  },
-}));
+import pageStyles from "./Page.module.scss";
 
 const Community = () => {
   const isLoading = false;
   const [users, setUsers] = useState(null);
-  const classes = useStyles();
-  // fetch data
+
+  // ===== GET /api/users/ =====
   useEffect(() => {
     axios.get(`${api.BASE_URL}/api/users`).then((res) => {
       console.log(res.data);
@@ -61,32 +27,20 @@ const Community = () => {
         ) : (
           <>
             <h1>Community</h1>
+            {/* [Search bar here] */}
             <Grid container>
               {users &&
                 users.map((user) => {
                   return (
                     <Grid item xs={12} sm={6} md={4} lg={3}>
-                      <Paper elevation={3} className={styles.card}>
-                        <Link
-                          to={`/user/${user._id}`}
-                          className={styles.user_link}
-                        >
-                          <Avatar
-                            src={user.image_url}
-                            alt="No image"
-                            className={classes.large}
-                          />
-                          <section className={styles.detail}>
-                            <h4>{user.username}</h4>
-                            <p>Email: {user.email}</p>
-                            <p>{user.experience}</p>
-                          </section>
-                        </Link>
-                      </Paper>
+                      <ProfileCard 
+                        user={user}
+                      />
                     </Grid>
                   );
                 })}
             </Grid>
+            {/* [Paginator here] */}
           </>
         )}
       </div>

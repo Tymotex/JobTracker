@@ -1,0 +1,130 @@
+.user_link {
+    display: flex;
+    flex-direction: row;
+    color: black;
+    text-decoration: none;
+    margin: 0.5rem 0;
+    padding: 1rem;
+}
+
+.detail {
+    margin-left: 0.5rem;
+    p, h4 {
+        margin: 0 0;
+    }
+}
+
+.card {
+    margin: 10px;
+    height: 130px;
+}
+
+
+
+// 
+$cardBGColour: rgb(32, 32, 32); 
+$ringColour: rgb(156, 183, 255);
+$socialBGColour: aqua;
+
+.ourTeam {
+    padding: 30px 0 40px;
+    margin: 15px;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24) ;
+    .picture {
+        display: inline-block;
+        height: 130px;
+        width: 130px;
+        margin-bottom: 50px;
+        z-index: 1;
+        position: relative;
+
+        .avatar {
+            height: 130px;
+            width: 130px;
+        }
+
+        &::before {
+            content: "";
+            width: 100%;
+            height: 0;
+            border-radius: 50%;
+            background-color: $cardBGColour;
+            position: absolute;
+            bottom: 135%;
+            right: 0;
+            left: 0;
+            opacity: 0.9;
+            transform: scale(3);
+            transition: all 0.3s linear 0s;
+        }
+        &::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: $cardBGColour;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        & img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+            transform: scale(1);
+            transition: all 0.9s ease 0s;
+        }
+    }
+    &:hover {
+        .picture {
+            img {
+                box-shadow: 0 0 0 14px $ringColour;
+                transform: scale(0.7);
+            }
+            &::before {
+                height: 100%;
+            }
+        }
+        .social {
+            bottom: 0;
+        }
+    }
+  
+    .title {
+        display: block;
+        font-size: 15px;
+        color: #4e5052;
+        text-transform: capitalize;
+    }
+      
+    .social {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        background-color: $socialBGColour;
+        position: absolute;
+        bottom: -100px;
+        left: 0;
+        transition: all 0.5s ease 0s;
+        li {
+            display: inline-block;
+            a {
+                display: block;
+                padding: 10px;
+                font-size: 17px;
+                color: white;
+                transition: all 0.3s ease 0s;
+                text-decoration: none;
+                &:hover {
+                    color: $cardBGColour;
+                    background-color: $ringColour;
+                }
+            }
+        }
+    }
+}
+  
