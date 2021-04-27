@@ -60,7 +60,7 @@ class AuthenticationRegister(Resource):
                 username, 
                 email, 
                 password, 
-                "https://www.pngarts.com/files/11/Avatar-Transparent-Background-PNG.png"
+                "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
             ) 
             return {
                 "user_id": user_id,

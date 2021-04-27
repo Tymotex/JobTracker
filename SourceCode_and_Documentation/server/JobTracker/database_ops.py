@@ -36,6 +36,7 @@ def add_user(username: str, email: str, password: str, image_url="") -> str:
         "password": password,
         "image_url": image_url,
         "experience": "",
+        "title": "Job seeker",
         "phone": "",
         "skills": [],
         "resume": {},
