@@ -14,9 +14,27 @@ import {
 } from '../components/job-boards';
 import { LoadingSpinner } from '../components/loaders';
 import { Notification } from '../components/notification';
+import RichTextDisplay from '../components/richtext/RichTextDisplay';
 import api from '../constants/api';
 import styles from './JobDashboardWorkspace.module.scss';
+import { Value } from 'slate';
 
+const sampleInitialValue = Value.fromJSON({
+    document: {
+      nodes: [
+        {
+          object: "block",
+          type: "paragraph",
+          nodes: [
+            {
+              object: "text",
+              leaves: [{ text: "Start typing here!" }]
+            }
+          ]
+        }
+      ]
+    }
+});
 
 const JobDashboardWorkspace = ({ 
     boardType, 
@@ -121,6 +139,22 @@ const JobDashboardWorkspace = ({
                     <LoadingSpinner type={"Rings"} />
                 </div>
             )}
+            <hr />
+
+            <h3>Update board description</h3> 
+            <RichTextDisplay 
+                value={sampleInitialValue}
+                readOnly={false}
+                buttonText="Update"
+                onSubmit={() => {}}
+            />
+
+            {/* TODO: Remove brs. These are to prevent the bottom nav from blocking content */}
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
         </div>
     );
 };

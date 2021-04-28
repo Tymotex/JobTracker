@@ -18,6 +18,9 @@ import { Button } from '../buttons';
 import { Notification } from '../notification';
 import FullscreenMode from '../fullscreen/FullscreenMode';
 import styles from './JobSpreadsheet.module.scss';
+import {
+    BottomNav
+} from '../menus';
 
 // Given the current_status, returns a formatted string for displaying
 const mapStatusToStr = (currentStatus) => {
@@ -584,15 +587,17 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                     columns={columns}
                     options={datatableOptions}
                 />
-                <br />
-                <div style={{textAlign: "center"}}>
-                    <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)} style={{marginRight: "20px"}}>
-                        Save board
-                    </Button>
-                    <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
-                        {(!editingEnabled) ? ("Enter Edit Mode") : ("Exit Edit Mode")}
-                    </Button>
-                </div>
+                <div style={{marginBottom: "50px"}} />
+                <BottomNav>
+                    <div style={{textAlign: "center"}}>
+                        <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)} style={{marginRight: "20px"}}>
+                            Save board
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
+                            {(!editingEnabled) ? ("Enter Edit Mode") : ("Exit Edit Mode")}
+                        </Button>
+                    </div>
+                </BottomNav>
             </React.Fragment>
         </FullscreenMode>
     );

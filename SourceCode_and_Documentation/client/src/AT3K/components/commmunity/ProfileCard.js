@@ -13,6 +13,7 @@ const ProfileCard = ({ user }) => {
                     <img 
                         className={styles.avatar} 
                         src={user.image_url} 
+                        alt="User avatar"
                     />
                 </div>
                 <div>

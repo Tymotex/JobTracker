@@ -1,8 +1,6 @@
 import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import React from 'react';
 import styles from './BottomNav.module.scss';
 
@@ -48,9 +46,6 @@ export default function BottomAppBar({ children }) {
           <div className={styles.paginatorContainer}>
               {children}
           </div>
-          <IconButton edge="end" color="inherit">
-            <MoreIcon />
-          </IconButton>
         </Toolbar>
       </AppBar>
     </div>
