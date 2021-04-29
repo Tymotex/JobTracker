@@ -18,6 +18,10 @@ import RichTextDisplay from '../components/richtext/RichTextDisplay';
 import api from '../constants/api';
 import styles from './JobDashboardWorkspace.module.scss';
 import { Value } from 'slate';
+import {
+    TextField
+} from '@material-ui/core';
+import { Button } from '../components/buttons';
 
 const sampleInitialValue = Value.fromJSON({
     document: {
@@ -77,13 +81,43 @@ const JobDashboardWorkspace = ({
         }
     };
 
+    // ===== PUT /api/user/board/ =====
+    // Setting a new board description
+    const editBoardDescription = (newDescription) => {
+        const userID = Cookie.get("user_id");
+        const newName = "Test Board";
+        if (userID) {
+            const putData = {
+                method: 'put',
+                url: `${api.BASE_URL}/api/user/board`,
+                data: {
+                    user_id: userID,
+                    board_id: selectedBoardID,
+                    new_name: newName,
+                    new_description: newDescription
+                }
+            };
+            axios(putData)
+                .then((res) => {
+                    Notification.spawnSuccess("Successfully set new description");
+                })
+                .catch(err => Notification.spawnError(err));
+        }
+
+    }
+
     useEffect(() => {
         fetchBoardInfo();
     }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
+
+
+
     return (
         <div>
-            <BreadCrumbs deselectBoard={handleDeselectBoard} name={selectedBoardID} />
+            {board && (
+                <BreadCrumbs deselectBoard={handleDeselectBoard} name={board.name} />
+            )}
             <div className={styles.boardInfo}>
                 {board && (
                     <h1>{board.name}</h1>
@@ -141,20 +175,31 @@ const JobDashboardWorkspace = ({
             )}
             <hr />
 
-            <h3>Update board description</h3> 
-            <RichTextDisplay 
-                value={sampleInitialValue}
-                readOnly={false}
-                buttonText="Update"
-                onSubmit={() => {}}
-            />
-
-            {/* TODO: Remove brs. These are to prevent the bottom nav from blocking content */}
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
+            <h3>Update Board</h3> 
+            {board && (
+                <>
+                    <form 
+                        className={styles.boardEditForm}
+                        noValidate 
+                        autoComplete="off"
+                    >
+                        <TextField 
+                            className={styles.boardNameField}
+                            label="Board name" 
+                            defaultValue={board.name}
+                            fullWidth
+                        />
+                        <Button>Set Name</Button>
+                    </form>
+                    <RichTextDisplay 
+                        value={sampleInitialValue}
+                        readOnly={false}
+                        buttonText="Update"
+                        onSubmit={() => {}}
+                    />
+                    <div className={styles.footerPadding} />
+                </>
+            )}
         </div>
     );
 };

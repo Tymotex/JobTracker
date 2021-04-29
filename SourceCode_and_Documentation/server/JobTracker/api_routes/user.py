@@ -147,7 +147,7 @@ class UserBoard(Resource):
 
     def put(self):
         """
-            Sets new fields for an existing user.
+            Sets new fields for the board of an existing user.
 
             Parameters:
                 - user_id
