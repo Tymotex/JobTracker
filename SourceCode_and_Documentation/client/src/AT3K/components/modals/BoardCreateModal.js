@@ -1,27 +1,31 @@
 import { TextField } from '@material-ui/core';
 import axios from 'axios';
 import Cookie from 'js-cookie';
-import React from 'react';
-import { Button } from '../../components/buttons';
+import React, { useState } from 'react';
 import api from '../../constants/api';
 import { Notification } from '../notification';
+import RichTextDisplay from '../richtext/RichTextDisplay';
 import styles from './Modal.module.scss';
 import ModalWindow from './ModalWindow';
 
 export default function BoardCreateModal({ handleClose, updateBoardList }) {
-    // ===== POST /api/boards =====
+    const [boardName, setBoardName] = useState(""); 
+    const [boardImage, setBoardImage] = useState("");
 
-    const createBoard = (event) => {
-		event.preventDefault();
-		const formData = new FormData(event.target);
+    // ===== POST /api/boards =====
+    const createBoard = (boardDescription) => {
         const userID = Cookie.get("user_id");
         if (userID) {
-            formData.append("user_id", userID);
             const postData = {
                 method: "post",
                 url: `${api.BASE_URL}/api/user/boards`,
-                data: formData,
-                headers: { "Content-Type": "multipart/form-data" }
+                data: {
+                    'user_id': userID,
+                    'name': boardName,
+                    'description': boardDescription,
+                    'image_url': boardImage
+                },
+                headers: { "Content-Type": "application/json" }
             };
             axios(postData)
                 .then(() => {
@@ -36,9 +40,6 @@ export default function BoardCreateModal({ handleClose, updateBoardList }) {
             Notification.spawnRegisterError();
         }
     }
-
-    // ============================
-
 
     return (
         <ModalWindow
@@ -55,31 +56,30 @@ export default function BoardCreateModal({ handleClose, updateBoardList }) {
                         required
                         name="name"
                         type="name"
+                        value={boardName}
+                        onChange={(e) => setBoardName(e.target.value)}
                         id="outlined-required"
                         label="Board Name"
                         variant="outlined"
                     />
                     <TextField className={styles.blockFields}
-                        name="description"
-                        multiline
-                        rows={5}
-                        id="outlined-required"
-                        label="Description"
-                        variant="outlined"
-                    />
-                    <TextField className={styles.blockFields}
                         name="image_url"
                         id="outlined-required"
-                        value="https://images.unsplash.com/photo-1529400971008-f566de0e6dfc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                        defaultValue="https://images.unsplash.com/photo-1529400971008-f566de0e6dfc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
                         multiline
                         rows={3}
                         label="Image URL"
+                        value={boardImage}
+                        onChange={(e) => setBoardImage(e.target.value)}
                         variant="outlined"
                     />
-                </div>
-                <div className={styles.buttonGroup}>
-                    <Button onClick={handleClose} className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
-                    <Button type="submit" className={styles.registerButton} variant="contained" color="primary">Create</Button>
+                    <h3>Board Description</h3>
+                    <p>Give a brief description about your goals, what jobs you will track, etc. </p>
+                    <RichTextDisplay
+                        readOnly={false}
+                        buttonText="Create"
+                        onSubmit={createBoard}
+                    />
                 </div>
             </form>
         </ModalWindow>

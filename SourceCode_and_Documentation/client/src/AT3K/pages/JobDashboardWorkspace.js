@@ -1,15 +1,20 @@
+import {
+    TextField
+} from '@material-ui/core';
 import axios from 'axios';
 import Cookie from 'js-cookie';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { Value } from 'slate';
 import {
     BreadCrumbs
 } from '../components/breadcrumbs';
 import {
-    BoardToolbar, 
-    JobKanban,
-    JobCalendar,
-    JobList, 
+    BoardToolbar,
+
+    JobCalendar, JobKanban,
+
+    JobList,
     JobSpreadsheet
 } from '../components/job-boards';
 import { LoadingSpinner } from '../components/loaders';
@@ -17,28 +22,6 @@ import { Notification } from '../components/notification';
 import RichTextDisplay from '../components/richtext/RichTextDisplay';
 import api from '../constants/api';
 import styles from './JobDashboardWorkspace.module.scss';
-import { Value } from 'slate';
-import {
-    TextField
-} from '@material-ui/core';
-import { Button } from '../components/buttons';
-
-const sampleInitialValue = Value.fromJSON({
-    document: {
-      nodes: [
-        {
-          object: "block",
-          type: "paragraph",
-          nodes: [
-            {
-              object: "text",
-              leaves: [{ text: "Start typing here!" }]
-            }
-          ]
-        }
-      ]
-    }
-});
 
 const JobDashboardWorkspace = ({ 
     boardType, 
@@ -46,9 +29,10 @@ const JobDashboardWorkspace = ({
     handleChangeBoard, 
     handleDeselectBoard,
 }) => {
-
     const [board, setBoard] = useState(null);
     const [trackedJobs, setTrackedJobs] = useState(null);
+    const [newName, setNewName] = useState("");
+    const [newImageURL, setNewImageURL] = useState("");
     const [fieldsToShow, setFields] = useState({
         title: true,
         company: true,
@@ -71,6 +55,8 @@ const JobDashboardWorkspace = ({
             axios.get(`${api.BASE_URL}/api/user/board?user_id=${userID}&board_id=${selectedBoardID}`)
                 .then((response) => {
                     setBoard(response.data);
+                    setNewName(response.data.name);
+                    setNewImageURL(response.data.image_url);
                     setTrackedJobs(response.data.tracked_jobs);
                 }) 
                 .catch((err) => {
@@ -85,7 +71,6 @@ const JobDashboardWorkspace = ({
     // Setting a new board description
     const editBoardDescription = (newDescription) => {
         const userID = Cookie.get("user_id");
-        const newName = "Test Board";
         if (userID) {
             const putData = {
                 method: 'put',
@@ -94,12 +79,15 @@ const JobDashboardWorkspace = ({
                     user_id: userID,
                     board_id: selectedBoardID,
                     new_name: newName,
-                    new_description: newDescription
+                    new_description: newDescription,
+                    new_image_url: newImageURL
                 }
             };
             axios(putData)
-                .then((res) => {
+                .then(() => {
                     Notification.spawnSuccess("Successfully set new description");
+                    // TODO: board description not rerendering
+                    window.location.reload();
                 })
                 .catch(err => Notification.spawnError(err));
         }
@@ -109,9 +97,6 @@ const JobDashboardWorkspace = ({
     useEffect(() => {
         fetchBoardInfo();
     }, []);  // eslint-disable-line react-hooks/exhaustive-deps
-
-
-
 
     return (
         <div>
@@ -124,7 +109,10 @@ const JobDashboardWorkspace = ({
                 )}
                 <hr className={styles.divider} />
                 {board && (
-                    <p>{board.description}</p>
+                    <RichTextDisplay 
+                        value={Value.fromJSON(board.description)}
+                        readOnly
+                    />
                 )}
             </div>
             <BoardToolbar 
@@ -174,31 +162,31 @@ const JobDashboardWorkspace = ({
                 </div>
             )}
             <hr />
-
             <h3>Update Board</h3> 
             {board && (
-                <>
-                    <form 
-                        className={styles.boardEditForm}
-                        noValidate 
-                        autoComplete="off"
-                    >
-                        <TextField 
-                            className={styles.boardNameField}
-                            label="Board name" 
-                            defaultValue={board.name}
-                            fullWidth
-                        />
-                        <Button>Set Name</Button>
-                    </form>
+                <div className={styles.boardEditForm}>
+                    <TextField 
+                        className={styles.boardNameField}
+                        label="Board name" 
+                        defaultValue={board.name}
+                        onChange={(e) => setNewName(e.target.value)}
+                        fullWidth
+                    />
+                    <TextField 
+                        className={styles.boardImageURLField}
+                        label="Image URL" 
+                        defaultValue={board.image_url}
+                        onChange={(e) => setNewImageURL(e.target.value)}
+                        fullWidth
+                    />
                     <RichTextDisplay 
-                        value={sampleInitialValue}
                         readOnly={false}
+                        value={Value.fromJSON(board.description)}
                         buttonText="Update"
-                        onSubmit={() => {}}
+                        onSubmit={editBoardDescription}
                     />
                     <div className={styles.footerPadding} />
-                </>
+                </div>
             )}
         </div>
     );

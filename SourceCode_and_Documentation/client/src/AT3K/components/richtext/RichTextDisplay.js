@@ -14,6 +14,20 @@ import {
   BlockColorHotKey,
   WrapInlineHotKey
 } from "./editor-plugins";
+import { Value } from 'slate';
+
+// Default empty text value
+const sampleInitialValue = Value.fromJSON({
+  document: {
+    nodes: [
+      {
+        object: "block",
+        type: "paragraph",
+        nodes: []
+      }
+    ]
+  }
+});
 
 const plugins = [
   InsertWordHotKey({ char: "&", word: "and" }),
@@ -24,7 +38,7 @@ const plugins = [
 ];
 
 
-const RichTextDisplay = ({ value, onKeyDown, readOnly = false, buttonText, onSubmit }) => {
+const RichTextDisplay = ({ value=sampleInitialValue, onKeyDown, readOnly = false, buttonText, onSubmit }) => {
   const [currValue, setCurrValue] = useState(value);
 
   // Add a `renderNode` method to render a `CodeNode` for code blocks.

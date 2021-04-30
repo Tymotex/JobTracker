@@ -12,6 +12,8 @@ import {
     BoardDeleteModal, BoardEditModal
 } from '../modals';
 import styles from './BoardCard.module.scss';
+import RichTextDisplay from '../richtext/RichTextDisplay';
+import { Value } from 'slate';
 
 const useStyles = makeStyles({
     bullet: {
@@ -75,7 +77,7 @@ const BoardCard = ({
             />
             <CardMedia
                 style={{height: "200px"}}
-                 image={image_url}
+                 image={boardImageURL}
             />
             
             <CardContent>
@@ -86,7 +88,10 @@ const BoardCard = ({
                 </Typography>
                 <hr />
                 <Typography variant="body2" component="p">
-                    {boardDescription}
+                    <RichTextDisplay
+                        value={Value.fromJSON(boardDescription)}
+                        readOnly
+                    />
                 </Typography>
                 <Button 
                     className={styles.viewButton}

@@ -100,7 +100,7 @@ class UserBoardManagement(Resource):
                 - image_url
         """
         printColoured(" * Creating a new board", colour="yellow")
-        request_params = dict(request.form)
+        request_params = dict(request.get_json())
         user_id = request_params["user_id"]
         name = request_params["name"]
         description = request_params["description"]
@@ -154,17 +154,17 @@ class UserBoard(Resource):
                 - board_id
                 - new_name
                 - new_description
+                - new_image_url
         """
-        # Dont know what this does, just copied from other functions.
         printColoured(" * Editing board values", colour="yellow")
 
-        request_params = dict(request.form)
+        request_params = dict(request.get_json())
         user_id = request_params["user_id"]
         board_id = request_params["board_id"]
-        new_names = request_params["new_name"]
+        new_name = request_params["new_name"]
         new_description = request_params["new_description"]
         new_image_url = request_params["new_image_url"]
-        return edit_board(user_id, board_id, new_names, new_description, new_image_url)
+        return edit_board(user_id, board_id, new_name, new_description, new_image_url)
 
     def delete(self):
         """
