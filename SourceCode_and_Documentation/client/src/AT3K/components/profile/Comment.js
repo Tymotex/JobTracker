@@ -8,7 +8,6 @@ import {
 } from './comments';
 import RichTextDisplay from '../richtext/RichTextDisplay';
 import styles from './Comment.module.scss';
-import { Value } from 'slate';
 import axios from 'axios';
 import Cookie from 'js-cookie';
 import api from '../../constants/api';
@@ -140,7 +139,7 @@ const Comment = ({ sender_user_id, comment, _id: commentID, date, vote=3 }) => {
                                 <div className={styles.commentBox}>
                                     <RichTextDisplay
                                         readOnly={!editingEnabled}
-                                        value={Value.fromJSON(comment)}
+                                        value={comment}
                                         buttonText="Save"
                                         onSubmit={saveComment}
                                     />

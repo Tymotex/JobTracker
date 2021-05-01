@@ -5,7 +5,6 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { Value } from 'slate';
 import {
     BreadCrumbs
 } from '../components/breadcrumbs';
@@ -105,12 +104,17 @@ const JobDashboardWorkspace = ({
             )}
             <div className={styles.boardInfo}>
                 {board && (
+                    <img 
+                        src={board.image_url} 
+                    />
+                )}
+                {board && (
                     <h1>{board.name}</h1>
                 )}
                 <hr className={styles.divider} />
                 {board && (
                     <RichTextDisplay 
-                        value={Value.fromJSON(board.description)}
+                        value={board.description}
                         readOnly
                     />
                 )}
@@ -181,7 +185,7 @@ const JobDashboardWorkspace = ({
                     />
                     <RichTextDisplay 
                         readOnly={false}
-                        value={Value.fromJSON(board.description)}
+                        value={board.description}
                         buttonText="Update"
                         onSubmit={editBoardDescription}
                     />

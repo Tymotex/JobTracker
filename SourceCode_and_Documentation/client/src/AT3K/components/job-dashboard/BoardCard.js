@@ -55,6 +55,10 @@ const BoardCard = ({
     const handleCloseDeleteModal = () => {
         setDeleteModalOpen(false);
     }
+
+    const handleSetDescription = (desc) => {
+        setBoardDescription(desc);
+    }
     
     const openBoardControlModal = (option) => {
         if (option === "Edit this board") {  
@@ -89,7 +93,7 @@ const BoardCard = ({
                 <hr />
                 <Typography variant="body2" component="p">
                     <RichTextDisplay
-                        value={Value.fromJSON(boardDescription)}
+                        value={boardDescription}
                         readOnly
                     />
                 </Typography>
@@ -113,7 +117,7 @@ const BoardCard = ({
                 boardName={boardName}
                 setBoardName={setBoardName}
                 boardDescription={boardDescription}
-                setBoardDescription={setBoardDescription}
+                setBoardDescription={handleSetDescription}
                 boardImageURL={boardImageURL}
                 setBoardImageURL={setBoardImageURL}
             />

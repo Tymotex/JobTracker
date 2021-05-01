@@ -9,7 +9,6 @@ import React, { useState } from 'react';
 import api from '../../constants/api';
 import { Notification } from '../notification';
 import RichTextDisplay from '../richtext/RichTextDisplay';
-import { Value } from 'slate';
 import styles from './Modal.module.scss';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +47,7 @@ export default function BoardEditModal({ boardID, open, handleClose, boardName, 
                     setBoardDescription(boardDescription);
                     setBoardImageURL(imageURL);
                     Notification.spawnSuccess(`Successfully edited board '${res.data.new_name}'`);
+                    window.location.reload();
                 })
                 .catch((err) => Notification.spawnError(err));
         } else {
@@ -108,7 +108,7 @@ export default function BoardEditModal({ boardID, open, handleClose, boardName, 
                                 />
                                 <RichTextDisplay
                                     readOnly={false}
-                                    value={Value.fromJSON(boardDescription)}
+                                    value={boardDescription}
                                     buttonText="Update"
                                     onSubmit={editBoard}
                                 />

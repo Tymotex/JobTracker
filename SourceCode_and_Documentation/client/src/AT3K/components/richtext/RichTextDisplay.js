@@ -17,7 +17,7 @@ import {
 import { Value } from 'slate';
 
 // Default empty text value
-const sampleInitialValue = Value.fromJSON({
+const sampleInitialValue = {
   document: {
     nodes: [
       {
@@ -27,7 +27,7 @@ const sampleInitialValue = Value.fromJSON({
       }
     ]
   }
-});
+};
 
 const plugins = [
   InsertWordHotKey({ char: "&", word: "and" }),
@@ -39,8 +39,7 @@ const plugins = [
 
 
 const RichTextDisplay = ({ value=sampleInitialValue, onKeyDown, readOnly = false, buttonText, onSubmit }) => {
-  const [currValue, setCurrValue] = useState(value);
-
+  const [currValue, setCurrValue] = useState(Value.fromJSON(value));
   // Add a `renderNode` method to render a `CodeNode` for code blocks.
   const renderNode = props => {
     switch (props.node.type) {
@@ -64,6 +63,8 @@ const RichTextDisplay = ({ value=sampleInitialValue, onKeyDown, readOnly = false
   };
 
   const onChange = ({ value }) => {
+    console.log("NEW VLAUE:");
+    console.log(value);
     setCurrValue(value);
   };
 
@@ -94,6 +95,7 @@ const RichTextDisplay = ({ value=sampleInitialValue, onKeyDown, readOnly = false
       )}
     </>
   )
-}
+};
 
-export default RichTextDisplay
+export default RichTextDisplay;
+
