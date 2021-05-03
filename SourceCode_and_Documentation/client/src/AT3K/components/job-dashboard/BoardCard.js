@@ -11,9 +11,8 @@ import {
 import {
     BoardDeleteModal, BoardEditModal
 } from '../modals';
-import styles from './BoardCard.module.scss';
 import RichTextDisplay from '../richtext/RichTextDisplay';
-import { Value } from 'slate';
+import styles from './BoardCard.module.scss';
 
 const useStyles = makeStyles({
     bullet: {

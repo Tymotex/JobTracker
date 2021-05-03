@@ -1,5 +1,27 @@
 .boardInfo {
     text-align: center;
+    position: relative;
+    min-height: 400px;
+
+    .boardImage {
+        height: 400px;
+        overflow: hidden;
+        background-color: darkslategray;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .boardInfoTextSection {
+        position: absolute;
+        width: 100%; 
+        top: 15%;
+        color: white;
+        background-color: rgba(44, 44, 44, 0.76);
+        padding: 15px 0;
+        overflow: hidden;
+    }
 }
 
 .divider {

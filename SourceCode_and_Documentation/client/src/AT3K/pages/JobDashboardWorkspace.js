@@ -1,5 +1,5 @@
 import {
-    TextField
+    Paper
 } from '@material-ui/core';
 import axios from 'axios';
 import Cookie from 'js-cookie';
@@ -10,9 +10,7 @@ import {
 } from '../components/breadcrumbs';
 import {
     BoardToolbar,
-
     JobCalendar, JobKanban,
-
     JobList,
     JobSpreadsheet
 } from '../components/job-boards';
@@ -66,33 +64,6 @@ const JobDashboardWorkspace = ({
         }
     };
 
-    // ===== PUT /api/user/board/ =====
-    // Setting a new board description
-    const editBoardDescription = (newDescription) => {
-        const userID = Cookie.get("user_id");
-        if (userID) {
-            const putData = {
-                method: 'put',
-                url: `${api.BASE_URL}/api/user/board`,
-                data: {
-                    user_id: userID,
-                    board_id: selectedBoardID,
-                    new_name: newName,
-                    new_description: newDescription,
-                    new_image_url: newImageURL
-                }
-            };
-            axios(putData)
-                .then(() => {
-                    Notification.spawnSuccess("Successfully set new description");
-                    // TODO: board description not rerendering
-                    window.location.reload();
-                })
-                .catch(err => Notification.spawnError(err));
-        }
-
-    }
-
     useEffect(() => {
         fetchBoardInfo();
     }, []);  // eslint-disable-line react-hooks/exhaustive-deps
@@ -104,20 +75,25 @@ const JobDashboardWorkspace = ({
             )}
             <div className={styles.boardInfo}>
                 {board && (
-                    <img 
-                        src={board.image_url} 
-                    />
+                    <Paper className={styles.boardImage}>
+                        <img 
+                            alt="Board card wallpaper"
+                            src={board.image_url} 
+                        />
+                    </Paper>
                 )}
-                {board && (
-                    <h1>{board.name}</h1>
-                )}
-                <hr className={styles.divider} />
-                {board && (
-                    <RichTextDisplay 
-                        value={board.description}
-                        readOnly
-                    />
-                )}
+                <div className={styles.boardInfoTextSection}>
+                    {board && (
+                        <h1>{board.name}</h1>
+                    )}
+                    <hr className={styles.divider} />
+                    {board && (
+                        <RichTextDisplay 
+                            value={board.description}
+                            readOnly
+                        />
+                    )}
+                </div>
             </div>
             <BoardToolbar 
                 boardType={boardType}
@@ -166,32 +142,6 @@ const JobDashboardWorkspace = ({
                 </div>
             )}
             <hr />
-            <h3>Update Board</h3> 
-            {board && (
-                <div className={styles.boardEditForm}>
-                    <TextField 
-                        className={styles.boardNameField}
-                        label="Board name" 
-                        defaultValue={board.name}
-                        onChange={(e) => setNewName(e.target.value)}
-                        fullWidth
-                    />
-                    <TextField 
-                        className={styles.boardImageURLField}
-                        label="Image URL" 
-                        defaultValue={board.image_url}
-                        onChange={(e) => setNewImageURL(e.target.value)}
-                        fullWidth
-                    />
-                    <RichTextDisplay 
-                        readOnly={false}
-                        value={board.description}
-                        buttonText="Update"
-                        onSubmit={editBoardDescription}
-                    />
-                    <div className={styles.footerPadding} />
-                </div>
-            )}
         </div>
     );
 };

@@ -1,4 +1,5 @@
 import {
+    Grid,
     InputLabel,
     MenuItem
 } from '@material-ui/core';
@@ -589,14 +590,18 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 />
                 <div style={{marginBottom: "50px"}} />
                 <BottomNav>
-                    <div style={{textAlign: "center"}}>
-                        <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)} style={{marginRight: "20px"}}>
-                            Save board
-                        </Button>
-                        <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
-                            {(!editingEnabled) ? ("Enter Edit Mode") : ("Exit Edit Mode")}
-                        </Button>
-                    </div>
+                    <Grid container className={styles.buttonGroup}>
+                        <Grid item xs={6} className={styles.buttonContainer}>
+                            <Button variant="contained" color="primary" onClick={() => saveCurrBoardState(trackedJobs)} style={{marginRight: "20px"}}>
+                                Save
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6} className={styles.buttonContainer}>
+                            <Button variant="contained" color="primary" onClick={() => setEditingEnabled(!editingEnabled)}>
+                                {(!editingEnabled) ? ("Enable Edit") : ("Disable Edit")}
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </BottomNav>
             </React.Fragment>
         </FullscreenMode>

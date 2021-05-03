@@ -8,3 +8,11 @@
     color: blueviolet;
 }
 
+.buttonGroup {
+    max-width: 250px;
+    margin: 0 auto;
+
+    .buttonContainer {
+        text-align: center;
+    }
+}
