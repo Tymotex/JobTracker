@@ -21,6 +21,7 @@ const Comment = ({ sender_user_id, comment, _id: commentID, date, vote=3 }) => {
     const [editingEnabled, setEditingEnabled] = useState(false);
     const [showComment, setShowComment] = useState(true);
     const postedDate = new Date(date * 1000);
+    const [commentVote, setVote] = useState(vote);
     
     const options = [
         "Edit comment",
@@ -103,6 +104,28 @@ const Comment = ({ sender_user_id, comment, _id: commentID, date, vote=3 }) => {
         }
     };
 
+    // ===== POST /api/comment/vote =====
+    const incrementVote = (incrementAmount) => {
+        const userID = Cookie.get("user_id")
+        if (userID) {
+            const postData = {
+                method: 'post',
+                url: `${api.BASE_URL}/api/comment/vote`,
+                data: {
+                    user_id: userID,
+                    comment_id: commentID,
+                    increment_amount: incrementAmount
+                },
+            };
+            axios(postData)
+                .then(() => {
+                    Notification.spawnSuccess("Voted successfully");
+                    setVote(commentVote + incrementAmount);
+                })
+                .catch(err => Notification.spawnError(err));
+        }
+    }
+
     useEffect(() => {
         getUserProfile(sender_user_id);
     }, [sender_user_id])
@@ -127,7 +150,8 @@ const Comment = ({ sender_user_id, comment, _id: commentID, date, vote=3 }) => {
                                     />
                                 </Link>
                                 <VoteArrow 
-                                    initialVote={vote}
+                                    vote={commentVote}
+                                    incrementVote={incrementVote}
                                 />
                             </Grid>
                             <Grid justifyContent="left" item xs zeroMinWidth>

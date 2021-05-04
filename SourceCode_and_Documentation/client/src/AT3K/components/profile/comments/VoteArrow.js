@@ -1,16 +1,14 @@
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './VoteArrow.module.scss';
 
-const VoteArrow = ({ initialVote=0 }) => {
-    const [vote, setVote] = useState(initialVote);
-
+const VoteArrow = ({ vote = 0, incrementVote }) => {
     const upvote = () => {
-        setVote(vote + 1);
+        incrementVote(1);
     }
     const downvote = () => {
-        setVote(vote - 1);
+        incrementVote(-1);
     }
 
     // Applying a different class depending on the range that the vote falls under

@@ -497,6 +497,21 @@ def delete_comment(comment_id: str):
     """
     db.comments.delete_one({ "_id": ObjectId(comment_id) })
 
+def vote_comment(comment_id: str, increment_amount: int):
+    """
+        Increases the vote by the amount specified. Negative values denote downvoting
+    """
+    db.comments.update_one(
+        {
+            "_id": ObjectId(comment_id)
+        }, 
+        {
+            "$inc": {
+                "vote": increment_amount
+            }
+        }
+    )
+
 # ===== Utilities =====
 
 def user_exists(email: str):
