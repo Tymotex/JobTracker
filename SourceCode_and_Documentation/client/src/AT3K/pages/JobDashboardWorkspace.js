@@ -28,8 +28,6 @@ const JobDashboardWorkspace = ({
 }) => {
     const [board, setBoard] = useState(null);
     const [trackedJobs, setTrackedJobs] = useState(null);
-    const [newName, setNewName] = useState("");
-    const [newImageURL, setNewImageURL] = useState("");
     const [fieldsToShow, setFields] = useState({
         title: true,
         company: true,
@@ -52,8 +50,6 @@ const JobDashboardWorkspace = ({
             axios.get(`${api.BASE_URL}/api/user/board?user_id=${userID}&board_id=${selectedBoardID}`)
                 .then((response) => {
                     setBoard(response.data);
-                    setNewName(response.data.name);
-                    setNewImageURL(response.data.image_url);
                     setTrackedJobs(response.data.tracked_jobs);
                 }) 
                 .catch((err) => {

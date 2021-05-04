@@ -16,6 +16,7 @@ const Community = () => {
   const isLoading = false;
   const [users, setUsers] = useState(null);
   const [autocompleteItems, setAutocompleteItems] = useState([]);
+  const [query, setQuery] = useState("");
 
   // ===== GET /api/users/ =====
   useEffect(() => {
@@ -30,8 +31,13 @@ const Community = () => {
       .catch(err => Notification.spawnError(err));
   }, []);
 
-  // Extract a list of all users and their usernames and IDs
-
+  // Filtering for all users that match the search query
+  const filteredUsers = users.filter(eachUser => {
+    let normalisedName = eachUser.username;
+    let normalisedQuery = query.toLowerCase();
+    normalisedName = normalisedName.toLowerCase();
+    return normalisedName.includes(normalisedQuery);
+  });
   return (
     <Layout>
       <div className={pageStyles.container}>
@@ -43,11 +49,13 @@ const Community = () => {
             {/* [Search bar here] */}
             <SearchBar 
               labelText="User Search"
+              setQuery={setQuery}
+              query={query}
               items={autocompleteItems}
             />
             <Grid container>
-              {users &&
-                users.map((user) => {
+              {(filteredUsers && filteredUsers.length > 0) ? (
+                filteredUsers.map((user) => {
                   return (
                     <Grid item xs={12} sm={6} md={4} lg={3}>
                       <ProfileCard 
@@ -55,7 +63,12 @@ const Community = () => {
                       />
                     </Grid>
                   );
-                })}
+                })) : (
+                  <div>
+                    No users found for search query: {query}
+                  </div>
+                )
+              }
             </Grid>
             {/* [Paginator here] */}
             <JobListPaginator 
