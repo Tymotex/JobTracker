@@ -1,6 +1,10 @@
 import { Avatar, Box, Button, Container, Modal } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Cookie from 'js-cookie';
+import api from '../../constants/api';
+import axios from "axios";
 import React, { useState } from "react";
+import { Notification } from "../notification";
 import ResumeDropZone from "./ResumeDropZone";
 import ResumeRenderer from "./ResumeRenderer";
 
@@ -39,6 +43,28 @@ const ProfileSettings = () => {
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
 
+  // ===== POST /api/user/parse_resume/ =====
+  const parseResume = () => {
+    const userID = Cookie.get('user_id');
+    if (userID) {
+      const postData = {
+        method: 'post',
+        url: `${api.BASE_URL}/api/user/parse_resume`,
+        data: {
+          user_id: userID
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      axios(postData)
+        .then(() => {
+          Notification.spawnSuccess("Successfully parsed resume");
+        })
+        .catch(err => Notification.spawnError(err));
+    }
+  }
+
   const boxStyle = {
     padding: "10px"
   }
@@ -76,7 +102,7 @@ const ProfileSettings = () => {
       </Box>
       <Box style={boxStyle}>
         <ResumeRenderer file={resume} setFile={setResume} resumeBinaryFile={resumeBinaryFile} />
-        <Button variant="outlined" onClick={() => {}}>Parse resume</Button>
+        <Button variant="outlined" onClick={parseResume}>Parse resume</Button>
       </Box>
       <div>
         <Button variant="contained" color="secondary" onClick={openModal}>

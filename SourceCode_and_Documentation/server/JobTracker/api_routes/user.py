@@ -205,9 +205,15 @@ class UserResume(Resource):
         printColoured(" * Uploading resume pdf", colour="yellow")
         pretty_print_dict(request_params)
         user_id = request_params["user_id"]
-        printColoured(request.files["resume"], colour="yellow")
-        request.files["resume"].save("{}/{}.pdf".format(RESUME_DIR_PATH, user_id))
-        return "Saved"
+        
+        if "resume" not in request.files:
+            raise InvalidUserInput(description="No resume was found. Did you upload it?")
+        resume = request.files["resume"]
+        printColoured(resume, colour="yellow")
+
+        resume_url = "{}/{}.pdf".format(RESUME_DIR_PATH, user_id)
+        resume.save(resume_url)
+        return resume_url
 
 @user_api.route("/company")
 class UserFavouriteCompany(Resource):
@@ -272,9 +278,12 @@ class UserResumeParser(Resource):
         """
             Parses the resume of the user with the given ID. Stores the extracted fields 
             under the user document
+
+            Parameters:
+                - user_id
         """
         printColoured(" * Parsing resume")
-        request_params = dict(request.form)
+        request_params = dict(request.get_json())
         user_id = request_params["user_id"]
 
         path_to_resume = "{}/{}.pdf".format(RESUME_DIR_PATH, user_id)
