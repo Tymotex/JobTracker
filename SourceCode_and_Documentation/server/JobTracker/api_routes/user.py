@@ -56,14 +56,17 @@ class UserJobProfile(Resource):
         """
         printColoured(" * Retrieving user's profile info", colour="yellow")
         user_id = request.args.get("user_id")
-        # TODO: INSERT GET INFO FUNCTION HERE
         user = get_user_profile(user_id)
         return jsonify(user)
 
     def post(self):
         """
-            Create a user profile (should this be a request or should)
+            Create a user profile
+            Parameters:
+                user_id, username, email, password, experience,
+                education, name, phone, skills, image_url
         """
+        printColoured(" * Setting the profile fields for a user", colour="yellow")
         params = request.get_json()
         return set_user_profile(
             params['user_id'],

@@ -15,6 +15,8 @@ from JobTracker.exceptions import (
 from bson import ObjectId
 import uuid
 
+# TODO: modularise this file
+
 # ===== User Management =====
 
 def add_user(username: str, email: str, password: str, image_url="") -> str:

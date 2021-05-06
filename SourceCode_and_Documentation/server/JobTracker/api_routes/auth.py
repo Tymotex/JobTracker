@@ -90,6 +90,7 @@ def get_google_provider_cfg():
 
 @auth_router.route("/googlelogin")
 def login_handler():
+    printColoured(" * Attempting Google login", colour="yellow")
     # Find out what URL to hit for Google login
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
@@ -106,6 +107,7 @@ def login_handler():
 
 @auth_router.route("/googlelogin/callback")
 def login_callback_handler():
+    printColoured(" * Entering Google login callback", colour="yellow")
     # Get authorization code Google sent back to you
     code = request.args.get("code")
 

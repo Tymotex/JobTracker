@@ -34,7 +34,6 @@ def get_company_details(company):
         Returns:
             - company_description (str)
     """
-    print("Func get_company_details is called")
     wiki_wiki = Wikipedia('en')
 
     try:
@@ -63,8 +62,8 @@ class CompanyFetch(Resource):
                 - disable_jobs (optional param)
         """
         # Filter for the jobs that actually belong to company_name
+        printColoured(" * Fetching company details", colour="yellow")
         request_params = dict(request.args)
-        print(request_params)
         company_name = request_params["company"]
         if company_name == "":
             # Returns nothing if given nothing
