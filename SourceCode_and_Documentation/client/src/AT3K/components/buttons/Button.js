@@ -6,13 +6,17 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
   root: {
-      "text-transform": "none",
-      background: "linear-gradient(to right, #313335, #232526)",
-      borderRadius: "15px",
+      textTransform: "none",
+      background: '#363535',
+      borderRadius: "5px",
       border: 0,
       color: 'white',
       height: 48,
-      padding: '0 30px',
+      textTransform: 'uppercase',
+      '&:hover': {
+        background: 'white',
+        color: 'black'
+      }
   },
 };
 

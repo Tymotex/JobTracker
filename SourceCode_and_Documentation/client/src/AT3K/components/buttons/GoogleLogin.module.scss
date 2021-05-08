@@ -1,0 +1,31 @@
+$height: 40px;
+
+.button {
+    height: $height;
+    text-align: center;
+    position: relative;
+    
+    .logo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: $height - 3;
+        width: $height - 3;
+        border: 1px solid black;
+        
+        img {
+            height: 20px;
+            width: 20px;
+        }
+    }
+    .text {
+        // font-size: 10px;
+        // line-height: 20px;
+        // vertical-align: middle;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 20px;
+        margin-left: $height;
+    }
+}

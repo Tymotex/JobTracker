@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import { Button } from '../buttons';
 import GoogleButton from 'react-google-button'
+import { GoogleLoginButton } from '../buttons';
 import styles from './Modal.module.scss';
 import Cookie from 'js-cookie';
 import axios from 'axios';
@@ -112,6 +113,7 @@ export default function TransitionsModal() {
                             <GoogleButton className={styles.googleButton}
                                 onClick={signinRedirect}
                             />
+                            {/* <GoogleLoginButton /> */}
                             <Grid container className={styles.buttonGroup}>
                                 <Grid item xs={6}>
                                     <Button onClick={handleClose} className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
