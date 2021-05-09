@@ -14,7 +14,7 @@ import { JobListPaginator } from '../components/job-lists';    // TODO: Shouldn'
 
 const Community = () => {
   const isLoading = false;
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState([]);
   const [autocompleteItems, setAutocompleteItems] = useState([]);
   const [query, setQuery] = useState("");
 
