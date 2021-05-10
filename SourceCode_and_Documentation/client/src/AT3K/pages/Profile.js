@@ -78,7 +78,7 @@ const sampleInitialValue = Value.fromJSON({
 
 const Profile = () => {
     const { id: profileUserID } = useParams();
-    const [profile, setProfile] = useState(null);
+    const [profile, setProfile] = useState({ resume_fields: {} });
 
     const [comments, setComments] = useState(null);
 
@@ -147,6 +147,18 @@ const Profile = () => {
     }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
     const isLoading = false && (profile === null);
+
+    const { 
+        name, 
+        mobile_number, 
+        skills, 
+        college_name: university, 
+        degree: degrees, 
+        designation, 
+        experience, 
+        company_names: companies
+    } = profile.resume_fields;
+
     return (
         <Layout>
             <div className={pageStyles.container}>
@@ -154,6 +166,50 @@ const Profile = () => {
                     <ContentLoader />
                 ) : (
                     <>
+                        {profile.resume_fields && (
+                            <>
+                                <div>
+                                    {name}
+                                </div>
+                                <div>
+                                    {mobile_number}
+                                </div>
+                                <h3>Skill</h3>
+                                <ul>
+                                    {skills && skills.map(skill => (
+                                        <li>{skill}</li>
+                                    ))}
+                                </ul>
+                                <h3>Uni</h3>
+                                <div>
+                                    {university}
+                                </div>
+                                <h3>Degree</h3>
+                                <ul>
+                                    {degrees && degrees.map(degree => (
+                                        <li>{degree}</li>
+                                    ))}
+                                </ul>
+                                <h3>Designation</h3>
+                                <ul>
+                                    {designation && designation.map(title => (
+                                        <li>{title}</li>
+                                    ))}
+                                </ul>
+                                <h3>Experience</h3>
+                                <ul>
+                                    {experience && experience.map(exp => (
+                                        <li>{exp}</li>
+                                    ))}
+                                </ul>
+                                <h3>Company Names</h3>
+                                <ul>
+                                    {companies && companies.map(comp => (
+                                        <li>{comp}</li>
+                                    ))}
+                                </ul>
+                            </>
+                        )}
                         <FadeIn>
                             {profile && (
                                 <ThemeProvider theme={theme}>

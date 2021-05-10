@@ -522,3 +522,18 @@ def user_exists(email: str):
     """
     target_user = db.users.find_one({ "email": email })
     return target_user != None 
+
+def set_resume_fields(user_id: str, parsed_resume: dict):
+    """
+    """
+    db.users.update_one(
+        {
+            "_id": ObjectId(user_id)
+        }, 
+        {
+            "$set": {
+                "resume_fields": parsed_resume
+            }
+        }
+    )
+

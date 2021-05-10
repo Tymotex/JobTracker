@@ -4,6 +4,7 @@ Routes for fetching job postings
 from os.path import isfile
 import requests
 import json
+from pyresparser import ResumeParser
 from JobTracker.utils.debug import pretty_print_dict
 from flask import (
     send_file,
@@ -24,7 +25,8 @@ from JobTracker.database_ops import (
     save_favourite_company,
     delete_favourite_company,
     get_user_profile,
-    set_user_profile
+    set_user_profile,
+    set_resume_fields
 )
 from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
@@ -293,25 +295,36 @@ class UserResumeParser(Resource):
         
         # If the file exists, proceed with resume parser API call
         if isfile(path_to_resume):
-            BASE_URL = "https://seng2021-at3k.netlify.app"    # TODO: Shouldn't be hardcoded. 
+            # BASE_URL = "https://seng2021-at3k.netlify.app"    # TODO: Shouldn't be hardcoded. 
             try:
-                resume_url = "{}/api/user/resume?user_id={}".format(BASE_URL, user_id)
-                return jsonify(parse_resume(user_id, resume_url))
+                # resume_url = "{}/api/user/resume?user_id={}".format(BASE_URL, user_id)
+                parsed_resume = parse_resume(path_to_resume)
+                set_resume_fields(user_id, parsed_resume)
+                return parsed_resume
             except Exception as err:
                 raise err
         else:
             raise InvalidUserInput(description="You have not uploaded a resume to be parsed yet")
 
-def parse_resume(user_id: str, resume_url: str) -> dict:
+def parse_resume(resume_path: str) -> dict:
     """
+    """
+    parsed_resume = ResumeParser(
+        resume_path
+    ).get_extracted_data()
+    return dict(parsed_resume)
 
-    """
-    url = "https://api.promptapi.com/resume_parser/url?url={}".format(resume_url)
-    payload = {}
-    headers= {
-        "apikey": "F3RgNKjRAEXU1LoJh574J2RPwtxVKIrn"
-    }
-    response = requests.request("GET", url, headers=headers, data = payload)
-    result = response.text
-    set_user_resume_fields(user_id, result)
-    return result
+
+# def parse_resume_api(user_id: str, resume_url: str) -> dict:
+#     """
+#        Uses prompt api's resume parsing servicing
+#     """
+#     url = "https://api.promptapi.com/resume_parser/url?url={}".format(resume_url)
+#     payload = {}
+#     headers= {
+#         "apikey": "F3RgNKjRAEXU1LoJh574J2RPwtxVKIrn"
+#     }
+#     response = requests.request("GET", url, headers=headers, data = payload)
+#     result = response.text
+#     set_user_resume_fields(user_id, result)
+#     return result
