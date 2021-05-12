@@ -1,4 +1,5 @@
 import {
+    Container,
     Grid,
     InputLabel,
     MenuItem
@@ -342,13 +343,56 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         }
     };
 
-    const NotesDisplay = () => {
+    const NotesDisplay = (_, tableMeta) => {
+        const rowNum = tableMeta.rowIndex;
+        const oldJob = trackedJobs[rowNum];
+
+        // Update notes for this job post
+        const updateNotes = (newNotes) => {
+            const userID = Cookie.get('user_id');
+            if (userID) {
+                const jobID = "";
+                const updatedJob = {...oldJob, notes: newNotes};
+                console.log(updatedJob);
+                const putData = {
+                    method: 'put',
+                    url: `${api.BASE_URL}/api/tracker/`,
+                    data: {
+                        user_id: userID,
+                        board_id: boardID,
+                        job_id: jobID,
+                        updated_job: updatedJob
+                    }
+                };
+                axios(putData)
+                    .then(() => {
+                        console.log(oldJob);
+                        Notification.spawnSuccess("Successfully updated notes")
+                    })
+                    .catch(err => Notification.spawnError(err))
+            }
+        }
+
         return (
             <div>
                 <ModalWithChildren Button={() => <Button>View</Button>}>
-                    <RichTextDisplay 
-                        buttonText="Save"
-                    />
+                    <Container style={{ marginTop: '20px' }}>
+                        <RichTextDisplay 
+                            value={(oldJob.notes) ? (oldJob.notes) : ({
+                                document: {
+                                  nodes: [
+                                    {
+                                      object: "block",
+                                      type: "paragraph",
+                                      nodes: []
+                                    }
+                                  ]
+                                }
+                            })}
+                            buttonText="Save"
+                            onSubmit={updateNotes}
+                        />
+                    </Container>
                 </ModalWithChildren>
             </div>
         )

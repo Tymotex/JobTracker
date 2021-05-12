@@ -328,3 +328,33 @@ def parse_resume(resume_path: str) -> dict:
 #     result = response.text
 #     set_user_resume_fields(user_id, result)
 #     return result
+
+
+
+@user_api.route("/tracking")
+class UserResumeParser(Resource):
+    def post(self):
+        """
+            Parameters:
+                - user_being_tracked_id
+                - user_tracking_id
+        """
+
+    def delete(self):
+        """
+            Parameters:
+                - user_being_tracked_id
+                - user_tracking_id
+        """
+
+@user_api.route("/star")
+class Starring(Resource):
+    def post(self):
+        """
+            Parameters:
+                - starrer_user_id
+                - recipient_user_id
+                - starred (bool)
+        """
+
+

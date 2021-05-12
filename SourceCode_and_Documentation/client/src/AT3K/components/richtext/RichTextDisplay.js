@@ -40,6 +40,9 @@ const plugins = [
 
 const RichTextDisplay = ({ value=sampleInitialValue, onKeyDown, readOnly = false, buttonText, onSubmit }) => {
   const [currValue, setCurrValue] = useState(Value.fromJSON(value));
+
+  if (!value) value = Value.fromJSON(sampleInitialValue);
+
   // Add a `renderNode` method to render a `CodeNode` for code blocks.
   const renderNode = props => {
     switch (props.node.type) {
@@ -63,8 +66,6 @@ const RichTextDisplay = ({ value=sampleInitialValue, onKeyDown, readOnly = false
   };
 
   const onChange = ({ value }) => {
-    console.log("NEW VLAUE:");
-    console.log(value);
     setCurrValue(value);
   };
 

@@ -71,6 +71,18 @@ const timeRangeOptions = [
 	}
 ];
 
+// Graph type dropdown items
+const graphTypes = [
+	{
+		text: 'Line Chart',
+		value: 'line'
+	},
+	{
+		text: 'Heatmap',
+		value: 'heatmap'
+	}
+];
+
 // 'Visualising your outcomes' items
 const outcomeOptions = [
 	{
@@ -107,6 +119,7 @@ export default function Charts() {
 	const [selectedBoardID, setSelectedBoardID] = useState(null);
 	const [activityType, setActivityType] = useState("application");
 	const [activityStats, setActivityStats] = useState(null);
+	const [graphType, setGraphType] = useState('line');
 
 	const currentTimestamp = parseInt(new Date().getTime() / 1000);
 	const [startTimePeriod, setStartTimePeriod] = useState(currentTimestamp - (7 * 24 * 60 * 60));
@@ -120,6 +133,12 @@ export default function Charts() {
 		event.preventDefault();
 		setActivityType(event.target.value);
 	}
+
+	const handleSelectGraph = (event) => {
+		event.preventDefault();
+		setGraphType(event.target.value);
+	}
+
 
 	const handleSelectTimePeriod = (event) => {
 		event.preventDefault();
@@ -219,36 +238,36 @@ export default function Charts() {
 						<Grid item xs={4}>
 							<Dropdown
 								label="Graph Type"
-								value={activityType}
-								onChange={handleSelectActivity}
-								items={statusDropdownItems}
+								value={graphType}
+								onChange={handleSelectGraph}
+								items={graphTypes}
 							/>
 						</Grid>
 					</Grid>
 					<Grid container spacing={4}>
 						<Grid item xs={12} md={12}>
 							<Widget title="Your activity the past week" upperTitle noBodyPadding>
-								<ResponsiveContainer width="100%" height={400}>
-									<StatsLineChartFilled 
-										startTimePeriod={startTimePeriod} 
-										theme={theme} 
-										activityType={activityType} 
-										activityStats={activityStats}
-									/>
-								</ResponsiveContainer>
-							</Widget>
-						</Grid>
-						<Grid item xs={12} md={12}>
-							<Widget title="Activity heatmap" noBodyPadding upperTitle>
-								<ResponsiveContainer width="100%" height={400}>
-									<StatsHeatMap
-										theme={theme}
-										boards={boards}
-										selectedBoardID={selectedBoardID}
-										activityType={activityType} 
-										activityStats={activityStats}
-									/>
-								</ResponsiveContainer>
+								{graphType === 'line' && (
+									<ResponsiveContainer width="100%" height={400}>
+										<StatsLineChartFilled 
+											startTimePeriod={startTimePeriod} 
+											theme={theme} 
+											activityType={activityType} 
+											activityStats={activityStats}
+										/>
+									</ResponsiveContainer>
+								)}
+								{graphType === 'heatmap' && (
+									<ResponsiveContainer width="100%" height={400}>
+										<StatsHeatMap
+											theme={theme}
+											boards={boards}
+											selectedBoardID={selectedBoardID}
+											activityType={activityType} 
+											activityStats={activityStats}
+										/>
+									</ResponsiveContainer>
+								)}
 							</Widget>
 						</Grid>
 						<Grid item xs={12} md={12}>
