@@ -1,100 +1,33 @@
 import React from "react";
-import { useTheme } from "@material-ui/styles";
-import ApexCharts from "react-apexcharts";
-
-const series = [
-    {
-        name: "Monday",
-        data: generateData(8, {
-            min: 0,
-            max: 10,
-        }),
-    },
-    {
-        name: "Tuesday",
-        data: generateData(8, {
-            min: 0,
-            max: 10,
-        }),
-    },
-    {
-        name: "Wednesday",
-        data: generateData(8, {
-            min: 0,
-            max: 10,
-        }),
-    },
-    {
-        name: "Thursday",
-        data: generateData(8, {
-            min: 0,
-            max: 10,
-        }),
-    },
-    {
-        name: "Friday",
-        data: generateData(8, {
-            min: 0,
-            max: 10,
-        }),
-    },
-    {
-        name: "Saturday",
-        data: generateData(8, {
-            min: 0,
-            max: 10,
-        }),
-    },
-    {
-        name: "Sunday",
-        data: generateData(8, {
-            min: 0,
-            max: 10,
-        }),
-    }
-];
-
-function generateData(count, yrange) {
-    var i = 0;
-    var series = [];
-    while (i < count) {
-        var x = "Week " + (i + 1).toString();
-        var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-
-        series.push({
-            x: x,
-            y: y,
-        });
-        i++;
-    }
-    return series;
-}
-
-function themeOptions(theme) {
-    return {
-        chart: {
-            toolbar: {
-                show: false,
-            },
-        },
-        dataLabels: {
-            enabled: false,
-        },
-        colors: [theme.palette.primary.main],
-    };
-}
+import HeatMap from "react-heatmap-grid";
 
 const StatsHeapMap = () => {
-    var theme = useTheme();
-
+    const xLabels = new Array(8).fill(0).map((_, i) => `${i}`);
+    const yLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const data = new Array(yLabels.length)
+        .fill(0)
+        .map(() => 
+            new Array(xLabels.length).fill(0).map(() => Math.floor(Math.random() * 100))
+        );
     return (
-        <ApexCharts
-            options={themeOptions(theme)}
-            series={series}
-            type="heatmap"
-            height={350}
-        />
-    );
+        <div style={{ fontSize: "13px" }}>
+            <HeatMap
+                xLabels={xLabels}
+                yLabels={yLabels}
+                xLabelsLocation={"bottom"}
+                xLabelWidth={60}
+                data={data}
+                rectangles
+                height={45}
+                cellStyle={(background, value, min, max, data, x, y) => ({
+                background: `rgb(0, 151, 230, ${1 - (max - value) / (max - min)})`,
+                fontSize: "11.5px",
+                color: "#444"
+                })}
+                cellRender={value => value && <div>{value}</div>}
+            />
+        </div>
+    )
 }
 
 export default StatsHeapMap;

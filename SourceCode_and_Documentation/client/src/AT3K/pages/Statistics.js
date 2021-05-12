@@ -5,6 +5,7 @@ import {
 	ResponsiveContainer
 } from "recharts";
 import {
+	StatsHeatMap,
 	StatsLineChartFilled,
 	StatsPieChartOutcomes,
 	StatsPieChartStatuses
@@ -19,6 +20,7 @@ import axios from "axios";
 import Cookie from 'js-cookie';
 import { Notification } from "../components/notification";
 import FadeIn from "react-fade-in";
+import StatsHeapMap from "../components/statistics/StatsHeatMap";
 
 // Dropdown options for status types 
 const statusDropdownItems = [
@@ -221,6 +223,17 @@ export default function Charts() {
 							<Widget title="Your activity the past week" upperTitle noBodyPadding>
 								<ResponsiveContainer width="100%" height={400}>
 									<StatsLineChartFilled startTimePeriod={startTimePeriod} theme={theme} activityType={activityType} activityStats={activityStats} />
+								</ResponsiveContainer>
+							</Widget>
+						</Grid>
+						<Grid item xs={12} md={12}>
+							<Widget title="Activity heatmap" noBodyPadding upperTitle>
+								<ResponsiveContainer width="100%" height={400}>
+									<StatsHeatMap
+										theme={theme}
+										boards={boards}
+										selectedBoardID={selectedBoardID}
+									/>
 								</ResponsiveContainer>
 							</Widget>
 						</Grid>
