@@ -1,8 +1,8 @@
 import React from "react";
 import HeatMap from "react-heatmap-grid";
 
-const StatsHeapMap = () => {
-    const xLabels = new Array(8).fill(0).map((_, i) => `${i}`);
+const StatsHeapMap = ({ activityType, activityStats }) => {
+    const xLabels = new Array(1).fill(0).map((_, i) => `${i}`);
     const yLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const data = new Array(yLabels.length)
         .fill(0)

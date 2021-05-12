@@ -166,7 +166,6 @@ export default function Charts() {
 
 	// ===== GET /api/stats/activity =====
 
-
 	useEffect(() => {
 		fetchUserBoards();
 	}, []);
@@ -202,7 +201,7 @@ export default function Charts() {
 								value={"last 7 days"}
 							/>
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={4}>
 							<Dropdown
 								label="Status Type"
 								value={activityType}
@@ -210,11 +209,19 @@ export default function Charts() {
 								items={statusDropdownItems}
 							/>
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={4}>
 							<BoardSelectionDropdown
 								selectedBoardID={selectedBoardID}
 								handleSelectBoard={handleSelectBoard}
 								boards={boards}
+							/>
+						</Grid>
+						<Grid item xs={4}>
+							<Dropdown
+								label="Graph Type"
+								value={activityType}
+								onChange={handleSelectActivity}
+								items={statusDropdownItems}
 							/>
 						</Grid>
 					</Grid>
@@ -222,7 +229,12 @@ export default function Charts() {
 						<Grid item xs={12} md={12}>
 							<Widget title="Your activity the past week" upperTitle noBodyPadding>
 								<ResponsiveContainer width="100%" height={400}>
-									<StatsLineChartFilled startTimePeriod={startTimePeriod} theme={theme} activityType={activityType} activityStats={activityStats} />
+									<StatsLineChartFilled 
+										startTimePeriod={startTimePeriod} 
+										theme={theme} 
+										activityType={activityType} 
+										activityStats={activityStats}
+									/>
 								</ResponsiveContainer>
 							</Widget>
 						</Grid>
@@ -233,6 +245,8 @@ export default function Charts() {
 										theme={theme}
 										boards={boards}
 										selectedBoardID={selectedBoardID}
+										activityType={activityType} 
+										activityStats={activityStats}
 									/>
 								</ResponsiveContainer>
 							</Widget>
