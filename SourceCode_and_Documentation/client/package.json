@@ -48,6 +48,7 @@
     "react-full-screen": "^1.0.2",
     "react-google-button": "^0.7.2",
     "react-google-maps": "^9.4.5",
+    "react-heatmap-grid": "^0.8.2",
     "react-helmet": "^6.1.0",
     "react-hot-toast": "^1.0.2",
     "react-json-to-csv": "^1.0.4",
