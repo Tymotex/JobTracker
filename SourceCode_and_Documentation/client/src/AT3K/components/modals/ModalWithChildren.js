@@ -7,7 +7,7 @@ class Modal extends React.Component {
     }
 
     render() {
-        const { title, children, Contents, Button } = this.props;
+        const { title, children, Button } = this.props;
 
         // Depending on whether the Button prop was passed, render Contents of children
         return (

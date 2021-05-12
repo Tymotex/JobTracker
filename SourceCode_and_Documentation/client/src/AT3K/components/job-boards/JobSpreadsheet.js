@@ -22,6 +22,8 @@ import styles from './JobSpreadsheet.module.scss';
 import {
     BottomNav
 } from '../menus';
+import { ModalWithChildren } from '../modals';
+import RichTextDisplay from '../richtext/RichTextDisplay';
 
 // Given the current_status, returns a formatted string for displaying
 const mapStatusToStr = (currentStatus) => {
@@ -338,6 +340,18 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         } else {
             return "";
         }
+    };
+
+    const NotesDisplay = () => {
+        return (
+            <div>
+                <ModalWithChildren Button={() => <Button>View</Button>}>
+                    <RichTextDisplay 
+                        buttonText="Save"
+                    />
+                </ModalWithChildren>
+            </div>
+        )
     }
 
     const columns = [
@@ -510,7 +524,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 sort: true,
                 draggable: true,
                 hint: "This is a field for jotting down any thoughts you have about this job post",
-                display: false
+                customBodyRender: NotesDisplay
             }
         },
         {

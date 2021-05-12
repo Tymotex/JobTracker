@@ -134,5 +134,13 @@ cd seng2021_at3k/SourceCode_and_Documentation/server
 
 pip3 install -r requirements.txt    # Only for first time setup
 
+# Resume parser dependencies
+# spaCy
+python -m spacy download en_core_web_sm
+
+# nltk
+python -m nltk.downloader words
+python -m nltk.downloader stopwords
+
 python3 start.py
 ```
