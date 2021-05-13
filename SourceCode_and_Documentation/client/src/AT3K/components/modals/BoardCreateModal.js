@@ -10,7 +10,7 @@ import ModalWindow from './ModalWindow';
 
 export default function BoardCreateModal({ handleClose, updateBoardList }) {
     const [boardName, setBoardName] = useState(""); 
-    const [boardImage, setBoardImage] = useState("");
+    const [boardImage, setBoardImage] = useState("https://images.unsplash.com/photo-1529400971008-f566de0e6dfc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80");
 
     // ===== POST /api/boards =====
     const createBoard = (boardDescription) => {

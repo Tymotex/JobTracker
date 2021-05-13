@@ -74,10 +74,12 @@ const fitToDataFormat = (trackedJobs) => {
     }
 }
 
-const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) => {
+const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID }) => {
     const tableBodyHeight = "100%";
     const tableBodyMaxHeight = "";
     const [editingEnabled, setEditingEnabled] = useState(false);
+
+    console.log(trackedJobs);
 
     // Called whenever a text field cell is edited
     const saveCurrBoardState = (newTrackedJobs) => {
@@ -128,21 +130,16 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
             });
     };
 
-    // const deleteJob = (rowsDeleted, newTableData) => {
-    //     console.log(rowsDeleted);
-    //     const userID = Cookie.get("user_id");
-    //     if (userID) {
-    //         // It isn't actually necessary to delete the job, simply remove it from the array
-    //         // and then setTrackedJobs
-    //         // setTrackedJobs();
-    //         const deletedIndices = rowsDeleted.data.map(eachDeletedJob => eachDeletedJob.dataIndex);
-    //         const newTrackedJobs = [...trackedJobs];
-    //         deletedIndices.forEach(i => {
-    //             newTrackedJobs.splice(i, 1);
-    //         });
-    //         saveCurrBoardState(newTrackedJobs);
-    //     }
-    // }
+    const deleteJob = (rowsDeleted, newTableData) => {
+        const newJobs = Array.from(trackedJobs);
+        let numDeleted = 0;
+        rowsDeleted.data.forEach(deletionTarget => {
+            newJobs.splice(deletionTarget.index - numDeleted, 1);
+            numDeleted++;
+        });
+        trackedJobs = newJobs;
+        saveCurrBoardState(newJobs);
+    }
 
     // Table cell components
     const EditableField = (currValue, tableMeta) => {
@@ -346,12 +343,11 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
     const NotesDisplay = (_, tableMeta) => {
         const rowNum = tableMeta.rowIndex;
         const oldJob = trackedJobs[rowNum];
-
         // Update notes for this job post
         const updateNotes = (newNotes) => {
             const userID = Cookie.get('user_id');
             if (userID) {
-                const jobID = "";
+                const jobID = oldJob.job_id;
                 const updatedJob = {...oldJob, notes: newNotes};
                 console.log(updatedJob);
                 const putData = {
@@ -594,6 +590,8 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
                 col.options.customBodyRender = DropdownField;
             } else if (col.name === "events") {
                 col.options.customBodyRender = EventsSetter;
+            } else if (col.name === "notes") { 
+                col.options.customBodyRender = NotesDisplay;
             } else {
                 col.options.customBodyRender = EditableField;
             }
@@ -621,7 +619,7 @@ const JobSpreadsheet = ({ trackedJobs, setTrackedJobs, boardID, fieldsToShow }) 
         // resizableColumns: true,
         // fixedSelectColumn: true,
         selectableRows: "multiple",
-        // onRowsDelete: deleteJob
+        onRowsDelete: deleteJob
     });
 
     const data = fitToDataFormat(trackedJobs);

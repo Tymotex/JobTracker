@@ -306,6 +306,8 @@ def update_job(user_id, board_id, job_id, updated_job):
         target_index += 1
         if job["job_id"] == job_id:
             break 
+    if target_index == -1:
+        raise InvalidUserInput(description="Failed to find job with ID: {}".format(job_id))
     new_jobs[target_index] = updated_job
     db.boards.update_one(
         { 
