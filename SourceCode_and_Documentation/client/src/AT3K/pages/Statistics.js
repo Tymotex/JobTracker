@@ -9,7 +9,7 @@ import {
 	StatsLineChartFilled,
 	StatsPieChartOutcomes,
 	StatsPieChartStatuses
-} from '../../AT3K/components/statistics';
+} from '../components/statistics';
 import Layout from '../../components/Layout/Layout';
 import Widget from "../../components/Widget/Widget";
 import { DropdownHierarchical, Dropdown } from "../components/dropdowns";
@@ -20,7 +20,6 @@ import axios from "axios";
 import Cookie from 'js-cookie';
 import { Notification } from "../components/notification";
 import FadeIn from "react-fade-in";
-import StatsHeapMap from "../components/statistics/StatsHeatMap";
 
 // Dropdown options for status types 
 const statusDropdownItems = [

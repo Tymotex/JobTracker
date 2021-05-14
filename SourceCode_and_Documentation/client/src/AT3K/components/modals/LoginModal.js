@@ -8,7 +8,6 @@ import {
     Grid
 } from '@material-ui/core';
 import { Button } from '../buttons';
-import GoogleButton from 'react-google-button'
 import { GoogleLoginButton } from '../buttons';
 import styles from './Modal.module.scss';
 import Cookie from 'js-cookie';
@@ -65,10 +64,10 @@ export default function TransitionsModal() {
 	};
 
     // Google Login
-    const signinRedirect = () => {
-        Notification.spawnSuccess("Signing in via Google");
-        window.location.assign("https://localhost:5000/api/auth/googlelogin")
-    }
+    // const signinRedirect = () => {
+    //     Notification.spawnSuccess("Signing in via Google");
+    //     window.location.assign("https://localhost:5000/api/auth/googlelogin")
+    // }
 
 
     return (
@@ -110,10 +109,10 @@ export default function TransitionsModal() {
                                     variant="outlined"
                                 />
                             </div>
-                            <GoogleButton className={styles.googleButton}
+                            {/* <GoogleButton className={styles.googleButton}
                                 onClick={signinRedirect}
-                            />
-                            {/* <GoogleLoginButton /> */}
+                            /> */}
+                            <GoogleLoginButton />
                             <Grid container className={styles.buttonGroup}>
                                 <Grid item xs={6}>
                                     <Button onClick={handleClose} className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>

@@ -6,7 +6,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
   root: {
-      textTransform: "none",
       background: '#363535',
       borderRadius: "5px",
       border: 0,

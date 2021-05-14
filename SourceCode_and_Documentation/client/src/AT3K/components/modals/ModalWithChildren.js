@@ -2,9 +2,6 @@ import React from 'react';
 import SkyLight from 'react-skylight';
 
 class Modal extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         const { title, children, Button } = this.props;
