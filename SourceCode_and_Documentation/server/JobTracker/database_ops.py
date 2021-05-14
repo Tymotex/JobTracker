@@ -2,6 +2,7 @@
 A suite of database operations that abstract over the specific DBMS used and the driver
 library or ODM used to interface with that DBMS.
 """
+from os import remove
 import time
 from JobTracker import db
 from JobTracker.utils.colourisation import printColoured
@@ -42,7 +43,8 @@ def add_user(username: str, email: str, password: str, image_url="") -> str:
         "phone": "",
         "skills": [],
         "resume": {},
-        "favourited_companies": []
+        "favourited_companies": [],
+        "starred_by" : []
     })
     return str(inserted_user.inserted_id)
 
@@ -62,6 +64,7 @@ def login_user(email: str, password: str) -> str:
     if not target_user["password"] == password:
         raise InvalidUserInput(description="Password incorrect")
     return str(target_user["_id"])
+
 
 # ===== User Profile Management =====
 
@@ -124,6 +127,35 @@ def set_user_profile(
     )
     return user_id
 
+def star_user(src: str, dest: str):
+    dest_user = db.users.find_one(
+        {
+            "_id": ObjectId(dest)
+        },
+        {
+            "starred_by": 1
+        }
+    )
+    star_list = dest_user['starred_by']
+    ret = 1
+    if src in star_list:
+        star_list.remove(src)
+        ret = 0
+    else:
+        star_list.append(src)
+
+    db.users.update_one(
+        {
+            "_id": ObjectId(str(dest))
+        },
+        {
+            "$set":{
+                "starred_by": star_list
+            }
+        }
+    )
+
+    return ret
 # ===== Board Management =====
 
 def create_board(user_id: str, name: str, description: str, image_url="") -> str: 
