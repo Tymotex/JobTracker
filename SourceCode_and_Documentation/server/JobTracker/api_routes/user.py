@@ -320,8 +320,10 @@ def parse_resume(user_id: str, resume_url: str) -> dict:
 
 # Do we even need a delete route? It only has two states star/unstarred
 # the post can return 1/0 based on whether it starred/unstarred the user.
-# TODO: Discuss whether it is worth creating another collection to store tracking/star data to
-# avoid having to large of a user json.
+# TODO: 
+# - Discuss whether it is worth creating another collection to store tracking/star data to
+#   avoid having to large of a user json.
+# - Do I need counter for the array length or can you do list.length in the frontend JavaScript (for the user profile page)
 @user_api.route("/star")
 class UserStar(Resource):
     def post(self):
@@ -341,4 +343,23 @@ class UserStar(Resource):
         dest = request_params["dest_user"]
         return star_user(src, dest)
 
+'''
+@user_api.route("/track_user")
+class UserStar(Resource):
+    def post(self):
+        """
+            Stars a given user
 
+            Parameters:
+                - src_user
+                - dest_user
+
+            Returns:
+                - 1 if dest_user gets starred
+                - 0 if src_user gets unstarred
+        """
+        request_params = dict(request.get_json())
+        src = request_params["src_user"]
+        dest = request_params["dest_user"]
+        return star_user(src, dest)
+'''

@@ -44,7 +44,9 @@ def add_user(username: str, email: str, password: str, image_url="") -> str:
         "skills": [],
         "resume": {},
         "favourited_companies": [],
-        "starred_by" : []
+        "starred_by" : [],
+        "tracking" : [],
+        "tracked_by": []
     })
     return str(inserted_user.inserted_id)
 
@@ -127,6 +129,7 @@ def set_user_profile(
     )
     return user_id
 
+# Src is the user who is starring the dest user.
 def star_user(src: str, dest: str):
     dest_user = db.users.find_one(
         {
@@ -154,8 +157,65 @@ def star_user(src: str, dest: str):
             }
         }
     )
-
     return ret
+
+# Src is the user who is tracking the dest user.
+def track_user(src: str, dest: str):
+    src_user_tracking = db.users.find_one(
+        {
+            "_id": ObjectId(src)
+        },
+        {
+            "tracking": 1
+        }
+    )
+    dest_user_tracked_by = db.user.find_one(
+        {
+            "_id": ObjectId(dest)
+        },
+        {
+            "tracked_by": 1
+        }
+    )
+
+    src_tracking_list = src_user_tracking['tracking']
+    dest_tracked_by_list = dest_user_tracked_by['tracked_by']
+    ret = 1
+    # If dest user in the src user's tracking list
+    #   - Remove src from dest's tracked by list
+    #   - remove dest from src's tracking list
+    if dest in src_tracking_list:
+        src_tracking_list.remove(dest)
+        dest_tracked_by_list.remove(src)
+        ret = 0
+    else:
+        src_tracking_list.append(dest)
+        dest_tracked_by_list.append(src)
+
+    # Update the tracked by of dest and tracking of src
+    db.users.update_one(
+        {
+            "_id": ObjectId(dest)
+        },
+        {
+            "$set":{
+                "tracked_by": dest_tracked_by_list
+            }
+        }
+    )
+    db.users.update_one(
+        {
+            "_id": ObjectId(src)
+        },
+        {
+            "$set":{
+                "tracking": src_tracking_list
+            }
+        }
+    )
+    return ret
+
+
 # ===== Board Management =====
 
 def create_board(user_id: str, name: str, description: str, image_url="") -> str: 
