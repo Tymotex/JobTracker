@@ -7,8 +7,7 @@ import {
 	TextField,
 	Grid,
 } from '@material-ui/core';
-import { Button } from '../buttons';
-import GoogleButton from 'react-google-button';
+import { Button, GoogleLoginButton } from '../buttons';
 import styles from './Modal.module.scss';
 import axios from 'axios';
 import api from '../../constants/api';
@@ -95,7 +94,6 @@ export default function TransitionsModal() {
 				<Fade in={open}>
 					<div className={styles.window}>
 						<h2 className={styles.title} id="transition-modal-title">Register</h2>
-						<p className={styles.message} id="transition-modal-description">Register now! </p>
 						<form autoComplete="off" onSubmit={register}>
 							<div className={styles.textGroup}>
 								<TextField className={styles.nameBox}
@@ -129,6 +127,9 @@ export default function TransitionsModal() {
 									variant="outlined"
 								/>
 							</div>
+							<GoogleLoginButton className={styles.googleButton}
+								onClick={signinRedirect}
+							/>
 							<Grid container className={styles.buttonGroup}>
 								<Grid item xs={6}>
 									<Button onClick={handleClose} className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
@@ -138,10 +139,6 @@ export default function TransitionsModal() {
 								</Grid>
 							</Grid>
 						</form>
-						<p className={styles.register}>Or register with your Google account</p>
-						<GoogleButton className={styles.googleButton}
-							onClick={signinRedirect}
-						/>
 					</div>
 				</Fade>
 			</Modal>

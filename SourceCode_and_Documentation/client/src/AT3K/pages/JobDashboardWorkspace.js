@@ -19,6 +19,7 @@ import { Notification } from '../components/notification';
 import RichTextDisplay from '../components/richtext/RichTextDisplay';
 import api from '../constants/api';
 import styles from './JobDashboardWorkspace.module.scss';
+import { FancyHR } from '../components/horizontal-rules';
 
 const JobDashboardWorkspace = ({ 
     boardType, 
@@ -82,7 +83,8 @@ const JobDashboardWorkspace = ({
                     {board && (
                         <h1>{board.name}</h1>
                     )}
-                    <hr className={styles.divider} />
+                    {/* <hr className={styles.divider} /> */}
+                    <FancyHR />
                     {board && (
                         <RichTextDisplay 
                             value={board.description}

@@ -10,10 +10,10 @@ const styles = {
       borderRadius: "5px",
       border: 0,
       color: 'white',
-      height: 48,
-      textTransform: 'uppercase',
+      height: 36,
+      textTransform: 'none',
       '&:hover': {
-        background: 'white',
+        background: 'whitesmoke',
         color: 'black'
       }
   },
