@@ -94,7 +94,7 @@ const JobSearch = () => {
                     )}
                     <JobSearchToolbar 
                         searchQuery={searchQuery}
-                        handleSearch={handleSearch}
+                        setSearchQuery={setSearchQuery}
                         locationQuery={locationQuery}
                         handleLocationSearch={handleLocationSearch}
                         boards={boards}

@@ -51,7 +51,7 @@ const Community = () => {
               labelText="User Search"
               setQuery={setQuery}
               query={query}
-              items={autocompleteItems}
+              items={autocompleteItems.map((item) => item.label)}
             />
             <Grid container>
               {(filteredUsers && filteredUsers.length > 0) ? (
