@@ -143,7 +143,7 @@ const Profile = () => {
         const receiverUserID = profileUserID
         getUserProfile();
         fetchComments(receiverUserID);
-    }, []);  // eslint-disable-line react-hooks/exhaustive-deps
+    }, [setProfile]); 
 
     const isLoading = false && (profile === null);
 

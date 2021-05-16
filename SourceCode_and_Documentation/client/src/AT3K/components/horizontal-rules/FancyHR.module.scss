@@ -1,21 +1,20 @@
 
 hr {
-    border: 0;
-    margin: 1.35em auto;
-    max-width: 100%;
-    background-position: 50%;
-    box-sizing: border-box;
+  border: 0;
+  margin: 1.35em auto;
+  max-width: 100%;
+  background-position: 50%;
+  box-sizing: border-box;
 }
 
 .accessory {
-    height: 3px;
-    background-image: radial-gradient(
-      closest-side,
-      rgb(255, 255, 255),
-      hsla(0, 0%, 50%, 0) 100%);
-    position: relative;
-  }
-  .accessory:after {
+  height: 3px;
+  background-image: radial-gradient(
+    closest-side,
+    rgb(255, 255, 255),
+    hsla(0, 0%, 50%, 0) 100%);
+  position: relative;
+  &:after {
     position: absolute;
     top:  50%;
     left: 50%;
@@ -31,4 +30,4 @@ hr {
     background-clip: padding-box;
     box-shadow: -10px 10px 0 hsla(0, 0%, 100%, 0.15), 10px -10px 0 hsla(0, 0%, 100%, 0.15);
   }
-  
+}

@@ -17,7 +17,8 @@ from JobTracker.database_ops import (
     post_comment,
     edit_comment,
     delete_comment,
-    vote_comment
+    vote_comment,
+    clear_vote
 )
 from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
@@ -106,11 +107,22 @@ class CommentVote(Resource):
         """
         printColoured(" * Voting a comment", colour="yellow")
         request_params = dict(request.get_json())
-        # user_id = request_params["user_id"]
+        user_id = request_params["user_id"]
         comment_id = request_params["comment_id"]
         increment_amount = request_params["increment_amount"]
 
         # TODO: Check if the user is authorised to vote this comment`
-        vote_comment(comment_id, increment_amount)
+        vote_comment(user_id, comment_id, increment_amount)
 
-        return 
+    def delete(self):
+        """
+            Removes a vote for a given comment
+            Parameters:
+                - user_id
+                - comment_id
+        """
+        printColoured(" * Removing a vote for a comment", colour="yellow")
+        request_params = dict(request.get_json())
+        user_id = request_params["user_id"]
+        comment_id = request_params["comment_id"]
+        clear_vote(user_id, comment_id)

@@ -16,12 +16,17 @@ import ReactTimeAgo from 'react-time-ago';
 import moment from 'moment';
 import { Notification } from '../notification';
 
-const Comment = ({ sender_user_id, comment, _id: commentID, date, vote=3 }) => {
+const Comment = ({ sender_user_id, comment, _id: commentID, date, vote=3, voters }) => {
     const [profile, setProfile] = useState(null);
     const [editingEnabled, setEditingEnabled] = useState(false);
     const [showComment, setShowComment] = useState(true);
     const postedDate = new Date(date * 1000);
     const [commentVote, setVote] = useState(vote);
+
+    // Get the user's vote details, if it exists. This is used to determine whether
+    // the user has already voted.
+    const userID = Cookie.get('user_id');
+    const userVoteInfo = voters.filter((eachVoter) => eachVoter.voter_id === userID)[0];
     
     const options = [
         "Edit comment",
@@ -38,8 +43,6 @@ const Comment = ({ sender_user_id, comment, _id: commentID, date, vote=3 }) => {
 
     // ===== PUT /api/comment/ =====
     const saveComment = (newComment) => {
-        const userID = Cookie.get("user_id");
-        console.log(commentID);
         if (userID) {
             const putData = {
                 method: 'put',
@@ -124,12 +127,32 @@ const Comment = ({ sender_user_id, comment, _id: commentID, date, vote=3 }) => {
                 })
                 .catch(err => Notification.spawnError(err));
         }
-    }
+    };
+
+    // ===== DELETE /api/comment/vote =====
+    const clearVote = (commentID) => {
+        const userID = Cookie.get('user_id');
+        if (userID) {
+            const deleteData = {
+                method: 'delete',
+                url: `${api.BASE_URL}/api/comment/vote`,
+                data: {
+                    user_id: userID,
+                    comment_id: commentID
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            axios(deleteData)
+                .then(() => Notification.spawnSuccess("Cleared your previous vote"))
+                .catch(err => Notification.spawnError(err));
+        }
+    };
 
     useEffect(() => {
         getUserProfile(sender_user_id);
-    }, [sender_user_id])
-
+    }, [sender_user_id]);
 
     return (
         <>
@@ -150,8 +173,12 @@ const Comment = ({ sender_user_id, comment, _id: commentID, date, vote=3 }) => {
                                     />
                                 </Link>
                                 <VoteArrow 
+                                    commentID={commentID}
+                                    userID={userID}
                                     vote={commentVote}
                                     incrementVote={incrementVote}
+                                    voteInfo={userVoteInfo}
+                                    clearVote={clearVote}
                                 />
                             </Grid>
                             <Grid justifyContent="left" item xs zeroMinWidth>

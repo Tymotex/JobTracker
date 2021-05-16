@@ -476,7 +476,8 @@ def post_comment(sender_user_id: str, receiver_user_id: str, comment: Dict):
         "sender_user_id": sender_user_id,
         "receiver_user_id": receiver_user_id,
         "comment": comment,
-        "vote": 0
+        "vote": 0,
+        "voters": []
     }
     db.comments.insert_one(comment_document)
 
@@ -501,10 +502,14 @@ def delete_comment(comment_id: str):
     """
     db.comments.delete_one({ "_id": ObjectId(comment_id) })
 
-def vote_comment(comment_id: str, increment_amount: int):
+def vote_comment(voter_id: str, comment_id: str, increment_amount: int):
     """
         Increases the vote by the amount specified. Negative values denote downvoting
     """
+    comment = db.comments.find_one({ "_id": ObjectId(comment_id) })
+    if voter_id in [ voter["voter_id"] for voter in comment["voters"] ]:
+        raise InvalidUserInput(description="You have already voted")
+
     db.comments.update_one(
         {
             "_id": ObjectId(comment_id)
@@ -512,9 +517,38 @@ def vote_comment(comment_id: str, increment_amount: int):
         {
             "$inc": {
                 "vote": increment_amount
+            },
+            "$addToSet": {
+                "voters": {
+                    "voter_id": voter_id,
+                    "vote_amount": increment_amount
+                }
             }
         }
     )
+
+def clear_vote(voter_id: str, comment_id: str):
+    comment = db.comments.find_one({ "_id": ObjectId(comment_id) })
+    voter = [ voter for voter in comment["voters"] if voter["voter_id"] == voter_id][0]
+    if not voter:
+        raise InvalidUserInput(description="Can't clear a vote that doesn't exist")
+    vote_amount = voter["vote_amount"] 
+
+    db.comments.update_one(
+        {
+            "_id": ObjectId(comment_id)
+        },
+        {
+            "$pull": {
+                "voters": {
+                    "voter_id": voter_id
+                }
+            },
+            "$inc": {
+                "vote": -vote_amount
+            }
+        }
+    ) 
 
 # ===== Utilities =====
 

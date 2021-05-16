@@ -35,5 +35,14 @@
             transform: scale(1.5);
             transition-duration: 0.15s;
         }
+        
+    }
+    .upvoted {
+        background-color: rgba(122, 172, 7, 0.541);
+        border-radius: 50%;
+    }
+    .downvoted {
+        background-color: rgba(255, 36, 36, 0.541);
+        border-radius: 50%;
     }
 }

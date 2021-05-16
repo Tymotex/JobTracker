@@ -49,7 +49,6 @@ const JobDashboard = () => {
 
   // ===== GET /api/user/companies =====
   
-
   useEffect(() => {
     const fetchCompanies = async () => {
       // Fetches the currently logged in user's companies
@@ -76,14 +75,14 @@ const JobDashboard = () => {
           })
         )
           .then((res) => {
-            const final_companies = res.map((company) => {
+            const finalCompanies = res.map((company) => {
               return {
                 name : company.data.company_info.company_name,
                 link: "/search/company",
                 description: company.data.company_info.company_details
               }
             })
-            setCompanies(final_companies);
+            setCompanies(finalCompanies);
           })
           .catch((err) => console.log(err));
       } else {
