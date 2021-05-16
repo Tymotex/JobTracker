@@ -14,6 +14,10 @@ from JobTracker.exceptions import InvalidUserInput
 from flask_restx import Resource, Api, fields
 from careerjet_api import CareerjetAPIClient
 
+import requests
+import json
+from fake_useragent import UserAgent
+
 # Blueprint definitions
 jobs_router = Blueprint("jobs", __name__)
 jobs_api = Api(
@@ -24,6 +28,39 @@ jobs_api = Api(
     default="/api/jobs",
     default_label="Job Post Search Namespace",
 )
+
+
+def get_suggestions(query):
+    keyword = query
+    keyword.replace(" ", "+")
+
+    url = "http://suggestqueries.google.com/complete/search?output=firefox&q=" + keyword
+
+    ua = UserAgent()
+    headers = {}
+    headers = {"user-agent": ua.chrome}
+    response = requests.get(url, headers=headers, verify=False)
+
+    suggestions = json.loads(response.text)
+    return suggestions[1]
+
+
+@jobs_api.route("/autocomplete")
+class JobAutoComplete(Resource):
+    def get(self):
+        """
+            Parameters:
+                - query             (str)
+            Returns a list of strings:
+                [
+                    ...
+                ]
+        """
+        request_params = dict(request.args)
+        query = request_params["query"]
+        if query == "":
+            return []
+        return get_suggestions(query)
 
 @jobs_api.route("/")
 class JobPostSearch(Resource):

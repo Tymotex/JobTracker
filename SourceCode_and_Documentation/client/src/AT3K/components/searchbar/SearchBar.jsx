@@ -8,7 +8,7 @@ export default function SearchBar({ labelText="Search", items=[], query, setQuer
             <Autocomplete
                 freeSolo
                 disableClearable
-                options={items.map((item) => item.label)}
+                options={items}
                 renderInput={(params) => (
                     <TextField
                         {...params}
