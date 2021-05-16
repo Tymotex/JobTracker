@@ -2,6 +2,7 @@
 A suite of database operations that abstract over the specific DBMS used and the driver
 library or ODM used to interface with that DBMS.
 """
+from os import remove
 import time
 from JobTracker import db
 from JobTracker.utils.colourisation import printColoured
@@ -42,7 +43,10 @@ def add_user(username: str, email: str, password: str, image_url="") -> str:
         "phone": "",
         "skills": [],
         "resume": {},
-        "favourited_companies": []
+        "favourited_companies": [],
+        "starred_by" : [],
+        "tracking" : [],
+        "tracked_by": []
     })
     return str(inserted_user.inserted_id)
 
@@ -62,6 +66,7 @@ def login_user(email: str, password: str) -> str:
     if not target_user["password"] == password:
         raise InvalidUserInput(description="Password incorrect")
     return str(target_user["_id"])
+
 
 # ===== User Profile Management =====
 
@@ -123,6 +128,95 @@ def set_user_profile(
         }
     )
     return user_id
+
+# Src is the user who is starring the dest user.
+def star_user(src: str, dest: str):
+    dest_user = db.users.find_one(
+        {
+            "_id": ObjectId(dest)
+        },
+        {
+            "starred_by": 1
+        }
+    )
+    star_list = dest_user['starred_by']
+    ret = 1
+    if src in star_list:
+        star_list.remove(src)
+        ret = 0
+    else:
+        star_list.append(src)
+
+    db.users.update_one(
+        {
+            "_id": ObjectId(str(dest))
+        },
+        {
+            "$set":{
+                "starred_by": star_list
+            }
+        }
+    )
+    return ret
+
+# Src is the user who is tracking the dest user.
+def track_user(src: str, dest: str):
+    src_user_tracking = db.users.find_one(
+        {
+            "_id": ObjectId(src)
+        },
+        {
+            "tracking": 1
+        }
+    )
+    dest_user_tracked_by = db.users.find_one(
+        {
+            "_id": ObjectId(dest)
+        },
+        {
+            "tracked_by": 1
+        }
+    )
+
+    src_tracking_list = src_user_tracking['tracking']
+    dest_tracked_by_list = dest_user_tracked_by['tracked_by']
+    ret = 1
+    # If dest user in the src user's tracking list
+    #   - Remove src from dest's tracked by list
+    #   - remove dest from src's tracking list
+    if dest in src_tracking_list:
+        src_tracking_list.remove(dest)
+        dest_tracked_by_list.remove(src)
+        ret = 0
+    else:
+        src_tracking_list.append(dest)
+        dest_tracked_by_list.append(src)
+
+    # Update the tracked by of dest and tracking of src
+
+    db.users.update_one(
+        {
+            "_id": ObjectId(src)
+        },
+        {
+            "$set":{
+                "tracking": src_tracking_list
+            }
+        }
+    )
+
+    db.users.update_one(
+        {
+            "_id": ObjectId(dest)
+        },
+        {
+            "$set":{
+                "tracked_by": dest_tracked_by_list
+            }
+        }
+    )
+    return ret
+
 
 # ===== Board Management =====
 
