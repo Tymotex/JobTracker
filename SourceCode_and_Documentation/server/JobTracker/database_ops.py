@@ -169,7 +169,7 @@ def track_user(src: str, dest: str):
             "tracking": 1
         }
     )
-    dest_user_tracked_by = db.user.find_one(
+    dest_user_tracked_by = db.users.find_one(
         {
             "_id": ObjectId(dest)
         },
@@ -193,16 +193,7 @@ def track_user(src: str, dest: str):
         dest_tracked_by_list.append(src)
 
     # Update the tracked by of dest and tracking of src
-    db.users.update_one(
-        {
-            "_id": ObjectId(dest)
-        },
-        {
-            "$set":{
-                "tracked_by": dest_tracked_by_list
-            }
-        }
-    )
+
     db.users.update_one(
         {
             "_id": ObjectId(src)
@@ -210,6 +201,17 @@ def track_user(src: str, dest: str):
         {
             "$set":{
                 "tracking": src_tracking_list
+            }
+        }
+    )
+
+    db.users.update_one(
+        {
+            "_id": ObjectId(dest)
+        },
+        {
+            "$set":{
+                "tracked_by": dest_tracked_by_list
             }
         }
     )

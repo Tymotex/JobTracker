@@ -25,7 +25,8 @@ from JobTracker.database_ops import (
     delete_favourite_company,
     get_user_profile,
     set_user_profile,
-    star_user
+    star_user,
+    track_user
 )
 from JobTracker.exceptions import InvalidUserInput
 from JobTracker.utils.colourisation import printColoured
@@ -336,30 +337,29 @@ class UserStar(Resource):
 
             Returns:
                 - 1 if dest_user gets starred
-                - 0 if src_user gets unstarred
+                - 0 if dest_user gets unstarred
         """
         request_params = dict(request.get_json())
         src = request_params["src_user"]
         dest = request_params["dest_user"]
         return star_user(src, dest)
 
-'''
+
 @user_api.route("/track_user")
-class UserStar(Resource):
+class TrackUser(Resource):
     def post(self):
         """
-            Stars a given user
+            Tracks a given user
 
             Parameters:
                 - src_user
                 - dest_user
 
             Returns:
-                - 1 if dest_user gets starred
-                - 0 if src_user gets unstarred
+                - 1 if dest_user gets tracked
+                - 0 if dest_user gets untracked
         """
         request_params = dict(request.get_json())
         src = request_params["src_user"]
         dest = request_params["dest_user"]
-        return star_user(src, dest)
-'''
+        return track_user(src, dest)
