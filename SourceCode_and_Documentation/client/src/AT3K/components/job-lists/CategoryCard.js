@@ -8,7 +8,13 @@ import React from 'react';
 
 const useStyles = makeStyles({
   root: {
-    margin: 10
+    margin: 10,
+    display: 'flex',
+    height: '93%',
+  },
+  actionArea: {
+    flexDirection: 'column',
+    height: '100%',
   },
 });
 
@@ -17,7 +23,7 @@ export default function ImgMediaCard({ image, title }) {
 
   return (
     <Card className={classes.root} variant="outlined">
-      <CardActionArea>
+      <CardActionArea className={classes.actionArea}>
         <CardMedia
           component="img"
           alt={title}
