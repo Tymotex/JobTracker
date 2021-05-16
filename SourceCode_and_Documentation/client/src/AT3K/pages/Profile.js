@@ -42,6 +42,10 @@ import pageStyles from './Page.module.scss';
 import { Value } from 'slate';
 import styles from './Profile.module.scss';
 import { StayCurrentLandscapeSharp } from '@material-ui/icons';
+import AttributeContent from '../components/profile/AttributeContent';
+import AttributeTitle from '../components/profile/AttributeTitle';
+import CommentIcon from '@material-ui/icons/Comment';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 const theme = createMuiTheme({
     typography: {
@@ -51,30 +55,6 @@ const theme = createMuiTheme({
         // },
     },
 });
-
-const AttributeTitle = ({ children }) => {
-    return (
-        <Typography
-            align="left"
-            variant="h5"
-            color='textPrimary'
-            style={{ marginTop: '15px' }}
-        >
-            {children}
-        </Typography>
-    )
-}
-
-const AttributeContent = ({ children }) => {
-    return (
-        <Typography
-            align="center"
-            variant="subtitle1"
-            component="h3">
-            {children}
-        </Typography>
-    )
-}
 
 const sampleInitialValue = Value.fromJSON({
     document: {
@@ -181,6 +161,7 @@ const Profile = () => {
         experience, 
         company_names: companies
     } = profile.resume_fields;
+    console.log(profile.name)
     return (
         <Layout>
             <div className={pageStyles.container}>
@@ -244,7 +225,7 @@ const Profile = () => {
                                                         <ListSubheader>About</ListSubheader>
                                                     }>
                                                         <Divider />
-                                                        <ListItem>
+                                                        <ListItem alignItems="flex-start">
                                                             <ListItemIcon>
                                                                 <MailOutlineIcon />
                                                             </ListItemIcon>
@@ -254,7 +235,7 @@ const Profile = () => {
                                                             />
                                                         </ListItem>
                                                         <Divider />
-                                                        <ListItem>
+                                                        <ListItem alignItems="flex-start">
                                                             <ListItemIcon>
                                                                 <SchoolOutlinedIcon />
                                                             </ListItemIcon>
@@ -267,7 +248,7 @@ const Profile = () => {
                                                             />
                                                         </ListItem>
                                                         <Divider />
-                                                        <ListItem>
+                                                        <ListItem alignItems="flex-start">
                                                             <ListItemIcon>
                                                                 <WorkOutlineOutlinedIcon />
                                                             </ListItemIcon>
@@ -279,19 +260,19 @@ const Profile = () => {
                                                             />
                                                         </ListItem>
                                                         <Divider />
-                                                        <ListItem>
+                                                        <ListItem alignItems="flex-start">
                                                             <ListItemIcon>
                                                                 <AssignmentIndOutlinedIcon />
                                                             </ListItemIcon>
                                                             <ListItemText 
                                                                 primary="Name" 
-                                                                secondary={profile.name === ''
+                                                                secondary={profile.name === undefined || profile.name === ''
                                                                 ? '[Empty]'
                                                                 : profile.name}
                                                             />
                                                         </ListItem>
                                                         <Divider />
-                                                        <ListItem>
+                                                        <ListItem alignItems="flex-start">
                                                             <ListItemIcon>
                                                                 <PhoneIphoneOutlinedIcon />
                                                             </ListItemIcon>
@@ -303,7 +284,7 @@ const Profile = () => {
                                                             />
                                                         </ListItem>
                                                         <Divider />
-                                                        <ListItem>
+                                                        <ListItem alignItems="flex-start">
                                                             <ListItemIcon>
                                                                 <PlaylistAddCheckOutlinedIcon />
                                                             </ListItemIcon>
@@ -329,8 +310,8 @@ const Profile = () => {
                                                         aria-label="full width tabs"
                                                         className={styles.appbar}
                                                     >
-                                                        <Tab label="Resume" />
-                                                        <Tab label="Comments"/>
+                                                        <Tab label="Resume" icon={<DescriptionIcon />}/>
+                                                        <Tab label="Comments" icon={<CommentIcon />}/>
                                                     </Tabs>
                                                 </AppBar>
                                                 <div className={styles.resume}>
@@ -351,47 +332,78 @@ const Profile = () => {
                                                                 {profile.resume_fields && (
                                                                     <>
                                                                         <AttributeTitle>Name</AttributeTitle>
-                                                                        <div>
-                                                                            {name}
-                                                                        </div>
+                                                                        <AttributeContent>{name ?? '[Not Available]'}</AttributeContent>
+
                                                                         <AttributeTitle>Mobile Number</AttributeTitle>
-                                                                        <div>
-                                                                            {mobile_number}
-                                                                        </div>
+                                                                        <AttributeContent>{mobile_number ?? '[Not Available]'}</AttributeContent>
+
                                                                         <AttributeTitle>Skill</AttributeTitle>
-                                                                        <ul>
-                                                                            {skills && skills.map(skill => (
-                                                                                <li>{skill}</li>
-                                                                            ))}
-                                                                        </ul>
+                                                                        <AttributeContent>
+                                                                            {
+                                                                                skills
+                                                                                ? (
+                                                                                    <ul>
+                                                                                        {skills.map(skill => <li>{skill}</li>)}
+                                                                                    </ul>
+                                                                                )
+                                                                                : '[Not Available]'
+                                                                            }
+                                                                        </AttributeContent>
+                                                                        
                                                                         <AttributeTitle>Uni</AttributeTitle>
-                                                                        <div>
-                                                                            {university}
-                                                                        </div>
+                                                                        <AttributeContent>{university ?? '[Not Available]'}</AttributeContent>
+
                                                                         <AttributeTitle>Degree</AttributeTitle>
-                                                                        <ul>
-                                                                            {degrees && degrees.map(degree => (
-                                                                                <li>{degree}</li>
-                                                                            ))}
-                                                                        </ul>
+                                                                        <AttributeContent>
+                                                                                {
+                                                                                    degrees
+                                                                                    ? (
+                                                                                        <ul>
+                                                                                            {degrees.map(degree => <li>{degree}</li>)}
+                                                                                        </ul>
+                                                                                    )
+                                                                                    : '[Not Available]'
+                                                                                }
+                                                                        </AttributeContent>
+
                                                                         <AttributeTitle>Designation</AttributeTitle>
-                                                                        <ul>
-                                                                            {designation && designation.map(title => (
-                                                                                <li>{title}</li>
-                                                                            ))}
-                                                                        </ul>
+                                                                        <AttributeContent>
+                                                                            {
+                                                                                designation
+                                                                                ? (
+                                                                                    <ul>
+                                                                                        {designation.map(title => <li>{title}</li>)}
+                                                                                    </ul>
+                                                                                )
+                                                                                : '[Not Available]'
+                                                                            }
+                                                                        </AttributeContent>
+
                                                                         <AttributeTitle>Experience</AttributeTitle>
-                                                                        <ul>
-                                                                            {experience && experience.map(exp => (
-                                                                                <li>{exp}</li>
-                                                                            ))}
-                                                                        </ul>
+                                                                        <AttributeContent>
+                                                                            {
+                                                                                experience
+                                                                                ? (
+                                                                                    <ul>
+                                                                                        {experience.map(exp => <li>{exp}</li>)}
+                                                                                    </ul>
+                                                                                )
+                                                                                : '[Not Available]'
+                                                                            }
+                                                                        </AttributeContent>
+
                                                                         <AttributeTitle>Company Names</AttributeTitle>
-                                                                        <ul>
-                                                                            {companies && companies.map(comp => (
-                                                                                <li>{comp}</li>
-                                                                            ))}
-                                                                        </ul>
+                                                                        <AttributeContent>
+                                                                            {
+                                                                                companies 
+                                                                                ? (
+                                                                                    <ul>
+                                                                                        {companies.map(comp => <li>{comp}</li>)}
+                                                                                    </ul>
+                                                                                )
+                                                                                : '[Not Available]'
+                                                                            }
+                                                                        </AttributeContent>
                                                                     </>
                                                                 )}
                                                             </>
@@ -404,10 +416,9 @@ const Profile = () => {
                                                                 <CommentsList
                                                                     comments={comments}
                                                                 />
-                                                                <hr />
                                                                 <div>
-                                                                    <h1>Leave a Comment For {profile.username}</h1>
-                                                                    <div>
+                                                                    <AttributeTitle>Leave a Comment For {profile.username}</AttributeTitle>
+                                                                    <AttributeContent>
                                                                         <p>
                                                                             Give some constructive criticism about this person's resume, career goals, skill development, job profile, etc.
                                                                         </p>
@@ -425,12 +436,13 @@ const Profile = () => {
                                                                                 <li>Ctrl+u for hyperlinking</li>
                                                                             </ul>
                                                                         </p>
-                                                                    </div>
+                                                                    </AttributeContent>
                                                                     <RichTextDisplay
                                                                         readOnly={false}
                                                                         value={sampleInitialValue}
                                                                         buttonText="Post comment"
                                                                         onSubmit={postComment}
+                                                                        
                                                                     />
                                                                 </div>
                                                             </>
