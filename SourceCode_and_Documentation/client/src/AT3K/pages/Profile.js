@@ -25,7 +25,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import styled from 'styled-components';
 import axios from 'axios';
 import Cookie from 'js-cookie';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import FadeIn from 'react-fade-in';
 import { Link, useParams } from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
@@ -84,25 +84,27 @@ const Profile = () => {
         setTabValue(newValue);
     };
 
+
     // ==== GET /api/user/profile =====
-    const getUserProfile = () => {
+    const getUserProfile = useCallback(() => {
         const userID = Cookie.get("user_id");
         if (userID) {
             if (!profileUserID) Notification.spawnInvalid("No user ID specified");
             else {
                 axios.get(`${api.BASE_URL}/api/user/profile?user_id=${profileUserID}`)
-                    .then(res => {
-                        setProfile(res.data);
-                        console.log(res.data)
-                    })
-                    .catch(err => {
-                        Notification.spawnError(err);
-                    });
+                .then(res => {
+                    setProfile(res.data);
+                })
+                .catch(err => {
+                    Notification.spawnError(err);
+                });
             }
         } else {
             Notification.spawnRegisterError();
         }
-    };
+    }, [profileUserID, setProfile])
+    
+    
 
     // ===== GET /api/comment/ =====
     const fetchComments = (receiverUserID) => {
@@ -143,11 +145,11 @@ const Profile = () => {
         }
     };
 
-    useEffect(() => {
-        const receiverUserID = profileUserID
+    useEffect(() => {        
         getUserProfile();
+        const receiverUserID = profileUserID
         fetchComments(receiverUserID);
-    }, [setProfile]); 
+    }, [getUserProfile]); 
 
     const isLoading = false && (profile === null);
 
@@ -161,6 +163,7 @@ const Profile = () => {
         experience, 
         company_names: companies
     } = profile.resume_fields;
+
     return (
         <Layout>
             <div className={pageStyles.container}>
