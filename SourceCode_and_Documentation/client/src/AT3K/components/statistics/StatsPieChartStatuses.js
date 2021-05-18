@@ -1,28 +1,29 @@
 import React, { useState } from "react";
-import {
-    Pie,
-    PieChart,
-    Sector
-} from "recharts";
-import { LoadingSpinner } from '../loaders';
+import { Pie, PieChart, Sector } from "recharts";
+import { LoadingSpinner } from "../loaders";
 
-const StatsPieChart = ({ theme, boards, selectedBoardID,  }) => {
+const StatsPieChart = ({ theme, boards, selectedBoardID }) => {
     const [activeIndex, setActiveIndexId] = useState(0);
     if (boards) {
-        const boardStats = boards.map(eachBoard => {
-            return eachBoard.statistics
+        const boardStats = boards.map((eachBoard) => {
+            return eachBoard.statistics;
         });
 
         let globalStats = [];
-        boardStats.forEach(eachStat => {
-            globalStats = [...globalStats, ...eachStat]
+        boardStats.forEach((eachStat) => {
+            globalStats = [...globalStats, ...eachStat];
         });
 
-        const specificBoardStats = boards.filter(eachBoard => eachBoard._id === selectedBoardID)[0];
+        const specificBoardStats = boards.filter(
+            (eachBoard) => eachBoard._id === selectedBoardID
+        )[0];
 
         // Activities to filter for (exact strings): "application", "resume", "interview", "final"
         // Collecting totals for each activities
-        var appCount = 0, resumeCount = 0, interviewCount = 0, finalCount = 0;
+        var appCount = 0,
+            resumeCount = 0,
+            interviewCount = 0,
+            finalCount = 0;
         if (selectedBoardID == null) {
             for (let i = 0; i < globalStats.length; i++) {
                 const activity = globalStats[i]["activity"];
@@ -30,7 +31,7 @@ const StatsPieChart = ({ theme, boards, selectedBoardID,  }) => {
                 if (activity === "resume") resumeCount++;
                 if (activity === "interview") interviewCount++;
                 if (activity === "final") finalCount++;
-            };
+            }
         } else {
             const stats = specificBoardStats["statistics"];
             for (let i = 0; i < stats.length; i++) {
@@ -39,12 +40,12 @@ const StatsPieChart = ({ theme, boards, selectedBoardID,  }) => {
                 if (activity === "resume") resumeCount++;
                 if (activity === "interview") interviewCount++;
                 if (activity === "final") finalCount++;
-            };
-        };
+            }
+        }
 
         // Getting the size of each sector of the pie chart
         const currentProgress = [
-            { name: "Awaiting Application", value: appCount },
+            { name: "Tracking", value: appCount },
             { name: "Resume Sent", value: resumeCount },
             { name: "Interview Stage", value: interviewCount },
             { name: "Finalised", value: finalCount },
@@ -74,7 +75,6 @@ const StatsPieChart = ({ theme, boards, selectedBoardID,  }) => {
             var ex = mx + (cos >= 0 ? 1 : -1) * 22;
             var ey = my;
             var textAnchor = cos >= 0 ? "start" : "end";
-
 
             return (
                 <g>
@@ -139,9 +139,7 @@ const StatsPieChart = ({ theme, boards, selectedBoardID,  }) => {
             </PieChart>
         );
     } else {
-        return (
-            <LoadingSpinner />
-        )
+        return <LoadingSpinner />;
     }
 };
 

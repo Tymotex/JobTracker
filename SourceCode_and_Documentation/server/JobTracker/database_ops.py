@@ -7,7 +7,7 @@ import time
 from JobTracker import db
 from JobTracker.utils.colourisation import printColoured
 from typing import (
-    Dict, 
+    Dict,
     List
 )
 from JobTracker.exceptions import (
@@ -19,6 +19,7 @@ import uuid
 # TODO: modularise this file
 
 # ===== User Management =====
+
 
 def add_user(username: str, email: str, password: str, image_url="") -> str:
     """
@@ -32,7 +33,8 @@ def add_user(username: str, email: str, password: str, image_url="") -> str:
             - user_id
     """
     if user_exists(email):
-        raise InvalidUserInput(description="A user with that email already exists")
+        raise InvalidUserInput(
+            description="A user with that email already exists")
     inserted_user = db.users.insert_one({
         "username": username,
         "email": email,
@@ -44,11 +46,13 @@ def add_user(username: str, email: str, password: str, image_url="") -> str:
         "skills": [],
         "resume": {},
         "favourited_companies": [],
-        "starred_by" : [],
-        "tracking" : [],
+        "resume_fields": {},
+        "starred_by": [],
+        "tracking": [],
         "tracked_by": []
     })
     return str(inserted_user.inserted_id)
+
 
 def login_user(email: str, password: str) -> str:
     """
@@ -60,9 +64,10 @@ def login_user(email: str, password: str) -> str:
             - token
             - user_id
     """
-    target_user = db.users.find_one({ "email": email })
+    target_user = db.users.find_one({"email": email})
     if not target_user:
-        raise InvalidUserInput(description="An account with that email doesn't exist")
+        raise InvalidUserInput(
+            description="An account with that email doesn't exist")
     if not target_user["password"] == password:
         raise InvalidUserInput(description="Password incorrect")
     return str(target_user["_id"])
@@ -84,6 +89,8 @@ def set_user_resume_fields(user_id: str, resume_data: dict):
             }
         }
     )
+
+
 def get_user_profile(user_id: str):
     """
         Get the user's profile fields.
@@ -94,20 +101,22 @@ def get_user_profile(user_id: str):
         }
     )
     if not user:
-        raise InvalidUserInput(description="Couldn't find user of ID: {}".format(user_id))
+        raise InvalidUserInput(
+            description="Couldn't find user of ID: {}".format(user_id))
     user["_id"] = str(user["_id"])
     return user
 
+
 def set_user_profile(
-    user_id: str, 
-    username: str, 
-    email:str, 
-    password: str, 
-    experience: str, 
-    education: str, 
-    name: str, 
-    phone: str, 
-    skills: list, 
+    user_id: str,
+    username: str,
+    email: str,
+    password: str,
+    experience: str,
+    education: str,
+    name: str,
+    phone: str,
+    skills: list,
     image_url: str
 ):
     db.users.update_one(
@@ -130,6 +139,8 @@ def set_user_profile(
     return user_id
 
 # Src is the user who is starring the dest user.
+
+
 def star_user(src: str, dest: str):
     dest_user = db.users.find_one(
         {
@@ -152,7 +163,7 @@ def star_user(src: str, dest: str):
             "_id": ObjectId(str(dest))
         },
         {
-            "$set":{
+            "$set": {
                 "starred_by": star_list
             }
         }
@@ -160,6 +171,8 @@ def star_user(src: str, dest: str):
     return ret
 
 # Src is the user who is tracking the dest user.
+
+
 def track_user(src: str, dest: str):
     src_user_tracking = db.users.find_one(
         {
@@ -199,7 +212,7 @@ def track_user(src: str, dest: str):
             "_id": ObjectId(src)
         },
         {
-            "$set":{
+            "$set": {
                 "tracking": src_tracking_list
             }
         }
@@ -210,7 +223,7 @@ def track_user(src: str, dest: str):
             "_id": ObjectId(dest)
         },
         {
-            "$set":{
+            "$set": {
                 "tracked_by": dest_tracked_by_list
             }
         }
@@ -220,7 +233,7 @@ def track_user(src: str, dest: str):
 
 # ===== Board Management =====
 
-def create_board(user_id: str, name: str, description: str, image_url="") -> str: 
+def create_board(user_id: str, name: str, description: str, image_url="") -> str:
     """
         Creates a new document for the 'boards' collection.
         Returns the ID of the new document
@@ -233,31 +246,35 @@ def create_board(user_id: str, name: str, description: str, image_url="") -> str
         "image_url": image_url,
         "statistics": []
     })
-    return str(inserted_document.inserted_id) 
+    return str(inserted_document.inserted_id)
+
 
 def get_boards(user_id: str) -> list:
     """
         Fetches all the boards owned by the user with the given user_id.
     """
-    boards = [ board for board in db.boards.find({ "user_id": user_id }) ]
+    boards = [board for board in db.boards.find({"user_id": user_id})]
     for each_board in boards:
         each_board["_id"] = str(each_board["_id"])
     return boards
 
+
 def get_board(user_id: str, board_id: str):
-    board = db.boards.find_one({ "user_id": user_id, "_id": ObjectId(board_id) })
+    board = db.boards.find_one({"user_id": user_id, "_id": ObjectId(board_id)})
     if not board:
-        raise InvalidUserInput(description="Couldn't find the board with id: {}".format(board_id))
+        raise InvalidUserInput(
+            description="Couldn't find the board with id: {}".format(board_id))
     board["_id"] = str(board["_id"])
     return board
+
 
 def edit_board(user_id: str, board_id: str, name: str, description: str, image_url=""):
     """
         Updates an existing board's details
     """
     db.boards.update_one(
-        {'user_id' : user_id, '_id': ObjectId(board_id)}, 
-        {'$set' : {"name" : name, 'description' : description, "image_url": image_url}}
+        {'user_id': user_id, '_id': ObjectId(board_id)},
+        {'$set': {"name": name, 'description': description, "image_url": image_url}}
     )
     return {
         "new_name": name,
@@ -265,13 +282,14 @@ def edit_board(user_id: str, board_id: str, name: str, description: str, image_u
         "new_image_url": image_url
     }
 
+
 def set_tracked_jobs(user_id: str, board_id: str, tracked_jobs):
     """
         Updates the tracked jobs of the given board
     """
     db.boards.update_one(
         {
-            "user_id": user_id, 
+            "user_id": user_id,
             "_id": ObjectId(board_id)
         },
         {
@@ -282,32 +300,37 @@ def set_tracked_jobs(user_id: str, board_id: str, tracked_jobs):
     )
     return tracked_jobs
 
+
 def delete_board(user_id: str, board_id: str):
     """
         Deletes a given user's board
     """
     db.boards.delete_one(
-        {'user_id' : user_id, '_id': ObjectId(board_id)}
+        {'user_id': user_id, '_id': ObjectId(board_id)}
     )
     return board_id
 
+
 def get_favourite_company(user_id: str):
     # Find the user, then get and return the favourited companies name array
-    user = db.users.find_one({ 
+    user = db.users.find_one({
         "_id":  ObjectId(user_id)
     })
     if not user:
-        raise InvalidUserInput(description="Couldn't find the user with id: {}".format(user_id))
+        raise InvalidUserInput(
+            description="Couldn't find the user with id: {}".format(user_id))
 
     return user["favourited_companies"]
 
-def save_favourite_company(user_id: str, company_name: str):  
+
+def save_favourite_company(user_id: str, company_name: str):
 
     # check quantity
-    fav_companies = get_favourite_company(user_id);
+    fav_companies = get_favourite_company(user_id)
     if len(fav_companies) > 10:
-        raise InvalidUserInput(description="You can't have more than 10 favourite companies")
-    
+        raise InvalidUserInput(
+            description="You can't have more than 10 favourite companies")
+
     # Find the user, then push the company_name into the favourited_companies field
     db.users.update_one(
         {
@@ -320,6 +343,7 @@ def save_favourite_company(user_id: str, company_name: str):
         }
     )
     return company_name
+
 
 def delete_favourite_company(user_id: str, company_name: str):
     # remove the company name from favourited_companies array
@@ -337,18 +361,20 @@ def delete_favourite_company(user_id: str, company_name: str):
 
 # ===== Job Tracking =====
 
+
 def job_already_tracked(user_id: str, board_id: str, job: dict):
     """
         Checks if the job is already being tracked
     """
     board = db.boards.find_one(
-        { 
-            "_id": ObjectId(board_id), 
-            "user_id": user_id 
+        {
+            "_id": ObjectId(board_id),
+            "user_id": user_id
         }
     )
     # TODO: Checking for same title. Not robust
     return any(each_job["title"] == job["title"] for each_job in board["tracked_jobs"])
+
 
 def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
     """
@@ -373,9 +399,9 @@ def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
 
     # Push the new job into the board's tracked_jobs list
     db.boards.update_one(
-        { 
-            "_id": ObjectId(board_id), 
-            "user_id": user_id 
+        {
+            "_id": ObjectId(board_id),
+            "user_id": user_id
         },
         {
             "$push": {
@@ -385,13 +411,14 @@ def add_job(board_id: str, user_id: str, job_to_track: dict) -> dict:
     )
     return job_to_track["job_id"]
 
+
 def update_job(user_id, board_id, job_id, updated_job):
     """
         Updates an existing tracked job for a given user's board
     """
-    target_board = db.boards.find_one({ 
-        "_id": ObjectId(board_id), 
-        "user_id": user_id 
+    target_board = db.boards.find_one({
+        "_id": ObjectId(board_id),
+        "user_id": user_id
     })
     new_jobs = target_board["tracked_jobs"].copy()
     # Find the target job
@@ -399,14 +426,15 @@ def update_job(user_id, board_id, job_id, updated_job):
     for job in new_jobs:
         target_index += 1
         if job["job_id"] == job_id:
-            break 
+            break
     if target_index == -1:
-        raise InvalidUserInput(description="Failed to find job with ID: {}".format(job_id))
+        raise InvalidUserInput(
+            description="Failed to find job with ID: {}".format(job_id))
     new_jobs[target_index] = updated_job
     db.boards.update_one(
-        { 
-            "_id": ObjectId(board_id), 
-            "user_id": user_id 
+        {
+            "_id": ObjectId(board_id),
+            "user_id": user_id
         },
         {
             "$set": {
@@ -416,16 +444,17 @@ def update_job(user_id, board_id, job_id, updated_job):
     )
     return updated_job
 
+
 def delete_job(user_id, board_id, job_id):
     """
         Deletes a given job
     """
-    db.boards.update_one({ 
-        "_id": ObjectId(board_id), 
-        "user_id": user_id 
+    db.boards.update_one({
+        "_id": ObjectId(board_id),
+        "user_id": user_id
     }, {
         "$pull": {
-            "tracked_jobs": { "job_id": job_id }
+            "tracked_jobs": {"job_id": job_id}
         }
     })
     return job_id
@@ -438,7 +467,7 @@ def push_stat(board_id: str, stat: dict):
         Pushes a new statistic to the given board
     """
     db.boards.update_one(
-        { 
+        {
             "_id": ObjectId(board_id)
         },
         {
@@ -447,6 +476,7 @@ def push_stat(board_id: str, stat: dict):
             }
         }
     )
+
 
 def eliminate_stat_duplicates(board_id: str, job_id: str, new_status: str):
     """
@@ -480,7 +510,7 @@ def eliminate_stat_duplicates(board_id: str, job_id: str, new_status: str):
         This function eliminates duplicate stats for a tracked job
     """
     # Activity orders: application -> resume -> interview -> final
-    # The numbers indicate stage values. A range of 10 is arbitraily chose in case we want to 
+    # The numbers indicate stage values. A range of 10 is arbitraily chose in case we want to
     # introduce any new stages
     activities_stage = {
         "application": 0,
@@ -490,14 +520,14 @@ def eliminate_stat_duplicates(board_id: str, job_id: str, new_status: str):
     }
 
     # Fetching the stats array for the board
-    board = db.boards.find_one({ "_id": ObjectId(board_id) })
+    board = db.boards.find_one({"_id": ObjectId(board_id)})
     stats = board["statistics"]
 
     # Sort timestamps into ascending order
     stats.sort(key=lambda x: x["timestamp"])
 
     # Clear all duplicate statistics
-    latest_stage =  -1
+    latest_stage = -1
     i = 0
     new_stage = activities_stage[new_status]
     while i < len(stats):
@@ -516,7 +546,7 @@ def eliminate_stat_duplicates(board_id: str, job_id: str, new_status: str):
     # Replace original stats array
     new_stats = stats.copy()
     db.boards.update_one(
-        { "_id": ObjectId(board_id) },
+        {"_id": ObjectId(board_id)},
         {
             "$set": {
                 "statistics": new_stats
@@ -524,6 +554,7 @@ def eliminate_stat_duplicates(board_id: str, job_id: str, new_status: str):
         }
     )
     return new_stats
+
 
 def fetch_stats(user_id: str, board_id: str):
     """
@@ -537,10 +568,12 @@ def fetch_stats(user_id: str, board_id: str):
     if target_board["user_id"] != user_id:
         raise InvalidUserInput(description="That board doesn't belong to you")
     if not target_board:
-        raise InvalidUserInput(description="Board {} wasn't found".format(board_id))
+        raise InvalidUserInput(
+            description="Board {} wasn't found".format(board_id))
     return target_board["statistics"]
 
 # ===== Users =====
+
 
 def get_users() -> List:
     """
@@ -553,6 +586,7 @@ def get_users() -> List:
 
 # ===== Comments =====
 
+
 def get_comments(user_id: str):
     """
         Fetches all comments sent to this user        
@@ -563,6 +597,7 @@ def get_comments(user_id: str):
     for comment in comments:
         comment["_id"] = str(comment["_id"])
     return comments
+
 
 def post_comment(sender_user_id: str, receiver_user_id: str, comment: Dict):
     comment_document = {
@@ -575,6 +610,7 @@ def post_comment(sender_user_id: str, receiver_user_id: str, comment: Dict):
     }
     db.comments.insert_one(comment_document)
 
+
 def edit_comment(comment_id: str, new_comment):
     """
         Updates an existing comment document
@@ -582,7 +618,7 @@ def edit_comment(comment_id: str, new_comment):
     db.comments.update_one(
         {
             "_id": ObjectId(comment_id)
-        }, 
+        },
         {
             "$set": {
                 "comment": new_comment
@@ -590,24 +626,26 @@ def edit_comment(comment_id: str, new_comment):
         }
     )
 
+
 def delete_comment(comment_id: str):
     """
         Removes a comment
     """
-    db.comments.delete_one({ "_id": ObjectId(comment_id) })
+    db.comments.delete_one({"_id": ObjectId(comment_id)})
+
 
 def vote_comment(voter_id: str, comment_id: str, increment_amount: int):
     """
         Increases the vote by the amount specified. Negative values denote downvoting
     """
-    comment = db.comments.find_one({ "_id": ObjectId(comment_id) })
-    if voter_id in [ voter["voter_id"] for voter in comment["voters"] ]:
+    comment = db.comments.find_one({"_id": ObjectId(comment_id)})
+    if voter_id in [voter["voter_id"] for voter in comment["voters"]]:
         raise InvalidUserInput(description="You have already voted")
 
     db.comments.update_one(
         {
             "_id": ObjectId(comment_id)
-        }, 
+        },
         {
             "$inc": {
                 "vote": increment_amount
@@ -621,12 +659,15 @@ def vote_comment(voter_id: str, comment_id: str, increment_amount: int):
         }
     )
 
+
 def clear_vote(voter_id: str, comment_id: str):
-    comment = db.comments.find_one({ "_id": ObjectId(comment_id) })
-    voter = [ voter for voter in comment["voters"] if voter["voter_id"] == voter_id][0]
+    comment = db.comments.find_one({"_id": ObjectId(comment_id)})
+    voter = [voter for voter in comment["voters"]
+             if voter["voter_id"] == voter_id][0]
     if not voter:
-        raise InvalidUserInput(description="Can't clear a vote that doesn't exist")
-    vote_amount = voter["vote_amount"] 
+        raise InvalidUserInput(
+            description="Can't clear a vote that doesn't exist")
+    vote_amount = voter["vote_amount"]
 
     db.comments.update_one(
         {
@@ -642,16 +683,18 @@ def clear_vote(voter_id: str, comment_id: str):
                 "vote": -vote_amount
             }
         }
-    ) 
+    )
 
 # ===== Utilities =====
+
 
 def user_exists(email: str):
     """
         Determines whether a user with the given fields already exists
     """
-    target_user = db.users.find_one({ "email": email })
-    return target_user != None 
+    target_user = db.users.find_one({"email": email})
+    return target_user != None
+
 
 def set_resume_fields(user_id: str, parsed_resume: dict):
     """
@@ -659,11 +702,10 @@ def set_resume_fields(user_id: str, parsed_resume: dict):
     db.users.update_one(
         {
             "_id": ObjectId(user_id)
-        }, 
+        },
         {
             "$set": {
                 "resume_fields": parsed_resume
             }
         }
     )
-

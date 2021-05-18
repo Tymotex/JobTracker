@@ -24,7 +24,7 @@ from flask_restx import Resource, Api, fields
 # Blueprint definition
 tracker_router = Blueprint("tracker", __name__)
 tracker_api = Api(
-    tracker_router, 
+    tracker_router,
     doc="/doc",
     title="Job Posting Tracking",
     description="Routes for managing the user's boards and job tracking automation",
@@ -33,6 +33,10 @@ tracker_api = Api(
 )
 
 # RESTful route handlers:
+
+OFFSET = 0 * 24 * 60 * 60
+
+
 @tracker_api.route("/")
 class Tracker(Resource):
     def post(self):
@@ -50,12 +54,13 @@ class Tracker(Resource):
             user_id = request_params["user_id"]
             job_to_track = request_params["job_to_track"]
         except KeyError as err:
-            raise InvalidUserInput(description="Missing mandatory fields: {}".format(err))
-        
+            raise InvalidUserInput(
+                description="Missing mandatory fields: {}".format(err))
+
         job_id = add_job(board_id, user_id, job_to_track)
 
         push_stat(board_id, {
-            "timestamp": int(time.time()),
+            "timestamp": int(time.time() - OFFSET),
             "activity": "application",
             "job_id": job_id
         })
@@ -80,14 +85,15 @@ class Tracker(Resource):
 
         # Push stat and eliminate duplicates if they occur after pushing
         push_stat(board_id, {
-            "timestamp": time.time(),
+            "timestamp": time.time() - OFFSET,
             "activity": updated_job["current_status"],
             "job_id": job_id
         })
-        eliminate_stat_duplicates(board_id, job_id, updated_job["current_status"])
+        eliminate_stat_duplicates(
+            board_id, job_id, updated_job["current_status"])
 
         return update_job(user_id, board_id, job_id, updated_job)
- 
+
     def delete(self):
         """
             Removes a tracked job and all its associated data
@@ -98,4 +104,3 @@ class Tracker(Resource):
         board_id = request_params["board_id"]
         job_id = request_params["job_id"]
         return delete_job(user_id, board_id, job_id)
-        

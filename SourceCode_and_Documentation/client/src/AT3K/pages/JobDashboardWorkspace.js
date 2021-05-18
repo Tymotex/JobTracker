@@ -1,30 +1,28 @@
-import {
-    Paper
-} from '@material-ui/core';
-import axios from 'axios';
-import Cookie from 'js-cookie';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import {
-    BreadCrumbs
-} from '../components/breadcrumbs';
+import { Paper } from "@material-ui/core";
+import axios from "axios";
+import Cookie from "js-cookie";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { BreadCrumbs } from "../components/breadcrumbs";
 import {
     BoardToolbar,
-    JobCalendar, JobKanban,
+    JobCalendar,
+    JobKanban,
     JobList,
-    JobSpreadsheet
-} from '../components/job-boards';
-import { LoadingSpinner } from '../components/loaders';
-import { Notification } from '../components/notification';
-import RichTextDisplay from '../components/richtext/RichTextDisplay';
-import api from '../constants/api';
-import styles from './JobDashboardWorkspace.module.scss';
-import { FancyHR } from '../components/horizontal-rules';
+    JobSpreadsheet,
+} from "../components/job-boards";
+import { LoadingSpinner } from "../components/loaders";
+import { Notification } from "../components/notification";
+import RichTextDisplay from "../components/richtext/RichTextDisplay";
+import api from "../constants/api";
+import styles from "./JobDashboardWorkspace.module.scss";
+import { FancyHR } from "../components/horizontal-rules";
+import FadeIn from "react-fade-in";
 
-const JobDashboardWorkspace = ({ 
-    boardType, 
+const JobDashboardWorkspace = ({
+    boardType,
     selectedBoardID,
-    handleChangeBoard, 
+    handleChangeBoard,
     handleDeselectBoard,
 }) => {
     const [board, setBoard] = useState(null);
@@ -40,7 +38,7 @@ const JobDashboardWorkspace = ({
         priority: true,
         notes: true,
         current_status: true,
-        job_id: true
+        job_id: true,
     });
 
     // ===== GET /api/user/board =====
@@ -48,11 +46,14 @@ const JobDashboardWorkspace = ({
     const fetchBoardInfo = () => {
         const userID = Cookie.get("user_id");
         if (userID) {
-            axios.get(`${api.BASE_URL}/api/user/board?user_id=${userID}&board_id=${selectedBoardID}`)
+            axios
+                .get(
+                    `${api.BASE_URL}/api/user/board?user_id=${userID}&board_id=${selectedBoardID}`
+                )
                 .then((response) => {
                     setBoard(response.data);
                     setTrackedJobs(response.data.tracked_jobs);
-                }) 
+                })
                 .catch((err) => {
                     Notification.spawnError(err);
                 });
@@ -63,75 +64,70 @@ const JobDashboardWorkspace = ({
 
     useEffect(() => {
         fetchBoardInfo();
-    }, []);  // eslint-disable-line react-hooks/exhaustive-deps
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-        <div>
+        <FadeIn>
             {board && (
-                <BreadCrumbs deselectBoard={handleDeselectBoard} name={board.name} />
+                <BreadCrumbs
+                    deselectBoard={handleDeselectBoard}
+                    name={board.name}
+                />
             )}
             <div className={styles.boardInfo}>
                 {board && (
                     <Paper className={styles.boardImage}>
-                        <img 
-                            alt="Board card wallpaper"
-                            src={board.image_url} 
-                        />
+                        <img alt="Board card wallpaper" src={board.image_url} />
                     </Paper>
                 )}
                 <div className={styles.boardInfoTextSection}>
-                    {board && (
-                        <h1>{board.name}</h1>
-                    )}
+                    {board && <h1>{board.name}</h1>}
                     {/* <hr className={styles.divider} /> */}
                     <FancyHR />
                     {board && (
-                        <RichTextDisplay 
-                            value={board.description}
-                            readOnly
-                        />
+                        <RichTextDisplay value={board.description} readOnly />
                     )}
                 </div>
             </div>
-            <BoardToolbar 
+            <BoardToolbar
                 boardType={boardType}
                 handleChangeBoard={handleChangeBoard}
                 trackedJobs={trackedJobs}
                 boardID={selectedBoardID}
                 fetchBoardInfo={fetchBoardInfo}
-                fieldsToShow={fieldsToShow} 
+                fieldsToShow={fieldsToShow}
                 setFields={setFields}
             />
             {board && trackedJobs !== null ? (
                 <>
                     {boardType === "spreadsheet" && (
-                        <JobSpreadsheet 
-                            trackedJobs={trackedJobs} 
-                            setTrackedJobs={setTrackedJobs} 
-                            boardID={board._id} 
-                            fieldsToShow={fieldsToShow} 
+                        <JobSpreadsheet
+                            trackedJobs={trackedJobs}
+                            setTrackedJobs={setTrackedJobs}
+                            boardID={board._id}
+                            fieldsToShow={fieldsToShow}
                         />
                     )}
                     {boardType === "board" && (
-                        <JobKanban 
-                            trackedJobs={trackedJobs} 
-                            boardID={board._id} 
-                            fieldsToShow={fieldsToShow} 
+                        <JobKanban
+                            trackedJobs={trackedJobs}
+                            boardID={board._id}
+                            fieldsToShow={fieldsToShow}
                         />
                     )}
                     {boardType === "calendar" && (
-                        <JobCalendar 
-                            trackedJobs={trackedJobs} 
-                            boardID={board._id} 
-                            fieldsToShow={fieldsToShow} 
+                        <JobCalendar
+                            trackedJobs={trackedJobs}
+                            boardID={board._id}
+                            fieldsToShow={fieldsToShow}
                         />
                     )}
                     {boardType === "list" && (
-                        <JobList 
-                            trackedJobs={trackedJobs} 
-                            boardID={board._id} 
-                            fieldsToShow={fieldsToShow} 
-                        /> 
+                        <JobList
+                            trackedJobs={trackedJobs}
+                            boardID={board._id}
+                            fieldsToShow={fieldsToShow}
+                        />
                     )}
                 </>
             ) : (
@@ -140,16 +136,16 @@ const JobDashboardWorkspace = ({
                 </div>
             )}
             <hr />
-        </div>
+        </FadeIn>
     );
 };
 
 JobDashboardWorkspace.propTypes = {
-    boardType: PropTypes.string, 
+    boardType: PropTypes.string,
     selectedBoardID: PropTypes.string,
-    jobPostings: PropTypes.array, 
-    handleChangeBoard: PropTypes.func, 
-    handleDeselectBoard: PropTypes.func
+    jobPostings: PropTypes.array,
+    handleChangeBoard: PropTypes.func,
+    handleDeselectBoard: PropTypes.func,
 };
 
 export default JobDashboardWorkspace;

@@ -1,34 +1,30 @@
 import React, { useState } from "react";
-import {
-    Pie,
-    PieChart,
-    Sector
-} from "recharts";
-import { LoadingSpinner } from '../loaders';
+import { Pie, PieChart, Sector } from "recharts";
+import { LoadingSpinner } from "../loaders";
 
 const StatsPieChart = ({ theme, boards, selectedBoardID }) => {
     const [activeIndex, setActiveIndexId] = useState(0);
 
     if (!boards) {
-        return (
-            <LoadingSpinner />
-        )
+        return <LoadingSpinner />;
     }
 
-    const boardStats = boards.map(eachBoard => {
-        return eachBoard.statistics
+    const boardStats = boards.map((eachBoard) => {
+        return eachBoard.statistics;
     });
 
     let globalStats = [];
-    boardStats.forEach(eachStat => {
-        globalStats = [...globalStats, ...eachStat]
+    boardStats.forEach((eachStat) => {
+        globalStats = [...globalStats, ...eachStat];
     });
 
-    const specificBoardStats = boards.filter(eachBoard => eachBoard._id === selectedBoardID)[0];
+    const specificBoardStats = boards.filter(
+        (eachBoard) => eachBoard._id === selectedBoardID
+    )[0];
 
     // Global stats is ready for you to work with
     // See the chrome inspector console to check what gets outputted:
-    // selectedBoardID will be null if no board is selected. Use this to 
+    // selectedBoardID will be null if no board is selected. Use this to
     // determine whether to render the global data or specific board data
     // The selected board dropdown should be working.
 
@@ -38,21 +34,22 @@ const StatsPieChart = ({ theme, boards, selectedBoardID }) => {
     else if activity === "resume":
         the user has sent out the resume but it hasn't produced a response yet
     */
-    let hitCount = 0, missCount = 0;
+    let hitCount = 0,
+        missCount = 0;
     if (selectedBoardID == null) {
         for (let i = 0; i < globalStats.length; i++) {
             const activity = globalStats[i]["activity"];
             if (activity === "resume") missCount++;
             if (activity === "interview") hitCount++;
-        };
+        }
     } else {
         const stats = specificBoardStats["statistics"];
         for (let i = 0; i < stats.length; i++) {
             const activity = stats[i]["activity"];
             if (activity === "resume") missCount++;
             if (activity === "interview") hitCount++;
-        };
-    };
+        }
+    }
 
     const currentProgress = [
         { name: "Resume Hits", value: hitCount },
@@ -83,7 +80,6 @@ const StatsPieChart = ({ theme, boards, selectedBoardID }) => {
         var ex = mx + (cos >= 0 ? 1 : -1) * 22;
         var ey = my;
         var textAnchor = cos >= 0 ? "start" : "end";
-
 
         return (
             <g>
@@ -134,7 +130,7 @@ const StatsPieChart = ({ theme, boards, selectedBoardID }) => {
     }
 
     return (
-        <PieChart width={800} height={300}>
+        <PieChart width={500} height={300}>
             <Pie
                 activeIndex={activeIndex}
                 activeShape={renderActiveShape}
@@ -148,7 +144,6 @@ const StatsPieChart = ({ theme, boards, selectedBoardID }) => {
             />
         </PieChart>
     );
-  
 };
 
 export default StatsPieChart;

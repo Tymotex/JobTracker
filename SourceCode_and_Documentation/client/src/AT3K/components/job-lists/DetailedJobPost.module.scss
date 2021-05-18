@@ -6,8 +6,8 @@
 //   min-height: 100vh;
 
 a {
-  text-decoration: none;
-  // color: #172b4d;
+    text-decoration: none;
+    // color: #172b4d;
 }
 
 //   h1 {
@@ -32,138 +32,143 @@ a {
 // }
 
 .field {
-  font-weight: 800;
+    // font-weight: 800;
 }
 
 .spaced_container {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .card {
-  align-self: flex-start;
-  position: relative;
-  // width: 325px;
-  // min-width: 275px;
-  margin: 1.25rem 0.75rem;
-  background: white;
-  transition: all 300ms ease-in-out;
-
-  // .card-img {
-  //   visibility: hidden;
-  //   width: 100%;
-  //   height: var(--card-img-height);
-  //   background-repeat: no-repeat;
-  //   background-position: center center;
-  //   background-size: cover;
-  // }
-
-  // .card-img-hovered {
-  //   --card-img-hovered-overlay: linear-gradient(
-  //     to bottom,
-  //     rgba(0, 0, 0, 0),
-  //     rgba(0, 0, 0, 0)
-  //   );
-  //   transition: all 350ms ease-in-out;
-  //   background-repeat: no-repeat;
-  //   background-position: center center;
-  //   background-size: cover;
-  //   width: 100%;
-  //   position: absolute;
-  //   height: var(--card-img-height);
-  //   top: 0;
-  // }
-
-  .cardInfo {
+    align-self: flex-start;
     position: relative;
-    padding: 0.75rem 1.25rem;
-    transition: all 200ms ease-in-out;
+    // width: 325px;
+    // min-width: 275px;
+    margin: 1.25rem 0.75rem;
+    background: white;
+    transition: all 300ms ease-in-out;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2), 0 3px 3px rgba(0, 0, 0, 0.25);
 
-    .cardTrack {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      // padding: 0.75rem 0;
-      transition: all 200ms ease-in-out;
-      margin: 0;
-    }
-
-    .cardAbout {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 0;
-      transition: all 200ms ease-in-out;
-
-      .cardTag {
-        width: 60px;
-        max-width: 100px;
-        padding: 0.2rem 0.5rem;
-        font-size: 12px;
-        text-align: center;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        background: #505f79;
-        color: #fff;
-
-        &.tagNews {
-          background: #36b37e;
-        }
-
-        &.tagDeals {
-          background: #ffab00;
-        }
-
-        &.tagPolitics {
-          width: 71px;
-          background: #ff5630;
-        }
-      }
-    }
-
-    .cardTitle {
-      z-index: 10;
-      font-size: 1.5rem;
-      padding-bottom: 0.75rem;
-      transition: all 350ms ease-in-out;
-    }
-
-    .cardCreator {
-      padding-bottom: 0.75rem;
-      transition: all 250ms ease-in-out;
-    }
-  }
-
-  &:hover {
-    cursor: pointer;
-    box-shadow: 0px 15px 35px rgba(227, 252, 239, 0.1),
-      0px 5px 15px rgba(0, 0, 0, 0.07);
-    transform: scale(1.025);
+    // .card-img {
+    //   visibility: hidden;
+    //   width: 100%;
+    //   height: var(--card-img-height);
+    //   background-repeat: no-repeat;
+    //   background-position: center center;
+    //   background-size: cover;
+    // }
 
     // .card-img-hovered {
     //   --card-img-hovered-overlay: linear-gradient(
     //     to bottom,
     //     rgba(0, 0, 0, 0),
-    //     rgba(0, 0, 0, 0.65)
+    //     rgba(0, 0, 0, 0)
     //   );
-    //   height: 100%;
+    //   transition: all 350ms ease-in-out;
+    //   background-repeat: no-repeat;
+    //   background-position: center center;
+    //   background-size: cover;
+    //   width: 100%;
+    //   position: absolute;
+    //   height: var(--card-img-height);
+    //   top: 0;
     // }
-
-    // .card-about,
-    .cardCreator {
-      opacity: 0;
+    .cardTime {
+        color: rgba(92, 92, 92, 0.774);
     }
 
     .cardInfo {
-      background-color: transparent;
+        position: relative;
+        padding: 0.75rem 1.25rem;
+        transition: all 200ms ease-in-out;
+
+        .cardTrack {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            // padding: 0.75rem 0;
+            transition: all 200ms ease-in-out;
+            margin: 0;
+        }
+
+        .cardAbout {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            transition: all 200ms ease-in-out;
+
+            .cardTag {
+                width: 60px;
+                max-width: 100px;
+                padding: 0.2rem 0.5rem;
+                font-size: 12px;
+                text-align: center;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                background: #505f79;
+                color: #fff;
+                margin-right: 20px;
+
+                &.tagNews {
+                    background: #3b3b3b;
+                }
+
+                &.tagDeals {
+                    background: #ffab00;
+                }
+
+                &.tagPolitics {
+                    width: 71px;
+                    background: #ff5630;
+                }
+            }
+        }
+
+        .cardTitle {
+            z-index: 10;
+            font-size: 1.5rem;
+            padding-bottom: 0.75rem;
+            transition: all 350ms ease-in-out;
+        }
+
+        .cardCreator {
+            padding-bottom: 0.75rem;
+            transition: all 250ms ease-in-out;
+        }
     }
 
-    .cardTitle {
-      // color: #ebecf0;
-      // margin-bottom: -40px;
-      transform: translate(0, 20px);
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0px 15px 35px rgba(227, 252, 239, 0.1),
+            0px 5px 15px rgba(0, 0, 0, 0.07);
+        transform: scale(1.025);
+
+        // .card-img-hovered {
+        //   --card-img-hovered-overlay: linear-gradient(
+        //     to bottom,
+        //     rgba(0, 0, 0, 0),
+        //     rgba(0, 0, 0, 0.65)
+        //   );
+        //   height: 100%;
+        // }
+
+        // .card-about,
+        .cardCreator {
+            opacity: 0;
+        }
+
+        .cardInfo {
+            background-color: transparent;
+        }
+
+        .cardTitle {
+            // color: #ebecf0;
+            // margin-bottom: -40px;
+            transform: translate(0, 20px);
+        }
     }
-  }
 }
 
 // CARD IMAGES
