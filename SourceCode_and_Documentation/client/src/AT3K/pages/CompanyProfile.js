@@ -15,7 +15,7 @@ import styles from "./JobDetails.module.scss";
 import pageStyles from "./Page.module.scss";
 
 const Header = ({ name }) => {
-    const [save, setSave] = React.useState(); //TODO
+    const [save, setSave] = React.useState();
     const userID = Cookie.get("user_id");
 
     useEffect(() => {
@@ -41,42 +41,30 @@ const Header = ({ name }) => {
     const handleBack = () => window.history.back();
 
     const handleSave = () => {
-        const url = `${api.BASE_URL}/api/user/company?user_id=${userID}&company_name=${name}`;
-
         // if current state is 'already saved', unsave the company
-        if (save) {
-            axios
-                .delete(url)
+        const userID = Cookie.get("user_id");
+        if (userID) {
+            const postData = {
+                method: save ? "delete" : "post",
+                url: `${api.BASE_URL}/api/user/company`,
+                data: {
+                    user_id: userID,
+                    company_name: name,
+                },
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            };
+            axios(postData)
                 .then((res) => {
-                    Notification.spawnSuccess(`Unsaved '${res.data}'`);
-                    setSave(false);
+                    Notification.spawnSuccess(
+                        `${save ? "Unsaved" : "Saved"} '${res.data}'`
+                    );
+                    setSave(!save);
                 })
                 .catch((err) => Notification.spawnError(err));
-
-            // if current state is 'not saved', save the company
         } else {
-            const userID = Cookie.get("user_id");
-            if (userID) {
-                const postData = {
-                    method: "post",
-                    url: `${api.BASE_URL}/api/user/company`,
-                    data: {
-                        user_id: userID,
-                        company_name: name,
-                    },
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                };
-                axios(postData)
-                    .then((res) => {
-                        Notification.spawnSuccess(`Saved '${res.data}'`);
-                        setSave(true);
-                    })
-                    .catch((err) => Notification.spawnError(err));
-            } else {
-                Notification.spawnRegisterError();
-            }
+            Notification.spawnRegisterError();
         }
     };
 

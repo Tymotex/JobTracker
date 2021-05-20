@@ -38,13 +38,14 @@ RESUME_DIR_PATH = "JobTracker/static/resumes"
 
 user_router = Blueprint("user", __name__)
 user_api = Api(
-    user_router, 
+    user_router,
     doc="/doc",
     title="User Job Profile",
     description="Routes for managing the user's job profile and settings",
     default="/api/user",
     default_label="User job profile management",
 )
+
 
 @user_api.route('/profile')
 class UserJobProfile(Resource):
@@ -70,7 +71,8 @@ class UserJobProfile(Resource):
                 user_id, username, email, password, experience,
                 education, name, phone, skills, image_url
         """
-        printColoured(" * Setting the profile fields for a user", colour="yellow")
+        printColoured(" * Setting the profile fields for a user",
+                      colour="yellow")
         params = request.get_json()
         return set_user_profile(
             params['user_id'],
@@ -84,7 +86,8 @@ class UserJobProfile(Resource):
             params['skills'],
             params['image_url']
         )
- 
+
+
 @user_api.route('/boards')
 class UserBoardManagement(Resource):
     def get(self):
@@ -97,7 +100,7 @@ class UserBoardManagement(Resource):
         user_id = request.args.get("user_id")
         boards = get_boards(user_id)
         return boards
-    
+
     def post(self):
         """
             Parameters:
@@ -116,6 +119,7 @@ class UserBoardManagement(Resource):
         return {
             "board_id": board_id
         }
+
 
 @user_api.route("/board")
 class UserBoard(Resource):
@@ -189,12 +193,13 @@ class UserBoard(Resource):
         board_id = request_params["board_id"]
         return delete_board(user_id, board_id)
 
+
 @user_api.route("/resume")
 class UserResume(Resource):
     def get(self):
         """
             Retrieves the user's resume, if it exists, and sends it back
-        """        
+        """
         printColoured(" * Retrieving resume pdf", colour="yellow")
         request_params = dict(request.args)
         try:
@@ -202,7 +207,8 @@ class UserResume(Resource):
             resume = send_file("static/resumes/{}.pdf".format(user_id))
             return resume
         except Exception as err:
-            raise InvalidUserInput(description="Failed to send resume: {}".format(err))
+            raise InvalidUserInput(
+                description="Failed to send resume: {}".format(err))
 
     def post(self):
         """
@@ -212,15 +218,17 @@ class UserResume(Resource):
         printColoured(" * Uploading resume pdf", colour="yellow")
         pretty_print_dict(request_params)
         user_id = request_params["user_id"]
-        
+
         if "resume" not in request.files:
-            raise InvalidUserInput(description="No resume was found. Did you upload it?")
+            raise InvalidUserInput(
+                description="No resume was found. Did you upload it?")
         resume = request.files["resume"]
         printColoured(resume, colour="yellow")
 
         resume_url = "{}/{}.pdf".format(RESUME_DIR_PATH, user_id)
         resume.save(resume_url)
         return resume_url
+
 
 @user_api.route("/company")
 class UserFavouriteCompany(Resource):
@@ -234,7 +242,8 @@ class UserFavouriteCompany(Resource):
         """
         request_params = dict(request.args)
         user_id = request_params["user_id"]
-        printColoured(" * Retrieving all favourite companies for a user", colour="yellow")
+        printColoured(
+            " * Retrieving all favourite companies for a user", colour="yellow")
         return get_favourite_company(user_id)
 
     def post(self):
@@ -252,12 +261,13 @@ class UserFavouriteCompany(Resource):
 
         # check duplicate
         companies = get_favourite_company(user_id)
-        if company_name in companies:  
-            raise InvalidUserInput(description="'{}' has already been favourited".format(company_name))
+        if company_name in companies:
+            raise InvalidUserInput(
+                description="'{}' has already been favourited".format(company_name))
 
-        printColoured(" * Saving company {} for a user". format(company_name), colour="yellow")
+        printColoured(
+            " * Saving company {} for a user". format(company_name), colour="yellow")
         return save_favourite_company(user_id, company_name)
-        
 
     def delete(self):
         """
@@ -265,19 +275,21 @@ class UserFavouriteCompany(Resource):
             Parameters:
                 - user_id
                 - company_name
-                - ...more?
         """
-        request_params = dict(request.args)
+        request_params = dict(request.get_json())
         user_id = request_params["user_id"]
         company_name = request_params["company_name"]
 
-        # check existence 
+        # check existence
         companies = get_favourite_company(user_id)
-        if company_name not in companies:  
-            raise InvalidUserInput(description="Company '{}' is not in your favourited companies list.".format(company_name))
+        if company_name not in companies:
+            raise InvalidUserInput(
+                description="Company '{}' is not in your favourited companies list.".format(company_name))
 
-        printColoured(" * Unsaving company {} for a user". format(company_name), colour="yellow")
+        printColoured(
+            " * Unsaving company {} for a user". format(company_name), colour="yellow")
         return delete_favourite_company(user_id, company_name)
+
 
 @user_api.route("/parse_resume")
 class UserResumeParser(Resource):
@@ -294,10 +306,10 @@ class UserResumeParser(Resource):
         user_id = request_params["user_id"]
 
         path_to_resume = "{}/{}.pdf".format(RESUME_DIR_PATH, user_id)
-        
+
         # If the file exists, proceed with resume parser API call
         if isfile(path_to_resume):
-            # BASE_URL = "https://seng2021-at3k.netlify.app"    # TODO: Shouldn't be hardcoded. 
+            # BASE_URL = "https://seng2021-at3k.netlify.app"    # TODO: Shouldn't be hardcoded.
             try:
                 # resume_url = "{}/api/user/resume?user_id={}".format(BASE_URL, user_id)
                 parsed_resume = parse_resume(path_to_resume)
@@ -306,7 +318,9 @@ class UserResumeParser(Resource):
             except Exception as err:
                 raise err
         else:
-            raise InvalidUserInput(description="You have not uploaded a resume to be parsed yet")
+            raise InvalidUserInput(
+                description="You have not uploaded a resume to be parsed yet")
+
 
 def parse_resume(resume_path: str) -> dict:
     """
@@ -318,10 +332,12 @@ def parse_resume(resume_path: str) -> dict:
 
 # Do we even need a delete route? It only has two states star/unstarred
 # the post can return 1/0 based on whether it starred/unstarred the user.
-# TODO: 
+# TODO:
 # - Discuss whether it is worth creating another collection to store tracking/star data to
 #   avoid having to large of a user json.
 # - Do I need counter for the array length or can you do list.length in the frontend JavaScript (for the user profile page)
+
+
 @user_api.route("/star")
 class UserStar(Resource):
     def post(self):

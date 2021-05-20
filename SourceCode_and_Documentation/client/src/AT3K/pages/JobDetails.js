@@ -46,11 +46,25 @@ const Header = ({
 }) => {
     const [boards, setBoards] = useState(null);
     const [selectedBoardID, setSelectedBoardID] = useState(null);
+    const [companySaved, setCompanySaved] = useState(false);
 
     const handleSelectBoard = (event) => {
         event.preventDefault();
         setSelectedBoardID(event.target.value);
     };
+
+    useEffect(() => {
+        // load initial state of this company
+        const userID = Cookie.get("user_id");
+        if (userID) {
+            axios
+                .get(`${api.BASE_URL}/api/user/company?user_id=${userID}`)
+                .then((res) => setCompanySaved(res.data.indexOf(company) > -1))
+                .catch((err) => Notification.spawnError(err));
+        } else {
+            Notification.spawnRegisterError();
+        }
+    }, [company]);
 
     // ===== GET /api/user/boards =====
     // If the user is logged in, fetch their boards
@@ -120,12 +134,12 @@ const Header = ({
 
     // ===== POST /api/user/company =====
 
-    const favouriteThisCompany = (companyName) => {
+    const handleFavouriteCompany = (companyName) => {
         console.log(companyName);
         const userID = Cookie.get("user_id");
         if (userID) {
             const postData = {
-                method: "post",
+                method: companySaved ? "delete" : "post",
                 url: `${api.BASE_URL}/api/user/company`,
                 data: {
                     user_id: userID,
@@ -136,7 +150,12 @@ const Header = ({
                 },
             };
             axios(postData)
-                .then((res) => Notification.spawnSuccess(`Saved '${res.data}'`))
+                .then((res) => {
+                    Notification.spawnSuccess(
+                        `${companySaved ? "Unsaved" : "Saved"} '${res.data}'`
+                    );
+                    setCompanySaved(!companySaved);
+                })
                 .catch((err) => Notification.spawnError(err));
         } else {
             Notification.spawnRegisterError();
@@ -215,9 +234,13 @@ const Header = ({
                             variant="contained"
                             color="primary"
                             size="small"
-                            onClick={() => favouriteThisCompany(company)}
+                            onClick={() => handleFavouriteCompany(company)}
                         >
-                            Favourite Company ❤️
+                            {companySaved ? (
+                                <div>Unfavourite Company 💔</div>
+                            ) : (
+                                <div>Favourite Company ❤️</div>
+                            )}
                         </Button>
                     </Grid>
                 </Grid>
