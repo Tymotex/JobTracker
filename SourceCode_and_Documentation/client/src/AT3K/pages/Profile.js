@@ -10,40 +10,37 @@ import {
     ListItemIcon,
     ListItemText,
     ListSubheader,
-    Paper,
     Tab,
     Tabs,
     Typography,
 } from "@material-ui/core";
-import MailOutlineIcon from "@material-ui/icons/MailOutline";
-import SchoolOutlinedIcon from "@material-ui/icons/SchoolOutlined";
-import WorkOutlineOutlinedIcon from "@material-ui/icons/WorkOutlineOutlined";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import AssignmentIndOutlinedIcon from "@material-ui/icons/AssignmentIndOutlined";
+import CommentIcon from "@material-ui/icons/Comment";
+import DescriptionIcon from "@material-ui/icons/Description";
+import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import PhoneIphoneOutlinedIcon from "@material-ui/icons/PhoneIphoneOutlined";
 import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import styled from "styled-components";
+import SchoolOutlinedIcon from "@material-ui/icons/SchoolOutlined";
+import WorkOutlineOutlinedIcon from "@material-ui/icons/WorkOutlineOutlined";
 import axios from "axios";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import FadeIn from "react-fade-in";
 import { Link, useParams } from "react-router-dom";
+import { Value } from "slate";
 import Layout from "../../components/Layout/Layout";
 import { Expandable } from "../components/expandable";
 import { ContentLoader } from "../components/loaders";
 import { Notification } from "../components/notification";
 import { CommentsList } from "../components/profile";
+import AttributeContent from "../components/profile/AttributeContent";
+import AttributeTitle from "../components/profile/AttributeTitle";
 import RichTextDisplay from "../components/richtext/RichTextDisplay";
 import ResumeRenderer from "../components/settings/ResumeRenderer";
 import api from "../constants/api";
 import pageStyles from "./Page.module.scss";
-import { Value } from "slate";
 import styles from "./Profile.module.scss";
-import { StayCurrentLandscapeSharp } from "@material-ui/icons";
-import AttributeContent from "../components/profile/AttributeContent";
-import AttributeTitle from "../components/profile/AttributeTitle";
-import CommentIcon from "@material-ui/icons/Comment";
-import DescriptionIcon from "@material-ui/icons/Description";
 
 const theme = createMuiTheme({
     typography: {
@@ -76,6 +73,19 @@ const Profile = () => {
     const [profile, setProfile] = useState({ resume_fields: {} });
     const [comments, setComments] = useState(null);
     const [tabValue, setTabValue] = useState(0);
+
+    const {
+        name,
+        mobile_number,
+        skills,
+        college_name: university,
+        degree: degrees,
+        designation,
+        experience,
+        company_names: companies,
+    } = profile.resume_fields;
+
+    const isLoading = false && profile === null;
 
     const handleChange = (event, newValue) => {
         setTabValue(newValue);
@@ -148,20 +158,7 @@ const Profile = () => {
         getUserProfile();
         const receiverUserID = profileUserID;
         fetchComments(receiverUserID);
-    }, [getUserProfile]);
-
-    const isLoading = false && profile === null;
-
-    const {
-        name,
-        mobile_number,
-        skills,
-        college_name: university,
-        degree: degrees,
-        designation,
-        experience,
-        company_names: companies,
-    } = profile.resume_fields;
+    }, [getUserProfile, profileUserID]);
 
     return (
         <Layout>
@@ -306,7 +303,7 @@ const Profile = () => {
                                                             }
                                                         />
                                                     </ListItem>
-                                                    {/* <Divider />
+                                                    <Divider />
                                                     <ListItem alignItems="flex-start">
                                                         <ListItemIcon>
                                                             <PlaylistAddCheckOutlinedIcon />
@@ -318,7 +315,7 @@ const Profile = () => {
                                                             // : profile.skills}
                                                             secondary="[Empty]"
                                                         />
-                                                    </ListItem> */}
+                                                    </ListItem>
                                                 </List>
                                             </div>
                                         </Grid>

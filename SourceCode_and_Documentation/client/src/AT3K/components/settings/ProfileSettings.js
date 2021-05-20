@@ -125,7 +125,7 @@ const ProfileSettings = () => {
                 </Box>
             </Paper>
             <Container style={{ marginTop: "20px" }}>
-                {/* <Button
+                <Button
                     variant="contained"
                     color="secondary"
                     onClick={openModal}
@@ -152,10 +152,10 @@ const ProfileSettings = () => {
                             <Button variant="contained">Confirm</Button>
                         </div>
                     </div>
-                </Modal> */}
-                {/* <Button variant="contained" style={{ marginLeft: "20px" }}>
+                </Modal>
+                <Button variant="contained" style={{ marginLeft: "20px" }}>
                     Save changes
-                </Button> */}
+                </Button>
             </Container>
         </Container>
     );

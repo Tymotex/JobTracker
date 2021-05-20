@@ -114,7 +114,7 @@ const outcomeOptions = [
 export default function Charts() {
     const [boards, setBoards] = useState(null);
     const [selectedBoardID, setSelectedBoardID] = useState(null);
-    const [activityType, setActivityType] = useState("all");
+    const [activityType, setActivityType] = useState("application");
     const [activityStats, setActivityStats] = useState(null);
     const [graphType, setGraphType] = useState("line");
 

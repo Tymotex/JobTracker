@@ -77,13 +77,13 @@ function ResumeDropZone({ setResume, setResumeBinaryFile }) {
                 <input {...getInputProps({ style })} />
                 {/* <p>Drag and drop some your resume here, or click to select.</p> */}
             </div>
-            {/* <div>
+            <div>
                 Click{" "}
                 <a href={`${api.BASE_URL}/api/user/resume?user_id=${userId}`}>
                     here
                 </a>{" "}
                 to view resume
-            </div> */}
+            </div>
         </div>
     );
 }

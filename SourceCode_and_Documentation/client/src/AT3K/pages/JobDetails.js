@@ -280,7 +280,7 @@ const JobDetails = () => {
                 Notification.spawnError(err);
                 setJobDescription(basicDescription);
             });
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [setJobDescription, basicDescription, url]);
 
     const isLoading = jobDescription === null;
 
