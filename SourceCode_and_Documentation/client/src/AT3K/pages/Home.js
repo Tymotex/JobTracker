@@ -18,7 +18,9 @@ const Home = withRouter(({ unknownPath, history }) => {
 
     return (
         <Layout>
-            <FadeIn>{!isLoggedIn ? <Newsfeed /> : <WelcomePage />}</FadeIn>
+            <FadeIn>
+                <WelcomePage />
+            </FadeIn>
         </Layout>
     );
 });
