@@ -1,68 +1,68 @@
-import { Grid } from "@material-ui/core";
-import { useTheme } from "@material-ui/styles";
-import React, { useState, useEffect } from "react";
-import { ResponsiveContainer } from "recharts";
+import { Grid } from '@material-ui/core';
+import { useTheme } from '@material-ui/styles';
+import React, { useState, useEffect } from 'react';
+import { ResponsiveContainer } from 'recharts';
 import {
     StatsHeatMap,
     StatsLineChartFilled,
     StatsPieChartOutcomes,
     StatsPieChartStatuses,
-} from "../components/statistics";
-import Layout from "../../components/Layout/Layout";
-import Widget from "../../components/Widget/Widget";
-import { DropdownHierarchical, Dropdown } from "../components/dropdowns";
-import pageStyles from "./Page.module.scss";
-import BoardSelectionDropdown from "../components/job-lists/BoardSelectionDropdown";
-import api from "../constants/api";
-import axios from "axios";
-import Cookie from "js-cookie";
-import { Notification } from "../components/notification";
-import FadeIn from "react-fade-in";
+} from '../components/statistics';
+import Layout from '../../components/Layout/Layout';
+import Widget from '../../components/Widget/Widget';
+import { DropdownHierarchical, Dropdown } from '../components/dropdowns';
+import pageStyles from './Page.module.scss';
+import BoardSelectionDropdown from '../components/job-lists/BoardSelectionDropdown';
+import api from '../constants/api';
+import axios from 'axios';
+import Cookie from 'js-cookie';
+import { Notification } from '../components/notification';
+import FadeIn from 'react-fade-in';
 
 // Dropdown options for status types
 const statusDropdownItems = [
     {
-        text: "All activities",
-        value: "all",
+        text: 'All activities',
+        value: 'all',
     },
     {
-        text: "Tracked",
-        value: "application",
+        text: 'Tracked',
+        value: 'application',
     },
     {
-        text: "Resume Sent",
-        value: "resume",
+        text: 'Resume Sent',
+        value: 'resume',
     },
     {
-        text: "Interview Stage",
-        value: "interview",
+        text: 'Interview Stage',
+        value: 'interview',
     },
     {
-        text: "Finalised",
-        value: "final",
+        text: 'Finalised',
+        value: 'final',
     },
 ];
 
 // Time range dropdown items
 const timeRangeOptions = [
     {
-        label: "Intervals",
+        label: 'Intervals',
         options: [
             {
-                name: "Last 3 days",
-                value: "last 3 days",
+                name: 'Last 3 days',
+                value: 'last 3 days',
             },
             {
-                name: "Last 7 days",
-                value: "last 7 days",
+                name: 'Last 7 days',
+                value: 'last 7 days',
             },
             {
-                name: "Last 30 days",
-                value: "last 30 days",
+                name: 'Last 30 days',
+                value: 'last 30 days',
             },
             {
-                name: "Last 60 days",
-                value: "last 60 days",
+                name: 'Last 60 days',
+                value: 'last 60 days',
             },
         ],
     },
@@ -71,41 +71,41 @@ const timeRangeOptions = [
 // Graph type dropdown items
 const graphTypes = [
     {
-        text: "Line Chart",
-        value: "line",
+        text: 'Line Chart',
+        value: 'line',
     },
     {
-        text: "Heatmap",
-        value: "heatmap",
+        text: 'Heatmap',
+        value: 'heatmap',
     },
 ];
 
 // 'Visualising your outcomes' items
 const outcomeOptions = [
     {
-        label: "Resume",
+        label: 'Resume',
         options: [
             {
-                name: "Resume Hits vs. Misses",
-                value: "resume",
+                name: 'Resume Hits vs. Misses',
+                value: 'resume',
             },
         ],
     },
     {
-        label: "Interview",
+        label: 'Interview',
         options: [
             {
-                name: "Interview: Success vs. Failure",
-                value: "interview",
+                name: 'Interview: Success vs. Failure',
+                value: 'interview',
             },
         ],
     },
     {
-        label: "Final",
+        label: 'Final',
         options: [
             {
-                name: "Final: Offer vs. No Offer",
-                value: "final",
+                name: 'Final: Offer vs. No Offer',
+                value: 'final',
             },
         ],
     },
@@ -114,14 +114,12 @@ const outcomeOptions = [
 export default function Charts() {
     const [boards, setBoards] = useState(null);
     const [selectedBoardID, setSelectedBoardID] = useState(null);
-    const [activityType, setActivityType] = useState("application");
+    const [activityType, setActivityType] = useState('application');
     const [activityStats, setActivityStats] = useState(null);
-    const [graphType, setGraphType] = useState("line");
+    const [graphType, setGraphType] = useState('line');
 
     const currentTimestamp = parseInt(new Date().getTime() / 1000);
-    const [startTimePeriod, setStartTimePeriod] = useState(
-        currentTimestamp - 7 * 24 * 60 * 60
-    );
+    const [startTimePeriod, setStartTimePeriod] = useState(currentTimestamp - 7 * 24 * 60 * 60);
 
     const handleSelectBoard = (event) => {
         event.preventDefault();
@@ -142,16 +140,16 @@ export default function Charts() {
         event.preventDefault();
         const currentTimestamp = parseInt(new Date().getTime() / 1000);
         switch (event.target.value) {
-            case "last 3 days":
+            case 'last 3 days':
                 setStartTimePeriod(currentTimestamp - 3 * 24 * 60 * 60);
                 break;
-            case "last 7 days":
+            case 'last 7 days':
                 setStartTimePeriod(currentTimestamp - 7 * 24 * 60 * 60);
                 break;
-            case "last 30 days":
+            case 'last 30 days':
                 setStartTimePeriod(currentTimestamp - 30 * 24 * 60 * 60);
                 break;
-            case "last 60 days":
+            case 'last 60 days':
                 setStartTimePeriod(currentTimestamp - 60 * 24 * 60 * 60);
                 break;
             default:
@@ -167,7 +165,7 @@ export default function Charts() {
     // Note that their statistics are stored in each board under the "statistics" field
 
     const fetchUserBoards = () => {
-        const userID = Cookie.get("user_id");
+        const userID = Cookie.get('user_id');
         if (userID) {
             axios
                 .get(`${api.BASE_URL}/api/user/boards?user_id=${userID}`)
@@ -191,7 +189,7 @@ export default function Charts() {
     // Getting the data to be rendered for the activity line graph and activity heatmap
     useEffect(() => {
         // Current timestamp in seconds and last week's timestamp
-        const userID = Cookie.get("user_id");
+        const userID = Cookie.get('user_id');
         if (userID) {
             if (selectedBoardID && startTimePeriod) {
                 const currentTimestamp = parseInt(new Date().getTime() / 1000);
@@ -210,7 +208,7 @@ export default function Charts() {
     }, [selectedBoardID, startTimePeriod]);
 
     return (
-        <Layout>
+        <Layout htmlTitle="Statistics">
             <FadeIn>
                 <div className={pageStyles.container}>
                     <h1>Your Statistics</h1>
@@ -219,7 +217,7 @@ export default function Charts() {
                             <DropdownHierarchical
                                 onChange={handleSelectTimePeriod}
                                 options={timeRangeOptions}
-                                value={"last 7 days"}
+                                value={'last 7 days'}
                             />
                         </Grid>
                         <Grid item xs={4}>
@@ -248,16 +246,9 @@ export default function Charts() {
                     </Grid>
                     <Grid container spacing={4}>
                         <Grid item xs={12} md={12}>
-                            <Widget
-                                title="Your activity the past week"
-                                upperTitle
-                                noBodyPadding
-                            >
-                                {graphType === "line" && (
-                                    <ResponsiveContainer
-                                        width="100%"
-                                        height={400}
-                                    >
+                            <Widget title="Your activity the past week" upperTitle noBodyPadding>
+                                {graphType === 'line' && (
+                                    <ResponsiveContainer width="100%" height={400}>
                                         <StatsLineChartFilled
                                             startTimePeriod={startTimePeriod}
                                             theme={theme}
@@ -266,11 +257,8 @@ export default function Charts() {
                                         />
                                     </ResponsiveContainer>
                                 )}
-                                {graphType === "heatmap" && (
-                                    <ResponsiveContainer
-                                        width="100%"
-                                        height={400}
-                                    >
+                                {graphType === 'heatmap' && (
+                                    <ResponsiveContainer width="100%" height={400}>
                                         <StatsHeatMap
                                             theme={theme}
                                             boards={boards}
@@ -284,15 +272,8 @@ export default function Charts() {
                         </Grid>
                         <Grid item container>
                             <Grid item xs={6} md={6}>
-                                <Widget
-                                    title="Visualising where you are"
-                                    noBodyPadding
-                                    upperTitle
-                                >
-                                    <ResponsiveContainer
-                                        width="100%"
-                                        height={300}
-                                    >
+                                <Widget title="Visualising where you are" noBodyPadding upperTitle>
+                                    <ResponsiveContainer width="100%" height={300}>
                                         <StatsPieChartStatuses
                                             theme={theme}
                                             boards={boards}
@@ -307,19 +288,14 @@ export default function Charts() {
                                     noBodyPadding
                                     upperTitle
                                 >
-                                    <ResponsiveContainer
-                                        width="100%"
-                                        height={300}
-                                    >
+                                    <ResponsiveContainer width="100%" height={300}>
                                         <StatsPieChartOutcomes
                                             theme={theme}
                                             boards={boards}
                                             selectedBoardID={selectedBoardID}
                                         />
                                     </ResponsiveContainer>
-                                    <DropdownHierarchical
-                                        options={outcomeOptions}
-                                    />
+                                    <DropdownHierarchical options={outcomeOptions} />
                                 </Widget>
                             </Grid>
                         </Grid>

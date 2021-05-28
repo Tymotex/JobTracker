@@ -13,34 +13,34 @@ import {
     Tab,
     Tabs,
     Typography,
-} from "@material-ui/core";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import AssignmentIndOutlinedIcon from "@material-ui/icons/AssignmentIndOutlined";
-import CommentIcon from "@material-ui/icons/Comment";
-import DescriptionIcon from "@material-ui/icons/Description";
-import MailOutlineIcon from "@material-ui/icons/MailOutline";
-import PhoneIphoneOutlinedIcon from "@material-ui/icons/PhoneIphoneOutlined";
-import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
-import SchoolOutlinedIcon from "@material-ui/icons/SchoolOutlined";
-import WorkOutlineOutlinedIcon from "@material-ui/icons/WorkOutlineOutlined";
-import axios from "axios";
-import Cookie from "js-cookie";
-import React, { useCallback, useEffect, useState } from "react";
-import FadeIn from "react-fade-in";
-import { Link, useParams } from "react-router-dom";
-import { Value } from "slate";
-import Layout from "../../components/Layout/Layout";
-import { Expandable } from "../components/expandable";
-import { ContentLoader } from "../components/loaders";
-import { Notification } from "../components/notification";
-import { CommentsList } from "../components/profile";
-import AttributeContent from "../components/profile/AttributeContent";
-import AttributeTitle from "../components/profile/AttributeTitle";
-import RichTextDisplay from "../components/richtext/RichTextDisplay";
-import ResumeRenderer from "../components/settings/ResumeRenderer";
-import api from "../constants/api";
-import pageStyles from "./Page.module.scss";
-import styles from "./Profile.module.scss";
+} from '@material-ui/core';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined';
+import CommentIcon from '@material-ui/icons/Comment';
+import DescriptionIcon from '@material-ui/icons/Description';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import PhoneIphoneOutlinedIcon from '@material-ui/icons/PhoneIphoneOutlined';
+import PlaylistAddCheckOutlinedIcon from '@material-ui/icons/PlaylistAddCheckOutlined';
+import SchoolOutlinedIcon from '@material-ui/icons/SchoolOutlined';
+import WorkOutlineOutlinedIcon from '@material-ui/icons/WorkOutlineOutlined';
+import axios from 'axios';
+import Cookie from 'js-cookie';
+import React, { useCallback, useEffect, useState } from 'react';
+import FadeIn from 'react-fade-in';
+import { Link, useParams } from 'react-router-dom';
+import { Value } from 'slate';
+import Layout from '../../components/Layout/Layout';
+import { Expandable } from '../components/expandable';
+import { ContentLoader } from '../components/loaders';
+import { Notification } from '../components/notification';
+import { CommentsList } from '../components/profile';
+import AttributeContent from '../components/profile/AttributeContent';
+import AttributeTitle from '../components/profile/AttributeTitle';
+import RichTextDisplay from '../components/richtext/RichTextDisplay';
+import ResumeRenderer from '../components/settings/ResumeRenderer';
+import api from '../constants/api';
+import pageStyles from './Page.module.scss';
+import styles from './Profile.module.scss';
 
 const theme = createMuiTheme({
     typography: {
@@ -55,12 +55,12 @@ const sampleInitialValue = Value.fromJSON({
     document: {
         nodes: [
             {
-                object: "block",
-                type: "paragraph",
+                object: 'block',
+                type: 'paragraph',
                 nodes: [
                     {
-                        object: "text",
-                        leaves: [{ text: "Start typing here!" }],
+                        object: 'text',
+                        leaves: [{ text: 'Start typing here!' }],
                     },
                 ],
             },
@@ -93,15 +93,12 @@ const Profile = () => {
 
     // ==== GET /api/user/profile =====
     const getUserProfile = useCallback(() => {
-        const userID = Cookie.get("user_id");
+        const userID = Cookie.get('user_id');
         if (userID) {
-            if (!profileUserID)
-                Notification.spawnInvalid("No user ID specified");
+            if (!profileUserID) Notification.spawnInvalid('No user ID specified');
             else {
                 axios
-                    .get(
-                        `${api.BASE_URL}/api/user/profile?user_id=${profileUserID}`
-                    )
+                    .get(`${api.BASE_URL}/api/user/profile?user_id=${profileUserID}`)
                     .then((res) => {
                         setProfile(res.data);
                     })
@@ -116,7 +113,7 @@ const Profile = () => {
 
     // ===== GET /api/comment/ =====
     const fetchComments = (receiverUserID) => {
-        const userID = Cookie.get("user_id");
+        const userID = Cookie.get('user_id');
         if (userID) {
             axios
                 .get(`${api.BASE_URL}/api/comment?user_id=${receiverUserID}`)
@@ -130,10 +127,10 @@ const Profile = () => {
     // ==== POST /api/comment/ =====
     const postComment = (comment) => {
         const receiverUserID = profileUserID;
-        const userID = Cookie.get("user_id");
+        const userID = Cookie.get('user_id');
         if (userID) {
             const postData = {
-                method: "post",
+                method: 'post',
                 url: `${api.BASE_URL}/api/comment/`,
                 data: {
                     sender_user_id: userID,
@@ -141,12 +138,12 @@ const Profile = () => {
                     comment: comment,
                 },
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
             };
             axios(postData)
                 .then((res) => {
-                    Notification.spawnSuccess("Your comment has been posted!");
+                    Notification.spawnSuccess('Your comment has been posted!');
                     // FIXME: Inefficient solution: refetch comments. Ideally we should have web sockets for this
                     fetchComments(profileUserID);
                 })
@@ -161,7 +158,7 @@ const Profile = () => {
     }, [getUserProfile, profileUserID]);
 
     return (
-        <Layout>
+        <Layout htmlTitle={`Profile ${profile && ' - ' + profile.username}`}>
             <div className={pageStyles.container}>
                 {isLoading ? (
                     <ContentLoader />
@@ -215,20 +212,12 @@ const Profile = () => {
                                             Edit Your Profile
                                         </Button>
                                     </div>
-                                    <Grid
-                                        container
-                                        spacing={3}
-                                        style={{ paddingTop: "60px" }}
-                                    >
+                                    <Grid container spacing={3} style={{ paddingTop: '60px' }}>
                                         <Grid item xs={4} spacing={2}>
                                             <div className={styles.about}>
                                                 <List
                                                     component="nav"
-                                                    subheader={
-                                                        <ListSubheader>
-                                                            About
-                                                        </ListSubheader>
-                                                    }
+                                                    subheader={<ListSubheader>About</ListSubheader>}
                                                 >
                                                     <Divider />
                                                     <ListItem alignItems="flex-start">
@@ -237,9 +226,7 @@ const Profile = () => {
                                                         </ListItemIcon>
                                                         <ListItemText
                                                             primary="Email"
-                                                            secondary={
-                                                                profile.email
-                                                            }
+                                                            secondary={profile.email}
                                                         />
                                                     </ListItem>
                                                     <Divider />
@@ -252,7 +239,7 @@ const Profile = () => {
                                                             secondary={
                                                                 profile.education
                                                                     ? profile.education
-                                                                    : "[Empty]"
+                                                                    : '[Empty]'
                                                             }
                                                         />
                                                     </ListItem>
@@ -264,9 +251,8 @@ const Profile = () => {
                                                         <ListItemText
                                                             primary="Experience"
                                                             secondary={
-                                                                profile.experience ===
-                                                                ""
-                                                                    ? "[Empty]"
+                                                                profile.experience === ''
+                                                                    ? '[Empty]'
                                                                     : profile.experience
                                                             }
                                                         />
@@ -279,11 +265,9 @@ const Profile = () => {
                                                         <ListItemText
                                                             primary="Name"
                                                             secondary={
-                                                                profile.name ===
-                                                                    undefined ||
-                                                                profile.name ===
-                                                                    ""
-                                                                    ? "[Empty]"
+                                                                profile.name === undefined ||
+                                                                profile.name === ''
+                                                                    ? '[Empty]'
                                                                     : profile.name
                                                             }
                                                         />
@@ -296,9 +280,8 @@ const Profile = () => {
                                                         <ListItemText
                                                             primary="Phone"
                                                             secondary={
-                                                                profile.phone ===
-                                                                ""
-                                                                    ? "[Empty]"
+                                                                profile.phone === ''
+                                                                    ? '[Empty]'
                                                                     : profile.phone
                                                             }
                                                         />
@@ -320,11 +303,7 @@ const Profile = () => {
                                             </div>
                                         </Grid>
                                         <Grid item xs={8} spacing={2}>
-                                            <AppBar
-                                                position="static"
-                                                color="default"
-                                                elevation={0}
-                                            >
+                                            <AppBar position="static" color="default" elevation={0}>
                                                 <Tabs
                                                     value={tabValue}
                                                     onChange={handleChange}
@@ -336,22 +315,15 @@ const Profile = () => {
                                                 >
                                                     <Tab
                                                         label="Resume"
-                                                        icon={
-                                                            <DescriptionIcon />
-                                                        }
+                                                        icon={<DescriptionIcon />}
                                                     />
-                                                    <Tab
-                                                        label="Comments"
-                                                        icon={<CommentIcon />}
-                                                    />
+                                                    <Tab label="Comments" icon={<CommentIcon />} />
                                                 </Tabs>
                                             </AppBar>
                                             <div className={styles.resume}>
                                                 {tabValue === 0 && (
                                                     <>
-                                                        <AttributeTitle>
-                                                            View PDF
-                                                        </AttributeTitle>
+                                                        <AttributeTitle>View PDF</AttributeTitle>
                                                         <Expandable
                                                             text={`${profile.username}'s Resume`}
                                                         >
@@ -360,15 +332,10 @@ const Profile = () => {
                                                                     file={`${
                                                                         api.BASE_URL
                                                                     }/api/user/resume?user_id=${profileUserID}&dummy=${parseInt(
-                                                                        Math.random() *
-                                                                            1000000
+                                                                        Math.random() * 1000000
                                                                     )}`} // Note: the dummy arg is used to work around caching https://stackoverflow.com/questions/728616/disable-cache-for-some-images
-                                                                    showUploadButton={
-                                                                        false
-                                                                    }
-                                                                    showPages={
-                                                                        false
-                                                                    }
+                                                                    showUploadButton={false}
+                                                                    showPages={false}
                                                                 />
                                                             </Container>
                                                         </Expandable>
@@ -378,17 +345,15 @@ const Profile = () => {
                                                                     Name
                                                                 </AttributeTitle>
                                                                 <AttributeContent>
-                                                                    {name ??
-                                                                        "[Not Available]"}
+                                                                    {name ?? '[Not Available]'}
                                                                 </AttributeContent>
 
                                                                 <AttributeTitle>
-                                                                    Mobile
-                                                                    Number
+                                                                    Mobile Number
                                                                 </AttributeTitle>
                                                                 <AttributeContent>
                                                                     {mobile_number ??
-                                                                        "[Not Available]"}
+                                                                        '[Not Available]'}
                                                                 </AttributeContent>
 
                                                                 <AttributeTitle>
@@ -397,29 +362,19 @@ const Profile = () => {
                                                                 <AttributeContent>
                                                                     {skills ? (
                                                                         <ul>
-                                                                            {skills.map(
-                                                                                (
-                                                                                    skill
-                                                                                ) => (
-                                                                                    <li>
-                                                                                        {
-                                                                                            skill
-                                                                                        }
-                                                                                    </li>
-                                                                                )
-                                                                            )}
+                                                                            {skills.map((skill) => (
+                                                                                <li>{skill}</li>
+                                                                            ))}
                                                                         </ul>
                                                                     ) : (
-                                                                        "[Not Available]"
+                                                                        '[Not Available]'
                                                                     )}
                                                                 </AttributeContent>
 
-                                                                <AttributeTitle>
-                                                                    Uni
-                                                                </AttributeTitle>
+                                                                <AttributeTitle>Uni</AttributeTitle>
                                                                 <AttributeContent>
                                                                     {university ??
-                                                                        "[Not Available]"}
+                                                                        '[Not Available]'}
                                                                 </AttributeContent>
 
                                                                 <AttributeTitle>
@@ -429,19 +384,15 @@ const Profile = () => {
                                                                     {degrees ? (
                                                                         <ul>
                                                                             {degrees.map(
-                                                                                (
-                                                                                    degree
-                                                                                ) => (
+                                                                                (degree) => (
                                                                                     <li>
-                                                                                        {
-                                                                                            degree
-                                                                                        }
+                                                                                        {degree}
                                                                                     </li>
                                                                                 )
                                                                             )}
                                                                         </ul>
                                                                     ) : (
-                                                                        "[Not Available]"
+                                                                        '[Not Available]'
                                                                     )}
                                                                 </AttributeContent>
 
@@ -452,19 +403,13 @@ const Profile = () => {
                                                                     {designation ? (
                                                                         <ul>
                                                                             {designation.map(
-                                                                                (
-                                                                                    title
-                                                                                ) => (
-                                                                                    <li>
-                                                                                        {
-                                                                                            title
-                                                                                        }
-                                                                                    </li>
+                                                                                (title) => (
+                                                                                    <li>{title}</li>
                                                                                 )
                                                                             )}
                                                                         </ul>
                                                                     ) : (
-                                                                        "[Not Available]"
+                                                                        '[Not Available]'
                                                                     )}
                                                                 </AttributeContent>
 
@@ -475,43 +420,30 @@ const Profile = () => {
                                                                     {experience ? (
                                                                         <ul>
                                                                             {experience.map(
-                                                                                (
-                                                                                    exp
-                                                                                ) => (
-                                                                                    <li>
-                                                                                        {
-                                                                                            exp
-                                                                                        }
-                                                                                    </li>
+                                                                                (exp) => (
+                                                                                    <li>{exp}</li>
                                                                                 )
                                                                             )}
                                                                         </ul>
                                                                     ) : (
-                                                                        "[Not Available]"
+                                                                        '[Not Available]'
                                                                     )}
                                                                 </AttributeContent>
 
                                                                 <AttributeTitle>
-                                                                    Company
-                                                                    Names
+                                                                    Company Names
                                                                 </AttributeTitle>
                                                                 <AttributeContent>
                                                                     {companies ? (
                                                                         <ul>
                                                                             {companies.map(
-                                                                                (
-                                                                                    comp
-                                                                                ) => (
-                                                                                    <li>
-                                                                                        {
-                                                                                            comp
-                                                                                        }
-                                                                                    </li>
+                                                                                (comp) => (
+                                                                                    <li>{comp}</li>
                                                                                 )
                                                                             )}
                                                                         </ul>
                                                                     ) : (
-                                                                        "[Not Available]"
+                                                                        '[Not Available]'
                                                                     )}
                                                                 </AttributeContent>
                                                             </>
@@ -520,64 +452,31 @@ const Profile = () => {
                                                 )}
                                                 {tabValue === 1 && (
                                                     <>
-                                                        <CommentsList
-                                                            comments={comments}
-                                                        />
+                                                        <CommentsList comments={comments} />
                                                         <div>
                                                             <AttributeTitle>
-                                                                Leave a Comment
-                                                                For{" "}
-                                                                {
-                                                                    profile.username
-                                                                }
+                                                                Leave a Comment For{' '}
+                                                                {profile.username}
                                                             </AttributeTitle>
                                                             <AttributeContent>
                                                                 <p>
-                                                                    Give some
-                                                                    constructive
-                                                                    criticism
-                                                                    about this
-                                                                    person's
-                                                                    resume,
-                                                                    career
-                                                                    goals, skill
-                                                                    development,
-                                                                    job profile,
-                                                                    etc.
+                                                                    Give some constructive criticism
+                                                                    about this person's resume,
+                                                                    career goals, skill development,
+                                                                    job profile, etc.
                                                                 </p>
                                                                 <p>
-                                                                    If your
-                                                                    comment is
-                                                                    seen as
-                                                                    helpful by
-                                                                    the{" "}
-                                                                    {
-                                                                        profile.username
-                                                                    }{" "}
-                                                                    and other
-                                                                    members of
-                                                                    the
-                                                                    community,
-                                                                    you will
-                                                                    acquire
-                                                                    reputation
-                                                                    points and
-                                                                    gain access
-                                                                    to certain
-                                                                    privileges.
-                                                                    If your
-                                                                    comment is
-                                                                    unhelpful,
-                                                                    abusive or
-                                                                    negative,
-                                                                    you will
-                                                                    lose
-                                                                    reputation
-                                                                    points and
-                                                                    eventually
-                                                                    your account
-                                                                    will be
-                                                                    suspended.
+                                                                    If your comment is seen as
+                                                                    helpful by the{' '}
+                                                                    {profile.username} and other
+                                                                    members of the community, you
+                                                                    will acquire reputation points
+                                                                    and gain access to certain
+                                                                    privileges. If your comment is
+                                                                    unhelpful, abusive or negative,
+                                                                    you will lose reputation points
+                                                                    and eventually your account will
+                                                                    be suspended.
                                                                 </p>
                                                                 <p>
                                                                     {/* Currently supported commands:
@@ -591,13 +490,9 @@ const Profile = () => {
                                                             </AttributeContent>
                                                             <RichTextDisplay
                                                                 readOnly={false}
-                                                                value={
-                                                                    sampleInitialValue
-                                                                }
+                                                                value={sampleInitialValue}
                                                                 buttonText="Post Comment"
-                                                                onSubmit={
-                                                                    postComment
-                                                                }
+                                                                onSubmit={postComment}
                                                             />
                                                         </div>
                                                     </>

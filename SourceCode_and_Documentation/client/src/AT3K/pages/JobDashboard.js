@@ -1,16 +1,16 @@
-import Cookies from "js-cookie";
-import React, { useState, useCallback } from "react";
-import Layout from "../../components/Layout/Layout";
-import JobDashboardIndex from "./JobDashboardIndex";
-import JobDashboardWorkspace from "./JobDashboardWorkspace";
-import axios from "axios";
-import api from "../constants/api";
-import { useEffect } from "react";
-import { Notification } from "../components/notification";
-import pageStyles from "./Page.module.scss";
+import Cookies from 'js-cookie';
+import React, { useState, useCallback } from 'react';
+import Layout from '../../components/Layout/Layout';
+import JobDashboardIndex from './JobDashboardIndex';
+import JobDashboardWorkspace from './JobDashboardWorkspace';
+import axios from 'axios';
+import api from '../constants/api';
+import { useEffect } from 'react';
+import { Notification } from '../components/notification';
+import pageStyles from './Page.module.scss';
 
 const JobDashboard = () => {
-    const [boardType, setBoardType] = useState("spreadsheet".toLowerCase());
+    const [boardType, setBoardType] = useState('spreadsheet'.toLowerCase());
     const [selectedBoard, setBoard] = useState(null);
     const [boards, setBoards] = useState(null);
     const [boardSortStrategy, setBoardSortStrategy] = useState(null);
@@ -33,15 +33,13 @@ const JobDashboard = () => {
     };
 
     // ===== GET /api/user/boards =====
-    const userID = Cookies.get("user_id");
+    const userID = Cookies.get('user_id');
     const fetchBoards = useCallback(() => {
         // Fetches the currently logged in user's boards
         if (userID) {
-            axios
-                .get(`${api.BASE_URL}/api/user/boards?user_id=${userID}`)
-                .then((response) => {
-                    setBoards(response.data);
-                });
+            axios.get(`${api.BASE_URL}/api/user/boards?user_id=${userID}`).then((response) => {
+                setBoards(response.data);
+            });
         } else {
             Notification.spawnRegisterError();
         }
@@ -54,16 +52,14 @@ const JobDashboard = () => {
             // Fetches the currently logged in user's companies
             if (userID) {
                 const tempCompanies = [];
-                const res = await axios.get(
-                    `${api.BASE_URL}/api/user/company?user_id=${userID}`
-                );
+                const res = await axios.get(`${api.BASE_URL}/api/user/company?user_id=${userID}`);
                 // clear the favourite company array
                 tempCompanies.splice(0, tempCompanies.length);
                 res.data.forEach((company) => {
                     tempCompanies.push({
                         name: company,
-                        link: "/search/company",
-                        description: "",
+                        link: '/search/company',
+                        description: '',
                     });
                 });
                 setCompanies(tempCompanies);
@@ -78,9 +74,8 @@ const JobDashboard = () => {
                         const finalCompanies = res.map((company) => {
                             return {
                                 name: company.data.company_info.company_name,
-                                link: "/search/company",
-                                description:
-                                    company.data.company_info.company_details,
+                                link: '/search/company',
+                                description: company.data.company_info.company_details,
                             };
                         });
                         setCompanies(finalCompanies);
@@ -95,7 +90,7 @@ const JobDashboard = () => {
     }, [userID, setCompanies, fetchBoards]);
 
     return (
-        <Layout>
+        <Layout htmlTitle="Job Dashboard">
             <div className={pageStyles.container}>
                 {selectedBoard === null ? (
                     <JobDashboardIndex

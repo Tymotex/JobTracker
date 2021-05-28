@@ -1,5 +1,4 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
 
 const Newsfeed = (props) => {
     return (
@@ -8,7 +7,5 @@ const Newsfeed = (props) => {
         </div>
     );
 };
-
-Newsfeed.propTypes = {};
 
 export default Newsfeed;
