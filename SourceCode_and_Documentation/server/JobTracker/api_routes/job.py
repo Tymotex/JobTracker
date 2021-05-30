@@ -44,7 +44,7 @@ class JobPostDetail(Resource):
 
 @lru_cache(maxsize=100)
 def get_content(url):
-    web_page = requests.get(url)
+    web_page = requests.get(url, allow_redirects=True)
     soup = BeautifulSoup(web_page.content, "html.parser")
     content = str(soup.section)
     try:

@@ -31,7 +31,7 @@ users_api = Api(
     default_label="Users",
 )
 
-@users_api.route('/')
+@users_api.route('')
 class Users(Resource):
     def get(self):
         """
