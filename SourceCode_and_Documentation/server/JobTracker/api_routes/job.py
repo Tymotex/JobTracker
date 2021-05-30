@@ -7,7 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 from flask import Blueprint, jsonify, render_template, request
 from flask_restx import Api, Resource, fields
-from JobTracker.exceptions import InvalidUserInput
+from JobTracker.exceptions import InvalidUserInput, ServerException
 from JobTracker.utils.colourisation import printColoured
 from html_sanitizer import Sanitizer
 
@@ -44,7 +44,10 @@ class JobPostDetail(Resource):
 
 @lru_cache(maxsize=100)
 def get_content(url):
-    web_page = requests.get(url, allow_redirects=True)
+    try:
+        web_page = requests.get(url, allow_redirects=True, timeout=5)
+    except requests.exceptions.Timeout as err:
+        raise ServerException(description="Failed to fetch web page in time! Skipping preprocessing")
     soup = BeautifulSoup(web_page.content, "html.parser")
     content = str(soup.section)
     try:

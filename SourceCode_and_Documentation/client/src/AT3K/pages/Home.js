@@ -3,7 +3,7 @@ import React from 'react';
 import FadeIn from 'react-fade-in';
 import { withRouter } from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
-import Newsfeed from './Newsfeed';
+// import Newsfeed from './Newsfeed';
 import WelcomePage from './WelcomePage';
 
 const Home = withRouter(() => {
@@ -13,11 +13,12 @@ const Home = withRouter(() => {
         Cookie.set('token', queryStrParams.get('token'));
         window.location.replace('/');
     }
-    const isLoggedIn = Cookie.get('user_id');
+    // const isLoggedIn = Cookie.get('user_id');
 
     return (
         <Layout htmlTitle="Home">
-            <FadeIn>{isLoggedIn ? <Newsfeed /> : <WelcomePage />}</FadeIn>
+            {/* <FadeIn>{isLoggedIn ? <Newsfeed /> : <WelcomePage />}</FadeIn> */}
+            <FadeIn><WelcomePage /></FadeIn>
         </Layout>
     );
 });

@@ -266,6 +266,7 @@ const Header = ({ title, company, locations, url, description, salary, date }) =
 
 const JobDetails = () => {
     const [jobDescription, setJobDescription] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     const search = useLocation().search;
     const params = new URLSearchParams(search);
     const title = params.get('title');
@@ -279,14 +280,16 @@ const JobDetails = () => {
     useEffect(() => {
         axios
             .get(`${api.BASE_URL}/api/job?url=${url}`)
-            .then((response) => setJobDescription(response.data))
+            .then((response) => {
+                setJobDescription(response.data)
+                setIsLoading(false);
+            })
             .catch((err) => {
                 Notification.spawnError(err);
                 setJobDescription(basicDescription);
+                setIsLoading(false);
             });
     }, [setJobDescription, basicDescription, url]);
-
-    const isLoading = jobDescription === null;
 
     return (
         <Layout htmlTitle={title}>
