@@ -10,17 +10,16 @@ import {
     Work as WorkIcon,
 } from '@material-ui/icons';
 import FaceIcon from '@material-ui/icons/Face';
+import PeopleIcon from '@material-ui/icons/People';
 import axios from 'axios';
 import Cookie from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { LoadingSpinner } from '../components/loaders';
-
 // Top nav components:
 import { LoginModal, RegisterModal } from '../components/modals';
 import { Notification } from '../components/notification';
 import api from '../constants/api';
-import PeopleIcon from '@material-ui/icons/People';
 
 const userID = Cookie.get('user_id');
 
@@ -101,35 +100,34 @@ if (userID) {
 const AvatarDropdown = withRouter(({ history }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [profile, setProfile] = useState(null);
-
-    const getUserProfile = () => {
-        const userID = Cookie.get('user_id');
-        if (userID) {
-            axios
-                .get(`${api.BASE_URL}/api/user/profile?user_id=${userID}`)
-                .then((res) => {
-                    setProfile(res.data);
-                })
-                .catch((err) => {
-                    // FIXME: Tempfix: when the saved user_id is invalid, force log out
-                    Cookie.remove('user_id');
-                    Cookie.remove('token');
-
-                    Notification.spawnError(err);
-
-                    // Redirect after 1 second to allow time for the user to see the notification
-                    setTimeout(() => {
-                        history.push('/');
-                    }, 1000);
-                });
-        } else {
-            Notification.spawnRegisterError();
-        }
-    };
+    const userID = Cookie.get('user_id');
 
     useEffect(() => {
+        const getUserProfile = () => {
+            if (userID) {
+                axios
+                    .get(`${api.BASE_URL}/api/user/profile?user_id=${userID}`)
+                    .then((res) => {
+                        setProfile(res.data);
+                    })
+                    .catch((err) => {
+                        // FIXME: Tempfix: when the saved user_id is invalid, force log out
+                        Cookie.remove('user_id');
+                        Cookie.remove('token');
+
+                        Notification.spawnError(err);
+
+                        // Redirect after 1 second to allow time for the user to see the notification
+                        setTimeout(() => {
+                            history.push('/');
+                        }, 1000);
+                    });
+            } else {
+                Notification.spawnRegisterError();
+            }
+        };
         getUserProfile();
-    }, []);
+    }, [userID, history]);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -144,8 +142,6 @@ const AvatarDropdown = withRouter(({ history }) => {
         Cookie.remove('token');
         window.location.replace('/');
     };
-
-    const userID = Cookie.get('user_id');
 
     return (
         <div>

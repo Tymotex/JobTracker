@@ -3,10 +3,10 @@ import React from 'react';
 import FadeIn from 'react-fade-in';
 import { withRouter } from 'react-router-dom';
 import Layout from '../../components/Layout/Layout';
-// import Newsfeed from './Newsfeed';
+import Newsfeed from './Newsfeed';
 import WelcomePage from './WelcomePage';
 
-const Home = withRouter(({ unknownPath, history }) => {
+const Home = withRouter(() => {
     const queryStrParams = new URLSearchParams(window.location.search);
     if (queryStrParams && queryStrParams.get('user_id') && queryStrParams.get('token')) {
         Cookie.set('user_id', queryStrParams.get('user_id'));
