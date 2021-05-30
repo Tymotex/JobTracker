@@ -25,5 +25,8 @@ def print_env_variables():
     """
         Lists out critical environment variables present in this project
     """
-    printColoured(" * " + os.getenv("GOOGLE_CLIENT_ID"), colour="red")
-    printColoured(" * " + os.getenv("GOOGLE_CLIENT_SECRET"), colour="red")
+    printColoured(" * Environment variables in .env", colour="red")
+    printColoured(" * Google Client ID:     {}".format(os.getenv("GOOGLE_CLIENT_ID")), colour="red")
+    printColoured(" * Google Client Secret: {}".format(os.getenv("GOOGLE_CLIENT_SECRET")), colour="red")
+    printColoured(" * MongoDB URI:          {}".format(os.getenv("DB_URI")), colour="red")
+    

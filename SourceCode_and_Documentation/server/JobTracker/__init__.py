@@ -21,7 +21,7 @@ import os
 from os.path import join, dirname
 
 # Setting the environment variables:
-env_path = join(dirname(__file__), '.env.{}'.format("development"))
+env_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path=env_path)
 
 # Creating the Flask app instance
@@ -56,8 +56,7 @@ app.register_error_handler(Exception, error_handler)
 # client = pymongo.MongoClient("")
 
 # Creating the database handler:
-client = pymongo.MongoClient(
-    "mongodb+srv://tim:1984@jobtrackercluster.vznsj.mongodb.net/jobtracker?retryWrites=true&w=majority")
+client = pymongo.MongoClient(os.getenv("DB_URI"))
 
 # Creating the database handler:
 db = client["jobtracker"]
