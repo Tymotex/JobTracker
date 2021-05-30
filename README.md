@@ -1,34 +1,12 @@
 # SENG2021 project
 
-This is a web application that scrapes together job postings from major job-hunting platforms and provides automation services for the user to track their application for postings they are interested in.  
-
-### Team AT3K:
-- Arthur Wang (z5257096)
-- Katrina Ding (z5211336)
-- Kaivalya Soman (z5259102)
-- Kelly Zhou (z5257986)
-- Tim Zhang (z5258971)
-Note: All members contributed equally.
-
-## Important information for markers:
-
-Bootstrapped from <a href="https://flatlogic.com/templates/react-material-admin/demo">this open-source project</a> (MIT Licence).
+This is a web application that scrapes together job postings from major job-hunting platforms and provides automation services for the user to track their application for postings they are interested in.
 
 ### Links:
-- <a href="https://seng2021-at3k.netlify.app">Deployed prototype here</a>
 
-- <a href="https://github.com/Tymotex/JobTracker">Repo linked to the deployed prototype</a>
-
-- <a href="https://github.com/ArthurW404/seng2021_AT3K">Repo to be marked</a>
+-   <a href="https://employ-me.netlify.app/">Deployed prototype here</a>
 
 <hr />
-
-### Clarifications for markers:
-
-- This project was bootstrapped from <a href="https://flatlogic.com/templates/react-material-admin/demo">this open-source project</a> (MIT Licence).
-- All the frontend code we have written have been placed inside the `SourceCode_and_Documentation/src/AT3K`. Please ignore every other directory inside `SourceCode_and_Documentation/src` as that was code reused from <a href="https://flatlogic.com/templates/react-material-admin/demo">this project</a> which we only made minor edits to in order to adapt to our needs.
-
-Please look at the frontend directory structure to see where our components are.
 
 ## Frontend Directory Structure:
 
@@ -80,7 +58,7 @@ client/
     ├── components                # Reused base components (minor edits made by AT3K)
     ├── context
     ├── images
-    ├── index.js 
+    ├── index.js
     └── pages                     # Unused base pages (minor edits made by AT3K)
 ```
 
@@ -90,7 +68,7 @@ client/
 server
 ├── JobTracker                      # Main package
 │   ├── api_routes/                 # Where routes are defined and handled
-│   │   ├── __init__.py            
+│   │   ├── __init__.py
 │   │   ├── auth.py                 # /api/auth routes
 │   │   ├── company.py              # /api/company routes
 │   │   ├── job.py                  # /api/job routes
@@ -101,7 +79,7 @@ server
 │   ├── database_ops.py             # Database interface helper functions
 │   ├── exceptions/                 # Custom exceptions thrown by the server
 │   ├── __init__.py                 # Where the Flask app is instantiated and configured
-│   ├── routes.py                   # Where routers are registered to the Flask app 
+│   ├── routes.py                   # Where routers are registered to the Flask app
 │   ├── static/                     # Public assets served by Flask
 │   ├── templates/                  # HTML files served by Flask (only for testing API routes during development)
 │   └── utils/                      # General utilities for debugging, testing, etc.
@@ -112,14 +90,13 @@ server
 
 ## Setup Instructions
 
-
-```
+```shell
 git clone <THIS REPO>
 ```
 
 Running the frontend development server
 
-```
+```shell
 cd seng2021_at3k/SourceCode_and_Documentation/client
 
 npm install   # Only for first time setup
@@ -127,9 +104,9 @@ npm install   # Only for first time setup
 npm start     # View the locally hosted frontend on http://localhost:3000/
 ```
 
+Backend setup:
 
-Running the flask server
-```
+```shell
 cd seng2021_at3k/SourceCode_and_Documentation/server
 
 pip3 install -r requirements.txt    # Only for first time setup
@@ -143,4 +120,19 @@ python -m nltk.downloader words
 python -m nltk.downloader stopwords
 
 python3 start.py
+```
+
+Set environment variables in `server/JobTracker/.env`:
+
+```python
+SECRET_KEY="senpai"
+GOOGLE_CLIENT_ID="client id here. Get one at http://console.cloud.google.com/"
+GOOGLE_CLIENT_SECRET="client secret here. Get one at http://console.cloud.google.com/"
+DB_URI="mongodb+srv://<username>:<password>@<clusterName>.vznsj.mongodb.net/jobtracker?retryWrites=true&w=majority"   # Set up a MongoDB cloud instance here: https://docs.atlas.mongodb.com/getting-started/
+ENV_TYPE="development"
+# ENV_TYPE="production"
+
+# Google Auth callback and redirect URLs:
+DEV_REQUEST_REDIRECT_URI="http://127.0.0.1:5000/api/auth/googlelogin/callback"
+PROD_REQUEST_REDIRECT_URI="https://jobtracker.club/api/auth/googlelogin/callback"
 ```

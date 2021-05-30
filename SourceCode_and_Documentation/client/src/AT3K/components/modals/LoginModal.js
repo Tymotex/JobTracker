@@ -3,10 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import {
-    TextField,
-    Grid
-} from '@material-ui/core';
+import { TextField, Grid } from '@material-ui/core';
 import { Button } from '../buttons';
 import { GoogleLoginButton } from '../buttons';
 import styles from './Modal.module.scss';
@@ -20,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
     },
 }));
 
@@ -37,38 +34,38 @@ export default function TransitionsModal() {
     };
 
     const login = (event) => {
-		event.preventDefault();
-		const formData = new FormData(event.target);
-		const postData = {
-			method: "post",
-			url: `${api.BASE_URL}/api/auth/login`,
-			data: formData,
-			headers: { "Content-Type": "multipart/form-data" }
-		};
-		const loginRequest = axios(postData);
-		Notification.spawnNotification(
-			loginRequest,
-            "Loading",
-			"Successfully logged in!",
-			"Failed to log in!"
-		);
-		loginRequest.then((newUserData) => {
-			// TODO: Do something other than force reload the window
-			Cookie.set("user_id", newUserData.data.user_id);
-			Cookie.set("token", newUserData.data.token);
-			window.location.reload();
-		})
-		.catch((err) => {
-			Notification.spawnError(err);
-		});
-	};
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const postData = {
+            method: 'post',
+            url: `${api.BASE_URL}/api/auth/login`,
+            data: formData,
+            headers: { 'Content-Type': 'multipart/form-data' },
+        };
+        const loginRequest = axios(postData);
+        Notification.spawnNotification(
+            loginRequest,
+            'Loading',
+            'Successfully logged in!',
+            'Failed to log in!'
+        );
+        loginRequest
+            .then((newUserData) => {
+                // TODO: Do something other than force reload the window
+                Cookie.set('user_id', newUserData.data.user_id);
+                Cookie.set('token', newUserData.data.token);
+                window.location.reload();
+            })
+            .catch((err) => {
+                Notification.spawnError(err);
+            });
+    };
 
     // Google Login
-    // const signinRedirect = () => {
-    //     Notification.spawnSuccess("Signing in via Google");
-    //     window.location.assign("https://localhost:5000/api/auth/googlelogin")
-    // }
-
+    const signinRedirect = () => {
+        Notification.spawnSuccess('Signing in via Google');
+        window.location.assign(api.GOOGLE_REDIRECT_URI);
+    };
 
     return (
         <div>
@@ -89,18 +86,24 @@ export default function TransitionsModal() {
             >
                 <Fade in={open}>
                     <div className={styles.window}>
-                        <h2 className={styles.title} id="transition-modal-title">Log In</h2>
-                        <p className={styles.message} id="transition-modal-description">Welcome back!</p>
+                        <h2 className={styles.title} id="transition-modal-title">
+                            Log In
+                        </h2>
+                        <p className={styles.message} id="transition-modal-description">
+                            Welcome back!
+                        </p>
                         <form autoComplete="off" onSubmit={login}>
                             <div className={styles.textGroup}>
-                                <TextField className={styles.emailBox}
+                                <TextField
+                                    className={styles.emailBox}
                                     required
                                     id="outlined-required"
                                     name="email"
                                     label="Email"
                                     variant="outlined"
                                 />
-                                <TextField className={styles.passwordBox}
+                                <TextField
+                                    className={styles.passwordBox}
                                     required
                                     type="password"
                                     name="password"
@@ -112,13 +115,27 @@ export default function TransitionsModal() {
                             {/* <GoogleButton className={styles.googleButton}
                                 onClick={signinRedirect}
                             /> */}
-                            <GoogleLoginButton />
+                            <GoogleLoginButton onClick={signinRedirect} />
                             <Grid container className={styles.buttonGroup}>
                                 <Grid item xs={6}>
-                                    <Button onClick={handleClose} className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
+                                    <Button
+                                        onClick={handleClose}
+                                        className={styles.cancelButton}
+                                        variant="contained"
+                                        color="danger"
+                                    >
+                                        Cancel
+                                    </Button>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <Button type="submit" className={styles.loginButton} variant="contained" color="primary">Login</Button>
+                                    <Button
+                                        type="submit"
+                                        className={styles.loginButton}
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        Login
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </form>

@@ -14,7 +14,6 @@ from JobTracker.utils.colourisation import printColoured
 from JobTracker.utils.debug import print_env_variables
 from flask_pymongo import PyMongo
 from JobTracker.exceptions import error_handler
-from flask_restx import Api, Resource
 from flask_cors import CORS
 import pymongo
 import os
@@ -29,21 +28,16 @@ printColoured(" * Initialising Flask application")
 app = Flask(__name__, static_url_path="/static")
 CORS(app)
 
-app.config["SWAGGER_UI_JSONEDITOR"] = True
 app.config["RESUME_UPLOAD_PATH"] = 'resumes'
 
-
-# Debug and testing:
+# ===== Debug and Testing =====
 print_env_variables()
 
-
-@app.route("/")
-def index_route():
-    """
-        'Ping' test route
-    """
-    return "Hello, looks like this works"
-
+# This must be set to 1 to bypass InsecureTransportError when testing locally
+# Source: https://stackoverflow.com/questions/27785375/testing-flask-oauthlib-locally-without-https/27785830
+if os.getenv("ENV_TYPE") == "development":
+    printColoured(" * Disabling secure transport for Google OAuth in development", colour="yellow")
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 # ===== App Configuration =====
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -51,9 +45,6 @@ app.secret_key = SECRET_KEY
 
 # Registering the default error handler
 app.register_error_handler(Exception, error_handler)
-
-# Database connection parameters:
-# client = pymongo.MongoClient("")
 
 # Creating the database handler:
 client = pymongo.MongoClient(os.getenv("DB_URI"))

@@ -25,8 +25,13 @@ def print_env_variables():
     """
         Lists out critical environment variables present in this project
     """
-    printColoured(" * Environment variables in .env", colour="red")
-    printColoured(" * Google Client ID:     {}".format(os.getenv("GOOGLE_CLIENT_ID")), colour="red")
-    printColoured(" * Google Client Secret: {}".format(os.getenv("GOOGLE_CLIENT_SECRET")), colour="red")
-    printColoured(" * MongoDB URI:          {}".format(os.getenv("DB_URI")), colour="red")
+    printColoured(" * === Environment variables in .env ===", colour="red")
+    printColoured(" * Google Client ID:      {}".format(os.getenv("GOOGLE_CLIENT_ID")), colour="red")
+    printColoured(" * Google Client Secret:  {}".format(os.getenv("GOOGLE_CLIENT_SECRET")), colour="red")
+    printColoured(" * MongoDB URI:           {}".format(os.getenv("DB_URI")), colour="red")
+    printColoured(" * Environment type:      {}".format(os.getenv("ENV_TYPE")), colour="red")
     
+    # These MUST match the URIs saved on https://console.cloud.google.com/ for this project
+    printColoured(" * === Google Auth URIs ===", colour="red")
+    printColoured(" * DEV_REQUEST_REDIRECT_URI:   {}".format(os.getenv("DEV_REQUEST_REDIRECT_URI")), colour="red")
+    printColoured(" * PROD_REQUEST_REDIRECT_URI:  {}".format(os.getenv("PROD_REQUEST_REDIRECT_URI")), colour="red")

@@ -84,6 +84,7 @@ class AuthenticationLogin(Resource):
         }
 
 # ===== Google Authentication =====
+# Source: https://realpython.com/using-flask-login-for-user-management-with-flask/
 
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
@@ -99,7 +100,7 @@ def login_handler():
     # scopes that let you retrieve user's profile from Google
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri="https://127.0.0.1:5000" + "/api/auth/googlelogin/callback",
+        redirect_uri=os.getenv("DEV_REQUEST_REDIRECT_URI"),
         scope=["openid", "email", "profile"],
     )
     return redirect(request_uri)
@@ -120,7 +121,7 @@ def login_callback_handler():
     token_url, headers, body = client.prepare_token_request(
         token_endpoint,
         authorization_response=request.url,
-        redirect_url="https://127.0.0.1:5000/api/auth/googlelogin/callback",
+        redirect_url=os.getenv("DEV_REQUEST_REDIRECT_URI"),
         code=code
     )
     token_response = requests.post(
@@ -130,7 +131,7 @@ def login_callback_handler():
         auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
     )
 
-    printColoured("PARSING TOKENS", colour="yellow")
+    printColoured(" * Parsing tokens: {}".format(token_response), colour="yellow")
 
     # Parse the tokens!
     client.parse_request_body_response(json.dumps(token_response.json()))
