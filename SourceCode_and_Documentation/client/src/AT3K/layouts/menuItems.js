@@ -1,22 +1,19 @@
-// Material UI Icons: https://material-ui.com/components/material-icons/ 
-import {
-    Avatar,
-    Menu,
-    MenuItem
-} from '@material-ui/core';
+// Material UI Icons: https://material-ui.com/components/material-icons/
+import { Avatar, Menu, MenuItem } from '@material-ui/core';
 import {
     BarChart as BarChartIcon,
-    ExitToApp as SignOutIcon, HelpOutline as FAQIcon, Home as HomeIcon,
+    ExitToApp as SignOutIcon,
+    HelpOutline as FAQIcon,
+    Home as HomeIcon,
     Search as SearchIcon,
-    Settings as SettingsIcon, Work as WorkIcon
-} from "@material-ui/icons";
+    Settings as SettingsIcon,
+    Work as WorkIcon,
+} from '@material-ui/icons';
 import FaceIcon from '@material-ui/icons/Face';
 import axios from 'axios';
 import Cookie from 'js-cookie';
 import React, { useEffect, useState } from 'react';
-import {
-    Link, withRouter
-} from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { LoadingSpinner } from '../components/loaders';
 
 // Top nav components:
@@ -25,7 +22,7 @@ import { Notification } from '../components/notification';
 import api from '../constants/api';
 import PeopleIcon from '@material-ui/icons/People';
 
-const userID = Cookie.get("user_id");
+const userID = Cookie.get('user_id');
 
 /**
  * Side nav items
@@ -33,69 +30,69 @@ const userID = Cookie.get("user_id");
 let sideNavItems;
 if (userID) {
     sideNavItems = [
-        { id: 0, label: "Home", link: "/", icon: <HomeIcon /> },
-        { id: 10, label: "Job Dashboard", link: "/dashboard", icon: <WorkIcon /> },
-        { id: 20, label: "Search For Jobs", link: "/search", icon: <SearchIcon /> },
-        { id: 30, label: "Statistics", link: "/statistics", icon: <BarChartIcon /> },
-        { id: 41, type: "divider" },
+        { id: 0, label: 'Home', link: '/', icon: <HomeIcon /> },
+        { id: 10, label: 'Job Dashboard', link: '/dashboard', icon: <WorkIcon /> },
+        { id: 20, label: 'Search For Jobs', link: '/search', icon: <SearchIcon /> },
+        { id: 30, label: 'Statistics', link: '/statistics', icon: <BarChartIcon /> },
+        { id: 41, type: 'divider' },
         {
-            id: 32, 
-            label: "Profile", 
+            id: 32,
+            label: 'Profile',
             icon: <FaceIcon />,
             link: `/user/${userID}`,
             children: [
                 {
-                    label: "View profile",
-                    link: `/user/${userID}`
+                    label: 'View profile',
+                    link: `/user/${userID}`,
                 },
                 {
-                    label: "Edit profile",
-                    link: `/user/edit/${userID}`
-                }
-            ]
+                    label: 'Edit profile',
+                    link: `/user/edit/${userID}`,
+                },
+            ],
         },
         {
             id: 40,
-            label: "Community",
-            link: "/community",
-            icon: <PeopleIcon />
+            label: 'Community',
+            link: '/community',
+            icon: <PeopleIcon />,
         },
-        { id: 45, type: "divider" },     
-        { 
-            id: 50, 
-            label: "Settings", 
-            link: "/settings",
-            icon: <SettingsIcon />, 
+        { id: 45, type: 'divider' },
+        {
+            id: 50,
+            label: 'Settings',
+            link: '/settings',
+            icon: <SettingsIcon />,
             children: [
                 {
-                    label: "Profile", 
-                    link: "/settings/profile",
+                    label: 'Profile',
+                    link: '/settings/profile',
                 },
                 {
-                    label: "Theme", 
-                    link: "/settings/theme",
+                    label: 'Theme',
+                    link: '/settings/theme',
                 },
                 {
-                    label: "Notifications", 
-                    link: "/settings/notifications",
+                    label: 'Notifications',
+                    link: '/settings/notifications',
                 },
                 {
-                    label: "Preferences", 
-                    link: "/settings/preferences",
+                    label: 'Preferences',
+                    link: '/settings/preferences',
                 },
-            ]
-        },   
-        { id: 70, type: "divider" },
-        // { id: 70, type: "title", label: "Resources" },
-        // { id: 80, label: "FAQ", link: "/faq", icon: <FAQIcon /> }
-    ]
+            ],
+        },
+        { id: 70, type: 'divider' },
+        // { id: 70, type: 'title', label: 'Resources' },
+        { id: 80, label: 'FAQ', link: '/faq', icon: <FAQIcon /> },
+    ];
 } else {
     // Only rendered if not logged in
     sideNavItems = [
-        { id: 0, label: "Home", link: "/", icon: <HomeIcon /> },
-        { id: 60, type: "divider" },
-        { id: 80, label: "FAQ", link: "/faq", icon: <FAQIcon /> }
-    ]
+        { id: 0, label: 'Home', link: '/', icon: <HomeIcon /> },
+        { id: 60, type: 'divider' },
+        { id: 80, label: 'FAQ', link: '/faq', icon: <FAQIcon /> },
+    ];
 }
 
 /**
@@ -104,25 +101,35 @@ if (userID) {
 const AvatarDropdown = withRouter(({ history }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [profile, setProfile] = useState(null);
-  
+
     const getUserProfile = () => {
-        const userID = Cookie.get("user_id");
+        const userID = Cookie.get('user_id');
         if (userID) {
-            axios.get(`${api.BASE_URL}/api/user/profile?user_id=${userID}`) 
-                .then(res => {
+            axios
+                .get(`${api.BASE_URL}/api/user/profile?user_id=${userID}`)
+                .then((res) => {
                     setProfile(res.data);
                 })
-                .catch(err => {
+                .catch((err) => {
+                    // FIXME: Tempfix: when the saved user_id is invalid, force log out
+                    Cookie.remove('user_id');
+                    Cookie.remove('token');
+
                     Notification.spawnError(err);
+
+                    // Redirect after 1 second to allow time for the user to see the notification
+                    setTimeout(() => {
+                        history.push('/');
+                    }, 1000);
                 });
         } else {
             Notification.spawnRegisterError();
         }
-    }
+    };
 
     useEffect(() => {
         getUserProfile();
-    }, [])
+    }, []);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -133,12 +140,12 @@ const AvatarDropdown = withRouter(({ history }) => {
     };
 
     const signOut = () => {
-        Cookie.remove("user_id");
-        Cookie.remove("token");
-        window.location.replace("/");
+        Cookie.remove('user_id');
+        Cookie.remove('token');
+        window.location.replace('/');
     };
 
-    const userID = Cookie.get("user_id");
+    const userID = Cookie.get('user_id');
 
     return (
         <div>
@@ -152,19 +159,20 @@ const AvatarDropdown = withRouter(({ history }) => {
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <MenuItem>Welcome <strong style={{marginLeft: "5px"}}>{profile.username}</strong></MenuItem>
+                        <MenuItem>
+                            Welcome{' '}
+                            <strong style={{ marginLeft: '5px' }}>{profile.username}</strong>
+                        </MenuItem>
                         <hr />
-                        <MenuItem >
-                            <Link to={`/user/${userID}`}>
-                                My profile
-                            </Link>
+                        <MenuItem>
+                            <Link to={`/user/${userID}`}>My profile</Link>
                         </MenuItem>
-                        <MenuItem >
-                            <Link to={`/user/edit/${userID}`}>
-                                Edit profile
-                            </Link>
+                        <MenuItem>
+                            <Link to={`/user/edit/${userID}`}>Edit profile</Link>
                         </MenuItem>
-                        <MenuItem onClick={signOut}>Logout <SignOutIcon style={{marginLeft: "5px"}} /></MenuItem>
+                        <MenuItem onClick={signOut}>
+                            Logout <SignOutIcon style={{ marginLeft: '5px' }} />
+                        </MenuItem>
                     </Menu>
                 </>
             ) : (
@@ -177,11 +185,11 @@ const AvatarDropdown = withRouter(({ history }) => {
 });
 
 const TopNavItems = () => {
-    const userID = Cookie.get("user_id");
+    const userID = Cookie.get('user_id');
     return (
         <>
-            {(userID && userID !== "") ? (
-                <div style={{display: "flex"}}>
+            {userID && userID !== '' ? (
+                <div style={{ display: 'flex' }}>
                     <div>
                         <AvatarDropdown />
                     </div>
@@ -189,10 +197,10 @@ const TopNavItems = () => {
             ) : (
                 <>
                     <div>
-                    <LoginModal />
+                        <LoginModal />
                     </div>
-                    <div style={{marginLeft: "20px"}}>
-                    <RegisterModal />
+                    <div style={{ marginLeft: '20px' }}>
+                        <RegisterModal />
                     </div>
                 </>
             )}
@@ -201,8 +209,8 @@ const TopNavItems = () => {
 };
 
 const menuItems = {
-    sideNavItems, 
-    TopNavItems 
+    sideNavItems,
+    TopNavItems,
 };
 
 export default menuItems;

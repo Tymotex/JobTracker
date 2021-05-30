@@ -19,7 +19,7 @@ const Community = () => {
     // ===== GET /api/users/ =====
     useEffect(() => {
         axios
-            .get(`${api.BASE_URL}/api/users`)
+            .get(`${api.BASE_URL}/api/users/`)
             .then((res) => {
                 setUsers(res.data);
                 setAutocompleteItems(

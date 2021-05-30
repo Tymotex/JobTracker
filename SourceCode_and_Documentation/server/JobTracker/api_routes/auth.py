@@ -47,6 +47,7 @@ GOOGLE_DISCOVERY_URL = (
 # OAuth 2 client setup
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
+
 @auth_api.route('/register')
 class AuthenticationRegister(Resource):
     def post(self):
@@ -57,11 +58,11 @@ class AuthenticationRegister(Resource):
             email = request_params["email"]
             password = request_params["password"]
             user_id = add_user(
-                username, 
-                email, 
-                password, 
+                username,
+                email,
+                password,
                 "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
-            ) 
+            )
             return {
                 "user_id": user_id,
                 "token": "EMPTY",
@@ -69,6 +70,7 @@ class AuthenticationRegister(Resource):
         except Exception as err:
             printColoured(err, colour="red")
             raise err
+
 
 @auth_api.route('/login')
 class AuthenticationLogin(Resource):
@@ -86,8 +88,23 @@ class AuthenticationLogin(Resource):
 # ===== Google Authentication =====
 # Source: https://realpython.com/using-flask-login-for-user-management-with-flask/
 
+
+REDIRECT_URI = os.getenv("DEV_REQUEST_REDIRECT_URI")
+if os.getenv("ENV_TYPE") == "production":
+    REDIRECT_URI = os.getenv("PROD_REQUEST_REDIRECT_URI")
+
+CLIENT_HOME_URL = os.getenv("DEV_CLIENT_HOME_URL")
+if os.getenv("ENV_TYPE") == "production":
+    CLIENT_HOME_URL = os.getenv("PROD_CLIENT_HOME_URL")
+
+
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
+
+
+def substitute_https(auth_url: str):
+    return auth_url.replace("http", "https")
+
 
 @auth_router.route("/googlelogin")
 def login_handler():
@@ -100,7 +117,7 @@ def login_handler():
     # scopes that let you retrieve user's profile from Google
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=os.getenv("DEV_REQUEST_REDIRECT_URI"),
+        redirect_uri=REDIRECT_URI,
         scope=["openid", "email", "profile"],
     )
     return redirect(request_uri)
@@ -108,7 +125,8 @@ def login_handler():
 
 @auth_router.route("/googlelogin/callback")
 def login_callback_handler():
-    printColoured(" * Entering Google login callback", colour="yellow")
+    printColoured(" * Entering Google login callback. Redirect URL: {}. Authorisation response: {}".format(
+        REDIRECT_URI, request.url), colour="yellow")
     # Get authorization code Google sent back to you
     code = request.args.get("code")
 
@@ -120,8 +138,8 @@ def login_callback_handler():
     # Prepare and send a request to get tokens! Yay tokens!
     token_url, headers, body = client.prepare_token_request(
         token_endpoint,
-        authorization_response=request.url,
-        redirect_url=os.getenv("DEV_REQUEST_REDIRECT_URI"),
+        authorization_response=substitute_https(request.url),
+        redirect_url=REDIRECT_URI,
         code=code
     )
     token_response = requests.post(
@@ -131,7 +149,8 @@ def login_callback_handler():
         auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
     )
 
-    printColoured(" * Parsing tokens: {}".format(token_response), colour="yellow")
+    printColoured(" * Parsing tokens: {}".format(token_response),
+                  colour="yellow")
 
     # Parse the tokens!
     client.parse_request_body_response(json.dumps(token_response.json()))
@@ -162,15 +181,15 @@ def login_callback_handler():
     # The token and ID are extracted and removed out of the URL and saved to the
     # client's cookies
     try:
-        printColoured("TRYING TO SIGN THEM UP", colour="yellow")
-        new_user_id = add_user(users_name, users_email, "asdfasdf", picture)  # FIXME: Temporary password
+        printColoured(" * Signing them up", colour="yellow")
+        # FIXME: Temporary password
+        new_user_id = add_user(users_name, users_email, "asdfasdf", picture)
         # FIXME: No token
-        return redirect("http://localhost:3000/home/{}/{}".format(new_user_id, "EMPTY TOKEN"))
+        return redirect("{}/home?user_id={}&token={}".format(CLIENT_HOME_URL, new_user_id, "EMPTY TOKEN"))
     except Exception as err:
         printColoured(err, color="red")
-        printColoured("FAILED. ARE THEY EXISTING? {}".format(
+        printColoured(" * Failed. They are probably an existing user: {}".format(
             users_email), colour="yellow")
         existing_user_id = login_user(users_email, "asdfasdf")
-        printColoured(picture)
         # FIXME: No token
-        return redirect("http://localhost:3000/home/{}/{}".format(existing_user_id, "EMPTY TOKEN"))
+        return redirect("{}/home?user_id={}&token={}".format(CLIENT_HOME_URL, existing_user_id, "EMPTY TOKEN"))
