@@ -71,7 +71,6 @@ export default function TransitionsModal() {
         window.location.assign("https://localhost:5000/api/auth/googlelogin")
     }
 
-
 	// ===================================
 
 	return (

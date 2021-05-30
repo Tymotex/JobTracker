@@ -62,7 +62,7 @@ class JobAutoComplete(Resource):
             return []
         return get_suggestions(query)
 
-@jobs_api.route("/")
+@jobs_api.route("")
 class JobPostSearch(Resource):
     # @jobs_api.marshal_list_with(response_fields)
     # @jobs_api.expect(search_fields)

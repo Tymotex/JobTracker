@@ -135,4 +135,8 @@ ENV_TYPE="development"
 # Google Auth callback and redirect URLs:
 DEV_REQUEST_REDIRECT_URI="http://127.0.0.1:5000/api/auth/googlelogin/callback"
 PROD_REQUEST_REDIRECT_URI="https://jobtracker.club/api/auth/googlelogin/callback"
+
+DEV_CLIENT_HOME_URL="http://localhost:3000"
+PROD_CLIENT_HOME_URL="https://employ-me.netlify.app"
+
 ```
