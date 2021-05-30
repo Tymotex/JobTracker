@@ -309,9 +309,7 @@ class UserResumeParser(Resource):
 
         # If the file exists, proceed with resume parser API call
         if isfile(path_to_resume):
-            # BASE_URL = "https://seng2021-at3k.netlify.app"    # TODO: Shouldn't be hardcoded.
             try:
-                # resume_url = "{}/api/user/resume?user_id={}".format(BASE_URL, user_id)
                 parsed_resume = parse_resume(path_to_resume)
                 set_resume_fields(user_id, parsed_resume)
                 return parsed_resume
