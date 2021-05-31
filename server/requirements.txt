@@ -60,7 +60,7 @@ preshed==3.0.5
 progress==1.5
 pycparser==2.20
 pycryptodome==3.10.1
-pydantic==1.7.3
+pydantic==1.7.4
 pymongo==3.11.3
 pyOpenSSL==20.0.1
 pyparsing==2.4.6
