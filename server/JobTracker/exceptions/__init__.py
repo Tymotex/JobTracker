@@ -1,2 +1,3 @@
 from JobTracker.exceptions.input_exceptions import InvalidUserInput
+from JobTracker.exceptions.server_exception import ServerException
 from JobTracker.exceptions.http_error_handler import error_handler
