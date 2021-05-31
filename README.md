@@ -1,6 +1,6 @@
-# SENG2021 project
+# Employ.me
 
-This is a web application that scrapes together job postings from major job-hunting platforms and provides automation services for the user to track their application for postings they are interested in.
+Employ.me is a web application that scrapes together job postings from major job-hunting platforms and provides automation services for the user to track their application for postings they are interested in. This project was the winning entry for SENG2021 at UNSW and our team (AT3K) received the Macquarie Group Software Engineering prize.
 
 ### Links:
 
@@ -55,11 +55,11 @@ client/
     │   └── themes                # Where global Material UI styling rules are defined
     │       ├── default.js
     │       └── index.js
-    ├── components                # Reused base components (minor edits made by AT3K)
+    ├── components                # Reused base components 
     ├── context
     ├── images
     ├── index.js
-    └── pages                     # Unused base pages (minor edits made by AT3K)
+    └── pages                     # Base pages
 ```
 
 ## Backend Directory Structure:

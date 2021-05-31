@@ -67,9 +67,9 @@ export default function TransitionsModal() {
 
     // Google Login
     const signinRedirect = () => {
-        Notification.spawnSuccess("Signing in via Google");
-        window.location.assign("https://localhost:5000/api/auth/googlelogin")
-    }
+        Notification.spawnSuccess('Signing in via Google');
+        window.location.assign(api.GOOGLE_REDIRECT_URI);
+    };
 
 	// ===================================
 
@@ -126,9 +126,7 @@ export default function TransitionsModal() {
 									variant="outlined"
 								/>
 							</div>
-							<GoogleLoginButton className={styles.googleButton}
-								onClick={signinRedirect}
-							/>
+							<GoogleLoginButton onClick={signinRedirect} />
 							<Grid container className={styles.buttonGroup}>
 								<Grid item xs={6}>
 									<Button onClick={handleClose} className={styles.cancelButton} variant="contained" color="danger">Cancel</Button>
