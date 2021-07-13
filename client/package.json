@@ -63,6 +63,7 @@
     "react-toastify": "^7.0.3",
     "react-tooltip": "^4.2.17",
     "react-trello": "^2.2.10",
+    "react-youtube": "^7.13.1",
     "recharts": "^2.0.4",
     "sanitize-html": "^2.4.0",
     "sass-loader": "^11.0.1",
